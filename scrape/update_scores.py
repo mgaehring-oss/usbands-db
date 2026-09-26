@@ -517,6 +517,28 @@ def build_database(merged, path):
     conn.close()
 
 
+def read_current_season_score_count(path, season_year):
+    """Reads the current season's score count from the existing db file
+    before it gets deleted and rebuilt -- the "before" side of main()'s
+    sanity check. Returns None if there's no existing file (first-ever run)
+    or it doesn't have the expected schema yet, in which case the check is
+    skipped rather than false-triggering."""
+    if not os.path.exists(path):
+        return None
+    conn = sqlite3.connect(path)
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT COUNT(*) FROM scores s JOIN events e ON e.id = s.event_id WHERE e.season_year = ?",
+            (season_year,),
+        )
+        return cur.fetchone()[0]
+    except sqlite3.OperationalError:
+        return None
+    finally:
+        conn.close()
+
+
 def main():
     if len(sys.argv) < 4:
         print("Usage: python update_scores.py <start_year> <end_year> <output_db_path> [cache_dir]", file=sys.stderr)
@@ -527,8 +549,15 @@ def main():
     out_path = sys.argv[3]
     cache_dir = sys.argv[4] if len(sys.argv) > 4 else "data/cache"
 
+    # Read the "before" count while the previous run's file still exists --
+    # build_database() deletes and rebuilds it from scratch.
+    previous_count = read_current_season_score_count(out_path, end_year)
+
     merged = crawl_seasons(start_year, end_year, cache_dir)
     build_database(merged, out_path)
+
+    current_season = next((s for s in merged["per_season_summary"] if s["year"] == end_year), None)
+    new_count = current_season["scores"] if current_season else 0
 
     summary = {
         "seasons": merged["per_season_summary"],
@@ -538,6 +567,25 @@ def main():
         "output": out_path,
     }
     print(json.dumps(summary, indent=2))
+
+    # Sanity check: a live season is a full rescan every run, so its score
+    # count should only ever grow or hold steady week to week. A sharp drop
+    # almost always means usbands.org changed its HTML and the scraper
+    # silently stopped matching it, not a legitimate data correction --
+    # fail loudly (non-zero exit, which fails the CI step and skips the
+    # commit) instead of quietly shipping a regressed database. The
+    # `previous_count > 5` guard skips the check when there's no meaningful
+    # baseline yet (first-ever run, or the first week of a newly-bumped
+    # CURRENT_SEASON_YEAR, when the "previous" count for that new year is 0).
+    print(f"Season {end_year} sanity check: previous={previous_count}, new={new_count}")
+    if previous_count is not None and previous_count > 5 and new_count < previous_count * 0.8:
+        print(
+            f"ERROR: season {end_year} score count dropped from {previous_count} to {new_count} "
+            "(more than 20%) -- this looks like a scraper breakage (e.g. usbands.org changed its "
+            "HTML), not a real data change. Refusing to commit this build.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
 
 if __name__ == "__main__":

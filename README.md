@@ -65,7 +65,24 @@ change — it's the earliest season with real marching-band data, currently
 
 ## TODO
 
-Nothing open right now — see below for what's shipped.
+- **Silent-failure detection for the scraper.** If usbands.org ever changes
+  its HTML, the weekly job wouldn't error, it'd just quietly return zero or
+  partial results. Fail the workflow loudly if the current season's score
+  count drops sharply week-over-week vs. the previously-committed database.
+- **Compare bands view.** Overlay 2+ favorited bands' score lines on one
+  chart instead of viewing them one at a time — natural extension of
+  favoriting + the cross-season trend view.
+- **Shareable URLs.** Season/group/state filter selections don't show up in
+  the URL, so there's no way to link someone straight to e.g. "NJ States,
+  A-Group II" — add them as query params.
+- **Home-state filter.** Considered during the original filters pass and
+  left out; filter by the band's home state independent of which state
+  championship they attend.
+- **CSV/print export** of whatever's currently filtered.
+- **PWA manifest** for a more native feel checking scores from a phone at a
+  competition.
+- **Scraper test suite** with saved HTML fixtures, so a future usbands.org
+  markup change gets caught by CI before it ships bad data.
 
 ## Done
 
