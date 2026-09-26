@@ -61,6 +61,15 @@ repo, so `git log` on `docs/data/usbands.db` is the history.
   this shouldn't need schema changes — just multiple `crawl_season()` calls
   written into the same file across seasons instead of always starting
   fresh).
-- **Web UI** (next phase): a static site using `sql.js` (WASM SQLite) to
-  query `docs/data/usbands.db` directly in the browser, deployable on GitHub
-  Pages with no backend.
+- **User-selectable theming.** Let a viewer pick their own school's colors
+  instead of the built-in green/gold, likely a small color-picker control
+  that overrides the theme's CSS custom properties (`docs/style.css`) and
+  persists the choice in `localStorage`, the same per-browser pattern
+  already used for dark mode and favorites.
+
+## Done
+
+- **Web UI**: a static site (`docs/index.html`, `app.js`, `style.css`) using
+  `sql.js` (WASM SQLite) to query `docs/data/usbands.db` directly in the
+  browser, deployed on GitHub Pages with no backend — leaderboards scoped by
+  division/state/finals, score history charts, and favoriting.
