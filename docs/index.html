@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>USBands Score Tracker</title>
+<meta name="description" content="Rankings, score history, and championship tracking across the USBands circuit.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="site-header__title">
+        <span class="site-header__mark" aria-hidden="true">&#9835;</span>
+        <div>
+          <h1>USBands Score Tracker</h1>
+          <p class="site-header__subtitle" id="season-label">Season —</p>
+        </div>
+      </div>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+        <span id="theme-toggle-icon" aria-hidden="true">&#9789;</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="filters" role="group" aria-label="Filters">
+      <label class="field">
+        <span class="field__label">Group</span>
+        <select id="filter-division"></select>
+      </label>
+      <label class="field">
+        <span class="field__label">State championship</span>
+        <select id="filter-state"></select>
+      </label>
+      <label class="field field--checkbox">
+        <input type="checkbox" id="filter-finals">
+        <span>Finals qualifiers only</span>
+      </label>
+      <label class="field field--search">
+        <span class="field__label">Search</span>
+        <input type="search" id="filter-search" placeholder="Band or school name…" autocomplete="off">
+      </label>
+    </div>
+
+    <div id="status" class="status" role="status">Loading season data…</div>
+    <div id="results"></div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Data scraped from <a href="https://usbands.org/events/" target="_blank" rel="noopener">usbands.org</a>,
+       refreshed weekly. Source on
+       <a href="https://github.com/mgaehring-oss/usbands-db" target="_blank" rel="noopener">GitHub</a>.</p>
+  </footer>
+
+  <div id="detail-overlay" class="detail-overlay" hidden>
+    <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+      <button id="detail-close" class="detail-panel__close" type="button" aria-label="Close">&times;</button>
+      <h2 id="detail-title"></h2>
+      <p id="detail-sub" class="detail-panel__sub"></p>
+      <div id="detail-chart" class="detail-chart"></div>
+      <table class="detail-table">
+        <thead>
+          <tr><th>Date</th><th>Event</th><th class="num">Score</th><th class="num">Rank</th></tr>
+        </thead>
+        <tbody id="detail-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

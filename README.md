@@ -36,7 +36,7 @@ filters on.
 Stdlib only, no dependencies:
 
 ```bash
-python scrape/update_scores.py 2026 data/usbands.db
+python scrape/update_scores.py 2026 docs/data/usbands.db
 ```
 
 Re-running does a full rebuild (idempotent), not an incremental update —
@@ -46,9 +46,9 @@ during the season.
 ## Automation
 
 `.github/workflows/update.yml` reruns the scraper every Sunday morning ET
-and commits `data/usbands.db` if it changed. No cloud routine or Drive
+and commits `docs/data/usbands.db` if it changed. No cloud routine or Drive
 upload dance needed — the database is just a normal versioned file in this
-repo, so `git log` on `data/usbands.db` is the history.
+repo, so `git log` on `docs/data/usbands.db` is the history.
 
 **Update each season:** the season year is hardcoded in the workflow
 (`SEASON_YEAR` env var) — bump it once usbands.org posts the next season.
@@ -62,5 +62,5 @@ repo, so `git log` on `data/usbands.db` is the history.
   written into the same file across seasons instead of always starting
   fresh).
 - **Web UI** (next phase): a static site using `sql.js` (WASM SQLite) to
-  query `data/usbands.db` directly in the browser, deployable on GitHub
+  query `docs/data/usbands.db` directly in the browser, deployable on GitHub
   Pages with no backend.

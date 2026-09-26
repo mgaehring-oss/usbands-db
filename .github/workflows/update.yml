@@ -23,16 +23,16 @@ jobs:
           python-version: "3.x"
 
       - name: Scrape and rebuild database
-        run: python scrape/update_scores.py "$SEASON_YEAR" data/usbands.db
+        run: python scrape/update_scores.py "$SEASON_YEAR" docs/data/usbands.db
 
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- data/usbands.db; then
+          if git diff --quiet -- docs/data/usbands.db; then
             echo "No changes."
           else
-            git add data/usbands.db
+            git add docs/data/usbands.db
             git commit -m "Update USBands database ($(date -u +%Y-%m-%d))"
             git push
           fi
