@@ -10,12 +10,15 @@ const els = {
   divisionFilter: document.getElementById("filter-division"),
   stateFilter: document.getElementById("filter-state"),
   finalsFilter: document.getElementById("filter-finals"),
+  favoritesFilter: document.getElementById("filter-favorites"),
   searchFilter: document.getElementById("filter-search"),
+  mybands: document.getElementById("mybands"),
   themeToggle: document.getElementById("theme-toggle"),
   themeToggleIcon: document.getElementById("theme-toggle-icon"),
   overlay: document.getElementById("detail-overlay"),
   overlayClose: document.getElementById("detail-close"),
   detailTitle: document.getElementById("detail-title"),
+  detailTitleRow: document.getElementById("detail-title-row"),
   detailSub: document.getElementById("detail-sub"),
   detailChart: document.getElementById("detail-chart"),
   detailTableBody: document.getElementById("detail-table-body"),
@@ -32,7 +35,63 @@ const model = {
   stateGroupsByBand: new Map(),    // unit_id -> Set(group_id)
   stateGroupNameById: new Map(),   // group_id -> name
   finalsByBand: new Set(),         // unit_id with any finals appearance this season
+  favorites: new Set(),            // unit_id, persisted to localStorage
 };
+
+/* ---------------- Favorites ---------------- */
+
+function loadFavorites() {
+  try {
+    const raw = safeLocalStorageGet("usbands-favorites");
+    const list = raw ? JSON.parse(raw) : [];
+    model.favorites = new Set(list);
+  } catch {
+    model.favorites = new Set();
+  }
+}
+
+function saveFavorites() {
+  safeLocalStorageSet("usbands-favorites", JSON.stringify([...model.favorites]));
+}
+
+function isFavorite(unitId) {
+  return model.favorites.has(unitId);
+}
+
+function toggleFavorite(unitId) {
+  if (model.favorites.has(unitId)) model.favorites.delete(unitId);
+  else model.favorites.add(unitId);
+  saveFavorites();
+  renderAll();
+  // renderAll() rebuilds the main table + My Bands, but the detail panel
+  // (if open) is a separate DOM subtree it doesn't touch -- refresh its star.
+  if (!els.overlay.hidden && currentDetailUnitId === unitId) {
+    const existingStar = els.detailTitleRow.querySelector(".star-toggle");
+    if (existingStar) existingStar.remove();
+    els.detailTitleRow.appendChild(starButton(unitId, model.bandNames.get(unitId) || ""));
+  }
+}
+
+let currentDetailUnitId = null;
+
+function starButton(unitId, name) {
+  const fav = isFavorite(unitId);
+  const btn = el(
+    "button",
+    {
+      type: "button",
+      class: "star-toggle",
+      "aria-pressed": String(fav),
+      "aria-label": `${fav ? "Unfavorite" : "Favorite"} ${name}`,
+    },
+    [fav ? "★" : "☆"]
+  );
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleFavorite(unitId);
+  });
+  return btn;
+}
 
 function queryAll(db, sql, params) {
   const stmt = db.prepare(sql);
@@ -173,6 +232,11 @@ function computeRows(division, opts) {
     row.rank = rank;
   });
 
+  // Favorites-only is a pure display filter applied AFTER ranking, so the
+  // rank shown always reflects the real (division/state/finals) field --
+  // ranking only among a handful of arbitrarily-starred bands would be
+  // meaningless as a competitive number.
+  if (opts.favoritesOnly) return rows.filter((r) => isFavorite(r.unitId));
   return rows;
 }
 
@@ -252,6 +316,7 @@ function currentFilterOpts() {
     divisionId: els.divisionFilter.value,
     stateGroupId: els.stateFilter.value === "all" ? "all" : Number(els.stateFilter.value),
     finalsOnly: els.finalsFilter.checked,
+    favoritesOnly: els.favoritesFilter.checked,
     search: els.searchFilter.value.trim().toLowerCase(),
   };
 }
@@ -280,6 +345,7 @@ function render() {
     const table = el("table", { class: "leaderboard" }, [
       el("thead", {}, [
         el("tr", {}, [
+          el("th", { class: "star-col" }, ["★"]),
           el("th", {}, [rankColumnLabel(opts)]),
           el("th", {}, ["Band"]),
           el("th", { class: "num" }, ["Latest"]),
@@ -301,7 +367,8 @@ function render() {
       }
       if (row.isFinals) tagsChildren.push(el("span", { class: "badge badge--finals" }, ["Finals"]));
 
-      const tr = el("tr", { tabindex: "0" }, [
+      const tr = el("tr", { tabindex: "0", class: isFavorite(row.unitId) ? "is-favorite" : "" }, [
+        el("td", { class: "star-col" }, [starButton(row.unitId, row.name)]),
         el("td", {}, [rankBadge(row.rank)]),
         el("td", {}, [el("span", { class: "band-name" }, [row.name])]),
         el("td", { class: "num" }, [fmtScore(row.latest && row.latest.score)]),
@@ -327,6 +394,81 @@ function render() {
   if (!anyRows) {
     els.results.appendChild(el("div", { class: "empty-note" }, ["No bands match the current filters."]));
   }
+}
+
+/* ---------------- My Bands (pinned favorites summary) ---------------- */
+
+function renderMyBands() {
+  els.mybands.innerHTML = "";
+  if (model.favorites.size === 0) return;
+
+  const unfiltered = { stateGroupId: "all", finalsOnly: false, favoritesOnly: false, search: "" };
+  const found = [];
+
+  // Always rank against the FULL division roster, independent of whatever
+  // the main leaderboard's filters are currently set to.
+  for (const division of model.divisions) {
+    const roster = model.bandsByDivision.get(division.id);
+    if (!roster || ![...model.favorites].some((uid) => roster.has(uid))) continue;
+    for (const row of computeRows(division, unfiltered)) {
+      if (isFavorite(row.unitId)) found.push({ row, division });
+    }
+  }
+
+  if (found.length === 0) return;
+  found.sort((a, b) => a.row.name.localeCompare(b.row.name));
+
+  const section = el("section", { class: "division-section mybands-section" }, [
+    el("div", { class: "division-section__head" }, [
+      el("h2", {}, ["★ My Bands"]),
+      el("span", { class: "division-section__count" }, [`${found.length} favorited`]),
+    ]),
+  ]);
+
+  const table = el("table", { class: "leaderboard" }, [
+    el("thead", {}, [
+      el("tr", {}, [
+        el("th", { class: "star-col" }, ["★"]),
+        el("th", {}, ["Rank"]),
+        el("th", {}, ["Band"]),
+        el("th", {}, ["Group"]),
+        el("th", { class: "num" }, ["Latest"]),
+        el("th", { class: "num" }, ["Prior"]),
+        el("th", { class: "num" }, ["Δ"]),
+        el("th", {}, ["History"]),
+      ]),
+    ]),
+  ]);
+
+  const tbody = el("tbody", {}, []);
+  for (const { row, division } of found) {
+    const tr = el("tr", { tabindex: "0", class: "is-favorite" }, [
+      el("td", { class: "star-col" }, [starButton(row.unitId, row.name)]),
+      el("td", {}, [rankBadge(row.rank)]),
+      el("td", {}, [el("span", { class: "band-name" }, [row.name])]),
+      el("td", {}, [division.label]),
+      el("td", { class: "num" }, [fmtScore(row.latest && row.latest.score)]),
+      el("td", { class: "num" }, [fmtScore(row.prior && row.prior.score)]),
+      el("td", { class: "num" }, [deltaCell(row.delta)]),
+      el("td", { html: sparklineSVG(row.history) }, []),
+    ]);
+    tr.addEventListener("click", () => openDetail(row, division));
+    tr.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openDetail(row, division);
+      }
+    });
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  section.appendChild(el("div", { class: "table-scroll" }, [table]));
+  els.mybands.appendChild(section);
+}
+
+function renderAll() {
+  renderMyBands();
+  render();
 }
 
 /* ---------------- Detail chart ---------------- */
@@ -456,7 +598,11 @@ function buildChart(history) {
 }
 
 function openDetail(row, division) {
+  currentDetailUnitId = row.unitId;
   els.detailTitle.textContent = row.name;
+  const existingStar = els.detailTitleRow.querySelector(".star-toggle");
+  if (existingStar) existingStar.remove();
+  els.detailTitleRow.appendChild(starButton(row.unitId, row.name));
   els.detailSub.textContent = `${division.label} — score history`;
 
   els.detailChart.innerHTML = "";
@@ -547,10 +693,12 @@ async function main() {
     if (e.key === "Escape") closeDetail();
   });
 
-  for (const control of [els.divisionFilter, els.stateFilter, els.finalsFilter]) {
+  for (const control of [els.divisionFilter, els.stateFilter, els.finalsFilter, els.favoritesFilter]) {
     control.addEventListener("change", render);
   }
   els.searchFilter.addEventListener("input", render);
+
+  loadFavorites();
 
   try {
     await loadModel();
@@ -563,7 +711,7 @@ async function main() {
   els.seasonLabel.textContent = model.seasonYear ? `Season ${model.seasonYear}` : "";
   populateFilters();
   els.status.hidden = true;
-  render();
+  renderAll();
 }
 
 main();

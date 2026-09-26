@@ -343,6 +343,45 @@ table.leaderboard tbody tr:last-child td { border-bottom: none; }
 
 .num { text-align: right; font-variant-numeric: tabular-nums; }
 
+/* ---------- Favorites ---------- */
+
+.star-col { width: 1%; }
+
+.star-toggle {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 4px;
+  margin: -4px;
+  min-width: 28px;
+  min-height: 28px;
+  font-size: 17px;
+  line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: color 100ms ease, transform 80ms ease;
+}
+.star-toggle:hover { color: var(--brand-gold-500); transform: scale(1.1); }
+.star-toggle:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.star-toggle[aria-pressed="true"] { color: var(--brand-gold-500); }
+
+table.leaderboard tbody tr.is-favorite {
+  background: var(--brand-gold-200);
+  box-shadow: inset 3px 0 0 var(--brand-gold-500);
+}
+table.leaderboard tbody tr.is-favorite:hover { background: var(--brand-gold-200); filter: brightness(0.97); }
+
+#detail-title-row .star-toggle {
+  margin-left: 8px;
+  font-size: 20px;
+}
+#detail-title-row { display: flex; align-items: center; margin: 0 0 2px; padding-right: 30px; }
+#detail-title-row #detail-title { font-size: 19px; font-weight: 700; color: var(--text-primary); }
+
+.mybands-section .division-section__head { background: var(--brand-gold-200); }
+.mybands-section .division-section__head h2 { color: var(--brand-gold-700); }
+
 .rank-badge {
   display: inline-flex;
   align-items: center;
