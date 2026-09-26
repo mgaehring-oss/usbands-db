@@ -65,10 +65,8 @@ change — it's the earliest season with real marching-band data, currently
 
 ## TODO
 
-- **Cross-season trend view.** The per-band detail chart currently only
-  shows the selected season's history. Since `unit_id` is stable across
-  years (verified), a band's detail panel could add a toggle to show its
-  score trajectory across every backfilled season, not just the current one.
+Nothing open right now — see below for what's shipped.
+
 ## Done
 
 - **Web UI**: a static site (`docs/index.html`, `app.js`, `style.css`) using
@@ -86,3 +84,9 @@ change — it's the earliest season with real marching-band data, currently
   the pick) and overrides the theme's CSS custom properties at runtime; the
   choice persists in `localStorage`, same per-browser pattern as dark mode
   and favorites.
+- **Cross-season trend view**: the band detail panel has a This Season/All
+  Seasons toggle. All Seasons queries every scored event for that `unit_id`
+  across every backfilled year, with season-boundary labels/dividers and a
+  dashed line segment (plus an auto-shown caption) at any point a band's
+  division changed — flagging exactly where scores stop being directly
+  comparable, since that can happen mid-season, not just year to year.

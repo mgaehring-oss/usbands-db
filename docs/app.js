@@ -27,6 +27,9 @@ const els = {
   detailTitleRow: document.getElementById("detail-title-row"),
   detailSub: document.getElementById("detail-sub"),
   detailChart: document.getElementById("detail-chart"),
+  detailChartCaption: document.getElementById("detail-chart-caption"),
+  detailModeSeason: document.getElementById("detail-mode-season"),
+  detailModeAll: document.getElementById("detail-mode-all"),
   detailTableBody: document.getElementById("detail-table-body"),
 };
 
@@ -493,19 +496,19 @@ function renderAll() {
 
 let activeTooltip = null;
 
-function buildChart(history) {
+function buildChart(points) {
   const width = 640, height = 220;
-  const padL = 34, padR = 16, padT = 16, padB = 26;
+  const padL = 34, padR = 16, padT = 28, padB = 26;
   const innerW = width - padL - padR, innerH = height - padT - padB;
 
-  const scores = history.map((p) => p.score);
+  const scores = points.map((p) => p.score);
   const min = Math.min(...scores), max = Math.max(...scores);
   const lo = Math.floor((min - 1) * 2) / 2;
   const hi = Math.ceil((max + 1) * 2) / 2;
   const range = hi - lo || 1;
 
-  const stepX = history.length > 1 ? innerW / (history.length - 1) : 0;
-  const xy = history.map((p, i) => ({
+  const stepX = points.length > 1 ? innerW / (points.length - 1) : 0;
+  const xy = points.map((p, i) => ({
     x: padL + i * stepX,
     y: padT + innerH - ((p.score - lo) / range) * innerH,
     point: p,
@@ -538,7 +541,7 @@ function buildChart(history) {
   });
 
   // x labels (sparse: first, last, and a few in between)
-  const labelEvery = Math.max(1, Math.ceil(history.length / 6));
+  const labelEvery = Math.max(1, Math.ceil(points.length / 6));
   xy.forEach((p, i) => {
     if (i % labelEvery !== 0 && i !== xy.length - 1) return;
     const label = document.createElementNS(ns, "text");
@@ -550,12 +553,45 @@ function buildChart(history) {
     svg.appendChild(label);
   });
 
-  // line
-  const d = xy.map((p, i) => (i === 0 ? `M${p.x},${p.y}` : `L${p.x},${p.y}`)).join(" ");
-  const path = document.createElementNS(ns, "path");
-  path.setAttribute("d", d);
-  path.setAttribute("class", "chart-line");
-  svg.appendChild(path);
+  // Season labels: always label the first point (so a single-season chart
+  // still says which season it is); a divider + label marks an actual
+  // season transition, relevant once "All Seasons" spans multiple years.
+  xy.forEach((p, i) => {
+    const isFirst = i === 0;
+    const changed = i > 0 && p.point.seasonYear !== xy[i - 1].point.seasonYear;
+    if (!isFirst && !changed) return;
+    if (changed) {
+      const divider = document.createElementNS(ns, "line");
+      divider.setAttribute("x1", p.x);
+      divider.setAttribute("x2", p.x);
+      divider.setAttribute("y1", padT - 6);
+      divider.setAttribute("y2", height - padB);
+      divider.setAttribute("class", "chart-season-divider");
+      svg.appendChild(divider);
+    }
+    const label = document.createElementNS(ns, "text");
+    label.setAttribute("x", p.x);
+    label.setAttribute("y", padT - 12);
+    label.setAttribute("text-anchor", isFirst ? "start" : "middle");
+    label.setAttribute("class", "chart-season-label");
+    label.textContent = String(p.point.seasonYear);
+    svg.appendChild(label);
+  });
+
+  // Line, drawn as one path per segment so a division change (a band moving
+  // groups, sometimes mid-season) can be flagged with a dashed segment right
+  // at the transition -- more precise than a generic divider, and it's the
+  // specific edge where two scores stop being directly comparable.
+  let hasDivisionChange = false;
+  for (let i = 1; i < xy.length; i++) {
+    const a = xy[i - 1], b = xy[i];
+    const changed = a.point.divisionId !== b.point.divisionId;
+    if (changed) hasDivisionChange = true;
+    const seg = document.createElementNS(ns, "path");
+    seg.setAttribute("d", `M${a.x},${a.y} L${b.x},${b.y}`);
+    seg.setAttribute("class", changed ? "chart-line is-division-change" : "chart-line");
+    svg.appendChild(seg);
+  }
 
   const container = el("div", { style: "position:relative" }, []);
 
@@ -593,7 +629,9 @@ function buildChart(history) {
       tooltip.textContent = "";
       const strong = el("strong", {}, [`${p.point.score.toFixed(1)}`]);
       tooltip.appendChild(strong);
-      tooltip.appendChild(document.createTextNode(` — ${p.point.name} (${p.point.date})`));
+      tooltip.appendChild(
+        document.createTextNode(` — ${p.point.name} (${p.point.date}), ${p.point.divisionLabel}`)
+      );
       tooltip.style.left = `${(p.x / width) * 100}%`;
       tooltip.style.top = `${(p.y / height) * 100}%`;
       tooltip.classList.add("is-visible");
@@ -612,37 +650,90 @@ function buildChart(history) {
 
   container.appendChild(svg);
   container.appendChild(tooltip);
-  return container;
+  return { chart: container, hasDivisionChange };
 }
+
+let currentDetailMode = "season"; // "season" | "all"
+let currentDetailDivisionLabel = null;
+let currentDetailSeasonPoints = null;
+let currentDetailAllPoints = null; // lazily fetched on first switch to "all", cached per open band
 
 function openDetail(row, division) {
   currentDetailUnitId = row.unitId;
+  currentDetailMode = "season";
+  currentDetailDivisionLabel = division.label;
+  currentDetailAllPoints = null;
+  currentDetailSeasonPoints = row.history.map((p) => ({
+    ...p,
+    seasonYear: model.seasonYear,
+    divisionId: division.id,
+    divisionLabel: division.label,
+  }));
+
   els.detailTitle.textContent = row.name;
   const existingStar = els.detailTitleRow.querySelector(".star-toggle");
   if (existingStar) existingStar.remove();
   els.detailTitleRow.appendChild(starButton(row.unitId, row.name));
-  els.detailSub.textContent = `${division.label} — score history`;
+
+  updateDetailModeButtons();
+  renderDetailBody();
+  els.overlay.hidden = false;
+}
+
+function updateDetailModeButtons() {
+  els.detailModeSeason.classList.toggle("is-active", currentDetailMode === "season");
+  els.detailModeAll.classList.toggle("is-active", currentDetailMode === "all");
+}
+
+function setDetailMode(mode) {
+  if (mode === currentDetailMode) return;
+  if (mode === "all" && !currentDetailAllPoints) {
+    currentDetailAllPoints = queryAll(
+      dbHandle,
+      `SELECT e.season_year AS seasonYear, e.event_date AS date, e.name AS name,
+              d.id AS divisionId, d.label AS divisionLabel, s.score, s.rank
+       FROM scores s
+       JOIN events e ON e.id = s.event_id
+       JOIN divisions d ON d.id = s.division_id
+       WHERE s.unit_id = ?
+       ORDER BY e.event_date`,
+      [currentDetailUnitId]
+    );
+  }
+  currentDetailMode = mode;
+  updateDetailModeButtons();
+  renderDetailBody();
+}
+
+function renderDetailBody() {
+  const points = currentDetailMode === "all" ? currentDetailAllPoints : currentDetailSeasonPoints;
+
+  els.detailSub.textContent =
+    currentDetailMode === "all" ? "All seasons — score history" : `${currentDetailDivisionLabel} — score history`;
 
   els.detailChart.innerHTML = "";
-  if (row.history.length >= 2) {
-    els.detailChart.appendChild(buildChart(row.history));
+  els.detailChartCaption.hidden = true;
+  if (points.length >= 2) {
+    const { chart, hasDivisionChange } = buildChart(points);
+    els.detailChart.appendChild(chart);
+    els.detailChartCaption.hidden = !hasDivisionChange;
   } else {
     els.detailChart.appendChild(el("p", { class: "empty-note" }, ["Not enough data yet for a chart."]));
   }
 
   els.detailTableBody.innerHTML = "";
-  for (const p of [...row.history].reverse()) {
+  for (const p of [...points].reverse()) {
     els.detailTableBody.appendChild(
       el("tr", {}, [
         el("td", {}, [p.date || ""]),
         el("td", {}, [p.name]),
+        el("td", {}, [String(p.seasonYear)]),
+        el("td", {}, [p.divisionLabel]),
         el("td", { class: "num" }, [fmtScore(p.score)]),
         el("td", { class: "num" }, [p.rank !== null && p.rank !== undefined ? String(p.rank) : "—"]),
       ])
     );
   }
-
-  els.overlay.hidden = false;
 }
 
 function closeDetail() {
@@ -906,6 +997,8 @@ async function main() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeDetail();
   });
+  els.detailModeSeason.addEventListener("click", () => setDetailMode("season"));
+  els.detailModeAll.addEventListener("click", () => setDetailMode("all"));
 
   for (const control of [els.divisionFilter, els.stateFilter, els.finalsFilter, els.favoritesFilter]) {
     control.addEventListener("change", render);
