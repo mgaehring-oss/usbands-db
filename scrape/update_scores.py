@@ -26,6 +26,14 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; USBandsDB/1.0)"}
 ROMAN_TO_INT = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5}
 DIVISION_RE = re.compile(r"^(RA|(A|Open) - Group (I|II|III|IV|V))$")
 
+# Fixed vocabulary/IDs (not "first encountered" order) -- assigning IDs by
+# encounter order made them depend on Python's per-process string-hash
+# randomization (via set iteration order), breaking reproducible rebuilds.
+DIVISION_LABELS = ["RA"] + [
+    f"{cls} - Group {roman}" for cls in ("A", "Open") for roman in ("I", "II", "III", "IV", "V")
+]
+DIVISION_ID = {label: i + 1 for i, label in enumerate(DIVISION_LABELS)}
+
 
 def fetch(url, timeout=25):
     req = urllib.request.Request(url, headers=HEADERS)
@@ -138,7 +146,7 @@ def crawl_season(season_year, log=print):
     events = list_events(events_html)
     log(f"Found {len(events)} events for season {season_year}")
 
-    divisions = {}          # label -> id (assigned on first sight)
+    divisions_seen = set()   # labels actually encountered this season (reporting only)
     bands = {}               # unit_id -> name
     event_rows = {}          # eid -> event dict (only for events we keep)
     championship_groups = {}  # (kind, name) -> id
@@ -191,7 +199,7 @@ def crawl_season(season_year, log=print):
             championship_group_events.add((group_id, eid))
 
         for label in all_divs:
-            divisions.setdefault(label, len(divisions) + 1)
+            divisions_seen.add(label)
             uid_scores = scores_by_div.get(label, {})
             uid_names = performing_by_div.get(label, {})
             all_uids = set(uid_scores) | set(uid_names)
@@ -217,7 +225,7 @@ def crawl_season(season_year, log=print):
 
     return {
         "season_year": season_year,
-        "divisions": divisions,
+        "divisions_seen": divisions_seen,
         "bands": bands,
         "events": event_rows,
         "championship_groups": championship_groups,
@@ -318,11 +326,14 @@ def build_database(data, path):
 
     cur.execute("INSERT OR IGNORE INTO seasons (year) VALUES (?)", (season_year,))
 
-    for label, div_id in sorted(data["divisions"].items(), key=lambda kv: kv[1]):
+    # Insert the full fixed vocabulary (not just labels seen this season) --
+    # it's a reference/lookup table, not season data, so it shouldn't vary
+    # run to run based on what's been scored so far.
+    for label in DIVISION_LABELS:
         cls, num = division_class_and_number(label)
         cur.execute(
             "INSERT OR IGNORE INTO divisions (id, class, group_number, label) VALUES (?,?,?,?)",
-            (div_id, cls, num, label),
+            (DIVISION_ID[label], cls, num, label),
         )
 
     for uid, name in sorted(data["bands"].items()):
@@ -348,7 +359,7 @@ def build_database(data, path):
         )
 
     scored_rows = sorted(
-        (eid, uid, data["divisions"][label], score) for eid, uid, label, score in data["scores"]
+        (eid, uid, DIVISION_ID[label], score) for eid, uid, label, score in data["scores"]
     )
     for eid, uid, div_id, score in scored_rows:
         cur.execute(
@@ -357,7 +368,7 @@ def build_database(data, path):
         )
 
     division_tag_rows = sorted(
-        (uid, data["divisions"][label]) for uid, label in data["band_season_division"]
+        (uid, DIVISION_ID[label]) for uid, label in data["band_season_division"]
     )
     for uid, div_id in division_tag_rows:
         cur.execute(
@@ -402,7 +413,7 @@ def main():
         "season_year": season_year,
         "events_kept": len(data["events"]),
         "events_skipped": len(data["skipped"]),
-        "divisions": len(data["divisions"]),
+        "divisions_seen": len(data["divisions_seen"]),
         "bands": len(data["bands"]),
         "championship_groups": len(data["championship_groups"]),
         "scores": len(data["scores"]),
