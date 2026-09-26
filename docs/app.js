@@ -6,7 +6,7 @@ const SQLJS_CDN = "https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/";
 const els = {
   status: document.getElementById("status"),
   results: document.getElementById("results"),
-  seasonLabel: document.getElementById("season-label"),
+  seasonSelect: document.getElementById("season-select"),
   divisionFilter: document.getElementById("filter-division"),
   stateFilter: document.getElementById("filter-state"),
   finalsFilter: document.getElementById("filter-finals"),
@@ -24,9 +24,11 @@ const els = {
   detailTableBody: document.getElementById("detail-table-body"),
 };
 
-/** In-memory model built from the sqlite file. Populated by loadModel(). */
+/** In-memory model for the currently-selected season. Populated by
+ * buildModelForSeason() against the db handle openDatabase() returns. */
 const model = {
   seasonYear: null,
+  allSeasons: [],                 // [year, ...] descending, every season in the db
   divisions: [],                 // [{id, class, group_number, label}] fixed order
   stateGroups: [],                // [{id, name}] kind='state', this season
   bandsByDivision: new Map(),      // division_id -> Set(unit_id)
@@ -102,70 +104,82 @@ function queryAll(db, sql, params) {
   return rows;
 }
 
-async function loadModel() {
+/** Fetches the db file once and opens it; the handle is kept open for the
+ * whole session (see main()) so switching seasons is a re-query against
+ * already-in-memory data, never a re-fetch over the network. */
+async function openDatabase() {
   const SQL = await initSqlJs({ locateFile: (f) => SQLJS_CDN + f });
   const buf = await fetch(DB_PATH).then((r) => {
     if (!r.ok) throw new Error(`Could not load ${DB_PATH} (${r.status})`);
     return r.arrayBuffer();
   });
-  const db = new SQL.Database(new Uint8Array(buf));
+  return new SQL.Database(new Uint8Array(buf));
+}
 
-  const seasonRow = queryAll(db, "SELECT MAX(year) AS year FROM seasons")[0];
-  model.seasonYear = seasonRow ? seasonRow.year : null;
-
+/** Populates `model` for one season, scoped strictly to that season's rows
+ * -- e.g. `scores` is joined to `events` and filtered by season_year, since
+ * without that a band's Latest/Prior/history would silently blend scores
+ * across season boundaries once the db holds more than one season. */
+function buildModelForSeason(db, year) {
+  model.seasonYear = year;
   model.divisions = queryAll(db, "SELECT id, class, group_number, label FROM divisions ORDER BY id");
 
   model.stateGroups = queryAll(
     db,
     "SELECT id, name FROM championship_groups WHERE season_year = ? AND kind = 'state' ORDER BY name",
-    [model.seasonYear]
+    [year]
   );
-  for (const g of model.stateGroups) model.stateGroupNameById.set(g.id, g.name);
+  model.stateGroupNameById = new Map(model.stateGroups.map((g) => [g.id, g.name]));
 
+  model.bandNames = new Map();
   for (const row of queryAll(db, "SELECT unit_id, name FROM bands")) {
     model.bandNames.set(row.unit_id, row.name);
   }
 
-  const eventsById = new Map();
-  for (const row of queryAll(db, "SELECT id, name, event_date FROM events")) {
-    eventsById.set(row.id, row);
-  }
-
+  model.bandsByDivision = new Map();
   for (const row of queryAll(
     db,
     "SELECT unit_id, division_id FROM band_season_division WHERE season_year = ?",
-    [model.seasonYear]
+    [year]
   )) {
     if (!model.bandsByDivision.has(row.division_id)) model.bandsByDivision.set(row.division_id, new Set());
     model.bandsByDivision.get(row.division_id).add(row.unit_id);
   }
 
+  model.stateGroupsByBand = new Map();
   for (const row of queryAll(
     db,
     "SELECT unit_id, championship_group_id FROM band_season_state_championship WHERE season_year = ?",
-    [model.seasonYear]
+    [year]
   )) {
     if (!model.stateGroupsByBand.has(row.unit_id)) model.stateGroupsByBand.set(row.unit_id, new Set());
     model.stateGroupsByBand.get(row.unit_id).add(row.championship_group_id);
   }
 
+  model.finalsByBand = new Set();
   for (const row of queryAll(
     db,
     "SELECT DISTINCT unit_id FROM band_season_final WHERE season_year = ?",
-    [model.seasonYear]
+    [year]
   )) {
     model.finalsByBand.add(row.unit_id);
   }
 
-  const scoreRows = queryAll(db, "SELECT event_id, unit_id, division_id, score, rank FROM scores");
+  model.historyByKey = new Map();
+  const scoreRows = queryAll(
+    db,
+    `SELECT s.event_id, s.unit_id, s.division_id, s.score, s.rank, e.event_date, e.name AS event_name
+     FROM scores s JOIN events e ON e.id = s.event_id
+     WHERE e.season_year = ?`,
+    [year]
+  );
   const grouped = new Map();
   for (const row of scoreRows) {
     const key = `${row.unit_id}|${row.division_id}`;
     if (!grouped.has(key)) grouped.set(key, []);
-    const ev = eventsById.get(row.event_id);
     grouped.get(key).push({
-      date: ev ? ev.event_date : null,
-      name: ev ? ev.name : "Unknown event",
+      date: row.event_date,
+      name: row.event_name,
       score: row.score,
       rank: row.rank,
     });
@@ -174,8 +188,6 @@ async function loadModel() {
     list.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
     model.historyByKey.set(key, list);
   }
-
-  db.close();
 }
 
 function historyFor(unitId, divisionId) {
@@ -647,6 +659,25 @@ function populateFilters() {
   }
 }
 
+/** Division/state IDs are season-scoped, so a selection from the previous
+ * season would silently point at the wrong (or no) group after switching --
+ * reset to defaults whenever the season changes. */
+function resetFilterControls() {
+  els.divisionFilter.value = "all";
+  els.stateFilter.value = "all";
+  els.finalsFilter.checked = false;
+  els.favoritesFilter.checked = false;
+  els.searchFilter.value = "";
+}
+
+function populateSeasonSelect() {
+  els.seasonSelect.innerHTML = "";
+  for (const year of model.allSeasons) {
+    els.seasonSelect.appendChild(el("option", { value: String(year) }, [`Season ${year}`]));
+  }
+  els.seasonSelect.value = String(model.seasonYear);
+}
+
 /* ---------------- Theme toggle ---------------- */
 
 function initTheme() {
@@ -677,6 +708,8 @@ function safeLocalStorageSet(key, val) {
 
 /* ---------------- Init ---------------- */
 
+let dbHandle = null;
+
 async function main() {
   initTheme();
   els.themeToggle.addEventListener("click", () => {
@@ -698,17 +731,28 @@ async function main() {
   }
   els.searchFilter.addEventListener("input", render);
 
+  els.seasonSelect.addEventListener("change", () => {
+    const year = Number(els.seasonSelect.value);
+    buildModelForSeason(dbHandle, year);
+    resetFilterControls();
+    populateFilters();
+    renderAll();
+  });
+
   loadFavorites();
 
   try {
-    await loadModel();
+    dbHandle = await openDatabase();
   } catch (err) {
     els.status.textContent = `Couldn't load the database: ${err.message}`;
     els.status.classList.add("error");
     return;
   }
 
-  els.seasonLabel.textContent = model.seasonYear ? `Season ${model.seasonYear}` : "";
+  model.allSeasons = queryAll(dbHandle, "SELECT year FROM seasons ORDER BY year DESC").map((r) => r.year);
+  const defaultYear = model.allSeasons[0];
+  buildModelForSeason(dbHandle, defaultYear);
+  populateSeasonSelect();
   populateFilters();
   els.status.hidden = true;
   renderAll();

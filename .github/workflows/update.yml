@@ -7,7 +7,8 @@ on:
   workflow_dispatch: {}
 
 env:
-  SEASON_YEAR: "2026"  # bump when usbands.org posts the next season
+  BACKFILL_START_YEAR: "2022"   # earliest season with real marching-band data; rarely changes
+  CURRENT_SEASON_YEAR: "2026"   # bump when usbands.org posts the next season -- always scraped fresh, never cached
 
 permissions:
   contents: write
@@ -23,16 +24,16 @@ jobs:
           python-version: "3.x"
 
       - name: Scrape and rebuild database
-        run: python scrape/update_scores.py "$SEASON_YEAR" docs/data/usbands.db
+        run: python scrape/update_scores.py "$BACKFILL_START_YEAR" "$CURRENT_SEASON_YEAR" docs/data/usbands.db data/cache
 
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- docs/data/usbands.db; then
+          git add docs/data/usbands.db data/cache
+          if git diff --cached --quiet; then
             echo "No changes."
           else
-            git add docs/data/usbands.db
             git commit -m "Update USBands database ($(date -u +%Y-%m-%d))"
             git push
           fi

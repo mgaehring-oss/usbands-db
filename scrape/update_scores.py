@@ -1,5 +1,5 @@
 """
-Builds a full-circuit SQLite database of USBands score data for one season.
+Builds a full-circuit SQLite database of USBands score data across seasons.
 
 Scrapes usbands.org's events list and every event detail page, keeping only
 divisions in the USBands vocabulary (RA, A/Open x Group I-V) -- this is what
@@ -7,11 +7,23 @@ already excludes the other circuits usbands.org's calendar also lists (STATS,
 DeMoulin, Southwestern, Southeastern, Ark-La-Tex, Quad States, etc), since
 those circuits don't use this exact label scheme.
 
+Only the CURRENT season (the end of the given year range) is ever scraped
+live on a given run -- every earlier season is cached to disk as JSON on
+first fetch and never re-scraped again, since a closed season's results
+never change. This keeps weekly runtime constant (~one season's worth of
+HTTP requests) no matter how many years of history have been backfilled.
+The database itself is still fully deleted and rebuilt from scratch every
+run (see build_database) -- the cache makes that cheap, rather than trying
+to surgically patch an existing db file in place.
+
 Stdlib only (urllib + re + sqlite3) -- no external dependencies, so this runs
 unmodified in a bare CI/cloud sandbox with just Python.
 
 Usage:
-    python update_scores.py <season_year> <output_db_path>
+    python update_scores.py <start_year> <end_year> <output_db_path> [cache_dir]
+
+<end_year> is treated as the current/live season (always scraped fresh);
+every year from <start_year> up to but not including <end_year> is cached.
 """
 import json
 import os
@@ -142,6 +154,11 @@ def classify_event(title):
 
 
 def crawl_season(season_year, log=print):
+    """Scrapes ONE season live. Returns raw per-season data with no numeric
+    IDs invented for championship groups -- those are only meaningful (and
+    only safe to assign) once every season being merged is known, see
+    assign_group_ids(). Championship-group identity here is just its
+    natural (season_year, kind, name) key."""
     events_html = fetch(f"https://usbands.org/events/?year={season_year}")
     events = list_events(events_html)
     log(f"Found {len(events)} events for season {season_year}")
@@ -149,23 +166,13 @@ def crawl_season(season_year, log=print):
     divisions_seen = set()   # labels actually encountered this season (reporting only)
     bands = {}               # unit_id -> name
     event_rows = {}          # eid -> event dict (only for events we keep)
-    championship_groups = {}  # (kind, name) -> id
-    championship_group_events = set()  # (group_id, eid)
-    scores = []               # (eid, uid, division_label, rank, score)
-    band_season_division = set()       # (uid, division_label)
-    band_season_state = set()          # (uid, group_id)
-    band_season_final = set()          # (uid, group_id)
+    champ_events = set()     # (season_year, kind, name, eid)
+    scores = []              # (eid, uid, division_label, score)
+    band_season_division = set()   # (uid, season_year, division_label)
+    band_season_state = set()      # (uid, season_year, championship_name)
+    band_season_final = set()      # (uid, season_year, championship_name)
 
     skipped = []
-    next_group_id = 1
-
-    def get_group_id(kind, name):
-        nonlocal next_group_id
-        key = (kind, name)
-        if key not in championship_groups:
-            championship_groups[key] = next_group_id
-            next_group_id += 1
-        return championship_groups[key]
 
     for i, ev in enumerate(events, 1):
         eid, ts, title = ev["id"], ev["ts"], ev["title"]
@@ -192,11 +199,9 @@ def crawl_season(season_year, log=print):
             "event_kind": event_kind,
         }
 
-        group_id = None
         if champ_name:
             kind = "final" if event_kind == "usbands_championship" else "state"
-            group_id = get_group_id(kind, champ_name)
-            championship_group_events.add((group_id, eid))
+            champ_events.add((season_year, kind, champ_name, eid))
 
         for label in all_divs:
             divisions_seen.add(label)
@@ -206,12 +211,12 @@ def crawl_season(season_year, log=print):
             for uid in all_uids:
                 name = uid_scores.get(uid, (None, None))[0] or uid_names.get(uid)
                 bands.setdefault(uid, name)
-                band_season_division.add((uid, label))
-                if group_id is not None:
+                band_season_division.add((uid, season_year, label))
+                if champ_name:
                     if event_kind == "usbands_championship":
-                        band_season_final.add((uid, group_id))
+                        band_season_final.add((uid, season_year, champ_name))
                     else:
-                        band_season_state.add((uid, group_id))
+                        band_season_state.add((uid, season_year, champ_name))
                 if uid in uid_scores:
                     _, score = uid_scores[uid]
                     scores.append((eid, uid, label, score))
@@ -219,7 +224,7 @@ def crawl_season(season_year, log=print):
         log(f"  [{i}/{len(events)}] event {eid} ({date_str}) '{title}': "
             f"{len(all_divs)} USBands divisions, {sum(len(v) for v in scores_by_div.values())} scores")
 
-    log(f"Skipped {len(skipped)} events (non-USBands or unscored):")
+    log(f"Season {season_year}: skipped {len(skipped)} events (non-USBands or unscored):")
     for eid, title, reason in skipped:
         log(f"    {eid} '{title}': {reason}")
 
@@ -228,14 +233,113 @@ def crawl_season(season_year, log=print):
         "divisions_seen": divisions_seen,
         "bands": bands,
         "events": event_rows,
-        "championship_groups": championship_groups,
-        "championship_group_events": championship_group_events,
+        "champ_events": champ_events,
         "scores": scores,
         "band_season_division": band_season_division,
         "band_season_state": band_season_state,
         "band_season_final": band_season_final,
         "skipped": skipped,
     }
+
+
+def _season_data_to_json(data):
+    """Converts crawl_season()'s return value (sets, int-keyed dicts, tuples)
+    into something json.dump can write."""
+    return {
+        "season_year": data["season_year"],
+        "divisions_seen": sorted(data["divisions_seen"]),
+        "bands": {str(uid): name for uid, name in data["bands"].items()},
+        "events": {str(eid): ev for eid, ev in data["events"].items()},
+        "champ_events": sorted(list(t) for t in data["champ_events"]),
+        "scores": sorted(list(t) for t in data["scores"]),
+        "band_season_division": sorted(list(t) for t in data["band_season_division"]),
+        "band_season_state": sorted(list(t) for t in data["band_season_state"]),
+        "band_season_final": sorted(list(t) for t in data["band_season_final"]),
+        "skipped": data["skipped"],
+    }
+
+
+def _season_data_from_json(obj):
+    return {
+        "season_year": obj["season_year"],
+        "divisions_seen": set(obj["divisions_seen"]),
+        "bands": {int(uid): name for uid, name in obj["bands"].items()},
+        "events": {int(eid): ev for eid, ev in obj["events"].items()},
+        "champ_events": {tuple(t) for t in obj["champ_events"]},
+        "scores": [tuple(t) for t in obj["scores"]],
+        "band_season_division": {tuple(t) for t in obj["band_season_division"]},
+        "band_season_state": {tuple(t) for t in obj["band_season_state"]},
+        "band_season_final": {tuple(t) for t in obj["band_season_final"]},
+        "skipped": [tuple(t) for t in obj["skipped"]],
+    }
+
+
+def get_season_data(year, current_year, cache_dir, log=print):
+    """A closed season is scraped once and cached forever (its results never
+    change); the current season is always scraped fresh and never cached."""
+    if year == current_year:
+        log(f"Season {year} is the current season -- scraping fresh (not cached).")
+        return crawl_season(year, log=log)
+
+    cache_file = os.path.join(cache_dir, f"{year}.json")
+    if os.path.exists(cache_file):
+        log(f"Season {year}: loaded from cache ({cache_file}), no HTTP requests made.")
+        with open(cache_file, "r", encoding="utf-8") as f:
+            return _season_data_from_json(json.load(f))
+
+    log(f"Season {year}: no cache found -- scraping once to build it.")
+    data = crawl_season(year, log=log)
+    os.makedirs(cache_dir, exist_ok=True)
+    with open(cache_file, "w", encoding="utf-8") as f:
+        json.dump(_season_data_to_json(data), f, indent=1, sort_keys=True)
+    log(f"Season {year}: cached to {cache_file} for future runs.")
+    return data
+
+
+def crawl_seasons(start_year, end_year, cache_dir, log=print):
+    """end_year is treated as the current/live season. Merges every season
+    in [start_year, end_year] into one combined (still per-season-tagged)
+    structure, ready for assign_group_ids() + build_database()."""
+    merged = {
+        "bands": {}, "events": {}, "champ_events": set(), "scores": [],
+        "band_season_division": set(), "band_season_state": set(), "band_season_final": set(),
+        "divisions_seen": set(), "skipped": [],
+    }
+    per_season_summary = []
+    for year in range(start_year, end_year + 1):
+        data = get_season_data(year, end_year, cache_dir, log)
+        merged["bands"].update(data["bands"])
+        merged["events"].update(data["events"])
+        merged["champ_events"] |= data["champ_events"]
+        merged["scores"].extend(data["scores"])
+        merged["band_season_division"] |= data["band_season_division"]
+        merged["band_season_state"] |= data["band_season_state"]
+        merged["band_season_final"] |= data["band_season_final"]
+        merged["divisions_seen"] |= data["divisions_seen"]
+        merged["skipped"].extend(data["skipped"])
+        per_season_summary.append({
+            "year": year,
+            "events_kept": len(data["events"]),
+            "events_skipped": len(data["skipped"]),
+            "bands": len(data["bands"]),
+            "scores": len(data["scores"]),
+        })
+    merged["start_year"] = start_year
+    merged["end_year"] = end_year
+    merged["per_season_summary"] = per_season_summary
+    return merged
+
+
+def assign_group_ids(merged):
+    """Global, deterministic IDs for championship groups across every season
+    being built -- sorted by (season_year, kind, name), not discovery order,
+    same fixed-vocabulary-over-encounter-order fix already applied to
+    divisions (encounter order depends on Python's per-process set/dict
+    iteration for string keys, which isn't stable run to run)."""
+    triples = {(sy, kind, name) for (sy, kind, name, _eid) in merged["champ_events"]}
+    triples |= {(sy, "state", name) for (_uid, sy, name) in merged["band_season_state"]}
+    triples |= {(sy, "final", name) for (_uid, sy, name) in merged["band_season_final"]}
+    return {t: i + 1 for i, t in enumerate(sorted(triples))}
 
 
 SCHEMA = """
@@ -309,26 +413,29 @@ def division_class_and_number(label):
     return m.group(1), ROMAN_TO_INT[m.group(2)]
 
 
-def build_database(data, path):
+def build_database(merged, path):
     """Always rebuilds `path` from scratch (deletes it first) and inserts
     rows in a fixed sort order, so re-running against unchanged source data
     produces a byte-identical file -- otherwise every scheduled run would
     show a spurious diff (SQLite's on-disk layout isn't guaranteed stable
     across differently-ordered inserts, and Python's default per-process
     string-hash randomization means set-of-tuple iteration order otherwise
-    varies run to run)."""
+    varies run to run). This holds regardless of how many seasons are being
+    merged in, or whether a given season's data came from a fresh scrape or
+    the JSON cache -- both are normalized into the same shape before this.
+    """
     if os.path.exists(path):
         os.remove(path)
-    season_year = data["season_year"]
     conn = sqlite3.connect(path)
     conn.executescript(SCHEMA)
     cur = conn.cursor()
 
-    cur.execute("INSERT OR IGNORE INTO seasons (year) VALUES (?)", (season_year,))
+    for year in range(merged["start_year"], merged["end_year"] + 1):
+        cur.execute("INSERT OR IGNORE INTO seasons (year) VALUES (?)", (year,))
 
-    # Insert the full fixed vocabulary (not just labels seen this season) --
-    # it's a reference/lookup table, not season data, so it shouldn't vary
-    # run to run based on what's been scored so far.
+    # Insert the full fixed vocabulary (not just labels seen so far) -- it's
+    # a reference/lookup table, not season data, so it shouldn't vary run to
+    # run based on what's been scored.
     for label in DIVISION_LABELS:
         cls, num = division_class_and_number(label)
         cur.execute(
@@ -336,30 +443,32 @@ def build_database(data, path):
             (DIVISION_ID[label], cls, num, label),
         )
 
-    for uid, name in sorted(data["bands"].items()):
+    for uid, name in sorted(merged["bands"].items()):
         cur.execute("INSERT OR IGNORE INTO bands (unit_id, name) VALUES (?,?)", (uid, name))
 
-    for eid, ev in sorted(data["events"].items()):
+    for eid, ev in sorted(merged["events"].items()):
         cur.execute(
             "INSERT OR IGNORE INTO events (id, season_year, name, event_date, city, state, event_kind) "
             "VALUES (?,?,?,?,?,?,?)",
             (ev["id"], ev["season_year"], ev["name"], ev["event_date"], ev["city"], ev["state"], ev["event_kind"]),
         )
 
-    for (kind, name), gid in sorted(data["championship_groups"].items(), key=lambda kv: kv[1]):
+    group_id = assign_group_ids(merged)
+
+    for (sy, kind, name), gid in sorted(group_id.items(), key=lambda kv: kv[1]):
         cur.execute(
             "INSERT OR IGNORE INTO championship_groups (id, season_year, kind, name) VALUES (?,?,?,?)",
-            (gid, season_year, kind, name),
+            (gid, sy, kind, name),
         )
 
-    for gid, eid in sorted(data["championship_group_events"]):
+    for sy, kind, name, eid in sorted(merged["champ_events"]):
         cur.execute(
             "INSERT OR IGNORE INTO championship_group_events (championship_group_id, event_id) VALUES (?,?)",
-            (gid, eid),
+            (group_id[(sy, kind, name)], eid),
         )
 
     scored_rows = sorted(
-        (eid, uid, DIVISION_ID[label], score) for eid, uid, label, score in data["scores"]
+        (eid, uid, DIVISION_ID[label], score) for eid, uid, label, score in merged["scores"]
     )
     for eid, uid, div_id, score in scored_rows:
         cur.execute(
@@ -368,24 +477,30 @@ def build_database(data, path):
         )
 
     division_tag_rows = sorted(
-        (uid, DIVISION_ID[label]) for uid, label in data["band_season_division"]
+        (uid, sy, DIVISION_ID[label]) for uid, sy, label in merged["band_season_division"]
     )
-    for uid, div_id in division_tag_rows:
+    for uid, sy, div_id in division_tag_rows:
         cur.execute(
             "INSERT OR IGNORE INTO band_season_division (unit_id, season_year, division_id) VALUES (?,?,?)",
-            (uid, season_year, div_id),
+            (uid, sy, div_id),
         )
 
-    for uid, gid in sorted(data["band_season_state"]):
+    state_tag_rows = sorted(
+        (uid, sy, group_id[(sy, "state", name)]) for uid, sy, name in merged["band_season_state"]
+    )
+    for uid, sy, gid in state_tag_rows:
         cur.execute(
             "INSERT OR IGNORE INTO band_season_state_championship (unit_id, season_year, championship_group_id) VALUES (?,?,?)",
-            (uid, season_year, gid),
+            (uid, sy, gid),
         )
 
-    for uid, gid in sorted(data["band_season_final"]):
+    final_tag_rows = sorted(
+        (uid, sy, group_id[(sy, "final", name)]) for uid, sy, name in merged["band_season_final"]
+    )
+    for uid, sy, gid in final_tag_rows:
         cur.execute(
             "INSERT OR IGNORE INTO band_season_final (unit_id, season_year, championship_group_id) VALUES (?,?,?)",
-            (uid, season_year, gid),
+            (uid, sy, gid),
         )
 
     # Rank each band within each (event, division) by score, descending.
@@ -403,20 +518,23 @@ def build_database(data, path):
 
 
 def main():
-    season_year = int(sys.argv[1]) if len(sys.argv) > 1 else 2026
-    out_path = sys.argv[2] if len(sys.argv) > 2 else "usbands.db"
+    if len(sys.argv) < 4:
+        print("Usage: python update_scores.py <start_year> <end_year> <output_db_path> [cache_dir]", file=sys.stderr)
+        sys.exit(1)
 
-    data = crawl_season(season_year)
-    build_database(data, out_path)
+    start_year = int(sys.argv[1])
+    end_year = int(sys.argv[2])
+    out_path = sys.argv[3]
+    cache_dir = sys.argv[4] if len(sys.argv) > 4 else "data/cache"
+
+    merged = crawl_seasons(start_year, end_year, cache_dir)
+    build_database(merged, out_path)
 
     summary = {
-        "season_year": season_year,
-        "events_kept": len(data["events"]),
-        "events_skipped": len(data["skipped"]),
-        "divisions_seen": len(data["divisions_seen"]),
-        "bands": len(data["bands"]),
-        "championship_groups": len(data["championship_groups"]),
-        "scores": len(data["scores"]),
+        "seasons": merged["per_season_summary"],
+        "total_bands": len(merged["bands"]),
+        "total_events": len(merged["events"]),
+        "total_scores": len(merged["scores"]),
         "output": out_path,
     }
     print(json.dumps(summary, indent=2))

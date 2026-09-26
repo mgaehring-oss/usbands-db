@@ -14,7 +14,10 @@
         <span class="site-header__mark" aria-hidden="true">&#9835;</span>
         <div>
           <h1>USBands Score Tracker</h1>
-          <p class="site-header__subtitle" id="season-label">Season —</p>
+          <label class="season-select-wrap">
+            <span class="sr-only">Season</span>
+            <select id="season-select" class="season-select" aria-label="Season"></select>
+          </label>
         </div>
       </div>
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">

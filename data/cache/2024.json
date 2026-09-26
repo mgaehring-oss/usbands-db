@@ -1,0 +1,10518 @@
+{
+ "band_season_division": [
+  [
+   1239,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1249,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1250,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1251,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1253,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1256,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1259,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   1261,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1272,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1275,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1278,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1283,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1284,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1288,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1292,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1293,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1298,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1299,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1303,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1310,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1311,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1312,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1313,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1318,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1322,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1326,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1327,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1330,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   1332,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1333,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1335,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1336,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1341,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1344,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1345,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1347,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1349,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1356,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1360,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1361,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1364,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1372,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1387,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1397,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1400,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1402,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1403,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1404,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1411,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1419,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1423,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1440,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1491,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1491,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1522,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1530,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1532,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1534,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1537,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1540,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1543,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1551,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1553,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1557,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1560,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1561,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1562,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1562,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1563,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1565,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1571,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1573,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1574,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1575,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1586,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1589,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1590,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1591,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1592,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1594,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1598,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1601,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1602,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   1604,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1605,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1608,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1610,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1611,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1617,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1620,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1624,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1626,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1633,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1633,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1635,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1637,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1654,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1661,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1665,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1674,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1676,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1681,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1683,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1684,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1690,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1692,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1696,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1698,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1699,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   1703,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1706,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1708,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1709,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1713,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1714,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1723,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1736,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1738,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1745,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1746,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1747,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1750,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1756,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1758,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1760,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   1761,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1769,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1778,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1780,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1785,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1797,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   1800,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1804,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   1809,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1813,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1814,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1815,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1817,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1819,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1822,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   1825,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1827,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1828,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1833,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1838,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1846,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1851,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1855,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1859,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1863,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1877,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1878,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1883,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1886,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1887,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1892,
+   2024,
+   "A - Group II"
+  ],
+  [
+   1896,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1902,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1903,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1911,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1913,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1914,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1915,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1919,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1927,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1928,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1941,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1943,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1946,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1947,
+   2024,
+   "A - Group V"
+  ],
+  [
+   1951,
+   2024,
+   "A - Group III"
+  ],
+  [
+   1963,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1973,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1974,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1976,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1982,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   1993,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2002,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   2007,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2008,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   2013,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   2014,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   2019,
+   2024,
+   "A - Group III"
+  ],
+  [
+   2020,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2023,
+   2024,
+   "A - Group I"
+  ],
+  [
+   2033,
+   2024,
+   "A - Group III"
+  ],
+  [
+   2035,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2038,
+   2024,
+   "A - Group I"
+  ],
+  [
+   2040,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   2051,
+   2024,
+   "A - Group I"
+  ],
+  [
+   2062,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2067,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2076,
+   2024,
+   "A - Group I"
+  ],
+  [
+   2076,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2175,
+   2024,
+   "A - Group III"
+  ],
+  [
+   2187,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   2191,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   2208,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   2209,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   2223,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2225,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   2228,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   2232,
+   2024,
+   "A - Group III"
+  ],
+  [
+   2236,
+   2024,
+   "A - Group V"
+  ],
+  [
+   2238,
+   2024,
+   "A - Group I"
+  ],
+  [
+   2241,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   2242,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   2248,
+   2024,
+   "A - Group III"
+  ],
+  [
+   2268,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   2282,
+   2024,
+   "A - Group III"
+  ],
+  [
+   2289,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   2293,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   2309,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   2312,
+   2024,
+   "A - Group III"
+  ],
+  [
+   2321,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2332,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2333,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2343,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   2351,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   2360,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2373,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   2375,
+   2024,
+   "A - Group I"
+  ],
+  [
+   2393,
+   2024,
+   "A - Group I"
+  ],
+  [
+   2395,
+   2024,
+   "A - Group I"
+  ],
+  [
+   2402,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2405,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   2412,
+   2024,
+   "A - Group I"
+  ],
+  [
+   2417,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   2424,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   2441,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   2458,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   2494,
+   2024,
+   "A - Group II"
+  ],
+  [
+   2496,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   2504,
+   2024,
+   "A - Group III"
+  ],
+  [
+   2510,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   2510,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   2529,
+   2024,
+   "A - Group III"
+  ],
+  [
+   2547,
+   2024,
+   "A - Group I"
+  ],
+  [
+   2621,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6303,
+   2024,
+   "A - Group V"
+  ],
+  [
+   6306,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6312,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6332,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   6339,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6344,
+   2024,
+   "A - Group I"
+  ],
+  [
+   6350,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6356,
+   2024,
+   "A - Group V"
+  ],
+  [
+   6366,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   6379,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6380,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   6400,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6406,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   6449,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6464,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6466,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6489,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   6491,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6491,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6493,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   6495,
+   2024,
+   "A - Group I"
+  ],
+  [
+   6501,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   6504,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6510,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6513,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6514,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6518,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   6520,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6521,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   6523,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6525,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   6535,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6545,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6546,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6563,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6576,
+   2024,
+   "A - Group V"
+  ],
+  [
+   6597,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6666,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   6713,
+   2024,
+   "A - Group I"
+  ],
+  [
+   6719,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6720,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   6722,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6724,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6725,
+   2024,
+   "A - Group I"
+  ],
+  [
+   6729,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   6731,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   6735,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   6738,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6739,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6741,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6742,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6744,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   6745,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6746,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   6764,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6767,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6768,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6771,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6774,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6777,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   6781,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6786,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6787,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6790,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   6792,
+   2024,
+   "A - Group I"
+  ],
+  [
+   6793,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6795,
+   2024,
+   "A - Group I"
+  ],
+  [
+   6803,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6812,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   6818,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6828,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   6836,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   6840,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   6846,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6852,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6853,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   6856,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6857,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6864,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   6865,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6866,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6870,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6871,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   6876,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6877,
+   2024,
+   "A - Group V"
+  ],
+  [
+   6899,
+   2024,
+   "A - Group I"
+  ],
+  [
+   6903,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6906,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6914,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6915,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6921,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   6927,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6930,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   6939,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6940,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   6941,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   6945,
+   2024,
+   "A - Group II"
+  ],
+  [
+   6948,
+   2024,
+   "A - Group I"
+  ],
+  [
+   6949,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   6955,
+   2024,
+   "A - Group I"
+  ],
+  [
+   6966,
+   2024,
+   "Open - Group I"
+  ],
+  [
+   6985,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   7000,
+   2024,
+   "A - Group I"
+  ],
+  [
+   7011,
+   2024,
+   "A - Group II"
+  ],
+  [
+   7021,
+   2024,
+   "A - Group I"
+  ],
+  [
+   7023,
+   2024,
+   "Open - Group III"
+  ],
+  [
+   7033,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   7036,
+   2024,
+   "A - Group III"
+  ],
+  [
+   7037,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   7040,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   7064,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   7079,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   7130,
+   2024,
+   "A - Group I"
+  ],
+  [
+   7150,
+   2024,
+   "A - Group V"
+  ],
+  [
+   7339,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   7731,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   7792,
+   2024,
+   "Open - Group II"
+  ],
+  [
+   7853,
+   2024,
+   "A - Group III"
+  ],
+  [
+   7883,
+   2024,
+   "A - Group I"
+  ],
+  [
+   7883,
+   2024,
+   "A - Group II"
+  ]
+ ],
+ "band_season_final": [],
+ "band_season_state": [
+  [
+   1249,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1250,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1251,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1253,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1256,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1275,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1278,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1283,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1284,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1292,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1298,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1303,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1311,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1312,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1313,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1318,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1322,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1326,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1327,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1330,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1332,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1333,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1335,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1336,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1341,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1344,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1345,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1347,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1356,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1360,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1361,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1364,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1387,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1397,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1400,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1402,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1403,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1404,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1411,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1419,
+   2024,
+   "New York State Championships"
+  ],
+  [
+   1423,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1440,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1491,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1522,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1530,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1532,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1537,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1540,
+   2024,
+   "New York State Championships"
+  ],
+  [
+   1543,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1551,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1553,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   1557,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1560,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1561,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1562,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1563,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1565,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1571,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1573,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1574,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1575,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1586,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   1590,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1591,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1592,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1598,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1601,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1604,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1605,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1610,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1617,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1620,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1624,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1633,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1635,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1637,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1654,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1661,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1674,
+   2024,
+   "New York State Championships"
+  ],
+  [
+   1681,
+   2024,
+   "New York State Championships"
+  ],
+  [
+   1683,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1684,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1690,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1696,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1698,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1709,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1738,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1745,
+   2024,
+   "New York State Championships"
+  ],
+  [
+   1746,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1747,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1758,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   1761,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1769,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1778,
+   2024,
+   "New York State Championships"
+  ],
+  [
+   1809,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1825,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1828,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   1846,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1883,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   1896,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1902,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1911,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1913,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1951,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1976,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   2007,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   2013,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   2035,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2038,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2040,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   2076,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   2175,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   2187,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2191,
+   2024,
+   "New York State Championships"
+  ],
+  [
+   2228,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2236,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   2238,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   2248,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   2282,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2309,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2321,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   2333,
+   2024,
+   "New York State Championships"
+  ],
+  [
+   2360,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2375,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2393,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2395,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   2402,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2494,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   2547,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2621,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   6306,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   6332,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   6344,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   6350,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   6356,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   6379,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   6400,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   6406,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   6449,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   6466,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   6491,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   6495,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   6501,
+   2024,
+   "Maryland & Virginia State Championships"
+  ],
+  [
+   6513,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   6666,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   6719,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   6725,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   6790,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   6792,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   6876,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   6899,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   7000,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   7130,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   7731,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   7883,
+   2024,
+   "Connecticut State Championships"
+  ]
+ ],
+ "bands": {
+  "1239": "Fruitland High School",
+  "1249": "New Oxford High School",
+  "1250": "Hunterdon Central Regional High School",
+  "1251": "Council Rock High School South",
+  "1253": "Immaculata High School",
+  "1256": "Edison High School",
+  "1259": "Wayne Valley High School",
+  "1261": "Hightstown High School",
+  "1272": "Metuchen High School",
+  "1275": "Pequannock Township High School",
+  "1278": "Rocky Hill High School",
+  "1283": "Delaware Valley Regional High School",
+  "1284": "Burlington City High School",
+  "1288": "Burley High School",
+  "1292": "Mainland Regional High School",
+  "1293": "O'Neill High School",
+  "1298": "Long Branch High School",
+  "1299": "Elizabeth High School",
+  "1303": "South Brunswick High School",
+  "1310": "Madisonville High School",
+  "1311": "Newtown High School",
+  "1312": "Orville H. Platt High School",
+  "1313": "Ridgewood High School",
+  "1318": "Vernon Township High School",
+  "1322": "Ridley High School",
+  "1326": "Central Bucks High School South",
+  "1327": "Southington High School",
+  "1330": "Glen Ridge High School",
+  "1332": "East Lyme High School",
+  "1333": "Rustin High School",
+  "1335": "Brien McMahon High School",
+  "1336": "West Milford High School",
+  "1341": "Lenape Valley Regional High School",
+  "1344": "Francis T. Maloney High School",
+  "1345": "Patuxent High School",
+  "1347": "Seneca High School",
+  "1349": "B. Reed Henderson High School",
+  "1356": "Northern Valley Regional High School at Old Tappan",
+  "1360": "Warren Hills Regional High School",
+  "1361": "Delran High School",
+  "1364": "West Shore Marching Band",
+  "1372": "Jordan Elbridge High School",
+  "1387": "Ledyard High School",
+  "1397": "Susquehanna Township High School",
+  "1400": "Frank Scott Bunnell High School",
+  "1402": "Hanover Park High School",
+  "1403": "Hopewell Valley Central High School",
+  "1404": "Perkiomen Valley High School",
+  "1411": "Matawan Regional High School",
+  "1419": "Monsignor Farrell High School",
+  "1423": "Madison High School",
+  "1440": "Abington Senior High School",
+  "1491": "Westhill High School",
+  "1522": "Trumbull High School",
+  "1530": "Norwich Free Academy",
+  "1532": "Loudoun County High School",
+  "1534": "Monmouth Regional High School",
+  "1537": "Wethersfield High School",
+  "1540": "North Rockland High School",
+  "1543": "Nutley High School",
+  "1551": "Tenafly High School",
+  "1553": "King Philip Regional High School",
+  "1557": "Bordentown Regional High School",
+  "1560": "New Providence High School",
+  "1561": "Nottingham High School",
+  "1562": "Lyman Hall High School",
+  "1563": "Leonardtown High School",
+  "1565": "Naugatuck High School",
+  "1571": "Great Mills High School",
+  "1573": "Robert E. Fitch High School",
+  "1574": "North Brunswick Township High School",
+  "1575": "Rancocas Valley Regional High School",
+  "1586": "Dartmouth High School",
+  "1589": "Bishop Kelly High School",
+  "1590": "Jackson Memorial High School",
+  "1591": "Fort Lee High School",
+  "1592": "Steinert High School",
+  "1594": "Bayonne High School",
+  "1598": "Calvert Hall College High School",
+  "1601": "Kittatinny Regional High School",
+  "1602": "Elkhart High School",
+  "1604": "North Penn High School",
+  "1605": "Parsippany High School",
+  "1608": "Colonia High School",
+  "1610": "Morristown High School",
+  "1611": "Park Ridge Jr./Sr. High School",
+  "1617": "Old Bridge High School",
+  "1620": "New Milford High School",
+  "1624": "Hamilton High School West",
+  "1626": "Staten Island Technical High School",
+  "1633": "Danbury High School",
+  "1635": "Calvert High School",
+  "1637": "Upper Darby High School",
+  "1654": "Absegami High School",
+  "1661": "Huntingtown High School",
+  "1665": "South Hunterdon Regional High School",
+  "1674": "Lindenhurst High School",
+  "1676": "Parkway High School",
+  "1681": "Garden City High School",
+  "1683": "La Plata High School",
+  "1684": "Northern High School",
+  "1690": "Cheshire High School",
+  "1692": "Cresskill High School",
+  "1696": "Avon Grove High School",
+  "1698": "Upper Moreland High School",
+  "1699": "Franklin High School",
+  "1703": "Leeds High School",
+  "1706": "Yorktown High School",
+  "1708": "Bryan High School",
+  "1709": "Pleasant Valley High School",
+  "1713": "Kuna High School",
+  "1714": "Boise High School",
+  "1723": "Caesar Rodney High School",
+  "1736": "Meridian High School",
+  "1738": "Central Bucks High School West",
+  "1745": "Oceanside High School",
+  "1746": "Mark T. Sheehan High School",
+  "1747": "Norwalk High School",
+  "1750": "Weiser High School",
+  "1756": "Columbia High School",
+  "1758": "Stoughton High School",
+  "1760": "Centerville High School",
+  "1761": "Hackettstown High School",
+  "1769": "Chopticon High School",
+  "1778": "Port Chester High School",
+  "1780": "Timberline High School",
+  "1785": "Aberdeen Central High School",
+  "1797": "Yorktown High School",
+  "1800": "The Gilbert School",
+  "1804": "Westwood High School",
+  "1809": "Ellington High School",
+  "1813": "Victoria East High School",
+  "1814": "Klein Collins High School",
+  "1815": "Minico High School",
+  "1817": "Twin Falls High School",
+  "1819": "Vermillion High School",
+  "1822": "Haughton High School",
+  "1825": "McLean High School",
+  "1827": "Lake Creek High School",
+  "1828": "Maurice J. McDonough High School",
+  "1833": "Blackfoot High School",
+  "1838": "Columbia Central High School",
+  "1846": "Unionville High School",
+  "1851": "Nimitz High School",
+  "1855": "Huron High School",
+  "1859": "Mountain Home High School",
+  "1863": "Manassas Park High School",
+  "1877": "Penncrest High School",
+  "1878": "Hamden High School",
+  "1883": "B.M.C. Durfee High School",
+  "1886": "Everett High School",
+  "1887": "Skyview High School",
+  "1892": "Pierce High School",
+  "1896": "Ramsey High School",
+  "1902": "Wilton High School",
+  "1903": "Jerome High School",
+  "1911": "Mount Olive High School",
+  "1913": "Fair Lawn High School",
+  "1914": "Navasota High School",
+  "1915": "Shelley High School",
+  "1919": "Mountain View High School",
+  "1927": "Owyhee High School",
+  "1928": "Madison High School",
+  "1941": "Yankton High School",
+  "1943": "O'Gorman High School",
+  "1946": "Capital High School",
+  "1947": "New Britain High School",
+  "1951": "Northern Highlands Regional High School",
+  "1963": "James W. Robinson Secondary School",
+  "1973": "Borah High School",
+  "1974": "Wendell High School",
+  "1976": "Heritage High School",
+  "1982": "Academy High School",
+  "1993": "Payette High School",
+  "2002": "Clarksville High School",
+  "2007": "North Hagerstown High School",
+  "2008": "Bob Jones High School",
+  "2013": "Rockville High School",
+  "2014": "Dekaney High School",
+  "2019": "Caldwell High School",
+  "2020": "Annandale High School",
+  "2023": "Newton High School",
+  "2033": "Thunder Ridge High School",
+  "2035": "William Tennent High School",
+  "2038": "Wissahickon High School",
+  "2040": "Mansfield High School",
+  "2051": "Somerset Berkley Regional High School",
+  "2062": "Lindenwold High School",
+  "2067": "North Bergen High School",
+  "2076": "Fauquier High School",
+  "2175": "Montville Township High School",
+  "2187": "Great Valley High School",
+  "2191": "Tottenville High School",
+  "2208": "Parkside High School",
+  "2209": "Liverpool High School",
+  "2223": "Midland Park High School",
+  "2225": "Aldine High School",
+  "2228": "Downingtown West High School",
+  "2232": "Upper Dublin High School",
+  "2236": "Marriotts Ridge High School",
+  "2238": "Falls Church High School",
+  "2241": "Terry High School",
+  "2242": "Arlington High School",
+  "2248": "Lakeland Regional High School",
+  "2268": "West Monroe High School",
+  "2282": "Central Dauphin High School",
+  "2289": "Langley High School",
+  "2293": "Mohonasen High School",
+  "2309": "Downingtown East High School",
+  "2312": "Middletown High School North",
+  "2321": "Old Mill High School",
+  "2332": "Newark High School",
+  "2333": "Suffern High School",
+  "2343": "Mitchell High School",
+  "2351": "Penn Manor High School",
+  "2360": "Central Dauphin East High School",
+  "2373": "Sheldon High School",
+  "2375": "Upper Dauphin Area High School",
+  "2393": "Trinity High School",
+  "2395": "Pennsauken High School",
+  "2402": "West Chester East High School",
+  "2405": "Willis High School",
+  "2412": "Palmyra High School",
+  "2417": "Musselman High School",
+  "2424": "George C. Marshall High School",
+  "2441": "Biglerville High School",
+  "2458": "Kearney High School",
+  "2494": "Manchester High School",
+  "2496": "Highland High School",
+  "2504": "Idaho Falls High School",
+  "2510": "Marion High school",
+  "2529": "Bensalem High School",
+  "2547": "St. Mark's High School",
+  "2621": "Marple Newtown High School",
+  "6303": "Kingsway Regional High School",
+  "6306": "Shawnee High School",
+  "6312": "Ellison High School",
+  "6332": "Morris Hills High School",
+  "6339": "Corning-Painted Post Area School District",
+  "6344": "South Hadley High School",
+  "6350": "Framingham High School",
+  "6356": "Acton-Boxborough Regional High School",
+  "6366": "South Western High School",
+  "6379": "Camp Hill High School",
+  "6380": "West Genesee High School",
+  "6400": "Souderton Area High School",
+  "6406": "Lightridge High School",
+  "6449": "Morris Knolls High School",
+  "6464": "American Falls High School",
+  "6466": "Kennett High School",
+  "6489": "Stone Bridge High School",
+  "6491": "John F. Kennedy High School",
+  "6493": "Washington High School",
+  "6495": "Norwood High School",
+  "6501": "Albemarle High School",
+  "6504": "Connally High School",
+  "6510": "Stratford High School",
+  "6513": "River Dell Regional High School",
+  "6514": "Snake River High School",
+  "6518": "Century High School",
+  "6520": "Pocatello High School",
+  "6521": "Lafayette High School",
+  "6523": "East Pennsboro Area High School",
+  "6525": "Hillcrest and Bonneville High Schools",
+  "6535": "West Ouachita High School",
+  "6545": "El Campo High School",
+  "6546": "Canyon Ridge High School",
+  "6563": "Ouachita Parish High School",
+  "6576": "Tea Area High School",
+  "6597": "Star Valley High School",
+  "6666": "Sparta High School",
+  "6713": "Hammonton High School",
+  "6719": "Methacton High School",
+  "6720": "Wylie High School",
+  "6722": "James Earl Rudder High School",
+  "6724": "Butler High School",
+  "6725": "Penn Wood High School",
+  "6729": "Brazoswood High School",
+  "6731": "Neshaminy High School",
+  "6735": "Central High School",
+  "6738": "Mandeville High School",
+  "6739": "South Lafourche High School",
+  "6741": "E.D. White Catholic High School",
+  "6742": "Twin Valley High School",
+  "6744": "Vandebilt Catholic High School",
+  "6745": "Morgan City High School",
+  "6746": "Lakeshore High School",
+  "6764": "New Iberia Senior High School",
+  "6767": "Hancock High School",
+  "6768": "Sun Valley High School",
+  "6771": "Tioga High School",
+  "6774": "Susquenita High School",
+  "6777": "Harrison County High School",
+  "6781": "Sanford High School",
+  "6786": "Parsippany Hills High School",
+  "6787": "Central High School",
+  "6790": "Shepherd Hill Regional High School",
+  "6792": "Lenape High School",
+  "6793": "Humble High school",
+  "6795": "Milford High School",
+  "6803": "Wall High School",
+  "6812": "Northern High School",
+  "6818": "Northshore High School",
+  "6828": "Westbrook High School",
+  "6836": "Jamestown High School",
+  "6840": "Anderson-Shiro Sr/Jr High School",
+  "6846": "William Penn High School",
+  "6852": "Ramapo High School",
+  "6853": "Denham Springs High School",
+  "6856": "Erath High School",
+  "6857": "Watchung Hills Regional High School",
+  "6864": "Baldwinsville High School",
+  "6865": "Terrebonne High School",
+  "6866": "Phoenix High School",
+  "6870": "Palestine High School",
+  "6871": "Spring High School",
+  "6876": "Audubon Jr./Sr. High School",
+  "6877": "Sioux City North High School",
+  "6899": "Louis E. Dieruff High School",
+  "6903": "Texas Leadership Charter Academy San Angelo",
+  "6906": "Rockdale High School",
+  "6914": "North Hunterdon High School",
+  "6915": "Hackensack High School",
+  "6921": "Appoquinimink High School",
+  "6927": "Jefferson Township High School",
+  "6930": "Emmaus High School",
+  "6939": "South Terrebonne High School",
+  "6940": "Sealy High School",
+  "6941": "Oak Grove High School",
+  "6945": "Middleton High School",
+  "6948": "Plymouth Whitemarsh High School",
+  "6949": "Pine Prairie High School",
+  "6955": "North Arlington High School",
+  "6966": "Brady High School",
+  "6985": "Lake View High School",
+  "7000": "Chichester High School",
+  "7011": "Norristown High School",
+  "7021": "Homedale High School",
+  "7023": "Sibley-Ocheyedan High School",
+  "7033": "Pennsbury High School",
+  "7036": "Justice High School",
+  "7037": "Pennridge High School",
+  "7040": "Ellender Memorial High School",
+  "7064": "Westfield High School",
+  "7079": "Deshler High School",
+  "7130": "Pen Argyl High School",
+  "7150": "Livingston High School",
+  "7339": "Cicero-North Syracuse High School",
+  "7731": "Northern Burlington County Regional High School",
+  "7792": "Goliad High School",
+  "7853": "Deptford High School",
+  "7883": "Shelton High School"
+ },
+ "champ_events": [
+  [
+   2024,
+   "state",
+   "Connecticut State Championships",
+   986
+  ],
+  [
+   2024,
+   "state",
+   "Maryland & Virginia State Championships",
+   988
+  ],
+  [
+   2024,
+   "state",
+   "Massachusetts / Rhode Island State Championships",
+   987
+  ],
+  [
+   2024,
+   "state",
+   "New Jersey State Championships",
+   989
+  ],
+  [
+   2024,
+   "state",
+   "New Jersey State Championships",
+   990
+  ],
+  [
+   2024,
+   "state",
+   "New York State Championships",
+   992
+  ],
+  [
+   2024,
+   "state",
+   "Pennsylvania State Championships",
+   991
+  ],
+  [
+   2024,
+   "state",
+   "Pennsylvania State Championships",
+   1008
+  ]
+ ],
+ "divisions_seen": [
+  "A - Group I",
+  "A - Group II",
+  "A - Group III",
+  "A - Group IV",
+  "A - Group V",
+  "Open - Group I",
+  "Open - Group II",
+  "Open - Group III",
+  "Open - Group IV",
+  "Open - Group V"
+ ],
+ "events": {
+  "1001": {
+   "city": "Egg Harbor Township",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 1001,
+   "name": "Egg Harbor Township High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1002": {
+   "city": "Hillsborough Township",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 1002,
+   "name": "Hillsborough High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1003": {
+   "city": "Robbinsville Township",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 1003,
+   "name": "Robbinsville High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1004": {
+   "city": "Vernon Township",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 1004,
+   "name": "Vernon Township High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1005": {
+   "city": "Bernards",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 1005,
+   "name": "Ridge High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1006": {
+   "city": "Fort Washington",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 1006,
+   "name": "Upper Dublin High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "1007": {
+   "city": "Dartmouth",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 1007,
+   "name": "Dartmouth High School",
+   "season_year": 2024,
+   "state": "MA"
+  },
+  "1008": {
+   "city": "Downingtown",
+   "event_date": "2024-10-19",
+   "event_kind": "state_championship",
+   "id": 1008,
+   "name": "Pennsylvania State Championships (I A, II A, IV A, I O, IV O, V O)",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "1009": {
+   "city": "West Monroe",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 1009,
+   "name": "Ark-La-Miss Regional",
+   "season_year": 2024,
+   "state": "LA"
+  },
+  "1010": {
+   "city": "Allendale",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 1010,
+   "name": "Northern Highlands Regional High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1011": {
+   "city": "Towson",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 1011,
+   "name": "Mid-Atlantic Showcase",
+   "season_year": 2024,
+   "state": "MD"
+  },
+  "1013": {
+   "city": "Rexburg",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 1013,
+   "name": "Madison High School (ID)",
+   "season_year": 2024,
+   "state": "ID"
+  },
+  "1014": {
+   "city": "Pocatello",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 1014,
+   "name": "Highland High School",
+   "season_year": 2024,
+   "state": "ID"
+  },
+  "1016": {
+   "city": "West Chester",
+   "event_date": "2024-09-07",
+   "event_kind": "regular",
+   "id": 1016,
+   "name": "West Chester East High School - CLINIC EVENT",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "1017": {
+   "city": "Vernon",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 1017,
+   "name": "Rockville High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "1018": {
+   "city": "East Hanover",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 1018,
+   "name": "Hanover Park High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1019": {
+   "city": "Pequannock Township",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 1019,
+   "name": "Pequannock Township High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1020": {
+   "city": "Kennett Square",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 1020,
+   "name": "Unionville High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "1021": {
+   "city": "Cheshire",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 1021,
+   "name": "Cheshire High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "1023": {
+   "city": "Trenton",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 1023,
+   "name": "Hamilton High School West",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1025": {
+   "city": "Collegeville",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 1025,
+   "name": "Perkiomen Valley High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "1026": {
+   "city": "Aberdeen Township",
+   "event_date": "2024-11-02",
+   "event_kind": "regular",
+   "id": 1026,
+   "name": "Matawan Regional High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1027": {
+   "city": "Hamilton Township",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 1027,
+   "name": "Steinert High School - CLINIC EVENT",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1029": {
+   "city": "Hadley",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 1029,
+   "name": "New England Invitational",
+   "season_year": 2024,
+   "state": "MA"
+  },
+  "1031": {
+   "city": "Medford",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 1031,
+   "name": "Lenape High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1034": {
+   "city": "Kuna",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 1034,
+   "name": "Kuna High School",
+   "season_year": 2024,
+   "state": "ID"
+  },
+  "1035": {
+   "city": "Caldwell",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 1035,
+   "name": "Caldwell High School",
+   "season_year": 2024,
+   "state": "ID"
+  },
+  "1076": {
+   "city": "Old Bridge",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 1076,
+   "name": "Old Bridge High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "1077": {
+   "city": "Allentown",
+   "event_date": "2024-11-02",
+   "event_kind": "regular",
+   "id": 1077,
+   "name": "A Class National Championships (IA, IVA & VA)",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "829": {
+   "city": "Vermillion",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 829,
+   "name": "Quad States Regional Championships",
+   "season_year": 2024,
+   "state": "SD"
+  },
+  "880": {
+   "city": "Allentown",
+   "event_date": "2024-11-06",
+   "event_kind": "regular",
+   "id": 880,
+   "name": "A Class National Championships (IIA & III A)",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "904": {
+   "city": "East Rutherford",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 904,
+   "name": "Ludwig Musser Classic",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "905": {
+   "city": "New Oxford",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 905,
+   "name": "New Oxford High School - CLINIC EVENT",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "906": {
+   "city": "Great Mills",
+   "event_date": "2024-09-07",
+   "event_kind": "regular",
+   "id": 906,
+   "name": "Great Mills High School",
+   "season_year": 2024,
+   "state": "MD"
+  },
+  "907": {
+   "city": "Souderton",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 907,
+   "name": "Souderton High School - CLINIC EVENT",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "908": {
+   "city": "Bethel",
+   "event_date": "2024-09-07",
+   "event_kind": "regular",
+   "id": 908,
+   "name": "Bethel High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "910": {
+   "city": "Meriden",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 910,
+   "name": "Francis T. Maloney High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "911": {
+   "city": "Quakertown",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 911,
+   "name": "Quakertown High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "912": {
+   "city": "Norwalk",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 912,
+   "name": "McMahon & Norwalk High Schools at BMHS",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "917": {
+   "city": "Huntingtown",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 917,
+   "name": "Huntingtown High School",
+   "season_year": 2024,
+   "state": "MD"
+  },
+  "918": {
+   "city": "Little Falls",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 918,
+   "name": "Passaic Valley High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "919": {
+   "city": "Burlington",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 919,
+   "name": "Burlington City High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "920": {
+   "city": "Edison",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 920,
+   "name": "Edison High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "921": {
+   "city": "Royersford",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 921,
+   "name": "Spring-Ford Area High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "922": {
+   "city": "Sparta Township",
+   "event_date": "2024-09-14",
+   "event_kind": "regular",
+   "id": 922,
+   "name": "Sparta High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "923": {
+   "city": "East Lyme",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 923,
+   "name": "East Lyme High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "924": {
+   "city": "New Milford",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 924,
+   "name": "New Milford High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "925": {
+   "city": "Wallingford",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 925,
+   "name": "Mark T. Sheehan High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "926": {
+   "city": "Bellingham",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 926,
+   "name": "Blackstone-Millville Regional High School",
+   "season_year": 2024,
+   "state": "MA"
+  },
+  "927": {
+   "city": "Lusby",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 927,
+   "name": "Patuxent High School",
+   "season_year": 2024,
+   "state": "MD"
+  },
+  "928": {
+   "city": "Bordentown",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 928,
+   "name": "Bordentown Regional High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "929": {
+   "city": "Galloway",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 929,
+   "name": "Absegami High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "930": {
+   "city": "Old Tappan",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 930,
+   "name": "Northern Valley Regional High School at Old Tappan",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "931": {
+   "city": "Flemington",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 931,
+   "name": "Hunterdon Central Regional High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "932": {
+   "city": "Camp Hill",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 932,
+   "name": "West Shore Marching Band",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "933": {
+   "city": "West Chester",
+   "event_date": "2024-09-21",
+   "event_kind": "regular",
+   "id": 933,
+   "name": "Rustin High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "934": {
+   "city": "Trumbull",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 934,
+   "name": "Trumbull High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "935": {
+   "city": "Rocky Hill",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 935,
+   "name": "Rocky Hill High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "936": {
+   "city": "Norwich",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 936,
+   "name": "Norwich Free Academy",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "937": {
+   "city": "Morganza",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 937,
+   "name": "Chopticon High School",
+   "season_year": 2024,
+   "state": "MD"
+  },
+  "938": {
+   "city": "West Milford",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 938,
+   "name": "West Milford High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "939": {
+   "city": "Ramsey",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 939,
+   "name": "Ramsey High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "940": {
+   "city": "South Brunswick Township",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 940,
+   "name": "South Brunswick High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "941": {
+   "city": "Medford",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 941,
+   "name": "Shawnee High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "942": {
+   "city": "Warrington",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 942,
+   "name": "Central Bucks South High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "943": {
+   "city": "Mechanicsburg",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 943,
+   "name": "Mechanicsburg Area Senior High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "944": {
+   "city": "Auburn",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 944,
+   "name": "Auburn High School",
+   "season_year": 2024,
+   "state": "NY"
+  },
+  "948": {
+   "city": "Madisonville",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 948,
+   "name": "Madisonville Showcase",
+   "season_year": 2024,
+   "state": "TX"
+  },
+  "950": {
+   "city": "San Angelo",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 950,
+   "name": "San Angelo Regional",
+   "season_year": 2024,
+   "state": "TX"
+  },
+  "951": {
+   "city": "Newtown",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 951,
+   "name": "Newtown High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "952": {
+   "city": "Danbury",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 952,
+   "name": "Danbury High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "953": {
+   "city": "Fall River",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 953,
+   "name": "B.M.C. Durfee High School",
+   "season_year": 2024,
+   "state": "MA"
+  },
+  "954": {
+   "city": "Raceland",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 954,
+   "name": "Central Lafourche High School",
+   "season_year": 2024,
+   "state": "LA"
+  },
+  "955": {
+   "city": "Tabernacle",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 955,
+   "name": "Seneca High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "956": {
+   "city": "Somerville",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 956,
+   "name": "Somerville High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "957": {
+   "city": "Hightstown",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 957,
+   "name": "Hightstown High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "958": {
+   "city": "Stanhope",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 958,
+   "name": "Lenape Valley Regional High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "959": {
+   "city": "Newtown Square",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 959,
+   "name": "Marple Newtown High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "960": {
+   "city": "Halifax",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 960,
+   "name": "Halifax Area High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "961": {
+   "city": "Lansdale",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 961,
+   "name": "North Penn High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "963": {
+   "city": "Annapolis",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 963,
+   "name": "Marine Corps Invitational",
+   "season_year": 2024,
+   "state": "MD"
+  },
+  "965": {
+   "city": "Victoria",
+   "event_date": "2024-10-05",
+   "event_kind": "regular",
+   "id": 965,
+   "name": "Crossroads Regional",
+   "season_year": 2024,
+   "state": "TX"
+  },
+  "968": {
+   "city": "East Rutherford",
+   "event_date": "2024-11-02",
+   "event_kind": "regular",
+   "id": 968,
+   "name": "Open Class National Championships",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "970": {
+   "city": "Wallingford",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 970,
+   "name": "Lyman Hall High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "971": {
+   "city": "Naugatuck",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 971,
+   "name": "Naugatuck High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "972": {
+   "city": "Wrentham",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 972,
+   "name": "King Philip Regional High School",
+   "season_year": 2024,
+   "state": "MA"
+  },
+  "973": {
+   "city": "Leonardtown",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 973,
+   "name": "Leonardtown High School",
+   "season_year": 2024,
+   "state": "MD"
+  },
+  "974": {
+   "city": "North Brunswick Township",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 974,
+   "name": "North Brunswick Township High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "975": {
+   "city": "Folsom",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 975,
+   "name": "Ridley High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "976": {
+   "city": "Harrisburg",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 976,
+   "name": "Central Dauphin High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "977": {
+   "city": "Bergenfield",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 977,
+   "name": "Bergenfield High School",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "982": {
+   "city": "Huntsville",
+   "event_date": "2024-11-06",
+   "event_kind": "regular",
+   "id": 982,
+   "name": "Southeastern Championships & STATS Grand Championships",
+   "season_year": 2024,
+   "state": "AL"
+  },
+  "986": {
+   "city": "New Britain",
+   "event_date": "2024-10-26",
+   "event_kind": "state_championship",
+   "id": 986,
+   "name": "Connecticut State Championships",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "987": {
+   "city": "Stoughton",
+   "event_date": "2024-10-26",
+   "event_kind": "state_championship",
+   "id": 987,
+   "name": "Massachusetts / Rhode Island State Championships",
+   "season_year": 2024,
+   "state": "MA"
+  },
+  "988": {
+   "city": "Owings Mills",
+   "event_date": "2024-10-26",
+   "event_kind": "state_championship",
+   "id": 988,
+   "name": "Maryland & Virginia State Championships",
+   "season_year": 2024,
+   "state": "MD"
+  },
+  "989": {
+   "city": "Franklin Township",
+   "event_date": "2024-10-26",
+   "event_kind": "state_championship",
+   "id": 989,
+   "name": "New Jersey State Championships (III A, V A, III O, IV O)",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "990": {
+   "city": "South Brunswick Township",
+   "event_date": "2024-10-26",
+   "event_kind": "state_championship",
+   "id": 990,
+   "name": "New Jersey State Championships (IA, II A, IV A, I O, II O, V O)",
+   "season_year": 2024,
+   "state": "NJ"
+  },
+  "991": {
+   "city": "Willow Grove",
+   "event_date": "2024-10-26",
+   "event_kind": "state_championship",
+   "id": 991,
+   "name": "Pennsylvania State Championships (III A, V A, II O, III O)",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "992": {
+   "city": "Lindenhurst",
+   "event_date": "2024-10-26",
+   "event_kind": "state_championship",
+   "id": 992,
+   "name": "New York State Championships",
+   "season_year": 2024,
+   "state": "NY"
+  },
+  "993": {
+   "city": "Camp Hill",
+   "event_date": "2024-10-26",
+   "event_kind": "regular",
+   "id": 993,
+   "name": "Mid-Atlantic Regional Championships",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "994": {
+   "city": "Abington",
+   "event_date": "2024-10-26",
+   "event_kind": "regular",
+   "id": 994,
+   "name": "Abington Senior High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "995": {
+   "city": "Warminster",
+   "event_date": "2024-11-02",
+   "event_kind": "regular",
+   "id": 995,
+   "name": "William Tennent High School",
+   "season_year": 2024,
+   "state": "PA"
+  },
+  "996": {
+   "city": "Spring",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 996,
+   "name": "North Houston Regional",
+   "season_year": 2024,
+   "state": "TX"
+  },
+  "997": {
+   "city": "Burley",
+   "event_date": "2024-10-12",
+   "event_kind": "regular",
+   "id": 997,
+   "name": "Burley High School",
+   "season_year": 2024,
+   "state": "ID"
+  },
+  "998": {
+   "city": "Stratford",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 998,
+   "name": "Frank Scott Bunnell High School",
+   "season_year": 2024,
+   "state": "CT"
+  },
+  "999": {
+   "city": "Southington",
+   "event_date": "2024-10-19",
+   "event_kind": "regular",
+   "id": 999,
+   "name": "Southington High School",
+   "season_year": 2024,
+   "state": "CT"
+  }
+ },
+ "scores": [
+  [
+   829,
+   1293,
+   "A - Group II",
+   79.0
+  ],
+  [
+   829,
+   1785,
+   "Open - Group V",
+   84.1
+  ],
+  [
+   829,
+   1819,
+   "A - Group IV",
+   83.2
+  ],
+  [
+   829,
+   1855,
+   "Open - Group V",
+   81.9
+  ],
+  [
+   829,
+   1892,
+   "A - Group II",
+   82.6
+  ],
+  [
+   829,
+   1941,
+   "A - Group IV",
+   87.5
+  ],
+  [
+   829,
+   1943,
+   "Open - Group IV",
+   91.8
+  ],
+  [
+   829,
+   2343,
+   "Open - Group IV",
+   91.7
+  ],
+  [
+   829,
+   2373,
+   "Open - Group III",
+   81.3
+  ],
+  [
+   829,
+   2458,
+   "Open - Group V",
+   87.9
+  ],
+  [
+   829,
+   6493,
+   "Open - Group IV",
+   85.3
+  ],
+  [
+   829,
+   6576,
+   "A - Group V",
+   86.5
+  ],
+  [
+   829,
+   6877,
+   "A - Group V",
+   89.9
+  ],
+  [
+   829,
+   7023,
+   "Open - Group III",
+   80.2
+  ],
+  [
+   880,
+   1253,
+   "A - Group II",
+   95.8
+  ],
+  [
+   880,
+   1283,
+   "A - Group II",
+   88.4
+  ],
+  [
+   880,
+   1298,
+   "A - Group III",
+   83.1
+  ],
+  [
+   880,
+   1318,
+   "A - Group III",
+   88.8
+  ],
+  [
+   880,
+   1360,
+   "A - Group III",
+   90.9
+  ],
+  [
+   880,
+   1372,
+   "A - Group II",
+   92.4
+  ],
+  [
+   880,
+   1543,
+   "A - Group III",
+   96.1
+  ],
+  [
+   880,
+   1601,
+   "A - Group III",
+   92.2
+  ],
+  [
+   880,
+   1605,
+   "A - Group III",
+   81.0
+  ],
+  [
+   880,
+   1681,
+   "A - Group III",
+   85.1
+  ],
+  [
+   880,
+   1684,
+   "A - Group II",
+   90.6
+  ],
+  [
+   880,
+   1696,
+   "A - Group III",
+   94.8
+  ],
+  [
+   880,
+   1745,
+   "A - Group II",
+   85.1
+  ],
+  [
+   880,
+   2062,
+   "A - Group II",
+   82.2
+  ],
+  [
+   880,
+   2175,
+   "A - Group III",
+   83.0
+  ],
+  [
+   880,
+   2232,
+   "A - Group III",
+   84.2
+  ],
+  [
+   880,
+   2360,
+   "A - Group II",
+   94.2
+  ],
+  [
+   880,
+   2621,
+   "A - Group III",
+   88.8
+  ],
+  [
+   880,
+   6400,
+   "A - Group III",
+   87.7
+  ],
+  [
+   880,
+   6719,
+   "A - Group III",
+   88.4
+  ],
+  [
+   880,
+   6846,
+   "A - Group II",
+   85.9
+  ],
+  [
+   880,
+   6876,
+   "A - Group II",
+   88.3
+  ],
+  [
+   904,
+   1253,
+   "A - Group II",
+   85.7
+  ],
+  [
+   904,
+   1275,
+   "Open - Group III",
+   86.3
+  ],
+  [
+   904,
+   1298,
+   "A - Group III",
+   77.9
+  ],
+  [
+   904,
+   1299,
+   "Open - Group V",
+   89.5
+  ],
+  [
+   904,
+   1303,
+   "Open - Group V",
+   85.7
+  ],
+  [
+   904,
+   1318,
+   "A - Group III",
+   83.3
+  ],
+  [
+   904,
+   1332,
+   "A - Group I",
+   82.8
+  ],
+  [
+   904,
+   1335,
+   "A - Group IV",
+   84.0
+  ],
+  [
+   904,
+   1336,
+   "Open - Group IV",
+   89.5
+  ],
+  [
+   904,
+   1347,
+   "Open - Group II",
+   81.6
+  ],
+  [
+   904,
+   1360,
+   "A - Group III",
+   84.6
+  ],
+  [
+   904,
+   1400,
+   "A - Group IV",
+   79.1
+  ],
+  [
+   904,
+   1403,
+   "A - Group III",
+   78.0
+  ],
+  [
+   904,
+   1419,
+   "A - Group I",
+   78.1
+  ],
+  [
+   904,
+   1423,
+   "A - Group IV",
+   81.9
+  ],
+  [
+   904,
+   1534,
+   "A - Group I",
+   77.5
+  ],
+  [
+   904,
+   1573,
+   "A - Group I",
+   80.1
+  ],
+  [
+   904,
+   1591,
+   "A - Group V",
+   81.7
+  ],
+  [
+   904,
+   1601,
+   "A - Group III",
+   81.7
+  ],
+  [
+   904,
+   1605,
+   "A - Group III",
+   73.8
+  ],
+  [
+   904,
+   1611,
+   "A - Group I",
+   78.0
+  ],
+  [
+   904,
+   1633,
+   "A - Group II",
+   73.5
+  ],
+  [
+   904,
+   1674,
+   "Open - Group III",
+   83.2
+  ],
+  [
+   904,
+   1681,
+   "A - Group III",
+   81.5
+  ],
+  [
+   904,
+   1761,
+   "A - Group II",
+   82.1
+  ],
+  [
+   904,
+   1778,
+   "A - Group V",
+   79.8
+  ],
+  [
+   904,
+   1911,
+   "A - Group III",
+   76.3
+  ],
+  [
+   904,
+   2035,
+   "A - Group II",
+   78.7
+  ],
+  [
+   904,
+   2248,
+   "A - Group III",
+   76.5
+  ],
+  [
+   904,
+   6303,
+   "A - Group V",
+   79.0
+  ],
+  [
+   904,
+   6380,
+   "Open - Group IV",
+   87.6
+  ],
+  [
+   904,
+   6449,
+   "A - Group III",
+   85.8
+  ],
+  [
+   904,
+   6876,
+   "A - Group II",
+   81.3
+  ],
+  [
+   905,
+   1364,
+   "Open - Group V",
+   79.9
+  ],
+  [
+   905,
+   2375,
+   "A - Group I",
+   71.0
+  ],
+  [
+   905,
+   2393,
+   "A - Group I",
+   67.3
+  ],
+  [
+   905,
+   2441,
+   "Open - Group I",
+   69.5
+  ],
+  [
+   905,
+   6366,
+   "Open - Group IV",
+   76.0
+  ],
+  [
+   905,
+   6379,
+   "A - Group III",
+   77.7
+  ],
+  [
+   906,
+   1345,
+   "A - Group I",
+   66.5
+  ],
+  [
+   906,
+   1563,
+   "Open - Group III",
+   70.9
+  ],
+  [
+   906,
+   1661,
+   "A - Group II",
+   65.1
+  ],
+  [
+   906,
+   1684,
+   "A - Group II",
+   68.0
+  ],
+  [
+   906,
+   1769,
+   "A - Group I",
+   69.3
+  ],
+  [
+   906,
+   1828,
+   "A - Group I",
+   63.7
+  ],
+  [
+   907,
+   2035,
+   "A - Group II",
+   66.2
+  ],
+  [
+   907,
+   2232,
+   "A - Group III",
+   68.8
+  ],
+  [
+   907,
+   6899,
+   "A - Group I",
+   63.6
+  ],
+  [
+   907,
+   7011,
+   "A - Group II",
+   63.4
+  ],
+  [
+   908,
+   1311,
+   "Open - Group III",
+   68.7
+  ],
+  [
+   908,
+   1620,
+   "Open - Group IV",
+   73.0
+  ],
+  [
+   908,
+   1690,
+   "Open - Group V",
+   71.0
+  ],
+  [
+   908,
+   2242,
+   "Open - Group IV",
+   75.6
+  ],
+  [
+   910,
+   1312,
+   "A - Group IV",
+   75.7
+  ],
+  [
+   910,
+   1327,
+   "Open - Group V",
+   80.6
+  ],
+  [
+   910,
+   1562,
+   "A - Group III",
+   69.8
+  ],
+  [
+   910,
+   1565,
+   "Open - Group III",
+   76.3
+  ],
+  [
+   910,
+   1690,
+   "Open - Group V",
+   75.5
+  ],
+  [
+   910,
+   1746,
+   "A - Group III",
+   71.6
+  ],
+  [
+   910,
+   1878,
+   "A - Group II",
+   68.0
+  ],
+  [
+   911,
+   1251,
+   "Open - Group III",
+   79.9
+  ],
+  [
+   911,
+   1404,
+   "Open - Group III",
+   78.3
+  ],
+  [
+   911,
+   1604,
+   "Open - Group V",
+   82.0
+  ],
+  [
+   911,
+   1637,
+   "A - Group V",
+   78.1
+  ],
+  [
+   911,
+   1698,
+   "Open - Group V",
+   83.7
+  ],
+  [
+   911,
+   2035,
+   "A - Group II",
+   73.4
+  ],
+  [
+   911,
+   2187,
+   "Open - Group II",
+   73.5
+  ],
+  [
+   911,
+   6400,
+   "A - Group III",
+   77.7
+  ],
+  [
+   911,
+   6899,
+   "A - Group I",
+   72.8
+  ],
+  [
+   912,
+   1335,
+   "A - Group IV",
+   72.5
+  ],
+  [
+   912,
+   1400,
+   "A - Group IV",
+   71.3
+  ],
+  [
+   912,
+   1491,
+   "A - Group III",
+   68.8
+  ],
+  [
+   912,
+   1522,
+   "Open - Group III",
+   71.3
+  ],
+  [
+   912,
+   1620,
+   "Open - Group IV",
+   75.5
+  ],
+  [
+   912,
+   1633,
+   "A - Group I",
+   63.6
+  ],
+  [
+   912,
+   1747,
+   "Open - Group V",
+   76.8
+  ],
+  [
+   912,
+   1778,
+   "A - Group V",
+   69.4
+  ],
+  [
+   912,
+   1902,
+   "A - Group IV",
+   69.7
+  ],
+  [
+   912,
+   7883,
+   "A - Group II",
+   65.3
+  ],
+  [
+   917,
+   1345,
+   "A - Group I",
+   69.3
+  ],
+  [
+   917,
+   1563,
+   "Open - Group III",
+   72.0
+  ],
+  [
+   917,
+   1571,
+   "A - Group I",
+   67.3
+  ],
+  [
+   917,
+   1635,
+   "A - Group I",
+   71.5
+  ],
+  [
+   917,
+   1683,
+   "A - Group II",
+   70.9
+  ],
+  [
+   917,
+   1684,
+   "A - Group II",
+   72.8
+  ],
+  [
+   917,
+   1769,
+   "A - Group I",
+   74.5
+  ],
+  [
+   917,
+   1828,
+   "A - Group I",
+   71.4
+  ],
+  [
+   918,
+   1330,
+   "Open - Group I",
+   65.0
+  ],
+  [
+   918,
+   1594,
+   "A - Group II",
+   70.6
+  ],
+  [
+   918,
+   1761,
+   "A - Group II",
+   73.3
+  ],
+  [
+   918,
+   2067,
+   "A - Group II",
+   71.9
+  ],
+  [
+   919,
+   1292,
+   "Open - Group II",
+   68.5
+  ],
+  [
+   919,
+   1347,
+   "Open - Group II",
+   72.9
+  ],
+  [
+   919,
+   1654,
+   "Open - Group II",
+   68.0
+  ],
+  [
+   919,
+   2412,
+   "A - Group I",
+   66.4
+  ],
+  [
+   919,
+   6306,
+   "Open - Group II",
+   68.9
+  ],
+  [
+   919,
+   6792,
+   "A - Group I",
+   64.0
+  ],
+  [
+   920,
+   1253,
+   "A - Group II",
+   72.9
+  ],
+  [
+   920,
+   1361,
+   "Open - Group II",
+   69.9
+  ],
+  [
+   920,
+   1411,
+   "A - Group I",
+   72.0
+  ],
+  [
+   920,
+   1574,
+   "A - Group V",
+   71.0
+  ],
+  [
+   920,
+   1590,
+   "A - Group III",
+   70.0
+  ],
+  [
+   920,
+   1610,
+   "Open - Group IV",
+   72.9
+  ],
+  [
+   920,
+   1674,
+   "Open - Group III",
+   70.0
+  ],
+  [
+   921,
+   1322,
+   "A - Group II",
+   69.4
+  ],
+  [
+   921,
+   1440,
+   "A - Group IV",
+   73.1
+  ],
+  [
+   921,
+   1846,
+   "Open - Group IV",
+   74.7
+  ],
+  [
+   921,
+   2228,
+   "Open - Group V",
+   75.2
+  ],
+  [
+   921,
+   2332,
+   "A - Group II",
+   67.0
+  ],
+  [
+   921,
+   6719,
+   "A - Group III",
+   71.2
+  ],
+  [
+   921,
+   6725,
+   "A - Group I",
+   63.0
+  ],
+  [
+   922,
+   1318,
+   "A - Group III",
+   77.7
+  ],
+  [
+   922,
+   1341,
+   "Open - Group II",
+   74.7
+  ],
+  [
+   922,
+   2223,
+   "A - Group II",
+   72.8
+  ],
+  [
+   922,
+   6724,
+   "A - Group III",
+   77.2
+  ],
+  [
+   922,
+   6786,
+   "A - Group II",
+   74.5
+  ],
+  [
+   922,
+   6927,
+   "A - Group II",
+   69.4
+  ],
+  [
+   922,
+   6955,
+   "A - Group I",
+   63.0
+  ],
+  [
+   923,
+   1312,
+   "A - Group IV",
+   72.0
+  ],
+  [
+   923,
+   1387,
+   "A - Group III",
+   73.8
+  ],
+  [
+   923,
+   1530,
+   "A - Group III",
+   77.8
+  ],
+  [
+   923,
+   1537,
+   "Open - Group III",
+   76.1
+  ],
+  [
+   923,
+   1562,
+   "A - Group III",
+   73.8
+  ],
+  [
+   923,
+   1573,
+   "A - Group I",
+   65.9
+  ],
+  [
+   923,
+   2013,
+   "Open - Group III",
+   75.4
+  ],
+  [
+   924,
+   1311,
+   "Open - Group III",
+   72.7
+  ],
+  [
+   924,
+   1335,
+   "A - Group IV",
+   75.7
+  ],
+  [
+   924,
+   1400,
+   "A - Group IV",
+   71.9
+  ],
+  [
+   924,
+   1565,
+   "Open - Group III",
+   74.8
+  ],
+  [
+   924,
+   1633,
+   "A - Group I",
+   64.9
+  ],
+  [
+   924,
+   1690,
+   "Open - Group V",
+   77.3
+  ],
+  [
+   924,
+   1747,
+   "Open - Group V",
+   80.2
+  ],
+  [
+   924,
+   1778,
+   "A - Group V",
+   69.8
+  ],
+  [
+   924,
+   1902,
+   "A - Group IV",
+   72.3
+  ],
+  [
+   925,
+   1278,
+   "Open - Group III",
+   71.2
+  ],
+  [
+   925,
+   1327,
+   "Open - Group V",
+   80.2
+  ],
+  [
+   925,
+   1344,
+   "A - Group V",
+   75.9
+  ],
+  [
+   925,
+   1522,
+   "Open - Group III",
+   75.1
+  ],
+  [
+   925,
+   1562,
+   "A - Group III",
+   70.4
+  ],
+  [
+   925,
+   1690,
+   "Open - Group V",
+   76.0
+  ],
+  [
+   925,
+   1800,
+   "A - Group II",
+   65.7
+  ],
+  [
+   925,
+   6491,
+   "A - Group III",
+   64.9
+  ],
+  [
+   926,
+   1586,
+   "Open - Group IV",
+   81.9
+  ],
+  [
+   926,
+   1758,
+   "A - Group IV",
+   77.8
+  ],
+  [
+   926,
+   1883,
+   "A - Group I",
+   76.3
+  ],
+  [
+   926,
+   6350,
+   "A - Group II",
+   79.1
+  ],
+  [
+   926,
+   6790,
+   "Open - Group I",
+   64.7
+  ],
+  [
+   927,
+   1563,
+   "Open - Group III",
+   76.9
+  ],
+  [
+   927,
+   1571,
+   "A - Group I",
+   69.4
+  ],
+  [
+   927,
+   1683,
+   "A - Group II",
+   76.6
+  ],
+  [
+   927,
+   1684,
+   "A - Group II",
+   77.0
+  ],
+  [
+   927,
+   1976,
+   "A - Group I",
+   68.3
+  ],
+  [
+   927,
+   2020,
+   "A - Group II",
+   69.8
+  ],
+  [
+   928,
+   1284,
+   "A - Group I",
+   69.6
+  ],
+  [
+   928,
+   1298,
+   "A - Group III",
+   70.5
+  ],
+  [
+   928,
+   1361,
+   "Open - Group II",
+   76.6
+  ],
+  [
+   928,
+   1557,
+   "Open - Group II",
+   70.8
+  ],
+  [
+   928,
+   1561,
+   "A - Group II",
+   73.3
+  ],
+  [
+   928,
+   1590,
+   "A - Group III",
+   76.0
+  ],
+  [
+   928,
+   1592,
+   "A - Group III",
+   75.5
+  ],
+  [
+   928,
+   7033,
+   "A - Group IV",
+   76.4
+  ],
+  [
+   929,
+   1292,
+   "Open - Group II",
+   70.5
+  ],
+  [
+   929,
+   1347,
+   "Open - Group II",
+   75.2
+  ],
+  [
+   929,
+   1361,
+   "Open - Group II",
+   70.3
+  ],
+  [
+   929,
+   1624,
+   "A - Group II",
+   71.8
+  ],
+  [
+   929,
+   6306,
+   "Open - Group II",
+   70.7
+  ],
+  [
+   929,
+   6792,
+   "A - Group I",
+   67.9
+  ],
+  [
+   930,
+   1299,
+   "Open - Group V",
+   76.0
+  ],
+  [
+   930,
+   1330,
+   "Open - Group I",
+   58.7
+  ],
+  [
+   930,
+   1341,
+   "Open - Group II",
+   72.3
+  ],
+  [
+   930,
+   1540,
+   "A - Group I",
+   67.8
+  ],
+  [
+   930,
+   1543,
+   "A - Group III",
+   74.0
+  ],
+  [
+   930,
+   1551,
+   "Open - Group IV",
+   74.9
+  ],
+  [
+   930,
+   1611,
+   "A - Group I",
+   65.8
+  ],
+  [
+   930,
+   1674,
+   "Open - Group III",
+   69.9
+  ],
+  [
+   930,
+   1896,
+   "A - Group V",
+   73.1
+  ],
+  [
+   930,
+   1951,
+   "A - Group III",
+   70.6
+  ],
+  [
+   930,
+   6852,
+   "A - Group II",
+   67.4
+  ],
+  [
+   930,
+   6857,
+   "A - Group III",
+   70.1
+  ],
+  [
+   931,
+   1283,
+   "A - Group II",
+   66.8
+  ],
+  [
+   931,
+   1303,
+   "Open - Group V",
+   77.2
+  ],
+  [
+   931,
+   1360,
+   "A - Group III",
+   77.1
+  ],
+  [
+   931,
+   1403,
+   "A - Group III",
+   73.0
+  ],
+  [
+   931,
+   1411,
+   "A - Group I",
+   74.4
+  ],
+  [
+   931,
+   1665,
+   "A - Group I",
+   70.6
+  ],
+  [
+   931,
+   2191,
+   "A - Group IV",
+   0.0
+  ],
+  [
+   931,
+   6914,
+   "A - Group II",
+   64.4
+  ],
+  [
+   932,
+   1249,
+   "Open - Group II",
+   77.5
+  ],
+  [
+   932,
+   1397,
+   "A - Group I",
+   66.4
+  ],
+  [
+   932,
+   2360,
+   "A - Group II",
+   79.2
+  ],
+  [
+   932,
+   2375,
+   "A - Group I",
+   72.9
+  ],
+  [
+   932,
+   2393,
+   "A - Group I",
+   71.0
+  ],
+  [
+   932,
+   2441,
+   "Open - Group I",
+   70.5
+  ],
+  [
+   933,
+   1322,
+   "A - Group II",
+   72.0
+  ],
+  [
+   933,
+   1326,
+   "A - Group IV",
+   77.0
+  ],
+  [
+   933,
+   1349,
+   "A - Group II",
+   78.0
+  ],
+  [
+   933,
+   1598,
+   "Open - Group II",
+   78.5
+  ],
+  [
+   933,
+   1696,
+   "A - Group III",
+   78.9
+  ],
+  [
+   933,
+   1877,
+   "A - Group V",
+   74.8
+  ],
+  [
+   933,
+   2038,
+   "A - Group I",
+   69.1
+  ],
+  [
+   933,
+   2402,
+   "A - Group II",
+   76.3
+  ],
+  [
+   933,
+   2547,
+   "A - Group I",
+   67.7
+  ],
+  [
+   933,
+   6466,
+   "A - Group III",
+   75.7
+  ],
+  [
+   933,
+   6725,
+   "A - Group I",
+   64.5
+  ],
+  [
+   933,
+   7000,
+   "A - Group I",
+   64.8
+  ],
+  [
+   934,
+   1311,
+   "Open - Group III",
+   74.5
+  ],
+  [
+   934,
+   1327,
+   "Open - Group V",
+   81.9
+  ],
+  [
+   934,
+   1335,
+   "A - Group IV",
+   78.3
+  ],
+  [
+   934,
+   1491,
+   "A - Group III",
+   73.6
+  ],
+  [
+   934,
+   1522,
+   "Open - Group III",
+   77.3
+  ],
+  [
+   934,
+   1620,
+   "Open - Group IV",
+   80.4
+  ],
+  [
+   934,
+   1633,
+   "A - Group I",
+   67.7
+  ],
+  [
+   934,
+   1747,
+   "Open - Group V",
+   83.5
+  ],
+  [
+   934,
+   1778,
+   "A - Group V",
+   73.5
+  ],
+  [
+   934,
+   7883,
+   "A - Group I",
+   67.4
+  ],
+  [
+   935,
+   1278,
+   "Open - Group III",
+   76.0
+  ],
+  [
+   935,
+   1312,
+   "A - Group IV",
+   73.0
+  ],
+  [
+   935,
+   1537,
+   "Open - Group III",
+   77.6
+  ],
+  [
+   935,
+   1565,
+   "Open - Group III",
+   79.0
+  ],
+  [
+   935,
+   1690,
+   "Open - Group V",
+   82.1
+  ],
+  [
+   935,
+   1809,
+   "A - Group V",
+   70.3
+  ],
+  [
+   935,
+   1947,
+   "A - Group V",
+   70.1
+  ],
+  [
+   936,
+   1312,
+   "A - Group IV",
+   75.8
+  ],
+  [
+   936,
+   1332,
+   "A - Group I",
+   76.0
+  ],
+  [
+   936,
+   1387,
+   "A - Group III",
+   77.0
+  ],
+  [
+   936,
+   1573,
+   "A - Group I",
+   68.2
+  ],
+  [
+   936,
+   2013,
+   "Open - Group III",
+   76.3
+  ],
+  [
+   936,
+   2494,
+   "A - Group II",
+   68.6
+  ],
+  [
+   937,
+   1345,
+   "A - Group I",
+   76.4
+  ],
+  [
+   937,
+   1532,
+   "Open - Group IV",
+   83.6
+  ],
+  [
+   937,
+   1563,
+   "Open - Group III",
+   76.9
+  ],
+  [
+   937,
+   1571,
+   "A - Group I",
+   72.4
+  ],
+  [
+   937,
+   1635,
+   "A - Group I",
+   72.7
+  ],
+  [
+   937,
+   1683,
+   "A - Group II",
+   78.5
+  ],
+  [
+   937,
+   1684,
+   "A - Group II",
+   82.0
+  ],
+  [
+   937,
+   1828,
+   "A - Group I",
+   74.5
+  ],
+  [
+   937,
+   2238,
+   "A - Group I",
+   75.9
+  ],
+  [
+   938,
+   1341,
+   "Open - Group II",
+   78.8
+  ],
+  [
+   938,
+   1605,
+   "A - Group III",
+   70.2
+  ],
+  [
+   938,
+   1913,
+   "Open - Group IV",
+   81.6
+  ],
+  [
+   938,
+   2248,
+   "A - Group III",
+   70.3
+  ],
+  [
+   938,
+   6332,
+   "A - Group IV",
+   74.6
+  ],
+  [
+   938,
+   6666,
+   "A - Group IV",
+   73.9
+  ],
+  [
+   939,
+   1313,
+   "A - Group IV",
+   78.6
+  ],
+  [
+   939,
+   1318,
+   "A - Group III",
+   79.6
+  ],
+  [
+   939,
+   1611,
+   "A - Group I",
+   70.3
+  ],
+  [
+   939,
+   1761,
+   "A - Group II",
+   78.4
+  ],
+  [
+   939,
+   1951,
+   "A - Group III",
+   74.8
+  ],
+  [
+   939,
+   2223,
+   "A - Group II",
+   74.9
+  ],
+  [
+   940,
+   1253,
+   "A - Group II",
+   83.5
+  ],
+  [
+   940,
+   1298,
+   "A - Group III",
+   75.5
+  ],
+  [
+   940,
+   1411,
+   "A - Group I",
+   76.1
+  ],
+  [
+   940,
+   1419,
+   "A - Group I",
+   70.9
+  ],
+  [
+   940,
+   1561,
+   "A - Group II",
+   78.4
+  ],
+  [
+   940,
+   1574,
+   "A - Group V",
+   80.7
+  ],
+  [
+   940,
+   2191,
+   "A - Group IV",
+   81.0
+  ],
+  [
+   940,
+   2395,
+   "A - Group I",
+   67.4
+  ],
+  [
+   941,
+   1284,
+   "A - Group I",
+   73.0
+  ],
+  [
+   941,
+   1292,
+   "Open - Group II",
+   74.4
+  ],
+  [
+   941,
+   1347,
+   "Open - Group II",
+   77.9
+  ],
+  [
+   941,
+   1361,
+   "Open - Group II",
+   77.2
+  ],
+  [
+   941,
+   1575,
+   "A - Group I",
+   73.5
+  ],
+  [
+   941,
+   1590,
+   "A - Group III",
+   80.6
+  ],
+  [
+   941,
+   1624,
+   "A - Group II",
+   78.1
+  ],
+  [
+   941,
+   1654,
+   "Open - Group II",
+   75.2
+  ],
+  [
+   941,
+   2062,
+   "A - Group II",
+   66.8
+  ],
+  [
+   941,
+   6792,
+   "A - Group I",
+   73.8
+  ],
+  [
+   942,
+   1251,
+   "Open - Group III",
+   83.0
+  ],
+  [
+   942,
+   1283,
+   "A - Group II",
+   73.1
+  ],
+  [
+   942,
+   1403,
+   "A - Group III",
+   73.0
+  ],
+  [
+   942,
+   1440,
+   "A - Group IV",
+   78.0
+  ],
+  [
+   942,
+   1709,
+   "A - Group III",
+   72.5
+  ],
+  [
+   942,
+   1738,
+   "A - Group V",
+   76.1
+  ],
+  [
+   942,
+   2232,
+   "A - Group III",
+   76.0
+  ],
+  [
+   943,
+   1364,
+   "Open - Group V",
+   84.2
+  ],
+  [
+   943,
+   1976,
+   "A - Group I",
+   74.3
+  ],
+  [
+   943,
+   2282,
+   "A - Group III",
+   79.5
+  ],
+  [
+   943,
+   2393,
+   "A - Group I",
+   74.4
+  ],
+  [
+   943,
+   6379,
+   "A - Group III",
+   83.5
+  ],
+  [
+   943,
+   6523,
+   "A - Group II",
+   76.3
+  ],
+  [
+   943,
+   6774,
+   "A - Group II",
+   71.9
+  ],
+  [
+   943,
+   6899,
+   "A - Group I",
+   71.0
+  ],
+  [
+   944,
+   1372,
+   "A - Group II",
+   76.8
+  ],
+  [
+   944,
+   2209,
+   "Open - Group IV",
+   83.9
+  ],
+  [
+   944,
+   6339,
+   "Open - Group III",
+   76.9
+  ],
+  [
+   944,
+   6836,
+   "A - Group IV",
+   75.6
+  ],
+  [
+   944,
+   6864,
+   "Open - Group V",
+   85.5
+  ],
+  [
+   944,
+   6866,
+   "A - Group III",
+   83.4
+  ],
+  [
+   944,
+   7339,
+   "Open - Group IV",
+   82.6
+  ],
+  [
+   948,
+   1310,
+   "Open - Group III",
+   73.0
+  ],
+  [
+   948,
+   1602,
+   "Open - Group I",
+   71.1
+  ],
+  [
+   948,
+   1699,
+   "Open - Group I",
+   67.0
+  ],
+  [
+   948,
+   1708,
+   "Open - Group III",
+   78.3
+  ],
+  [
+   948,
+   1760,
+   "Open - Group I",
+   65.1
+  ],
+  [
+   948,
+   1804,
+   "Open - Group I",
+   71.2
+  ],
+  [
+   948,
+   1814,
+   "Open - Group IV",
+   82.3
+  ],
+  [
+   948,
+   1822,
+   "Open - Group III",
+   74.9
+  ],
+  [
+   948,
+   1827,
+   "Open - Group II",
+   73.1
+  ],
+  [
+   948,
+   1914,
+   "Open - Group II",
+   70.2
+  ],
+  [
+   948,
+   1982,
+   "Open - Group II",
+   74.3
+  ],
+  [
+   948,
+   6312,
+   "Open - Group III",
+   79.5
+  ],
+  [
+   948,
+   6504,
+   "Open - Group II",
+   68.3
+  ],
+  [
+   948,
+   6722,
+   "Open - Group II",
+   74.7
+  ],
+  [
+   948,
+   6840,
+   "Open - Group I",
+   61.7
+  ],
+  [
+   948,
+   6870,
+   "Open - Group II",
+   74.0
+  ],
+  [
+   948,
+   6906,
+   "Open - Group II",
+   65.8
+  ],
+  [
+   948,
+   6940,
+   "Open - Group II",
+   70.0
+  ],
+  [
+   950,
+   6720,
+   "Open - Group IV",
+   80.8
+  ],
+  [
+   950,
+   6735,
+   "Open - Group V",
+   82.8
+  ],
+  [
+   950,
+   6803,
+   "Open - Group II",
+   72.6
+  ],
+  [
+   950,
+   6903,
+   "Open - Group II",
+   75.8
+  ],
+  [
+   950,
+   6966,
+   "Open - Group I",
+   69.6
+  ],
+  [
+   950,
+   6985,
+   "Open - Group II",
+   74.1
+  ],
+  [
+   951,
+   1312,
+   "A - Group IV",
+   77.2
+  ],
+  [
+   951,
+   1522,
+   "Open - Group III",
+   80.7
+  ],
+  [
+   951,
+   1530,
+   "A - Group III",
+   83.8
+  ],
+  [
+   951,
+   1537,
+   "Open - Group III",
+   77.1
+  ],
+  [
+   951,
+   1565,
+   "Open - Group III",
+   82.4
+  ],
+  [
+   952,
+   1335,
+   "A - Group IV",
+   78.8
+  ],
+  [
+   952,
+   1747,
+   "Open - Group V",
+   85.4
+  ],
+  [
+   952,
+   1778,
+   "A - Group V",
+   72.9
+  ],
+  [
+   952,
+   1902,
+   "A - Group IV",
+   74.2
+  ],
+  [
+   953,
+   1553,
+   "Open - Group III",
+   89.5
+  ],
+  [
+   953,
+   1586,
+   "Open - Group IV",
+   90.5
+  ],
+  [
+   953,
+   1758,
+   "A - Group IV",
+   85.5
+  ],
+  [
+   953,
+   1883,
+   "A - Group I",
+   83.0
+  ],
+  [
+   953,
+   6350,
+   "A - Group II",
+   85.1
+  ],
+  [
+   954,
+   6521,
+   "Open - Group IV",
+   79.3
+  ],
+  [
+   954,
+   6738,
+   "Open - Group III",
+   78.4
+  ],
+  [
+   954,
+   6739,
+   "Open - Group III",
+   81.5
+  ],
+  [
+   954,
+   6741,
+   "Open - Group III",
+   82.4
+  ],
+  [
+   954,
+   6744,
+   "Open - Group I",
+   74.4
+  ],
+  [
+   954,
+   6745,
+   "Open - Group II",
+   75.1
+  ],
+  [
+   954,
+   6746,
+   "Open - Group I",
+   69.8
+  ],
+  [
+   954,
+   6764,
+   "Open - Group III",
+   78.4
+  ],
+  [
+   954,
+   6767,
+   "Open - Group II",
+   75.9
+  ],
+  [
+   954,
+   6818,
+   "Open - Group II",
+   73.4
+  ],
+  [
+   954,
+   6856,
+   "Open - Group II",
+   75.0
+  ],
+  [
+   954,
+   6865,
+   "Open - Group III",
+   80.5
+  ],
+  [
+   954,
+   6939,
+   "Open - Group II",
+   72.2
+  ],
+  [
+   954,
+   6941,
+   "Open - Group V",
+   82.0
+  ],
+  [
+   954,
+   6949,
+   "Open - Group I",
+   74.6
+  ],
+  [
+   954,
+   7040,
+   "Open - Group II",
+   70.0
+  ],
+  [
+   955,
+   1284,
+   "A - Group I",
+   75.9
+  ],
+  [
+   955,
+   1292,
+   "Open - Group II",
+   76.8
+  ],
+  [
+   955,
+   1575,
+   "A - Group I",
+   77.0
+  ],
+  [
+   955,
+   1654,
+   "Open - Group II",
+   81.1
+  ],
+  [
+   955,
+   2412,
+   "A - Group I",
+   79.7
+  ],
+  [
+   955,
+   6306,
+   "Open - Group II",
+   80.8
+  ],
+  [
+   955,
+   6713,
+   "A - Group I",
+   81.7
+  ],
+  [
+   955,
+   6792,
+   "A - Group I",
+   78.4
+  ],
+  [
+   955,
+   6876,
+   "A - Group II",
+   78.4
+  ],
+  [
+   955,
+   7731,
+   "A - Group IV",
+   77.4
+  ],
+  [
+   955,
+   7853,
+   "A - Group III",
+   78.7
+  ],
+  [
+   956,
+   1253,
+   "A - Group II",
+   86.3
+  ],
+  [
+   956,
+   1256,
+   "Open - Group IV",
+   83.2
+  ],
+  [
+   956,
+   1283,
+   "A - Group II",
+   77.8
+  ],
+  [
+   956,
+   1298,
+   "A - Group III",
+   77.3
+  ],
+  [
+   956,
+   1360,
+   "A - Group III",
+   81.9
+  ],
+  [
+   956,
+   1543,
+   "A - Group III",
+   84.3
+  ],
+  [
+   956,
+   1560,
+   "Open - Group V",
+   81.3
+  ],
+  [
+   956,
+   2175,
+   "A - Group III",
+   77.1
+  ],
+  [
+   956,
+   2191,
+   "A - Group IV",
+   81.7
+  ],
+  [
+   956,
+   7033,
+   "A - Group IV",
+   80.3
+  ],
+  [
+   957,
+   1361,
+   "Open - Group II",
+   75.3
+  ],
+  [
+   957,
+   1557,
+   "Open - Group II",
+   70.3
+  ],
+  [
+   957,
+   1590,
+   "A - Group III",
+   82.7
+  ],
+  [
+   957,
+   1592,
+   "A - Group III",
+   81.9
+  ],
+  [
+   957,
+   1608,
+   "A - Group II",
+   77.1
+  ],
+  [
+   957,
+   1624,
+   "A - Group II",
+   78.6
+  ],
+  [
+   957,
+   1745,
+   "A - Group II",
+   74.3
+  ],
+  [
+   958,
+   1275,
+   "Open - Group III",
+   83.5
+  ],
+  [
+   958,
+   1318,
+   "A - Group III",
+   81.1
+  ],
+  [
+   958,
+   1330,
+   "Open - Group I",
+   70.0
+  ],
+  [
+   958,
+   1336,
+   "Open - Group IV",
+   86.2
+  ],
+  [
+   958,
+   1356,
+   "Open - Group IV",
+   79.7
+  ],
+  [
+   958,
+   1402,
+   "A - Group I",
+   75.7
+  ],
+  [
+   958,
+   1610,
+   "Open - Group IV",
+   81.4
+  ],
+  [
+   958,
+   1761,
+   "A - Group II",
+   76.5
+  ],
+  [
+   958,
+   1896,
+   "A - Group V",
+   81.1
+  ],
+  [
+   958,
+   6332,
+   "A - Group IV",
+   81.3
+  ],
+  [
+   958,
+   6666,
+   "A - Group IV",
+   75.9
+  ],
+  [
+   959,
+   1333,
+   "Open - Group II",
+   79.0
+  ],
+  [
+   959,
+   1637,
+   "A - Group V",
+   83.1
+  ],
+  [
+   959,
+   2035,
+   "A - Group II",
+   77.0
+  ],
+  [
+   959,
+   2529,
+   "A - Group III",
+   77.4
+  ],
+  [
+   959,
+   2547,
+   "A - Group I",
+   73.2
+  ],
+  [
+   959,
+   6303,
+   "A - Group V",
+   78.7
+  ],
+  [
+   959,
+   6725,
+   "A - Group I",
+   70.9
+  ],
+  [
+   959,
+   6768,
+   "Open - Group II",
+   82.5
+  ],
+  [
+   959,
+   6948,
+   "A - Group I",
+   76.6
+  ],
+  [
+   959,
+   7000,
+   "A - Group I",
+   75.9
+  ],
+  [
+   960,
+   1397,
+   "A - Group I",
+   71.1
+  ],
+  [
+   960,
+   2375,
+   "A - Group I",
+   76.3
+  ],
+  [
+   960,
+   6899,
+   "A - Group I",
+   73.0
+  ],
+  [
+   961,
+   1251,
+   "Open - Group III",
+   84.2
+  ],
+  [
+   961,
+   1299,
+   "Open - Group V",
+   83.5
+  ],
+  [
+   961,
+   1303,
+   "Open - Group V",
+   81.1
+  ],
+  [
+   961,
+   1326,
+   "A - Group IV",
+   77.3
+  ],
+  [
+   961,
+   1404,
+   "Open - Group III",
+   83.2
+  ],
+  [
+   961,
+   1604,
+   "Open - Group V",
+   84.9
+  ],
+  [
+   961,
+   1738,
+   "A - Group V",
+   77.0
+  ],
+  [
+   961,
+   1846,
+   "Open - Group IV",
+   87.8
+  ],
+  [
+   961,
+   2228,
+   "Open - Group V",
+   86.6
+  ],
+  [
+   961,
+   2232,
+   "A - Group III",
+   77.0
+  ],
+  [
+   961,
+   6400,
+   "A - Group III",
+   79.2
+  ],
+  [
+   961,
+   7037,
+   "A - Group IV",
+   82.6
+  ],
+  [
+   963,
+   1313,
+   "A - Group IV",
+   83.8
+  ],
+  [
+   963,
+   1440,
+   "A - Group IV",
+   80.9
+  ],
+  [
+   963,
+   1532,
+   "Open - Group IV",
+   86.7
+  ],
+  [
+   963,
+   1563,
+   "Open - Group III",
+   79.9
+  ],
+  [
+   963,
+   1571,
+   "A - Group I",
+   75.8
+  ],
+  [
+   963,
+   1598,
+   "Open - Group II",
+   79.8
+  ],
+  [
+   963,
+   1661,
+   "A - Group II",
+   75.2
+  ],
+  [
+   963,
+   1683,
+   "A - Group II",
+   81.3
+  ],
+  [
+   963,
+   1706,
+   "A - Group IV",
+   81.0
+  ],
+  [
+   963,
+   1723,
+   "A - Group IV",
+   84.0
+  ],
+  [
+   963,
+   1769,
+   "A - Group I",
+   81.3
+  ],
+  [
+   963,
+   1825,
+   "Open - Group V",
+   88.2
+  ],
+  [
+   963,
+   1863,
+   "A - Group III",
+   81.9
+  ],
+  [
+   963,
+   1963,
+   "Open - Group V",
+   83.1
+  ],
+  [
+   963,
+   1976,
+   "A - Group I",
+   76.3
+  ],
+  [
+   963,
+   2208,
+   "Open - Group III",
+   77.6
+  ],
+  [
+   963,
+   2236,
+   "A - Group V",
+   86.0
+  ],
+  [
+   963,
+   2238,
+   "A - Group I",
+   78.1
+  ],
+  [
+   963,
+   2289,
+   "Open - Group V",
+   81.4
+  ],
+  [
+   963,
+   2321,
+   "A - Group II",
+   81.1
+  ],
+  [
+   963,
+   2332,
+   "A - Group II",
+   72.6
+  ],
+  [
+   963,
+   2417,
+   "Open - Group V",
+   80.0
+  ],
+  [
+   963,
+   2424,
+   "Open - Group IV",
+   83.3
+  ],
+  [
+   963,
+   6406,
+   "Open - Group V",
+   82.5
+  ],
+  [
+   963,
+   6489,
+   "A - Group IV",
+   80.8
+  ],
+  [
+   963,
+   6742,
+   "Open - Group III",
+   75.5
+  ],
+  [
+   963,
+   7339,
+   "Open - Group IV",
+   87.4
+  ],
+  [
+   965,
+   1797,
+   "Open - Group I",
+   71.1
+  ],
+  [
+   965,
+   1813,
+   "Open - Group III",
+   83.6
+  ],
+  [
+   965,
+   6545,
+   "Open - Group II",
+   77.6
+  ],
+  [
+   965,
+   7792,
+   "Open - Group II",
+   76.1
+  ],
+  [
+   968,
+   1251,
+   "Open - Group III",
+   94.1
+  ],
+  [
+   968,
+   1256,
+   "Open - Group IV",
+   94.0
+  ],
+  [
+   968,
+   1259,
+   "Open - Group I",
+   86.9
+  ],
+  [
+   968,
+   1272,
+   "Open - Group V",
+   83.8
+  ],
+  [
+   968,
+   1275,
+   "Open - Group III",
+   94.1
+  ],
+  [
+   968,
+   1278,
+   "Open - Group III",
+   85.3
+  ],
+  [
+   968,
+   1292,
+   "Open - Group II",
+   85.4
+  ],
+  [
+   968,
+   1299,
+   "Open - Group V",
+   88.7
+  ],
+  [
+   968,
+   1303,
+   "Open - Group V",
+   93.6
+  ],
+  [
+   968,
+   1311,
+   "Open - Group III",
+   88.1
+  ],
+  [
+   968,
+   1327,
+   "Open - Group V",
+   93.6
+  ],
+  [
+   968,
+   1330,
+   "Open - Group I",
+   87.3
+  ],
+  [
+   968,
+   1333,
+   "Open - Group II",
+   90.3
+  ],
+  [
+   968,
+   1336,
+   "Open - Group IV",
+   95.4
+  ],
+  [
+   968,
+   1341,
+   "Open - Group II",
+   95.8
+  ],
+  [
+   968,
+   1356,
+   "Open - Group IV",
+   86.4
+  ],
+  [
+   968,
+   1361,
+   "Open - Group II",
+   92.6
+  ],
+  [
+   968,
+   1364,
+   "Open - Group V",
+   95.9
+  ],
+  [
+   968,
+   1404,
+   "Open - Group III",
+   92.8
+  ],
+  [
+   968,
+   1522,
+   "Open - Group III",
+   92.5
+  ],
+  [
+   968,
+   1532,
+   "Open - Group IV",
+   96.8
+  ],
+  [
+   968,
+   1551,
+   "Open - Group IV",
+   90.0
+  ],
+  [
+   968,
+   1553,
+   "Open - Group III",
+   95.9
+  ],
+  [
+   968,
+   1557,
+   "Open - Group II",
+   85.0
+  ],
+  [
+   968,
+   1560,
+   "Open - Group V",
+   88.3
+  ],
+  [
+   968,
+   1563,
+   "Open - Group III",
+   92.1
+  ],
+  [
+   968,
+   1565,
+   "Open - Group III",
+   91.1
+  ],
+  [
+   968,
+   1586,
+   "Open - Group IV",
+   97.7
+  ],
+  [
+   968,
+   1598,
+   "Open - Group II",
+   96.9
+  ],
+  [
+   968,
+   1604,
+   "Open - Group V",
+   89.6
+  ],
+  [
+   968,
+   1610,
+   "Open - Group IV",
+   85.4
+  ],
+  [
+   968,
+   1617,
+   "Open - Group III",
+   89.0
+  ],
+  [
+   968,
+   1620,
+   "Open - Group IV",
+   92.7
+  ],
+  [
+   968,
+   1654,
+   "Open - Group II",
+   89.4
+  ],
+  [
+   968,
+   1674,
+   "Open - Group III",
+   87.9
+  ],
+  [
+   968,
+   1690,
+   "Open - Group V",
+   90.2
+  ],
+  [
+   968,
+   1698,
+   "Open - Group V",
+   98.1
+  ],
+  [
+   968,
+   1747,
+   "Open - Group V",
+   95.9
+  ],
+  [
+   968,
+   1846,
+   "Open - Group IV",
+   95.9
+  ],
+  [
+   968,
+   1913,
+   "Open - Group IV",
+   88.9
+  ],
+  [
+   968,
+   2013,
+   "Open - Group III",
+   85.0
+  ],
+  [
+   968,
+   2040,
+   "Open - Group IV",
+   87.3
+  ],
+  [
+   968,
+   2187,
+   "Open - Group II",
+   91.2
+  ],
+  [
+   968,
+   2228,
+   "Open - Group V",
+   90.5
+  ],
+  [
+   968,
+   2351,
+   "Open - Group III",
+   89.1
+  ],
+  [
+   968,
+   2417,
+   "Open - Group V",
+   84.9
+  ],
+  [
+   968,
+   6306,
+   "Open - Group II",
+   88.1
+  ],
+  [
+   968,
+   6790,
+   "Open - Group I",
+   85.2
+  ],
+  [
+   968,
+   6864,
+   "Open - Group V",
+   91.6
+  ],
+  [
+   970,
+   1312,
+   "A - Group IV",
+   80.6
+  ],
+  [
+   970,
+   1327,
+   "Open - Group V",
+   86.8
+  ],
+  [
+   970,
+   1344,
+   "A - Group V",
+   83.6
+  ],
+  [
+   970,
+   1746,
+   "A - Group III",
+   80.4
+  ],
+  [
+   970,
+   2494,
+   "A - Group II",
+   75.4
+  ],
+  [
+   971,
+   1327,
+   "Open - Group V",
+   86.3
+  ],
+  [
+   971,
+   1344,
+   "A - Group V",
+   83.5
+  ],
+  [
+   971,
+   1565,
+   "Open - Group III",
+   84.1
+  ],
+  [
+   971,
+   1746,
+   "A - Group III",
+   81.3
+  ],
+  [
+   971,
+   1800,
+   "A - Group II",
+   75.8
+  ],
+  [
+   971,
+   2494,
+   "A - Group II",
+   76.7
+  ],
+  [
+   971,
+   6491,
+   "A - Group II",
+   73.3
+  ],
+  [
+   971,
+   7883,
+   "A - Group I",
+   73.8
+  ],
+  [
+   972,
+   1586,
+   "Open - Group IV",
+   91.1
+  ],
+  [
+   972,
+   1883,
+   "A - Group I",
+   85.8
+  ],
+  [
+   972,
+   2040,
+   "Open - Group IV",
+   82.4
+  ],
+  [
+   972,
+   6344,
+   "A - Group I",
+   74.7
+  ],
+  [
+   972,
+   6495,
+   "A - Group I",
+   77.5
+  ],
+  [
+   973,
+   1345,
+   "A - Group I",
+   81.0
+  ],
+  [
+   973,
+   1532,
+   "Open - Group IV",
+   90.0
+  ],
+  [
+   973,
+   1571,
+   "A - Group I",
+   76.9
+  ],
+  [
+   973,
+   1635,
+   "A - Group I",
+   76.4
+  ],
+  [
+   973,
+   1661,
+   "A - Group II",
+   77.1
+  ],
+  [
+   973,
+   1683,
+   "A - Group II",
+   84.3
+  ],
+  [
+   973,
+   1684,
+   "A - Group II",
+   86.5
+  ],
+  [
+   973,
+   1769,
+   "A - Group I",
+   83.5
+  ],
+  [
+   973,
+   1828,
+   "A - Group I",
+   81.2
+  ],
+  [
+   973,
+   2020,
+   "A - Group II",
+   75.5
+  ],
+  [
+   973,
+   2076,
+   "A - Group I",
+   75.8
+  ],
+  [
+   973,
+   2208,
+   "Open - Group III",
+   81.2
+  ],
+  [
+   973,
+   7036,
+   "A - Group III",
+   77.7
+  ],
+  [
+   974,
+   1256,
+   "Open - Group IV",
+   87.1
+  ],
+  [
+   974,
+   1283,
+   "A - Group II",
+   80.7
+  ],
+  [
+   974,
+   1341,
+   "Open - Group II",
+   85.1
+  ],
+  [
+   974,
+   1411,
+   "A - Group I",
+   82.1
+  ],
+  [
+   974,
+   1608,
+   "A - Group II",
+   78.1
+  ],
+  [
+   974,
+   1654,
+   "Open - Group II",
+   81.9
+  ],
+  [
+   974,
+   7731,
+   "A - Group IV",
+   79.5
+  ],
+  [
+   975,
+   1637,
+   "A - Group V",
+   86.7
+  ],
+  [
+   975,
+   1696,
+   "A - Group III",
+   85.6
+  ],
+  [
+   975,
+   1698,
+   "Open - Group V",
+   91.6
+  ],
+  [
+   975,
+   1846,
+   "Open - Group IV",
+   89.8
+  ],
+  [
+   975,
+   2228,
+   "Open - Group V",
+   88.3
+  ],
+  [
+   975,
+   2621,
+   "A - Group III",
+   84.2
+  ],
+  [
+   975,
+   6725,
+   "A - Group I",
+   72.7
+  ],
+  [
+   975,
+   6731,
+   "Open - Group V",
+   81.7
+  ],
+  [
+   975,
+   6846,
+   "A - Group II",
+   80.7
+  ],
+  [
+   976,
+   1397,
+   "A - Group I",
+   73.6
+  ],
+  [
+   976,
+   2282,
+   "A - Group III",
+   82.8
+  ],
+  [
+   976,
+   2360,
+   "A - Group II",
+   82.2
+  ],
+  [
+   976,
+   2393,
+   "A - Group I",
+   77.2
+  ],
+  [
+   976,
+   6523,
+   "A - Group II",
+   78.9
+  ],
+  [
+   976,
+   6774,
+   "A - Group II",
+   75.7
+  ],
+  [
+   976,
+   6899,
+   "A - Group I",
+   75.8
+  ],
+  [
+   976,
+   6930,
+   "A - Group IV",
+   80.1
+  ],
+  [
+   977,
+   1551,
+   "Open - Group IV",
+   81.7
+  ],
+  [
+   977,
+   1611,
+   "A - Group I",
+   79.2
+  ],
+  [
+   977,
+   1692,
+   "A - Group II",
+   76.3
+  ],
+  [
+   977,
+   1745,
+   "A - Group II",
+   77.4
+  ],
+  [
+   977,
+   2191,
+   "A - Group IV",
+   84.4
+  ],
+  [
+   982,
+   1703,
+   "Open - Group IV",
+   78.3
+  ],
+  [
+   982,
+   1838,
+   "Open - Group V",
+   83.2
+  ],
+  [
+   982,
+   2002,
+   "Open - Group IV",
+   83.1
+  ],
+  [
+   982,
+   2008,
+   "Open - Group V",
+   94.2
+  ],
+  [
+   982,
+   2510,
+   "Open - Group V",
+   91.7
+  ],
+  [
+   982,
+   6777,
+   "Open - Group IV",
+   88.9
+  ],
+  [
+   982,
+   7079,
+   "Open - Group IV",
+   84.3
+  ],
+  [
+   986,
+   1278,
+   "Open - Group III",
+   84.5
+  ],
+  [
+   986,
+   1311,
+   "Open - Group III",
+   88.5
+  ],
+  [
+   986,
+   1312,
+   "A - Group IV",
+   91.0
+  ],
+  [
+   986,
+   1327,
+   "Open - Group V",
+   93.8
+  ],
+  [
+   986,
+   1332,
+   "A - Group I",
+   90.5
+  ],
+  [
+   986,
+   1335,
+   "A - Group IV",
+   93.0
+  ],
+  [
+   986,
+   1344,
+   "A - Group V",
+   92.3
+  ],
+  [
+   986,
+   1387,
+   "A - Group III",
+   88.3
+  ],
+  [
+   986,
+   1400,
+   "A - Group IV",
+   84.5
+  ],
+  [
+   986,
+   1491,
+   "A - Group II",
+   89.8
+  ],
+  [
+   986,
+   1522,
+   "Open - Group III",
+   91.9
+  ],
+  [
+   986,
+   1530,
+   "A - Group III",
+   90.7
+  ],
+  [
+   986,
+   1537,
+   "Open - Group III",
+   87.1
+  ],
+  [
+   986,
+   1562,
+   "A - Group II",
+   90.3
+  ],
+  [
+   986,
+   1565,
+   "Open - Group III",
+   91.4
+  ],
+  [
+   986,
+   1573,
+   "A - Group I",
+   86.8
+  ],
+  [
+   986,
+   1620,
+   "Open - Group IV",
+   92.0
+  ],
+  [
+   986,
+   1633,
+   "A - Group II",
+   82.8
+  ],
+  [
+   986,
+   1690,
+   "Open - Group V",
+   91.3
+  ],
+  [
+   986,
+   1746,
+   "A - Group III",
+   88.8
+  ],
+  [
+   986,
+   1747,
+   "Open - Group V",
+   95.9
+  ],
+  [
+   986,
+   1809,
+   "A - Group V",
+   82.1
+  ],
+  [
+   986,
+   1902,
+   "A - Group IV",
+   84.3
+  ],
+  [
+   986,
+   2013,
+   "Open - Group III",
+   85.2
+  ],
+  [
+   986,
+   2494,
+   "A - Group II",
+   83.2
+  ],
+  [
+   986,
+   6491,
+   "A - Group II",
+   83.5
+  ],
+  [
+   986,
+   7883,
+   "A - Group I",
+   85.2
+  ],
+  [
+   987,
+   1553,
+   "Open - Group III",
+   93.5
+  ],
+  [
+   987,
+   1586,
+   "Open - Group IV",
+   95.0
+  ],
+  [
+   987,
+   1758,
+   "A - Group IV",
+   89.1
+  ],
+  [
+   987,
+   1883,
+   "A - Group I",
+   92.6
+  ],
+  [
+   987,
+   2040,
+   "Open - Group IV",
+   89.2
+  ],
+  [
+   987,
+   6344,
+   "A - Group I",
+   78.1
+  ],
+  [
+   987,
+   6350,
+   "A - Group II",
+   89.8
+  ],
+  [
+   987,
+   6356,
+   "A - Group V",
+   87.8
+  ],
+  [
+   987,
+   6495,
+   "A - Group I",
+   85.1
+  ],
+  [
+   987,
+   6790,
+   "Open - Group I",
+   83.6
+  ],
+  [
+   988,
+   1345,
+   "A - Group I",
+   81.9
+  ],
+  [
+   988,
+   1532,
+   "Open - Group IV",
+   95.5
+  ],
+  [
+   988,
+   1563,
+   "Open - Group III",
+   90.8
+  ],
+  [
+   988,
+   1571,
+   "A - Group I",
+   83.7
+  ],
+  [
+   988,
+   1598,
+   "Open - Group II",
+   92.9
+  ],
+  [
+   988,
+   1635,
+   "A - Group I",
+   79.6
+  ],
+  [
+   988,
+   1661,
+   "A - Group II",
+   80.9
+  ],
+  [
+   988,
+   1683,
+   "A - Group II",
+   87.9
+  ],
+  [
+   988,
+   1684,
+   "A - Group II",
+   90.8
+  ],
+  [
+   988,
+   1769,
+   "A - Group I",
+   86.8
+  ],
+  [
+   988,
+   1825,
+   "Open - Group V",
+   94.0
+  ],
+  [
+   988,
+   1828,
+   "A - Group I",
+   81.2
+  ],
+  [
+   988,
+   1976,
+   "A - Group I",
+   84.5
+  ],
+  [
+   988,
+   2007,
+   "A - Group II",
+   82.4
+  ],
+  [
+   988,
+   2076,
+   "A - Group II",
+   80.4
+  ],
+  [
+   988,
+   2236,
+   "A - Group V",
+   94.6
+  ],
+  [
+   988,
+   2238,
+   "A - Group I",
+   83.8
+  ],
+  [
+   988,
+   2321,
+   "A - Group II",
+   88.3
+  ],
+  [
+   988,
+   6406,
+   "Open - Group V",
+   92.9
+  ],
+  [
+   988,
+   6501,
+   "A - Group IV",
+   94.3
+  ],
+  [
+   989,
+   1250,
+   "A - Group V",
+   86.5
+  ],
+  [
+   989,
+   1256,
+   "Open - Group IV",
+   93.4
+  ],
+  [
+   989,
+   1275,
+   "Open - Group III",
+   91.1
+  ],
+  [
+   989,
+   1298,
+   "A - Group III",
+   82.6
+  ],
+  [
+   989,
+   1318,
+   "A - Group III",
+   86.4
+  ],
+  [
+   989,
+   1336,
+   "Open - Group IV",
+   93.8
+  ],
+  [
+   989,
+   1356,
+   "Open - Group IV",
+   86.0
+  ],
+  [
+   989,
+   1360,
+   "A - Group III",
+   89.9
+  ],
+  [
+   989,
+   1403,
+   "A - Group III",
+   82.8
+  ],
+  [
+   989,
+   1543,
+   "A - Group III",
+   93.1
+  ],
+  [
+   989,
+   1551,
+   "Open - Group IV",
+   90.2
+  ],
+  [
+   989,
+   1574,
+   "A - Group V",
+   89.8
+  ],
+  [
+   989,
+   1590,
+   "A - Group III",
+   91.2
+  ],
+  [
+   989,
+   1591,
+   "A - Group V",
+   90.1
+  ],
+  [
+   989,
+   1592,
+   "A - Group III",
+   88.9
+  ],
+  [
+   989,
+   1601,
+   "A - Group III",
+   90.9
+  ],
+  [
+   989,
+   1605,
+   "A - Group III",
+   80.1
+  ],
+  [
+   989,
+   1610,
+   "Open - Group IV",
+   86.2
+  ],
+  [
+   989,
+   1617,
+   "Open - Group III",
+   87.8
+  ],
+  [
+   989,
+   1896,
+   "A - Group V",
+   89.2
+  ],
+  [
+   989,
+   1911,
+   "A - Group III",
+   80.7
+  ],
+  [
+   989,
+   1913,
+   "Open - Group IV",
+   88.4
+  ],
+  [
+   989,
+   1951,
+   "A - Group III",
+   82.7
+  ],
+  [
+   989,
+   2175,
+   "A - Group III",
+   81.8
+  ],
+  [
+   989,
+   2248,
+   "A - Group III",
+   83.3
+  ],
+  [
+   989,
+   6449,
+   "A - Group III",
+   92.3
+  ],
+  [
+   989,
+   6513,
+   "A - Group III",
+   78.2
+  ],
+  [
+   990,
+   1253,
+   "A - Group II",
+   94.7
+  ],
+  [
+   990,
+   1283,
+   "A - Group II",
+   86.1
+  ],
+  [
+   990,
+   1284,
+   "A - Group I",
+   85.6
+  ],
+  [
+   990,
+   1292,
+   "Open - Group II",
+   84.8
+  ],
+  [
+   990,
+   1303,
+   "Open - Group V",
+   93.3
+  ],
+  [
+   990,
+   1313,
+   "A - Group IV",
+   93.0
+  ],
+  [
+   990,
+   1330,
+   "Open - Group I",
+   85.1
+  ],
+  [
+   990,
+   1341,
+   "Open - Group II",
+   94.1
+  ],
+  [
+   990,
+   1347,
+   "Open - Group II",
+   89.9
+  ],
+  [
+   990,
+   1361,
+   "Open - Group II",
+   90.4
+  ],
+  [
+   990,
+   1402,
+   "A - Group I",
+   89.3
+  ],
+  [
+   990,
+   1411,
+   "A - Group I",
+   92.4
+  ],
+  [
+   990,
+   1423,
+   "A - Group IV",
+   90.3
+  ],
+  [
+   990,
+   1557,
+   "Open - Group II",
+   84.5
+  ],
+  [
+   990,
+   1560,
+   "Open - Group V",
+   93.0
+  ],
+  [
+   990,
+   1561,
+   "A - Group II",
+   86.8
+  ],
+  [
+   990,
+   1575,
+   "A - Group I",
+   83.1
+  ],
+  [
+   990,
+   1624,
+   "A - Group II",
+   89.9
+  ],
+  [
+   990,
+   1654,
+   "Open - Group II",
+   88.8
+  ],
+  [
+   990,
+   1761,
+   "A - Group II",
+   92.3
+  ],
+  [
+   990,
+   2395,
+   "A - Group I",
+   85.4
+  ],
+  [
+   990,
+   6306,
+   "Open - Group II",
+   86.2
+  ],
+  [
+   990,
+   6332,
+   "A - Group IV",
+   88.8
+  ],
+  [
+   990,
+   6666,
+   "A - Group IV",
+   86.3
+  ],
+  [
+   990,
+   6792,
+   "A - Group I",
+   87.4
+  ],
+  [
+   990,
+   6876,
+   "A - Group II",
+   85.8
+  ],
+  [
+   990,
+   7731,
+   "A - Group IV",
+   85.4
+  ],
+  [
+   991,
+   1249,
+   "Open - Group II",
+   86.7
+  ],
+  [
+   991,
+   1251,
+   "Open - Group III",
+   92.6
+  ],
+  [
+   991,
+   1333,
+   "Open - Group II",
+   86.8
+  ],
+  [
+   991,
+   1404,
+   "Open - Group III",
+   92.0
+  ],
+  [
+   991,
+   1637,
+   "A - Group V",
+   90.0
+  ],
+  [
+   991,
+   1696,
+   "A - Group III",
+   92.7
+  ],
+  [
+   991,
+   1709,
+   "A - Group III",
+   82.8
+  ],
+  [
+   991,
+   1738,
+   "A - Group V",
+   87.4
+  ],
+  [
+   991,
+   2187,
+   "Open - Group II",
+   87.4
+  ],
+  [
+   991,
+   2282,
+   "A - Group III",
+   87.6
+  ],
+  [
+   991,
+   2621,
+   "A - Group III",
+   86.0
+  ],
+  [
+   991,
+   6379,
+   "A - Group III",
+   92.5
+  ],
+  [
+   991,
+   6400,
+   "A - Group III",
+   87.0
+  ],
+  [
+   991,
+   6466,
+   "A - Group III",
+   84.7
+  ],
+  [
+   991,
+   6719,
+   "A - Group III",
+   85.4
+  ],
+  [
+   992,
+   1419,
+   "A - Group I",
+   83.4
+  ],
+  [
+   992,
+   1540,
+   "A - Group I",
+   87.8
+  ],
+  [
+   992,
+   1674,
+   "Open - Group III",
+   91.7
+  ],
+  [
+   992,
+   1681,
+   "A - Group III",
+   89.3
+  ],
+  [
+   992,
+   1745,
+   "A - Group II",
+   87.5
+  ],
+  [
+   992,
+   1778,
+   "A - Group V",
+   87.8
+  ],
+  [
+   992,
+   2191,
+   "A - Group IV",
+   90.5
+  ],
+  [
+   992,
+   2333,
+   "A - Group II",
+   81.7
+  ],
+  [
+   993,
+   1364,
+   "Open - Group V",
+   93.3
+  ],
+  [
+   993,
+   1604,
+   "Open - Group V",
+   90.7
+  ],
+  [
+   993,
+   2351,
+   "Open - Group III",
+   89.1
+  ],
+  [
+   993,
+   2360,
+   "A - Group II",
+   88.7
+  ],
+  [
+   993,
+   2375,
+   "A - Group I",
+   84.8
+  ],
+  [
+   993,
+   2393,
+   "A - Group I",
+   81.7
+  ],
+  [
+   993,
+   6812,
+   "A - Group IV",
+   89.9
+  ],
+  [
+   993,
+   6846,
+   "A - Group II",
+   82.3
+  ],
+  [
+   993,
+   6930,
+   "A - Group IV",
+   84.8
+  ],
+  [
+   994,
+   1745,
+   "A - Group II",
+   83.5
+  ],
+  [
+   994,
+   2035,
+   "A - Group II",
+   82.2
+  ],
+  [
+   994,
+   2402,
+   "A - Group II",
+   84.3
+  ],
+  [
+   994,
+   7033,
+   "A - Group IV",
+   89.1
+  ],
+  [
+   995,
+   1283,
+   "A - Group II",
+   90.0
+  ],
+  [
+   995,
+   1322,
+   "A - Group II",
+   84.7
+  ],
+  [
+   995,
+   1440,
+   "A - Group IV",
+   91.7
+  ],
+  [
+   995,
+   2232,
+   "A - Group III",
+   88.3
+  ],
+  [
+   995,
+   2402,
+   "A - Group II",
+   90.6
+  ],
+  [
+   995,
+   2621,
+   "A - Group III",
+   91.1
+  ],
+  [
+   995,
+   6400,
+   "A - Group III",
+   89.0
+  ],
+  [
+   996,
+   1310,
+   "Open - Group III",
+   74.1
+  ],
+  [
+   996,
+   1602,
+   "Open - Group I",
+   76.4
+  ],
+  [
+   996,
+   1851,
+   "Open - Group II",
+   78.2
+  ],
+  [
+   996,
+   1914,
+   "Open - Group II",
+   72.7
+  ],
+  [
+   996,
+   2014,
+   "Open - Group II",
+   75.9
+  ],
+  [
+   996,
+   2225,
+   "Open - Group III",
+   85.6
+  ],
+  [
+   996,
+   2241,
+   "Open - Group III",
+   80.2
+  ],
+  [
+   996,
+   2405,
+   "Open - Group IV",
+   82.6
+  ],
+  [
+   996,
+   6510,
+   "Open - Group III",
+   78.6
+  ],
+  [
+   996,
+   6729,
+   "Open - Group V",
+   88.3
+  ],
+  [
+   996,
+   6793,
+   "Open - Group II",
+   72.1
+  ],
+  [
+   996,
+   6840,
+   "Open - Group I",
+   65.4
+  ],
+  [
+   996,
+   6871,
+   "Open - Group III",
+   88.1
+  ],
+  [
+   996,
+   7064,
+   "Open - Group II",
+   79.3
+  ],
+  [
+   997,
+   1288,
+   "A - Group III",
+   79.0
+  ],
+  [
+   997,
+   1815,
+   "A - Group I",
+   68.3
+  ],
+  [
+   997,
+   1817,
+   "A - Group III",
+   75.1
+  ],
+  [
+   997,
+   1833,
+   "A - Group III",
+   74.5
+  ],
+  [
+   997,
+   1859,
+   "A - Group III",
+   73.0
+  ],
+  [
+   997,
+   1903,
+   "A - Group I",
+   70.4
+  ],
+  [
+   997,
+   1915,
+   "A - Group I",
+   71.9
+  ],
+  [
+   997,
+   1919,
+   "A - Group IV",
+   81.7
+  ],
+  [
+   997,
+   1928,
+   "A - Group V",
+   80.2
+  ],
+  [
+   997,
+   1974,
+   "A - Group I",
+   68.0
+  ],
+  [
+   997,
+   2033,
+   "A - Group III",
+   78.4
+  ],
+  [
+   997,
+   2496,
+   "A - Group IV",
+   79.8
+  ],
+  [
+   997,
+   6464,
+   "A - Group II",
+   71.7
+  ],
+  [
+   997,
+   6514,
+   "A - Group II",
+   72.9
+  ],
+  [
+   997,
+   6546,
+   "A - Group II",
+   73.2
+  ],
+  [
+   998,
+   1278,
+   "Open - Group III",
+   81.4
+  ],
+  [
+   998,
+   1332,
+   "A - Group I",
+   83.9
+  ],
+  [
+   998,
+   1335,
+   "A - Group IV",
+   85.5
+  ],
+  [
+   998,
+   1387,
+   "A - Group III",
+   84.7
+  ],
+  [
+   998,
+   1400,
+   "A - Group IV",
+   82.2
+  ],
+  [
+   998,
+   1530,
+   "A - Group III",
+   86.1
+  ],
+  [
+   998,
+   1620,
+   "Open - Group IV",
+   85.9
+  ],
+  [
+   998,
+   1747,
+   "Open - Group V",
+   90.3
+  ],
+  [
+   998,
+   1778,
+   "A - Group V",
+   81.9
+  ],
+  [
+   998,
+   1809,
+   "A - Group V",
+   78.3
+  ],
+  [
+   998,
+   1878,
+   "A - Group II",
+   80.6
+  ],
+  [
+   998,
+   1902,
+   "A - Group IV",
+   81.3
+  ],
+  [
+   999,
+   1311,
+   "Open - Group III",
+   84.3
+  ],
+  [
+   999,
+   1312,
+   "A - Group IV",
+   85.2
+  ],
+  [
+   999,
+   1344,
+   "A - Group V",
+   88.5
+  ],
+  [
+   999,
+   1491,
+   "A - Group II",
+   83.8
+  ],
+  [
+   999,
+   1522,
+   "Open - Group III",
+   87.4
+  ],
+  [
+   999,
+   1537,
+   "Open - Group III",
+   83.9
+  ],
+  [
+   999,
+   1562,
+   "A - Group II",
+   84.5
+  ],
+  [
+   999,
+   1565,
+   "Open - Group III",
+   87.7
+  ],
+  [
+   999,
+   1674,
+   "Open - Group III",
+   87.1
+  ],
+  [
+   999,
+   1746,
+   "A - Group III",
+   86.1
+  ],
+  [
+   999,
+   1800,
+   "A - Group II",
+   82.5
+  ],
+  [
+   999,
+   2013,
+   "Open - Group III",
+   82.0
+  ],
+  [
+   999,
+   6491,
+   "A - Group II",
+   79.1
+  ],
+  [
+   999,
+   7883,
+   "A - Group I",
+   79.5
+  ],
+  [
+   1001,
+   1292,
+   "Open - Group II",
+   82.3
+  ],
+  [
+   1001,
+   1347,
+   "Open - Group II",
+   85.8
+  ],
+  [
+   1001,
+   1654,
+   "Open - Group II",
+   84.3
+  ],
+  [
+   1001,
+   6306,
+   "Open - Group II",
+   83.3
+  ],
+  [
+   1001,
+   6876,
+   "A - Group II",
+   83.9
+  ],
+  [
+   1001,
+   7853,
+   "A - Group III",
+   84.4
+  ],
+  [
+   1002,
+   1250,
+   "A - Group V",
+   86.6
+  ],
+  [
+   1002,
+   1253,
+   "A - Group II",
+   92.7
+  ],
+  [
+   1002,
+   1298,
+   "A - Group III",
+   85.4
+  ],
+  [
+   1002,
+   1303,
+   "Open - Group V",
+   88.1
+  ],
+  [
+   1002,
+   1313,
+   "A - Group IV",
+   90.7
+  ],
+  [
+   1002,
+   1330,
+   "Open - Group I",
+   79.0
+  ],
+  [
+   1002,
+   1360,
+   "A - Group III",
+   87.6
+  ],
+  [
+   1002,
+   1402,
+   "A - Group I",
+   86.3
+  ],
+  [
+   1002,
+   1411,
+   "A - Group I",
+   89.6
+  ],
+  [
+   1002,
+   1419,
+   "A - Group I",
+   81.6
+  ],
+  [
+   1002,
+   1574,
+   "A - Group V",
+   88.2
+  ],
+  [
+   1002,
+   1608,
+   "A - Group II",
+   84.3
+  ],
+  [
+   1002,
+   7150,
+   "A - Group V",
+   85.6
+  ],
+  [
+   1003,
+   1272,
+   "Open - Group V",
+   84.7
+  ],
+  [
+   1003,
+   1284,
+   "A - Group I",
+   79.6
+  ],
+  [
+   1003,
+   1403,
+   "A - Group III",
+   82.5
+  ],
+  [
+   1003,
+   1561,
+   "A - Group II",
+   83.1
+  ],
+  [
+   1003,
+   1590,
+   "A - Group III",
+   87.1
+  ],
+  [
+   1003,
+   1592,
+   "A - Group III",
+   86.2
+  ],
+  [
+   1003,
+   1624,
+   "A - Group II",
+   85.5
+  ],
+  [
+   1003,
+   1626,
+   "A - Group V",
+   78.1
+  ],
+  [
+   1003,
+   6792,
+   "A - Group I",
+   82.5
+  ],
+  [
+   1004,
+   1336,
+   "Open - Group IV",
+   91.2
+  ],
+  [
+   1004,
+   1341,
+   "Open - Group II",
+   85.3
+  ],
+  [
+   1004,
+   1423,
+   "A - Group IV",
+   83.7
+  ],
+  [
+   1004,
+   1540,
+   "A - Group I",
+   82.7
+  ],
+  [
+   1004,
+   1543,
+   "A - Group III",
+   87.8
+  ],
+  [
+   1004,
+   1601,
+   "A - Group III",
+   84.8
+  ],
+  [
+   1004,
+   1605,
+   "A - Group III",
+   79.8
+  ],
+  [
+   1004,
+   1896,
+   "A - Group V",
+   82.4
+  ],
+  [
+   1004,
+   1911,
+   "A - Group III",
+   79.8
+  ],
+  [
+   1004,
+   1913,
+   "Open - Group IV",
+   86.8
+  ],
+  [
+   1004,
+   2023,
+   "A - Group I",
+   76.4
+  ],
+  [
+   1004,
+   2175,
+   "A - Group III",
+   80.6
+  ],
+  [
+   1004,
+   2248,
+   "A - Group III",
+   79.9
+  ],
+  [
+   1004,
+   2333,
+   "A - Group II",
+   74.9
+  ],
+  [
+   1004,
+   6332,
+   "A - Group IV",
+   84.2
+  ],
+  [
+   1004,
+   6666,
+   "A - Group IV",
+   80.2
+  ],
+  [
+   1005,
+   1275,
+   "Open - Group III",
+   89.2
+  ],
+  [
+   1005,
+   1283,
+   "A - Group II",
+   84.4
+  ],
+  [
+   1005,
+   1356,
+   "Open - Group IV",
+   85.6
+  ],
+  [
+   1005,
+   1560,
+   "Open - Group V",
+   85.2
+  ],
+  [
+   1005,
+   1591,
+   "A - Group V",
+   87.3
+  ],
+  [
+   1005,
+   1610,
+   "Open - Group IV",
+   84.7
+  ],
+  [
+   1005,
+   1745,
+   "A - Group II",
+   82.2
+  ],
+  [
+   1005,
+   1761,
+   "A - Group II",
+   86.2
+  ],
+  [
+   1005,
+   1951,
+   "A - Group III",
+   82.1
+  ],
+  [
+   1005,
+   2191,
+   "A - Group IV",
+   85.8
+  ],
+  [
+   1005,
+   6449,
+   "A - Group III",
+   88.7
+  ],
+  [
+   1006,
+   1349,
+   "A - Group II",
+   83.1
+  ],
+  [
+   1006,
+   1404,
+   "Open - Group III",
+   89.0
+  ],
+  [
+   1006,
+   1440,
+   "A - Group IV",
+   85.6
+  ],
+  [
+   1006,
+   1696,
+   "A - Group III",
+   88.1
+  ],
+  [
+   1006,
+   1738,
+   "A - Group V",
+   83.9
+  ],
+  [
+   1006,
+   2038,
+   "A - Group I",
+   75.0
+  ],
+  [
+   1006,
+   2187,
+   "Open - Group II",
+   82.3
+  ],
+  [
+   1006,
+   2332,
+   "A - Group II",
+   78.2
+  ],
+  [
+   1006,
+   2351,
+   "Open - Group III",
+   88.1
+  ],
+  [
+   1006,
+   6379,
+   "A - Group III",
+   91.3
+  ],
+  [
+   1006,
+   6400,
+   "A - Group III",
+   84.2
+  ],
+  [
+   1006,
+   6719,
+   "A - Group III",
+   83.3
+  ],
+  [
+   1007,
+   1553,
+   "Open - Group III",
+   91.7
+  ],
+  [
+   1007,
+   1586,
+   "Open - Group IV",
+   93.8
+  ],
+  [
+   1007,
+   1758,
+   "A - Group IV",
+   85.3
+  ],
+  [
+   1007,
+   1883,
+   "A - Group I",
+   88.8
+  ],
+  [
+   1007,
+   6350,
+   "A - Group II",
+   88.0
+  ],
+  [
+   1007,
+   6495,
+   "A - Group I",
+   79.5
+  ],
+  [
+   1008,
+   1322,
+   "A - Group II",
+   77.3
+  ],
+  [
+   1008,
+   1326,
+   "A - Group IV",
+   87.1
+  ],
+  [
+   1008,
+   1364,
+   "Open - Group V",
+   92.4
+  ],
+  [
+   1008,
+   1397,
+   "A - Group I",
+   75.5
+  ],
+  [
+   1008,
+   1440,
+   "A - Group IV",
+   86.7
+  ],
+  [
+   1008,
+   1604,
+   "Open - Group V",
+   88.8
+  ],
+  [
+   1008,
+   1698,
+   "Open - Group V",
+   94.2
+  ],
+  [
+   1008,
+   1846,
+   "Open - Group IV",
+   91.8
+  ],
+  [
+   1008,
+   2035,
+   "A - Group II",
+   79.2
+  ],
+  [
+   1008,
+   2038,
+   "A - Group I",
+   73.6
+  ],
+  [
+   1008,
+   2228,
+   "Open - Group V",
+   88.4
+  ],
+  [
+   1008,
+   2309,
+   "Open - Group V",
+   84.8
+  ],
+  [
+   1008,
+   2360,
+   "A - Group II",
+   86.7
+  ],
+  [
+   1008,
+   2375,
+   "A - Group I",
+   81.2
+  ],
+  [
+   1008,
+   2393,
+   "A - Group I",
+   80.7
+  ],
+  [
+   1008,
+   2402,
+   "A - Group II",
+   80.2
+  ],
+  [
+   1008,
+   2547,
+   "A - Group I",
+   73.2
+  ],
+  [
+   1008,
+   6725,
+   "A - Group I",
+   74.5
+  ],
+  [
+   1008,
+   6899,
+   "A - Group I",
+   79.5
+  ],
+  [
+   1008,
+   7000,
+   "A - Group I",
+   75.6
+  ],
+  [
+   1008,
+   7130,
+   "A - Group I",
+   82.0
+  ],
+  [
+   1009,
+   1676,
+   "Open - Group IV",
+   81.4
+  ],
+  [
+   1009,
+   2268,
+   "Open - Group IV",
+   79.1
+  ],
+  [
+   1009,
+   2510,
+   "Open - Group IV",
+   84.8
+  ],
+  [
+   1009,
+   6535,
+   "Open - Group II",
+   68.1
+  ],
+  [
+   1009,
+   6563,
+   "Open - Group III",
+   74.5
+  ],
+  [
+   1009,
+   6771,
+   "Open - Group II",
+   70.1
+  ],
+  [
+   1009,
+   6853,
+   "Open - Group IV",
+   77.4
+  ],
+  [
+   1010,
+   1311,
+   "Open - Group III",
+   79.8
+  ],
+  [
+   1010,
+   1356,
+   "Open - Group IV",
+   83.2
+  ],
+  [
+   1010,
+   1591,
+   "A - Group V",
+   86.0
+  ],
+  [
+   1010,
+   1611,
+   "A - Group I",
+   77.3
+  ],
+  [
+   1010,
+   1690,
+   "Open - Group V",
+   86.0
+  ],
+  [
+   1011,
+   1345,
+   "A - Group I",
+   80.4
+  ],
+  [
+   1011,
+   1532,
+   "Open - Group IV",
+   92.3
+  ],
+  [
+   1011,
+   1598,
+   "Open - Group II",
+   89.4
+  ],
+  [
+   1011,
+   1635,
+   "A - Group I",
+   79.5
+  ],
+  [
+   1011,
+   1684,
+   "A - Group II",
+   90.5
+  ],
+  [
+   1011,
+   1976,
+   "A - Group I",
+   82.2
+  ],
+  [
+   1011,
+   2007,
+   "A - Group II",
+   81.3
+  ],
+  [
+   1011,
+   2076,
+   "A - Group II",
+   76.9
+  ],
+  [
+   1011,
+   6787,
+   "A - Group II",
+   80.0
+  ],
+  [
+   1013,
+   1288,
+   "A - Group III",
+   76.6
+  ],
+  [
+   1013,
+   1817,
+   "A - Group III",
+   68.9
+  ],
+  [
+   1013,
+   1833,
+   "A - Group III",
+   69.5
+  ],
+  [
+   1013,
+   1915,
+   "A - Group I",
+   65.4
+  ],
+  [
+   1013,
+   1928,
+   "A - Group V",
+   75.5
+  ],
+  [
+   1013,
+   2033,
+   "A - Group III",
+   73.4
+  ],
+  [
+   1013,
+   2496,
+   "A - Group IV",
+   77.6
+  ],
+  [
+   1013,
+   2504,
+   "A - Group III",
+   74.8
+  ],
+  [
+   1013,
+   6464,
+   "A - Group II",
+   69.9
+  ],
+  [
+   1013,
+   6518,
+   "A - Group IV",
+   75.4
+  ],
+  [
+   1013,
+   6520,
+   "A - Group II",
+   72.6
+  ],
+  [
+   1013,
+   6525,
+   "A - Group IV",
+   80.9
+  ],
+  [
+   1013,
+   6597,
+   "A - Group III",
+   73.0
+  ],
+  [
+   1014,
+   1288,
+   "A - Group III",
+   73.5
+  ],
+  [
+   1014,
+   1833,
+   "A - Group III",
+   66.5
+  ],
+  [
+   1014,
+   1928,
+   "A - Group V",
+   73.7
+  ],
+  [
+   1014,
+   2033,
+   "A - Group III",
+   70.8
+  ],
+  [
+   1014,
+   2496,
+   "A - Group IV",
+   73.6
+  ],
+  [
+   1014,
+   2504,
+   "A - Group III",
+   71.3
+  ],
+  [
+   1014,
+   6518,
+   "A - Group IV",
+   70.7
+  ],
+  [
+   1014,
+   6520,
+   "A - Group II",
+   70.8
+  ],
+  [
+   1014,
+   6525,
+   "A - Group IV",
+   77.5
+  ],
+  [
+   1016,
+   1333,
+   "Open - Group II",
+   70.7
+  ],
+  [
+   1016,
+   2035,
+   "A - Group II",
+   65.0
+  ],
+  [
+   1016,
+   2187,
+   "Open - Group II",
+   70.9
+  ],
+  [
+   1016,
+   2547,
+   "A - Group I",
+   62.2
+  ],
+  [
+   1017,
+   1332,
+   "A - Group I",
+   73.2
+  ],
+  [
+   1017,
+   1530,
+   "A - Group III",
+   76.2
+  ],
+  [
+   1017,
+   1573,
+   "A - Group I",
+   67.8
+  ],
+  [
+   1017,
+   2013,
+   "Open - Group III",
+   71.8
+  ],
+  [
+   1017,
+   6344,
+   "A - Group I",
+   62.1
+  ],
+  [
+   1018,
+   1275,
+   "Open - Group III",
+   76.8
+  ],
+  [
+   1018,
+   1402,
+   "A - Group I",
+   74.8
+  ],
+  [
+   1018,
+   1605,
+   "A - Group III",
+   76.9
+  ],
+  [
+   1018,
+   6449,
+   "A - Group III",
+   81.2
+  ],
+  [
+   1019,
+   1341,
+   "Open - Group II",
+   78.3
+  ],
+  [
+   1019,
+   1402,
+   "A - Group I",
+   80.3
+  ],
+  [
+   1019,
+   1540,
+   "A - Group I",
+   78.1
+  ],
+  [
+   1019,
+   1543,
+   "A - Group III",
+   82.0
+  ],
+  [
+   1019,
+   1681,
+   "A - Group III",
+   78.2
+  ],
+  [
+   1020,
+   1604,
+   "Open - Group V",
+   81.0
+  ],
+  [
+   1020,
+   1637,
+   "A - Group V",
+   77.9
+  ],
+  [
+   1020,
+   1696,
+   "A - Group III",
+   77.8
+  ],
+  [
+   1020,
+   1698,
+   "Open - Group V",
+   84.8
+  ],
+  [
+   1020,
+   2187,
+   "Open - Group II",
+   78.1
+  ],
+  [
+   1020,
+   2228,
+   "Open - Group V",
+   82.4
+  ],
+  [
+   1020,
+   2351,
+   "Open - Group III",
+   78.5
+  ],
+  [
+   1020,
+   2402,
+   "A - Group II",
+   78.5
+  ],
+  [
+   1020,
+   2621,
+   "A - Group III",
+   78.4
+  ],
+  [
+   1020,
+   6466,
+   "A - Group III",
+   75.6
+  ],
+  [
+   1020,
+   6725,
+   "A - Group I",
+   68.9
+  ],
+  [
+   1020,
+   6846,
+   "A - Group II",
+   74.4
+  ],
+  [
+   1020,
+   6921,
+   "Open - Group IV",
+   76.3
+  ],
+  [
+   1021,
+   1278,
+   "Open - Group III",
+   78.4
+  ],
+  [
+   1021,
+   1327,
+   "Open - Group V",
+   83.9
+  ],
+  [
+   1021,
+   1344,
+   "A - Group V",
+   81.5
+  ],
+  [
+   1021,
+   1491,
+   "A - Group II",
+   75.3
+  ],
+  [
+   1021,
+   1562,
+   "A - Group III",
+   78.1
+  ],
+  [
+   1021,
+   1620,
+   "Open - Group IV",
+   84.1
+  ],
+  [
+   1021,
+   1746,
+   "A - Group III",
+   78.2
+  ],
+  [
+   1021,
+   1878,
+   "A - Group II",
+   73.2
+  ],
+  [
+   1021,
+   1947,
+   "A - Group V",
+   71.4
+  ],
+  [
+   1021,
+   2013,
+   "Open - Group III",
+   76.4
+  ],
+  [
+   1021,
+   6491,
+   "A - Group II",
+   69.0
+  ],
+  [
+   1023,
+   1361,
+   "Open - Group II",
+   82.2
+  ],
+  [
+   1023,
+   1557,
+   "Open - Group II",
+   74.9
+  ],
+  [
+   1023,
+   1561,
+   "A - Group II",
+   80.7
+  ],
+  [
+   1023,
+   1575,
+   "A - Group I",
+   79.3
+  ],
+  [
+   1023,
+   1590,
+   "A - Group III",
+   83.6
+  ],
+  [
+   1023,
+   1592,
+   "A - Group III",
+   81.3
+  ],
+  [
+   1023,
+   2062,
+   "A - Group II",
+   74.2
+  ],
+  [
+   1023,
+   2395,
+   "A - Group I",
+   79.7
+  ],
+  [
+   1025,
+   1251,
+   "Open - Group III",
+   86.6
+  ],
+  [
+   1025,
+   1326,
+   "A - Group IV",
+   82.6
+  ],
+  [
+   1025,
+   2351,
+   "Open - Group III",
+   83.3
+  ],
+  [
+   1025,
+   7033,
+   "A - Group IV",
+   82.1
+  ],
+  [
+   1026,
+   1253,
+   "A - Group II",
+   94.6
+  ],
+  [
+   1026,
+   1298,
+   "A - Group III",
+   86.7
+  ],
+  [
+   1026,
+   1318,
+   "A - Group III",
+   88.5
+  ],
+  [
+   1026,
+   1534,
+   "A - Group I",
+   83.5
+  ],
+  [
+   1026,
+   6915,
+   "A - Group III",
+   83.0
+  ],
+  [
+   1027,
+   1261,
+   "A - Group IV",
+   71.0
+  ],
+  [
+   1027,
+   1283,
+   "A - Group II",
+   66.2
+  ],
+  [
+   1027,
+   1557,
+   "Open - Group II",
+   69.2
+  ],
+  [
+   1027,
+   1561,
+   "A - Group II",
+   69.6
+  ],
+  [
+   1027,
+   1611,
+   "A - Group I",
+   66.0
+  ],
+  [
+   1027,
+   1624,
+   "A - Group II",
+   68.0
+  ],
+  [
+   1027,
+   6713,
+   "A - Group I",
+   72.1
+  ],
+  [
+   1029,
+   1553,
+   "Open - Group III",
+   86.6
+  ],
+  [
+   1029,
+   1586,
+   "Open - Group IV",
+   86.5
+  ],
+  [
+   1029,
+   1758,
+   "A - Group IV",
+   84.6
+  ],
+  [
+   1029,
+   1883,
+   "A - Group I",
+   82.1
+  ],
+  [
+   1029,
+   1886,
+   "A - Group III",
+   75.4
+  ],
+  [
+   1029,
+   2040,
+   "Open - Group IV",
+   77.7
+  ],
+  [
+   1029,
+   2051,
+   "A - Group I",
+   69.8
+  ],
+  [
+   1029,
+   6344,
+   "A - Group I",
+   67.9
+  ],
+  [
+   1029,
+   6350,
+   "A - Group II",
+   82.8
+  ],
+  [
+   1029,
+   6356,
+   "A - Group V",
+   82.8
+  ],
+  [
+   1029,
+   6781,
+   "A - Group III",
+   79.2
+  ],
+  [
+   1029,
+   6790,
+   "Open - Group I",
+   74.0
+  ],
+  [
+   1029,
+   6795,
+   "A - Group I",
+   71.0
+  ],
+  [
+   1031,
+   1292,
+   "Open - Group II",
+   80.8
+  ],
+  [
+   1031,
+   1347,
+   "Open - Group II",
+   83.4
+  ],
+  [
+   1031,
+   6306,
+   "Open - Group II",
+   81.9
+  ],
+  [
+   1034,
+   1239,
+   "A - Group IV",
+   78.2
+  ],
+  [
+   1034,
+   1589,
+   "A - Group I",
+   69.9
+  ],
+  [
+   1034,
+   1714,
+   "A - Group IV",
+   83.0
+  ],
+  [
+   1034,
+   1736,
+   "A - Group IV",
+   78.6
+  ],
+  [
+   1034,
+   1750,
+   "A - Group II",
+   74.4
+  ],
+  [
+   1034,
+   1756,
+   "A - Group III",
+   84.1
+  ],
+  [
+   1034,
+   1927,
+   "A - Group III",
+   81.9
+  ],
+  [
+   1034,
+   1946,
+   "A - Group IV",
+   78.1
+  ],
+  [
+   1034,
+   1993,
+   "A - Group II",
+   75.4
+  ],
+  [
+   1034,
+   2019,
+   "A - Group III",
+   77.4
+  ],
+  [
+   1034,
+   6945,
+   "A - Group II",
+   79.4
+  ],
+  [
+   1034,
+   7021,
+   "A - Group I",
+   67.7
+  ],
+  [
+   1035,
+   1288,
+   "A - Group III",
+   75.7
+  ],
+  [
+   1035,
+   1589,
+   "A - Group I",
+   66.5
+  ],
+  [
+   1035,
+   1713,
+   "A - Group IV",
+   79.4
+  ],
+  [
+   1035,
+   1714,
+   "A - Group IV",
+   78.0
+  ],
+  [
+   1035,
+   1736,
+   "A - Group IV",
+   75.3
+  ],
+  [
+   1035,
+   1750,
+   "A - Group II",
+   74.4
+  ],
+  [
+   1035,
+   1780,
+   "A - Group IV",
+   82.9
+  ],
+  [
+   1035,
+   1817,
+   "A - Group III",
+   71.3
+  ],
+  [
+   1035,
+   1833,
+   "A - Group III",
+   69.4
+  ],
+  [
+   1035,
+   1859,
+   "A - Group III",
+   68.7
+  ],
+  [
+   1035,
+   1887,
+   "A - Group IV",
+   77.3
+  ],
+  [
+   1035,
+   1903,
+   "A - Group I",
+   68.2
+  ],
+  [
+   1035,
+   1973,
+   "A - Group IV",
+   80.5
+  ],
+  [
+   1035,
+   1993,
+   "A - Group II",
+   71.9
+  ],
+  [
+   1035,
+   7021,
+   "A - Group I",
+   63.9
+  ],
+  [
+   1076,
+   1275,
+   "Open - Group III",
+   82.7
+  ],
+  [
+   1076,
+   1411,
+   "A - Group I",
+   80.1
+  ],
+  [
+   1076,
+   1419,
+   "A - Group I",
+   73.0
+  ],
+  [
+   1076,
+   1617,
+   "Open - Group III",
+   82.6
+  ],
+  [
+   1076,
+   1913,
+   "Open - Group IV",
+   83.4
+  ],
+  [
+   1076,
+   2312,
+   "A - Group III",
+   76.6
+  ],
+  [
+   1077,
+   1313,
+   "A - Group IV",
+   94.3
+  ],
+  [
+   1077,
+   1326,
+   "A - Group IV",
+   88.6
+  ],
+  [
+   1077,
+   1345,
+   "A - Group I",
+   87.4
+  ],
+  [
+   1077,
+   1397,
+   "A - Group I",
+   82.1
+  ],
+  [
+   1077,
+   1411,
+   "A - Group I",
+   95.0
+  ],
+  [
+   1077,
+   1419,
+   "A - Group I",
+   85.6
+  ],
+  [
+   1077,
+   1440,
+   "A - Group IV",
+   89.6
+  ],
+  [
+   1077,
+   1540,
+   "A - Group I",
+   91.3
+  ],
+  [
+   1077,
+   1571,
+   "A - Group I",
+   88.8
+  ],
+  [
+   1077,
+   1575,
+   "A - Group I",
+   85.8
+  ],
+  [
+   1077,
+   1591,
+   "A - Group V",
+   93.4
+  ],
+  [
+   1077,
+   1626,
+   "A - Group V",
+   83.2
+  ],
+  [
+   1077,
+   1635,
+   "A - Group I",
+   83.7
+  ],
+  [
+   1077,
+   1637,
+   "A - Group V",
+   93.1
+  ],
+  [
+   1077,
+   1769,
+   "A - Group I",
+   93.6
+  ],
+  [
+   1077,
+   1778,
+   "A - Group V",
+   89.5
+  ],
+  [
+   1077,
+   1883,
+   "A - Group I",
+   96.0
+  ],
+  [
+   1077,
+   1896,
+   "A - Group V",
+   91.5
+  ],
+  [
+   1077,
+   1902,
+   "A - Group IV",
+   87.4
+  ],
+  [
+   1077,
+   1976,
+   "A - Group I",
+   89.9
+  ],
+  [
+   1077,
+   2191,
+   "A - Group IV",
+   93.0
+  ],
+  [
+   1077,
+   2236,
+   "A - Group V",
+   94.9
+  ],
+  [
+   1077,
+   2293,
+   "A - Group IV",
+   91.3
+  ],
+  [
+   1077,
+   6303,
+   "A - Group V",
+   88.4
+  ],
+  [
+   1077,
+   6332,
+   "A - Group IV",
+   90.1
+  ],
+  [
+   1077,
+   6828,
+   "A - Group IV",
+   92.4
+  ],
+  [
+   1077,
+   6899,
+   "A - Group I",
+   83.4
+  ],
+  [
+   1077,
+   7033,
+   "A - Group IV",
+   88.1
+  ]
+ ],
+ "season_year": 2024,
+ "skipped": [
+  [
+   949,
+   "Houston Regional",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   947,
+   "Austin Regional",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   946,
+   "Saginaw Regional",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   1032,
+   "C.G. Conn Invitational",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   966,
+   "Baytown Regional",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   967,
+   "Dallas Regional",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   1033,
+   "Hill Country Regional",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   964,
+   "San Antonio Regional",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   980,
+   "Ludwig Musser Classic: Texas",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   1074,
+   "STATS South Carolina",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   979,
+   "Burleson Regional",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   978,
+   "Ark-La-Tex Regional",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   1036,
+   "STATS Georgia",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   1015,
+   "Southwestern Championships - World Class",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   1079,
+   "Southwestern Championships - Open Class",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   984,
+   "Central Texas Championships",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   983,
+   "Southeastern Texas Championships",
+   "no USBands-vocabulary divisions found"
+  ],
+  [
+   1042,
+   "STATS Championships",
+   "no USBands-vocabulary divisions found"
+  ]
+ ]
+}
