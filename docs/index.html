@@ -20,9 +20,32 @@
           </label>
         </div>
       </div>
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
-        <span id="theme-toggle-icon" aria-hidden="true">&#9789;</span>
-      </button>
+      <div class="site-header__actions">
+        <div class="theme-color-wrap">
+          <button id="theme-color-toggle" class="theme-toggle" type="button" aria-label="Customize colors" aria-haspopup="true">
+            <span aria-hidden="true">&#127912;</span>
+          </button>
+          <div id="theme-color-panel" class="theme-color-panel" hidden>
+            <p class="theme-color-panel__title">Customize colors</p>
+            <div class="theme-color-fields">
+              <label class="theme-color-field">
+                <span>Primary</span>
+                <input type="color" id="theme-primary-input" value="#1b5e3b">
+              </label>
+              <label class="theme-color-field">
+                <span>Accent</span>
+                <input type="color" id="theme-accent-input" value="#d4a017">
+              </label>
+            </div>
+            <p class="theme-color-panel__subtitle">Presets</p>
+            <div id="theme-presets" class="theme-presets"></div>
+            <button id="theme-reset" class="theme-reset" type="button">Reset to Green &amp; Gold</button>
+          </div>
+        </div>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+          <span id="theme-toggle-icon" aria-hidden="true">&#9789;</span>
+        </button>
+      </div>
     </div>
   </header>
 

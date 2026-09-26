@@ -69,12 +69,6 @@ change — it's the earliest season with real marching-band data, currently
   shows the selected season's history. Since `unit_id` is stable across
   years (verified), a band's detail panel could add a toggle to show its
   score trajectory across every backfilled season, not just the current one.
-- **User-selectable theming.** Let a viewer pick their own school's colors
-  instead of the built-in green/gold, likely a small color-picker control
-  that overrides the theme's CSS custom properties (`docs/style.css`) and
-  persists the choice in `localStorage`, the same per-browser pattern
-  already used for dark mode and favorites.
-
 ## Done
 
 - **Web UI**: a static site (`docs/index.html`, `app.js`, `style.css`) using
@@ -85,3 +79,10 @@ change — it's the earliest season with real marching-band data, currently
   the database (a season selector in the site header switches between them),
   with a per-season JSON cache so weekly runs only ever re-scrape the current
   season.
+- **User-selectable theming**: a palette icon next to the dark-mode toggle
+  opens a popover with Primary/Accent color pickers plus a few common
+  school-color presets. Picking a color derives a full light/dark-aware
+  ramp automatically (fixed lightness steps per token, hue/saturation from
+  the pick) and overrides the theme's CSS custom properties at runtime; the
+  choice persists in `localStorage`, same per-browser pattern as dark mode
+  and favorites.

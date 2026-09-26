@@ -15,6 +15,12 @@ const els = {
   mybands: document.getElementById("mybands"),
   themeToggle: document.getElementById("theme-toggle"),
   themeToggleIcon: document.getElementById("theme-toggle-icon"),
+  themeColorToggle: document.getElementById("theme-color-toggle"),
+  themeColorPanel: document.getElementById("theme-color-panel"),
+  themePrimaryInput: document.getElementById("theme-primary-input"),
+  themeAccentInput: document.getElementById("theme-accent-input"),
+  themePresets: document.getElementById("theme-presets"),
+  themeResetButton: document.getElementById("theme-reset"),
   overlay: document.getElementById("detail-overlay"),
   overlayClose: document.getElementById("detail-close"),
   detailTitle: document.getElementById("detail-title"),
@@ -699,6 +705,154 @@ function updateThemeIcon() {
   els.themeToggleIcon.textContent = isDark ? "☀" : "☽";
 }
 
+/* ---------------- Custom brand colors (Primary/Accent) ---------------- */
+
+// Fixed lightness steps per token, measured from the hand-tuned default
+// green/gold palette in style.css. Keeping these FIXED -- never derived
+// from the user's input lightness -- is what keeps an arbitrary picked
+// color legible: a pure black/white/neon pick still produces a usable ramp,
+// because lightness is always overridden, not adjusted from. Hue and
+// saturation are kept as the user picked them.
+const PRIMARY_LIGHTNESS = {
+  light: { 900: 12.7, 700: 23.7, 600: 27.6, 500: 37.3, 100: 92.2 },
+  dark: { 900: 12.7, 700: 32.2, 600: 39.4, 500: 49.2, 100: 11.8 },
+};
+const ACCENT_LIGHTNESS = {
+  light: { 700: 32.4, 500: 46.1, 200: 79.0 },
+  dark: { 700: 60.0, 500: 46.1, 200: 16.1 },
+};
+
+const DEFAULT_THEME_COLORS = { primary: "#1b5e3b", accent: "#d4a017" };
+
+const THEME_PRESETS = [
+  { name: "Green & Gold", primary: "#1b5e3b", accent: "#d4a017" },
+  { name: "Navy & Gold", primary: "#122a52", accent: "#c9a227" },
+  { name: "Maroon & White", primary: "#6e1423", accent: "#e5e5e5" },
+  { name: "Red & Black", primary: "#a4161a", accent: "#262626" },
+  { name: "Blue & Silver", primary: "#1a4f8b", accent: "#b0b7bd" },
+  { name: "Purple & Gold", primary: "#4b2e83", accent: "#d4a017" },
+];
+
+function hexToRgb(hex) {
+  const full = hex.replace("#", "").trim();
+  const n = parseInt(full.length === 3 ? full.split("").map((c) => c + c).join("") : full, 16);
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+
+function rgbToHueSat(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  if (max === min) return { h: 0, s: 0 };
+  const d = max - min;
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h;
+  switch (max) {
+    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+    case g: h = (b - r) / d + 2; break;
+    default: h = (r - g) / d + 4;
+  }
+  return { h: h * 60, s: s * 100 };
+}
+
+function hslToHex(h, s, l) {
+  h = ((h % 360) + 360) % 360;
+  s = Math.max(0, Math.min(100, s)) / 100;
+  l = Math.max(0, Math.min(100, l)) / 100;
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+  let rgb;
+  if (h < 60) rgb = [c, x, 0];
+  else if (h < 120) rgb = [x, c, 0];
+  else if (h < 180) rgb = [0, c, x];
+  else if (h < 240) rgb = [0, x, c];
+  else if (h < 300) rgb = [x, 0, c];
+  else rgb = [c, 0, x];
+  const toHex = (v) => Math.round((v + m) * 255).toString(16).padStart(2, "0");
+  return `#${toHex(rgb[0])}${toHex(rgb[1])}${toHex(rgb[2])}`;
+}
+
+function deriveRamp(hex, lightnessSteps) {
+  const { r, g, b } = hexToRgb(hex);
+  const { h, s } = rgbToHueSat(r, g, b);
+  const out = {};
+  for (const step of Object.keys(lightnessSteps)) {
+    out[step] = hslToHex(h, s, lightnessSteps[step]);
+  }
+  return out;
+}
+
+function buildThemeCSS(primaryHex, accentHex) {
+  const pLight = deriveRamp(primaryHex, PRIMARY_LIGHTNESS.light);
+  const pDark = deriveRamp(primaryHex, PRIMARY_LIGHTNESS.dark);
+  const aLight = deriveRamp(accentHex, ACCENT_LIGHTNESS.light);
+  const aDark = deriveRamp(accentHex, ACCENT_LIGHTNESS.dark);
+
+  const vars = (p, a) =>
+    `--brand-green-900: ${p[900]}; --brand-green-700: ${p[700]}; --brand-green-600: ${p[600]}; ` +
+    `--brand-green-500: ${p[500]}; --brand-green-100: ${p[100]}; ` +
+    `--brand-gold-700: ${a[700]}; --brand-gold-500: ${a[500]}; --brand-gold-200: ${a[200]};`;
+
+  return (
+    `:root { ${vars(pLight, aLight)} --focus-ring: ${pLight[500]}; }\n` +
+    `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { ${vars(pDark, aDark)} } }\n` +
+    `:root[data-theme="dark"] { ${vars(pDark, aDark)} }`
+  );
+}
+
+function applyCustomTheme(primaryHex, accentHex, { persist = true } = {}) {
+  let styleEl = document.getElementById("custom-theme");
+  if (!styleEl) {
+    styleEl = document.createElement("style");
+    styleEl.id = "custom-theme";
+    document.head.appendChild(styleEl);
+  }
+  styleEl.textContent = buildThemeCSS(primaryHex, accentHex);
+  if (persist) safeLocalStorageSet("usbands-theme-colors", JSON.stringify({ primary: primaryHex, accent: accentHex }));
+  if (els.themePrimaryInput) els.themePrimaryInput.value = primaryHex;
+  if (els.themeAccentInput) els.themeAccentInput.value = accentHex;
+}
+
+function resetCustomTheme() {
+  const styleEl = document.getElementById("custom-theme");
+  if (styleEl) styleEl.remove();
+  safeLocalStorageSet("usbands-theme-colors", "");
+  if (els.themePrimaryInput) els.themePrimaryInput.value = DEFAULT_THEME_COLORS.primary;
+  if (els.themeAccentInput) els.themeAccentInput.value = DEFAULT_THEME_COLORS.accent;
+}
+
+function loadSavedCustomTheme() {
+  const raw = safeLocalStorageGet("usbands-theme-colors");
+  if (!raw) return;
+  try {
+    const saved = JSON.parse(raw);
+    if (saved && saved.primary && saved.accent) applyCustomTheme(saved.primary, saved.accent, { persist: false });
+  } catch {
+    /* ignore corrupt value */
+  }
+}
+
+function populateThemePresets() {
+  if (!els.themePresets) return;
+  els.themePresets.innerHTML = "";
+  for (const preset of THEME_PRESETS) {
+    const swatch = el(
+      "button",
+      {
+        type: "button",
+        class: "preset-swatch",
+        title: preset.name,
+        "aria-label": preset.name,
+        style: `background: linear-gradient(135deg, ${preset.primary} 50%, ${preset.accent} 50%);`,
+      },
+      []
+    );
+    swatch.addEventListener("click", () => applyCustomTheme(preset.primary, preset.accent));
+    els.themePresets.appendChild(swatch);
+  }
+}
+
 function safeLocalStorageGet(key) {
   try { return localStorage.getItem(key); } catch { return null; }
 }
@@ -712,10 +866,37 @@ let dbHandle = null;
 
 async function main() {
   initTheme();
+  loadSavedCustomTheme();
   els.themeToggle.addEventListener("click", () => {
     const current = document.documentElement.getAttribute("data-theme");
     const isDark = current === "dark" || (!current && matchMedia("(prefers-color-scheme: dark)").matches);
     applyTheme(isDark ? "light" : "dark");
+  });
+
+  populateThemePresets();
+  let savedColors = null;
+  try {
+    savedColors = JSON.parse(safeLocalStorageGet("usbands-theme-colors") || "null");
+  } catch {
+    /* ignore corrupt value */
+  }
+  els.themePrimaryInput.value = (savedColors || DEFAULT_THEME_COLORS).primary;
+  els.themeAccentInput.value = (savedColors || DEFAULT_THEME_COLORS).accent;
+  const applyFromInputs = () => applyCustomTheme(els.themePrimaryInput.value, els.themeAccentInput.value);
+  els.themePrimaryInput.addEventListener("input", applyFromInputs);
+  els.themeAccentInput.addEventListener("input", applyFromInputs);
+  els.themeResetButton.addEventListener("click", resetCustomTheme);
+  els.themeColorToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    els.themeColorPanel.hidden = !els.themeColorPanel.hidden;
+  });
+  document.addEventListener("click", (e) => {
+    if (!els.themeColorPanel.hidden && !els.themeColorPanel.contains(e.target) && e.target !== els.themeColorToggle) {
+      els.themeColorPanel.hidden = true;
+    }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") els.themeColorPanel.hidden = true;
   });
 
   els.overlayClose.addEventListener("click", closeDetail);
