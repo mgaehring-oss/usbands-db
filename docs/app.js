@@ -31,6 +31,12 @@ const els = {
   detailModeSeason: document.getElementById("detail-mode-season"),
   detailModeAll: document.getElementById("detail-mode-all"),
   detailTableBody: document.getElementById("detail-table-body"),
+  compareOverlay: document.getElementById("compare-overlay"),
+  compareClose: document.getElementById("compare-close"),
+  compareSub: document.getElementById("compare-sub"),
+  compareLegend: document.getElementById("compare-legend"),
+  compareChart: document.getElementById("compare-chart"),
+  compareTableBody: document.getElementById("compare-table-body"),
 };
 
 /** In-memory model for the currently-selected season. Populated by
@@ -419,15 +425,12 @@ function render() {
 
 /* ---------------- My Bands (pinned favorites summary) ---------------- */
 
-function renderMyBands() {
-  els.mybands.innerHTML = "";
-  if (model.favorites.size === 0) return;
-
+// Always rank against the FULL division roster, independent of whatever the
+// main leaderboard's filters are currently set to. Shared by renderMyBands()
+// and the compare view so both agree on each favorited band's true rank.
+function getFavoritedRows() {
   const unfiltered = { stateGroupId: "all", finalsOnly: false, favoritesOnly: false, search: "" };
   const found = [];
-
-  // Always rank against the FULL division roster, independent of whatever
-  // the main leaderboard's filters are currently set to.
   for (const division of model.divisions) {
     const roster = model.bandsByDivision.get(division.id);
     if (!roster || ![...model.favorites].some((uid) => roster.has(uid))) continue;
@@ -435,14 +438,28 @@ function renderMyBands() {
       if (isFavorite(row.unitId)) found.push({ row, division });
     }
   }
-
-  if (found.length === 0) return;
   found.sort((a, b) => a.row.name.localeCompare(b.row.name));
+  return found;
+}
+
+function renderMyBands() {
+  els.mybands.innerHTML = "";
+  if (model.favorites.size === 0) return;
+
+  const found = getFavoritedRows();
+  if (found.length === 0) return;
+
+  const rightChildren = [el("span", { class: "division-section__count" }, [`${found.length} favorited`])];
+  if (found.length >= 2) {
+    const compareBtn = el("button", { type: "button", class: "compare-btn" }, ["Compare"]);
+    compareBtn.addEventListener("click", () => openCompare());
+    rightChildren.unshift(compareBtn);
+  }
 
   const section = el("section", { class: "division-section mybands-section" }, [
     el("div", { class: "division-section__head" }, [
       el("h2", {}, ["★ My Bands"]),
-      el("span", { class: "division-section__count" }, [`${found.length} favorited`]),
+      el("div", { class: "division-section__head-right" }, rightChildren),
     ]),
   ]);
 
@@ -740,6 +757,233 @@ function closeDetail() {
   els.overlay.hidden = true;
 }
 
+/* ---------------- Compare (multiple favorited bands) ---------------- */
+
+// A fixed, brand-independent categorical order -- deliberately NOT derived
+// from the site's own (possibly user-customized) Primary/Accent theme.
+// Comparing 2+ bands needs several mutually distinguishable hues at once,
+// which a 2-color brand theme was never designed to guarantee; this order
+// is validated to stay distinguishable slot over slot in both modes.
+const COMPARE_PALETTE_LIGHT = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7", "#e34948"];
+const COMPARE_PALETTE_DARK = ["#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#008300", "#9085e9", "#e66767"];
+
+function currentComparePalette() {
+  const theme = document.documentElement.getAttribute("data-theme");
+  const isDark = theme === "dark" || (!theme && matchMedia("(prefers-color-scheme: dark)").matches);
+  return isDark ? COMPARE_PALETTE_DARK : COMPARE_PALETTE_LIGHT;
+}
+
+function openCompare() {
+  const found = getFavoritedRows();
+  if (found.length < 2) return;
+
+  const palette = currentComparePalette();
+  const series = found.map((f, i) => ({
+    name: f.row.name,
+    divisionLabel: f.division.label,
+    color: palette[i % palette.length],
+    points: f.row.history,
+  }));
+
+  els.compareSub.textContent = `${model.seasonYear} season — ${series.length} bands`;
+
+  els.compareLegend.innerHTML = "";
+  for (const s of series) {
+    els.compareLegend.appendChild(
+      el("span", { class: "compare-legend__item" }, [
+        el("span", { class: "compare-legend__swatch", style: `background:${s.color}` }, []),
+        `${s.name} (${s.divisionLabel})`,
+      ])
+    );
+  }
+
+  els.compareChart.innerHTML = "";
+  els.compareChart.appendChild(buildCompareChart(series));
+
+  els.compareTableBody.innerHTML = "";
+  for (const { row, division } of found) {
+    els.compareTableBody.appendChild(
+      el("tr", {}, [
+        el("td", {}, [el("span", { class: "band-name" }, [row.name])]),
+        el("td", {}, [division.label]),
+        el("td", { class: "num" }, [fmtScore(row.latest && row.latest.score)]),
+        el("td", { class: "num" }, [fmtScore(row.prior && row.prior.score)]),
+        el("td", { class: "num" }, [deltaCell(row.delta)]),
+      ])
+    );
+  }
+
+  els.compareOverlay.hidden = false;
+}
+
+function closeCompare() {
+  els.compareOverlay.hidden = true;
+}
+
+function buildCompareChart(series) {
+  // Shared x-axis: the union of every distinct date across all compared
+  // bands, chronological -- each band's line is drawn only through the
+  // dates where it actually has a score, leaving a gap otherwise (never
+  // interpolated), since not every favorited band attends every show.
+  const dateSet = new Set();
+  for (const s of series) for (const p of s.points) dateSet.add(p.date);
+  const dates = [...dateSet].sort();
+
+  if (dates.length === 0) {
+    return el("p", { class: "empty-note" }, ["Not enough data yet to compare."]);
+  }
+
+  const width = 640, height = 240;
+  const padL = 34, padR = 16, padT = 16, padB = 26;
+  const innerW = width - padL - padR, innerH = height - padT - padB;
+
+  const allScores = series.flatMap((s) => s.points.map((p) => p.score));
+  const min = Math.min(...allScores), max = Math.max(...allScores);
+  const lo = Math.floor((min - 1) * 2) / 2;
+  const hi = Math.ceil((max + 1) * 2) / 2;
+  const range = hi - lo || 1;
+  const stepX = dates.length > 1 ? innerW / (dates.length - 1) : 0;
+  const yForScore = (v) => padT + innerH - ((v - lo) / range) * innerH;
+
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Score comparison line chart");
+
+  [lo, (lo + hi) / 2, hi].forEach((val) => {
+    const y = yForScore(val);
+    const line = document.createElementNS(ns, "line");
+    line.setAttribute("x1", padL);
+    line.setAttribute("x2", width - padR);
+    line.setAttribute("y1", y);
+    line.setAttribute("y2", y);
+    line.setAttribute("class", "chart-gridline");
+    svg.appendChild(line);
+
+    const label = document.createElementNS(ns, "text");
+    label.setAttribute("x", padL - 6);
+    label.setAttribute("y", y + 3);
+    label.setAttribute("text-anchor", "end");
+    label.setAttribute("class", "chart-axis-label");
+    label.textContent = val.toFixed(1);
+    svg.appendChild(label);
+  });
+
+  const labelEvery = Math.max(1, Math.ceil(dates.length / 6));
+  dates.forEach((date, i) => {
+    if (i % labelEvery !== 0 && i !== dates.length - 1) return;
+    const label = document.createElementNS(ns, "text");
+    label.setAttribute("x", padL + i * stepX);
+    label.setAttribute("y", height - 6);
+    label.setAttribute("text-anchor", "middle");
+    label.setAttribute("class", "chart-axis-label");
+    label.textContent = fmtDate(date);
+    svg.appendChild(label);
+  });
+
+  for (const s of series) {
+    const byDate = new Map(s.points.map((p) => [p.date, p]));
+    let d = "";
+    let drawing = false;
+    dates.forEach((date, i) => {
+      const p = byDate.get(date);
+      if (!p) {
+        drawing = false;
+        return;
+      }
+      const x = padL + i * stepX, y = yForScore(p.score);
+      d += drawing ? ` L${x},${y}` : `M${x},${y}`;
+      drawing = true;
+    });
+    const path = document.createElementNS(ns, "path");
+    path.setAttribute("d", d);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", s.color);
+    path.setAttribute("stroke-width", "2");
+    path.setAttribute("stroke-linecap", "round");
+    path.setAttribute("stroke-linejoin", "round");
+    svg.appendChild(path);
+
+    dates.forEach((date) => {
+      const p = byDate.get(date);
+      if (!p) return;
+      const i = dates.indexOf(date);
+      const dot = document.createElementNS(ns, "circle");
+      dot.setAttribute("cx", padL + i * stepX);
+      dot.setAttribute("cy", yForScore(p.score));
+      dot.setAttribute("r", 3.5);
+      dot.setAttribute("fill", s.color);
+      dot.setAttribute("stroke", "var(--surface)");
+      dot.setAttribute("stroke-width", "1.5");
+      svg.appendChild(dot);
+    });
+  }
+
+  const container = el("div", { style: "position:relative" }, []);
+
+  // One shared crosshair + one tooltip listing every series at that date
+  // (per the "one tooltip, every series" convention already used for the
+  // single-band chart's hover, extended to multiple lines here).
+  const crosshair = document.createElementNS(ns, "line");
+  crosshair.setAttribute("y1", padT);
+  crosshair.setAttribute("y2", height - padB);
+  crosshair.setAttribute("class", "chart-crosshair");
+  crosshair.style.opacity = "0";
+  svg.appendChild(crosshair);
+
+  const tooltip = el("div", { class: "chart-tooltip chart-tooltip--wide" }, []);
+
+  dates.forEach((date, i) => {
+    const x = padL + i * stepX;
+    const hitWidth = Math.max(stepX, 24);
+    const hit = document.createElementNS(ns, "rect");
+    hit.setAttribute("x", x - hitWidth / 2);
+    hit.setAttribute("y", padT);
+    hit.setAttribute("width", hitWidth);
+    hit.setAttribute("height", innerH);
+    hit.setAttribute("fill", "transparent");
+    hit.style.cursor = "pointer";
+    hit.tabIndex = 0;
+
+    const show = () => {
+      crosshair.setAttribute("x1", x);
+      crosshair.setAttribute("x2", x);
+      crosshair.style.opacity = "1";
+      tooltip.innerHTML = "";
+      tooltip.appendChild(el("div", {}, [fmtDate(date)]));
+      for (const s of series) {
+        const p = s.points.find((pt) => pt.date === date);
+        tooltip.appendChild(
+          el("div", {}, [
+            el("span", {
+              style: `display:inline-block;width:8px;height:8px;border-radius:999px;background:${s.color};margin-right:6px;`,
+            }, []),
+            p ? el("strong", {}, [p.score.toFixed(1)]) : "—",
+            ` ${s.name}`,
+          ])
+        );
+      }
+      tooltip.style.left = `${(x / width) * 100}%`;
+      tooltip.style.top = `${(padT / height) * 100}%`;
+      tooltip.classList.add("is-visible");
+    };
+    const hide = () => {
+      crosshair.style.opacity = "0";
+      tooltip.classList.remove("is-visible");
+    };
+    hit.addEventListener("mouseenter", show);
+    hit.addEventListener("mouseleave", hide);
+    hit.addEventListener("focus", show);
+    hit.addEventListener("blur", hide);
+    svg.appendChild(hit);
+  });
+
+  container.appendChild(svg);
+  container.appendChild(tooltip);
+  return container;
+}
+
 /* ---------------- Filters setup ---------------- */
 
 function populateFilters() {
@@ -999,6 +1243,14 @@ async function main() {
   });
   els.detailModeSeason.addEventListener("click", () => setDetailMode("season"));
   els.detailModeAll.addEventListener("click", () => setDetailMode("all"));
+
+  els.compareClose.addEventListener("click", closeCompare);
+  els.compareOverlay.addEventListener("click", (e) => {
+    if (e.target === els.compareOverlay) closeCompare();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeCompare();
+  });
 
   for (const control of [els.divisionFilter, els.stateFilter, els.finalsFilter, els.favoritesFilter]) {
     control.addEventListener("change", render);

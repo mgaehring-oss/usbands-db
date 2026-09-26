@@ -110,6 +110,27 @@
     </div>
   </div>
 
+  <div id="compare-overlay" class="detail-overlay" hidden>
+    <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="compare-title">
+      <button id="compare-close" class="detail-panel__close" type="button" aria-label="Close">&times;</button>
+      <h2 id="compare-title">Comparing my bands</h2>
+      <p id="compare-sub" class="detail-panel__sub"></p>
+      <div id="compare-legend" class="compare-legend"></div>
+      <div id="compare-chart" class="detail-chart"></div>
+      <div class="table-scroll">
+        <table class="detail-table">
+          <thead>
+            <tr>
+              <th>Band</th><th>Group</th>
+              <th class="num">Latest</th><th class="num">Prior</th><th class="num">Δ</th>
+            </tr>
+          </thead>
+          <tbody id="compare-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js"></script>
   <script src="app.js"></script>
 </body>

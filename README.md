@@ -65,13 +65,6 @@ change — it's the earliest season with real marching-band data, currently
 
 ## TODO
 
-- **Silent-failure detection for the scraper.** If usbands.org ever changes
-  its HTML, the weekly job wouldn't error, it'd just quietly return zero or
-  partial results. Fail the workflow loudly if the current season's score
-  count drops sharply week-over-week vs. the previously-committed database.
-- **Compare bands view.** Overlay 2+ favorited bands' score lines on one
-  chart instead of viewing them one at a time — natural extension of
-  favoriting + the cross-season trend view.
 - **Shareable URLs.** Season/group/state filter selections don't show up in
   the URL, so there's no way to link someone straight to e.g. "NJ States,
   A-Group II" — add them as query params.
@@ -107,3 +100,17 @@ change — it's the earliest season with real marching-band data, currently
   dashed line segment (plus an auto-shown caption) at any point a band's
   division changed — flagging exactly where scores stop being directly
   comparable, since that can happen mid-season, not just year to year.
+- **Silent-failure detection for the scraper**: the weekly job reads the
+  current season's score count from the existing db before rebuilding and
+  fails loudly (skipping the commit) if it drops more than 20% from that
+  baseline — a real scraper breakage should collapse toward zero, while a
+  legitimate correction stays within normal week-to-week noise.
+- **Compare bands view**: a "Compare" button in My Bands (shown once you've
+  favorited 2+) overlays every favorited band's score line on one chart for
+  the currently selected season, aligned on a shared date axis with gaps
+  where a band didn't attend a given show. Uses a fixed categorical palette
+  independent of the site's own (possibly user-customized) theme, since
+  comparing several bands needs more mutually distinguishable hues than a
+  2-color brand pair guarantees. A band that changed divisions mid-season
+  (seen in testing) just shows up as two clearly-labeled series rather than
+  needing special-case handling.
