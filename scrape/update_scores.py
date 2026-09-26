@@ -14,6 +14,7 @@ Usage:
     python update_scores.py <season_year> <output_db_path>
 """
 import json
+import os
 import re
 import sqlite3
 import sys
@@ -301,6 +302,15 @@ def division_class_and_number(label):
 
 
 def build_database(data, path):
+    """Always rebuilds `path` from scratch (deletes it first) and inserts
+    rows in a fixed sort order, so re-running against unchanged source data
+    produces a byte-identical file -- otherwise every scheduled run would
+    show a spurious diff (SQLite's on-disk layout isn't guaranteed stable
+    across differently-ordered inserts, and Python's default per-process
+    string-hash randomization means set-of-tuple iteration order otherwise
+    varies run to run)."""
+    if os.path.exists(path):
+        os.remove(path)
     season_year = data["season_year"]
     conn = sqlite3.connect(path)
     conn.executescript(SCHEMA)
@@ -308,56 +318,60 @@ def build_database(data, path):
 
     cur.execute("INSERT OR IGNORE INTO seasons (year) VALUES (?)", (season_year,))
 
-    for label, div_id in data["divisions"].items():
+    for label, div_id in sorted(data["divisions"].items(), key=lambda kv: kv[1]):
         cls, num = division_class_and_number(label)
         cur.execute(
             "INSERT OR IGNORE INTO divisions (id, class, group_number, label) VALUES (?,?,?,?)",
             (div_id, cls, num, label),
         )
 
-    for uid, name in data["bands"].items():
+    for uid, name in sorted(data["bands"].items()):
         cur.execute("INSERT OR IGNORE INTO bands (unit_id, name) VALUES (?,?)", (uid, name))
 
-    for eid, ev in data["events"].items():
+    for eid, ev in sorted(data["events"].items()):
         cur.execute(
             "INSERT OR IGNORE INTO events (id, season_year, name, event_date, city, state, event_kind) "
             "VALUES (?,?,?,?,?,?,?)",
             (ev["id"], ev["season_year"], ev["name"], ev["event_date"], ev["city"], ev["state"], ev["event_kind"]),
         )
 
-    for (kind, name), gid in data["championship_groups"].items():
+    for (kind, name), gid in sorted(data["championship_groups"].items(), key=lambda kv: kv[1]):
         cur.execute(
             "INSERT OR IGNORE INTO championship_groups (id, season_year, kind, name) VALUES (?,?,?,?)",
             (gid, season_year, kind, name),
         )
 
-    for gid, eid in data["championship_group_events"]:
+    for gid, eid in sorted(data["championship_group_events"]):
         cur.execute(
             "INSERT OR IGNORE INTO championship_group_events (championship_group_id, event_id) VALUES (?,?)",
             (gid, eid),
         )
 
-    for eid, uid, label, score in data["scores"]:
-        div_id = data["divisions"][label]
+    scored_rows = sorted(
+        (eid, uid, data["divisions"][label], score) for eid, uid, label, score in data["scores"]
+    )
+    for eid, uid, div_id, score in scored_rows:
         cur.execute(
             "INSERT OR IGNORE INTO scores (event_id, unit_id, division_id, score) VALUES (?,?,?,?)",
             (eid, uid, div_id, score),
         )
 
-    for uid, label in data["band_season_division"]:
-        div_id = data["divisions"][label]
+    division_tag_rows = sorted(
+        (uid, data["divisions"][label]) for uid, label in data["band_season_division"]
+    )
+    for uid, div_id in division_tag_rows:
         cur.execute(
             "INSERT OR IGNORE INTO band_season_division (unit_id, season_year, division_id) VALUES (?,?,?)",
             (uid, season_year, div_id),
         )
 
-    for uid, gid in data["band_season_state"]:
+    for uid, gid in sorted(data["band_season_state"]):
         cur.execute(
             "INSERT OR IGNORE INTO band_season_state_championship (unit_id, season_year, championship_group_id) VALUES (?,?,?)",
             (uid, season_year, gid),
         )
 
-    for uid, gid in data["band_season_final"]:
+    for uid, gid in sorted(data["band_season_final"]):
         cur.execute(
             "INSERT OR IGNORE INTO band_season_final (unit_id, season_year, championship_group_id) VALUES (?,?,?)",
             (uid, season_year, gid),
