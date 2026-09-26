@@ -65,9 +65,6 @@ change — it's the earliest season with real marching-band data, currently
 
 ## TODO
 
-- **Shareable URLs.** Season/group/state filter selections don't show up in
-  the URL, so there's no way to link someone straight to e.g. "NJ States,
-  A-Group II" — add them as query params.
 - **Home-state filter.** Considered during the original filters pass and
   left out; filter by the band's home state independent of which state
   championship they attend.
@@ -114,3 +111,9 @@ change — it's the earliest season with real marching-band data, currently
   2-color brand pair guarantees. A band that changed divisions mid-season
   (seen in testing) just shows up as two clearly-labeled series rather than
   needing special-case handling.
+- **Shareable URLs**: season/group/state/finals/favorites/search all sync to
+  query params (e.g. `?group=3&state=26&q=Audubon`), so a link reproduces
+  the exact view. Uses `history.replaceState` (no back-button spam per
+  keystroke), applies URL -> controls once on initial load only (so a link
+  reproduces a view without fighting your own later changes), and silently
+  falls back to defaults for any invalid/stale param instead of erroring.

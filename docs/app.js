@@ -348,6 +348,55 @@ function currentFilterOpts() {
   };
 }
 
+/* ---------------- Shareable URL (query params <-> filter controls) ---------------- */
+
+function readFiltersFromURL() {
+  const p = new URLSearchParams(location.search);
+  return {
+    season: p.has("season") ? Number(p.get("season")) : null,
+    division: p.get("group"),
+    state: p.get("state"),
+    finals: p.get("finals") === "1",
+    favorites: p.get("favorites") === "1",
+    q: p.get("q") || "",
+  };
+}
+
+// Applied once, right after the season/filter dropdowns are first populated
+// -- a shared link should reproduce a view, not fight the user's own later
+// changes, so URL -> controls only happens on initial load.
+function applyFiltersFromURL(params) {
+  if (params.division && [...els.divisionFilter.options].some((o) => o.value === params.division)) {
+    els.divisionFilter.value = params.division;
+  }
+  if (params.state && [...els.stateFilter.options].some((o) => o.value === params.state)) {
+    els.stateFilter.value = params.state;
+  }
+  if (params.finals) els.finalsFilter.checked = true;
+  if (params.favorites) els.favoritesFilter.checked = true;
+  if (params.q) els.searchFilter.value = params.q;
+}
+
+// The reverse direction runs on every render() (every filter change, season
+// switch, and favorite toggle), so the address bar always matches what's on
+// screen. Uses replaceState, not pushState -- nobody wants a back-button
+// entry per keystroke in the search box.
+function updateURLFromFilters() {
+  const p = new URLSearchParams();
+  if (model.seasonYear && model.allSeasons.length && model.seasonYear !== model.allSeasons[0]) {
+    p.set("season", String(model.seasonYear));
+  }
+  if (els.divisionFilter.value !== "all") p.set("group", els.divisionFilter.value);
+  if (els.stateFilter.value !== "all") p.set("state", els.stateFilter.value);
+  if (els.finalsFilter.checked) p.set("finals", "1");
+  if (els.favoritesFilter.checked) p.set("favorites", "1");
+  if (els.searchFilter.value.trim()) p.set("q", els.searchFilter.value.trim());
+
+  const qs = p.toString();
+  const newUrl = qs ? `${location.pathname}?${qs}` : location.pathname;
+  history.replaceState(null, "", newUrl);
+}
+
 function render() {
   const opts = currentFilterOpts();
   const showTagsColumn = opts.stateGroupId === "all" || !opts.finalsOnly;
@@ -421,6 +470,8 @@ function render() {
   if (!anyRows) {
     els.results.appendChild(el("div", { class: "empty-note" }, ["No bands match the current filters."]));
   }
+
+  updateURLFromFilters();
 }
 
 /* ---------------- My Bands (pinned favorites summary) ---------------- */
@@ -1276,10 +1327,12 @@ async function main() {
   }
 
   model.allSeasons = queryAll(dbHandle, "SELECT year FROM seasons ORDER BY year DESC").map((r) => r.year);
-  const defaultYear = model.allSeasons[0];
-  buildModelForSeason(dbHandle, defaultYear);
+  const urlParams = readFiltersFromURL();
+  const initialYear = urlParams.season && model.allSeasons.includes(urlParams.season) ? urlParams.season : model.allSeasons[0];
+  buildModelForSeason(dbHandle, initialYear);
   populateSeasonSelect();
   populateFilters();
+  applyFiltersFromURL(urlParams);
   els.status.hidden = true;
   renderAll();
 }
