@@ -51,7 +51,7 @@ deliberate: it's what makes re-running with unchanged data byte-identical.
 
 ## Automation
 
-`.github/workflows/update.yml` reruns the scraper every Sunday morning ET and
+`.github/workflows/update.yml` reruns the scraper every Monday morning ET and
 commits `docs/data/usbands.db` (and any newly-created `data/cache/*.json`,
 which only happens in the rare week a season first closes out) if anything
 changed. No cloud routine or Drive upload dance needed — the database is

@@ -2,8 +2,9 @@ name: Update USBands database
 
 on:
   schedule:
-    # Sundays at 12:00 UTC (8am EDT / 7am EST) -- after Saturday's events are scored
-    - cron: "0 12 * * 0"
+    # Mondays at 12:00 UTC (8am EDT / 7am EST) -- an extra day's buffer past
+    # Saturday's events in case usbands.org posts/corrects results late
+    - cron: "0 12 * * 1"
   workflow_dispatch: {}
 
 env:
