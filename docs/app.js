@@ -9,6 +9,7 @@ const els = {
   seasonSelect: document.getElementById("season-select"),
   divisionFilter: document.getElementById("filter-division"),
   stateFilter: document.getElementById("filter-state"),
+  homeStateFilter: document.getElementById("filter-home-state"),
   finalsFilter: document.getElementById("filter-finals"),
   favoritesFilter: document.getElementById("filter-favorites"),
   searchFilter: document.getElementById("filter-search"),
@@ -54,6 +55,8 @@ const model = {
   stateGroupsByBand: new Map(),    // unit_id -> Set(group_id)
   stateGroupNameById: new Map(),   // group_id -> name
   finalsByBand: new Set(),         // unit_id with any finals appearance this season
+  bandHomeState: new Map(),        // unit_id -> home state (2-letter), global (not season-scoped)
+  homeStates: [],                  // distinct home states among this season's bands, sorted
   favorites: new Set(),            // unit_id, persisted to localStorage
 };
 
@@ -149,8 +152,10 @@ function buildModelForSeason(db, year) {
   model.stateGroupNameById = new Map(model.stateGroups.map((g) => [g.id, g.name]));
 
   model.bandNames = new Map();
-  for (const row of queryAll(db, "SELECT unit_id, name FROM bands")) {
+  model.bandHomeState = new Map();
+  for (const row of queryAll(db, "SELECT unit_id, name, home_state FROM bands")) {
     model.bandNames.set(row.unit_id, row.name);
+    if (row.home_state) model.bandHomeState.set(row.unit_id, row.home_state);
   }
 
   model.bandsByDivision = new Map();
@@ -162,6 +167,17 @@ function buildModelForSeason(db, year) {
     if (!model.bandsByDivision.has(row.division_id)) model.bandsByDivision.set(row.division_id, new Set());
     model.bandsByDivision.get(row.division_id).add(row.unit_id);
   }
+
+  // Only offer home states actually present among this season's bands, same
+  // spirit as the state-championship dropdown only listing relevant groups.
+  const homeStateSet = new Set();
+  for (const roster of model.bandsByDivision.values()) {
+    for (const uid of roster) {
+      const st = model.bandHomeState.get(uid);
+      if (st) homeStateSet.add(st);
+    }
+  }
+  model.homeStates = [...homeStateSet].sort();
 
   model.stateGroupsByBand = new Map();
   for (const row of queryAll(
@@ -220,6 +236,7 @@ function computeRows(division, opts) {
     const isFinals = model.finalsByBand.has(unitId);
 
     if (opts.stateGroupId !== "all" && !stateGroups.has(opts.stateGroupId)) continue;
+    if (opts.homeState && opts.homeState !== "all" && model.bandHomeState.get(unitId) !== opts.homeState) continue;
     if (opts.finalsOnly && !isFinals) continue;
     const name = model.bandNames.get(unitId) || `Unit ${unitId}`;
     if (opts.search && !name.toLowerCase().includes(opts.search)) continue;
@@ -344,6 +361,7 @@ function currentFilterOpts() {
   return {
     divisionId: els.divisionFilter.value,
     stateGroupId: els.stateFilter.value === "all" ? "all" : Number(els.stateFilter.value),
+    homeState: els.homeStateFilter.value,
     finalsOnly: els.finalsFilter.checked,
     favoritesOnly: els.favoritesFilter.checked,
     search: els.searchFilter.value.trim().toLowerCase(),
@@ -358,6 +376,7 @@ function readFiltersFromURL() {
     season: p.has("season") ? Number(p.get("season")) : null,
     division: p.get("group"),
     state: p.get("state"),
+    home: p.get("home"),
     finals: p.get("finals") === "1",
     favorites: p.get("favorites") === "1",
     q: p.get("q") || "",
@@ -373,6 +392,9 @@ function applyFiltersFromURL(params) {
   }
   if (params.state && [...els.stateFilter.options].some((o) => o.value === params.state)) {
     els.stateFilter.value = params.state;
+  }
+  if (params.home && [...els.homeStateFilter.options].some((o) => o.value === params.home)) {
+    els.homeStateFilter.value = params.home;
   }
   if (params.finals) els.finalsFilter.checked = true;
   if (params.favorites) els.favoritesFilter.checked = true;
@@ -390,6 +412,7 @@ function updateURLFromFilters() {
   }
   if (els.divisionFilter.value !== "all") p.set("group", els.divisionFilter.value);
   if (els.stateFilter.value !== "all") p.set("state", els.stateFilter.value);
+  if (els.homeStateFilter.value !== "all") p.set("home", els.homeStateFilter.value);
   if (els.finalsFilter.checked) p.set("finals", "1");
   if (els.favoritesFilter.checked) p.set("favorites", "1");
   if (els.searchFilter.value.trim()) p.set("q", els.searchFilter.value.trim());
@@ -1071,7 +1094,10 @@ function exportCSV() {
   const divisionsToShow =
     opts.divisionId === "all" ? model.divisions : model.divisions.filter((d) => String(d.id) === opts.divisionId);
 
-  const header = ["Season", "Group", "Rank", "Band", "Latest", "Prior", "Delta", "State Championship", "Finals Qualifier"];
+  const header = [
+    "Season", "Group", "Rank", "Band", "Home State", "Latest", "Prior", "Delta",
+    "State Championship", "Finals Qualifier",
+  ];
   const lines = [header];
 
   for (const division of divisionsToShow) {
@@ -1081,6 +1107,7 @@ function exportCSV() {
         division.label,
         row.rank ?? "",
         row.name,
+        model.bandHomeState.get(row.unitId) || "",
         row.latest ? row.latest.score.toFixed(1) : "",
         row.prior ? row.prior.score.toFixed(1) : "",
         row.delta !== null && row.delta !== undefined ? row.delta.toFixed(1) : "",
@@ -1116,6 +1143,12 @@ function populateFilters() {
   for (const g of model.stateGroups) {
     els.stateFilter.appendChild(el("option", { value: String(g.id) }, [g.name]));
   }
+
+  els.homeStateFilter.innerHTML = "";
+  els.homeStateFilter.appendChild(el("option", { value: "all" }, ["Any home state"]));
+  for (const st of model.homeStates) {
+    els.homeStateFilter.appendChild(el("option", { value: st }, [st]));
+  }
 }
 
 /** Division/state IDs are season-scoped, so a selection from the previous
@@ -1124,6 +1157,7 @@ function populateFilters() {
 function resetFilterControls() {
   els.divisionFilter.value = "all";
   els.stateFilter.value = "all";
+  els.homeStateFilter.value = "all";
   els.finalsFilter.checked = false;
   els.favoritesFilter.checked = false;
   els.searchFilter.value = "";
@@ -1373,7 +1407,7 @@ async function main() {
   els.exportCsvBtn.addEventListener("click", exportCSV);
   els.exportPrintBtn.addEventListener("click", () => window.print());
 
-  for (const control of [els.divisionFilter, els.stateFilter, els.finalsFilter, els.favoritesFilter]) {
+  for (const control of [els.divisionFilter, els.stateFilter, els.homeStateFilter, els.finalsFilter, els.favoritesFilter]) {
     control.addEventListener("change", render);
   }
   els.searchFilter.addEventListener("input", render);

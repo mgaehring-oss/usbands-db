@@ -16,6 +16,12 @@ The database itself is still fully deleted and rebuilt from scratch every
 run (see build_database) -- the cache makes that cheap, rather than trying
 to surgically patch an existing db file in place.
 
+Each band's home city/state (scraped from its own usbands.org profile page,
+not guessed from event locations or which state championship it attends)
+is cached forever by unit_id in data/cache/bands.json, same reasoning as
+the season cache -- a school's home location never changes, so only
+genuinely new bands ever trigger a fetch.
+
 Stdlib only (urllib + re + sqlite3) -- no external dependencies, so this runs
 unmodified in a bare CI/cloud sandbox with just Python.
 
@@ -151,6 +157,83 @@ def classify_event(title):
     if m:
         return "state_championship", m.group(1).strip()
     return "regular", None
+
+
+CITY_STATE_RE = re.compile(r'<div class="cityState">([^<]+)</div>')
+
+
+def fetch_home_location(unit_id):
+    """Scrapes a band's own profile page (not an event page) for its actual
+    home city/state -- e.g. "Audubon Jr./Sr. High School, Audubon, NJ".
+    Deliberately not derived from event locations or which state
+    championship a band attends, since neither reliably matches a school's
+    real home state (a band can travel, or a border-area school can attend
+    a neighboring state's championship).
+
+    Returns (city, state), or (None, None) if the page loaded but had no
+    cityState div. Raises on a fetch failure (network/timeout) -- the
+    caller must NOT cache that as a confirmed empty result, or a transient
+    hiccup would permanently poison that band's home state forever."""
+    html = fetch(f"https://usbands.org/units/details.php?ID={unit_id}")
+    m = CITY_STATE_RE.search(html)
+    if not m:
+        return None, None
+    parts = [p.strip() for p in m.group(1).split(",")]
+    if len(parts) < 2:
+        return None, None
+    return parts[-2], parts[-1]  # city, state
+
+
+def _band_locations_path(cache_dir):
+    return os.path.join(cache_dir, "bands.json")
+
+
+def load_band_locations(cache_dir):
+    path = _band_locations_path(cache_dir)
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        return {int(k): tuple(v) for k, v in json.load(f).items()}
+
+
+def save_band_locations(cache_dir, locations):
+    os.makedirs(cache_dir, exist_ok=True)
+    with open(_band_locations_path(cache_dir), "w", encoding="utf-8") as f:
+        json.dump({str(k): list(v) for k, v in locations.items()}, f, indent=1, sort_keys=True)
+
+
+def resolve_band_locations(bands, cache_dir, log=print):
+    """bands: {unit_id: name}. Returns {unit_id: (city, state)}. A band's
+    home location is permanent (schools don't relocate), so it's cached
+    forever across every run, same spirit as the per-season JSON cache --
+    only genuinely new unit_ids ever get fetched, keeping this a one-time
+    cost rather than a recurring one. A fetch failure is skipped, not
+    cached, so it's automatically retried next run rather than permanently
+    recorded as "no data" -- this matters because it's plain to hit a
+    transient network hiccup across ~700 sequential requests."""
+    locations = load_band_locations(cache_dir)
+    new_count = 0
+    failed = []
+    for uid in sorted(bands):
+        if uid in locations:
+            continue
+        try:
+            locations[uid] = fetch_home_location(uid)
+            new_count += 1
+        except Exception as exc:
+            log(f"    unit {uid}: fetch failed ({exc}), will retry next run")
+            failed.append(uid)
+        if new_count and new_count % 50 == 0:
+            log(f"    ...resolved {new_count} new band locations so far")
+    if new_count:
+        note = f" ({len(failed)} failed, will retry next run)" if failed else ""
+        log(f"Fetched home location for {new_count} new band(s); {len(locations)} cached total{note}.")
+        save_band_locations(cache_dir, locations)
+    elif failed:
+        log(f"{len(failed)} band location fetch(es) failed; will retry next run. {len(locations)} cached total.")
+    else:
+        log(f"All {len(locations)} bands' home locations already cached.")
+    return locations
 
 
 def crawl_season(season_year, log=print):
@@ -354,7 +437,9 @@ CREATE TABLE IF NOT EXISTS divisions (
 
 CREATE TABLE IF NOT EXISTS bands (
   unit_id INTEGER PRIMARY KEY,
-  name TEXT NOT NULL
+  name TEXT NOT NULL,
+  home_city TEXT,
+  home_state TEXT
 );
 
 CREATE TABLE IF NOT EXISTS events (
@@ -413,7 +498,7 @@ def division_class_and_number(label):
     return m.group(1), ROMAN_TO_INT[m.group(2)]
 
 
-def build_database(merged, path):
+def build_database(merged, path, locations=None):
     """Always rebuilds `path` from scratch (deletes it first) and inserts
     rows in a fixed sort order, so re-running against unchanged source data
     produces a byte-identical file -- otherwise every scheduled run would
@@ -443,8 +528,13 @@ def build_database(merged, path):
             (DIVISION_ID[label], cls, num, label),
         )
 
+    locations = locations or {}
     for uid, name in sorted(merged["bands"].items()):
-        cur.execute("INSERT OR IGNORE INTO bands (unit_id, name) VALUES (?,?)", (uid, name))
+        city, state = locations.get(uid, (None, None))
+        cur.execute(
+            "INSERT OR IGNORE INTO bands (unit_id, name, home_city, home_state) VALUES (?,?,?,?)",
+            (uid, name, city, state),
+        )
 
     for eid, ev in sorted(merged["events"].items()):
         cur.execute(
@@ -554,7 +644,8 @@ def main():
     previous_count = read_current_season_score_count(out_path, end_year)
 
     merged = crawl_seasons(start_year, end_year, cache_dir)
-    build_database(merged, out_path)
+    locations = resolve_band_locations(merged["bands"], cache_dir)
+    build_database(merged, out_path, locations)
 
     current_season = next((s for s in merged["per_season_summary"] if s["year"] == end_year), None)
     new_count = current_season["scores"] if current_season else 0

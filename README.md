@@ -65,9 +65,6 @@ change — it's the earliest season with real marching-band data, currently
 
 ## TODO
 
-- **Home-state filter.** Considered during the original filters pass and
-  left out; filter by the band's home state independent of which state
-  championship they attend.
 - **PWA manifest** for a more native feel checking scores from a phone at a
   competition.
 - **Scraper test suite** with saved HTML fixtures, so a future usbands.org
@@ -121,3 +118,10 @@ change — it's the earliest season with real marching-band data, currently
   itself renders from, never scraped from the DOM) as a CSV, or open the
   browser's print dialog against a print stylesheet that hides chrome
   (filters, header actions, star column) and flattens colors for paper.
+- **Home-state filter**: filter the leaderboard by a band's home state,
+  independent of which state championship they attend. Home city/state comes
+  from each band's usbands.org profile page and is cached permanently per
+  `unit_id` in `data/cache/bands.json` (schools don't relocate, so once
+  resolved it's never re-fetched). A transient fetch failure is skipped
+  rather than cached, so it's automatically retried on the next run instead
+  of permanently recording a band as having no home state.
