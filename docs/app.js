@@ -37,6 +37,8 @@ const els = {
   compareLegend: document.getElementById("compare-legend"),
   compareChart: document.getElementById("compare-chart"),
   compareTableBody: document.getElementById("compare-table-body"),
+  exportCsvBtn: document.getElementById("export-csv"),
+  exportPrintBtn: document.getElementById("export-print"),
 };
 
 /** In-memory model for the currently-selected season. Populated by
@@ -1035,6 +1037,71 @@ function buildCompareChart(series) {
   return container;
 }
 
+/* ---------------- Export (CSV / print) ---------------- */
+
+function csvEscape(value) {
+  const s = value === null || value === undefined ? "" : String(value);
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+function slugify(s) {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-+|-+$)/g, "");
+}
+
+function exportFilename(opts) {
+  const parts = ["usbands", String(model.seasonYear)];
+  if (opts.divisionId !== "all") {
+    const d = model.divisions.find((x) => String(x.id) === opts.divisionId);
+    if (d) parts.push(slugify(d.label));
+  }
+  if (opts.stateGroupId !== "all") {
+    const name = model.stateGroupNameById.get(opts.stateGroupId);
+    if (name) parts.push(slugify(name));
+  }
+  if (opts.finalsOnly) parts.push("finals");
+  if (opts.favoritesOnly) parts.push("favorites");
+  return `${parts.join("-")}.csv`;
+}
+
+// Exports exactly what's currently on screen -- recomputed from the same
+// currentFilterOpts()/computeRows() the leaderboard itself renders from,
+// rather than scraping the DOM, so it can never drift from what's visible.
+function exportCSV() {
+  const opts = currentFilterOpts();
+  const divisionsToShow =
+    opts.divisionId === "all" ? model.divisions : model.divisions.filter((d) => String(d.id) === opts.divisionId);
+
+  const header = ["Season", "Group", "Rank", "Band", "Latest", "Prior", "Delta", "State Championship", "Finals Qualifier"];
+  const lines = [header];
+
+  for (const division of divisionsToShow) {
+    for (const row of computeRows(division, opts)) {
+      lines.push([
+        model.seasonYear,
+        division.label,
+        row.rank ?? "",
+        row.name,
+        row.latest ? row.latest.score.toFixed(1) : "",
+        row.prior ? row.prior.score.toFixed(1) : "",
+        row.delta !== null && row.delta !== undefined ? row.delta.toFixed(1) : "",
+        [...row.stateGroups].map((gid) => model.stateGroupNameById.get(gid) || "").join("; "),
+        row.isFinals ? "Yes" : "No",
+      ]);
+    }
+  }
+
+  const csv = lines.map((row) => row.map(csvEscape).join(",")).join("\r\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = exportFilename(opts);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 /* ---------------- Filters setup ---------------- */
 
 function populateFilters() {
@@ -1302,6 +1369,9 @@ async function main() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeCompare();
   });
+
+  els.exportCsvBtn.addEventListener("click", exportCSV);
+  els.exportPrintBtn.addEventListener("click", () => window.print());
 
   for (const control of [els.divisionFilter, els.stateFilter, els.finalsFilter, els.favoritesFilter]) {
     control.addEventListener("change", render);

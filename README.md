@@ -68,7 +68,6 @@ change — it's the earliest season with real marching-band data, currently
 - **Home-state filter.** Considered during the original filters pass and
   left out; filter by the band's home state independent of which state
   championship they attend.
-- **CSV/print export** of whatever's currently filtered.
 - **PWA manifest** for a more native feel checking scores from a phone at a
   competition.
 - **Scraper test suite** with saved HTML fixtures, so a future usbands.org
@@ -117,3 +116,8 @@ change — it's the earliest season with real marching-band data, currently
   keystroke), applies URL -> controls once on initial load only (so a link
   reproduces a view without fighting your own later changes), and silently
   falls back to defaults for any invalid/stale param instead of erroring.
+- **CSV/print export**: buttons above the leaderboard export exactly what's
+  currently filtered (recomputed from the same `computeRows()` the table
+  itself renders from, never scraped from the DOM) as a CSV, or open the
+  browser's print dialog against a print stylesheet that hides chrome
+  (filters, header actions, star column) and flattens colors for paper.
