@@ -98,9 +98,6 @@ without waiting for a real failure.
   which got a dedicated audit as they were built.
 - **Open Graph meta tags** so a shared URL shows a title/description preview
   when pasted into a group chat or Slack.
-- **Surface the "Add to Home Screen" install prompt** directly, since most
-  mobile browsers bury it in a menu and the PWA manifest may otherwise go
-  undiscovered.
 
 ## Done
 
@@ -181,3 +178,10 @@ without waiting for a real failure.
   instead of staying silent until someone checks the Actions tab; the issue
   auto-closes itself on the next success. See "Automation" above for the
   one-time secret setup the email path needs.
+- **Install prompt**: a dismissible banner surfaces "Add to Home Screen"
+  directly instead of leaving it buried in a browser menu. Uses Chrome/
+  Edge's `beforeinstallprompt` where available (a real Install button), and
+  falls back to brief Share-sheet instructions on iOS, which has no
+  programmatic install API at all. Stays hidden once dismissed
+  (`localStorage`, same per-browser pattern as favorites/theming) or once
+  the site is already running standalone.

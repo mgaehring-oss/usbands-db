@@ -318,6 +318,62 @@ main {
 }
 .site-footer a { color: var(--text-secondary); }
 
+/* ---------- Install banner ---------- */
+
+.install-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand-gold-500);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-1);
+}
+.install-banner__text {
+  flex: 1;
+  min-width: 200px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+.install-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.install-banner__install {
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border: 1px solid var(--brand-gold-700);
+  border-radius: 999px;
+  background: var(--brand-gold-500);
+  color: #241c04;
+  cursor: pointer;
+}
+.install-banner__install:hover { filter: brightness(1.05); }
+.install-banner__install:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.install-banner__dismiss {
+  font: inherit;
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.install-banner__dismiss:hover { background: var(--brand-green-100); color: var(--brand-green-700); }
+:root[data-theme="dark"] .install-banner__dismiss:hover { color: var(--brand-green-500); }
+.install-banner__dismiss:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
 /* ---------- Filters ---------- */
 
 .filters {
@@ -746,7 +802,7 @@ table.leaderboard tbody tr.is-favorite:hover { background: var(--brand-gold-200)
 @media print {
   body { background: #fff; color: #000; }
   .site-header, .filters, .export-toolbar, .site-footer,
-  .star-col, .compare-btn, .theme-color-panel { display: none !important; }
+  .star-col, .compare-btn, .theme-color-panel, .install-banner { display: none !important; }
   main { padding: 0; max-width: none; }
   .division-section, .mybands-section {
     box-shadow: none;

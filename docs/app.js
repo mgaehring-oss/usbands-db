@@ -15,6 +15,10 @@ const els = {
   searchFilter: document.getElementById("filter-search"),
   mybands: document.getElementById("mybands"),
   lastUpdated: document.getElementById("last-updated"),
+  installBanner: document.getElementById("install-banner"),
+  installBannerText: document.getElementById("install-banner-text"),
+  installBtn: document.getElementById("install-btn"),
+  installDismiss: document.getElementById("install-dismiss"),
   themeToggle: document.getElementById("theme-toggle"),
   themeToggleIcon: document.getElementById("theme-toggle-icon"),
   themeColorToggle: document.getElementById("theme-color-toggle"),
@@ -1384,6 +1388,74 @@ async function loadLastUpdated() {
   }
 }
 
+/* ---------------- Install prompt ---------------- */
+
+// Most mobile browsers bury "Add to Home Screen" in a menu (or, on iOS,
+// inside the Share sheet with no programmatic prompt at all), so the PWA
+// manifest added earlier could easily go unnoticed. This surfaces it
+// directly: a dismissible banner using Chrome/Edge's beforeinstallprompt
+// where available, or brief instructions on iOS where it isn't.
+let deferredInstallPrompt = null;
+
+function isStandaloneDisplay() {
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
+
+function isIOSDevice() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+function showInstallBanner(mode) {
+  if (!els.installBanner) return;
+  els.installBanner.hidden = false;
+  if (els.installBtn) els.installBtn.hidden = mode !== "prompt";
+  if (els.installBannerText) {
+    els.installBannerText.textContent = mode === "ios"
+      ? 'Install this app: tap Share, then "Add to Home Screen."'
+      : "Install this app for quick access at competitions.";
+  }
+}
+
+function hideInstallBanner() {
+  if (els.installBanner) els.installBanner.hidden = true;
+}
+
+function initInstallPrompt() {
+  if (isStandaloneDisplay() || safeLocalStorageGet("usbands-install-dismissed") === "1") return;
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    showInstallBanner("prompt");
+  });
+
+  window.addEventListener("appinstalled", () => {
+    deferredInstallPrompt = null;
+    hideInstallBanner();
+  });
+
+  if (isIOSDevice()) showInstallBanner("ios");
+
+  if (els.installBtn) {
+    els.installBtn.addEventListener("click", async () => {
+      if (!deferredInstallPrompt) return;
+      hideInstallBanner();
+      deferredInstallPrompt.prompt();
+      try {
+        await deferredInstallPrompt.userChoice;
+      } finally {
+        deferredInstallPrompt = null;
+      }
+    });
+  }
+  if (els.installDismiss) {
+    els.installDismiss.addEventListener("click", () => {
+      hideInstallBanner();
+      safeLocalStorageSet("usbands-install-dismissed", "1");
+    });
+  }
+}
+
 /* ---------------- Init ---------------- */
 
 let dbHandle = null;
@@ -1459,6 +1531,7 @@ async function main() {
 
   loadFavorites();
   loadLastUpdated();
+  initInstallPrompt();
 
   try {
     dbHandle = await openDatabase();
