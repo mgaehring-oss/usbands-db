@@ -22,6 +22,7 @@ const els = {
   themeAccentInput: document.getElementById("theme-accent-input"),
   themePresets: document.getElementById("theme-presets"),
   themeResetButton: document.getElementById("theme-reset"),
+  themeColorMeta: document.querySelector('meta[name="theme-color"]'),
   overlay: document.getElementById("detail-overlay"),
   overlayClose: document.getElementById("detail-close"),
   detailTitle: document.getElementById("detail-title"),
@@ -1177,6 +1178,7 @@ function initTheme() {
   const stored = safeLocalStorageGet("usbands-theme");
   if (stored === "light" || stored === "dark") applyTheme(stored);
   updateThemeIcon();
+  updateThemeColorMeta();
 }
 
 function applyTheme(theme) {
@@ -1184,6 +1186,7 @@ function applyTheme(theme) {
   else document.documentElement.removeAttribute("data-theme");
   safeLocalStorageSet("usbands-theme", theme || "");
   updateThemeIcon();
+  updateThemeColorMeta();
 }
 
 function updateThemeIcon() {
@@ -1288,6 +1291,15 @@ function buildThemeCSS(primaryHex, accentHex) {
   );
 }
 
+// Reads --brand-green-700 back off the live DOM (rather than re-deriving it
+// from the picked primary) so the meta tag always matches exactly what's
+// rendered, whether that's a custom-derived ramp or the hand-tuned default.
+function updateThemeColorMeta() {
+  if (!els.themeColorMeta) return;
+  const value = getComputedStyle(document.documentElement).getPropertyValue("--brand-green-700").trim();
+  if (value) els.themeColorMeta.setAttribute("content", value);
+}
+
 function applyCustomTheme(primaryHex, accentHex, { persist = true } = {}) {
   let styleEl = document.getElementById("custom-theme");
   if (!styleEl) {
@@ -1299,6 +1311,7 @@ function applyCustomTheme(primaryHex, accentHex, { persist = true } = {}) {
   if (persist) safeLocalStorageSet("usbands-theme-colors", JSON.stringify({ primary: primaryHex, accent: accentHex }));
   if (els.themePrimaryInput) els.themePrimaryInput.value = primaryHex;
   if (els.themeAccentInput) els.themeAccentInput.value = accentHex;
+  updateThemeColorMeta();
 }
 
 function resetCustomTheme() {
@@ -1307,6 +1320,7 @@ function resetCustomTheme() {
   safeLocalStorageSet("usbands-theme-colors", "");
   if (els.themePrimaryInput) els.themePrimaryInput.value = DEFAULT_THEME_COLORS.primary;
   if (els.themeAccentInput) els.themeAccentInput.value = DEFAULT_THEME_COLORS.accent;
+  updateThemeColorMeta();
 }
 
 function loadSavedCustomTheme() {
