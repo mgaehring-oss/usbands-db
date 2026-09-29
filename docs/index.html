@@ -59,6 +59,18 @@
   </header>
 
   <main>
+    <div id="offline-banner" class="install-banner" hidden role="status">
+      <span class="install-banner__text">You're offline -- showing the last downloaded scores.</span>
+    </div>
+
+    <div id="data-update-banner" class="install-banner" hidden role="status">
+      <span class="install-banner__text">New scores are available.</span>
+      <div class="install-banner__actions">
+        <button id="data-update-refresh" type="button" class="install-banner__install">Refresh</button>
+        <button id="data-update-dismiss" type="button" class="install-banner__dismiss" aria-label="Dismiss">&times;</button>
+      </div>
+    </div>
+
     <div id="install-banner" class="install-banner" hidden role="region" aria-label="Install app">
       <span id="install-banner-text" class="install-banner__text"></span>
       <div class="install-banner__actions">

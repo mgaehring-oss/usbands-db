@@ -197,3 +197,15 @@ without waiting for a real failure.
   `aria-live` region announces the filtered band/group count on every
   re-render, instead of the whole results table being (silently, or overly
   verbosely) re-announced.
+- **Offline support** (`docs/sw.js`): a service worker caches the app shell,
+  the sql.js WASM bundle, and the database, so the installed (or just
+  bookmarked) app keeps working with no network at all -- verified with the
+  local dev server killed outright, not just simulated. The database and
+  `last_updated.txt` use a cache-first-then-revalidate-in-the-background
+  strategy: instant load from whatever was last fetched, refreshed quietly
+  for next time. Diffing the tiny `last_updated.txt` (rather than the much
+  larger database) is what triggers a live "New scores are available --
+  Refresh" banner mid-session via the service worker messaging the open tab,
+  not just on the next manual reload. A separate banner appears whenever
+  `navigator.onLine` goes false. The first visit still has to be online to
+  seed the caches -- there's no bootstrapping a PWA from nothing.

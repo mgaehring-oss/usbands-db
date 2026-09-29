@@ -21,6 +21,10 @@ const els = {
   installBtn: document.getElementById("install-btn"),
   installDismiss: document.getElementById("install-dismiss"),
   installIconBtn: document.getElementById("install-icon-btn"),
+  offlineBanner: document.getElementById("offline-banner"),
+  dataUpdateBanner: document.getElementById("data-update-banner"),
+  dataUpdateRefresh: document.getElementById("data-update-refresh"),
+  dataUpdateDismiss: document.getElementById("data-update-dismiss"),
   themeToggle: document.getElementById("theme-toggle"),
   themeToggleIcon: document.getElementById("theme-toggle-icon"),
   themeColorToggle: document.getElementById("theme-color-toggle"),
@@ -1541,6 +1545,43 @@ function initInstallPrompt() {
   }
 }
 
+/* ---------------- Offline banner ---------------- */
+
+function updateOfflineBanner() {
+  if (els.offlineBanner) els.offlineBanner.hidden = navigator.onLine;
+}
+
+function initOfflineBanner() {
+  updateOfflineBanner();
+  window.addEventListener("online", updateOfflineBanner);
+  window.addEventListener("offline", updateOfflineBanner);
+}
+
+/* ---------------- Service worker (offline caching + data-update notice) ---------------- */
+
+// The service worker caches the app shell, the sql.js WASM bundle, and the
+// database offline (see sw.js). It also diffs last_updated.txt on every
+// background refresh -- a few bytes, cheap to check on every load -- as the
+// signal that the (much larger) database actually changed, and messages
+// this page immediately rather than waiting for the next manual reload.
+function initServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  navigator.serviceWorker.register("sw.js").catch(() => {
+    /* offline on first visit, or an unsupported context -- just skip it */
+  });
+  navigator.serviceWorker.addEventListener("message", (event) => {
+    if (event.data && event.data.type === "usbands-data-updated" && els.dataUpdateBanner) {
+      els.dataUpdateBanner.hidden = false;
+    }
+  });
+  if (els.dataUpdateRefresh) els.dataUpdateRefresh.addEventListener("click", () => location.reload());
+  if (els.dataUpdateDismiss) {
+    els.dataUpdateDismiss.addEventListener("click", () => {
+      els.dataUpdateBanner.hidden = true;
+    });
+  }
+}
+
 /* ---------------- Init ---------------- */
 
 let dbHandle = null;
@@ -1641,6 +1682,8 @@ async function main() {
   loadFavorites();
   loadLastUpdated();
   initInstallPrompt();
+  initOfflineBanner();
+  initServiceWorker();
 
   try {
     dbHandle = await openDatabase();
