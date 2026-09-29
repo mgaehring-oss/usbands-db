@@ -91,11 +91,6 @@ under repo Settings → Secrets and variables → Actions, or via
 path anytime with `gh workflow run update.yml -f simulate_failure=true`
 without waiting for a real failure.
 
-## TODO
-
-- **Open Graph meta tags** so a shared URL shows a title/description preview
-  when pasted into a group chat or Slack.
-
 ## Done
 
 - **Web UI**: a static site (`docs/index.html`, `app.js`, `style.css`) using
@@ -209,3 +204,8 @@ without waiting for a real failure.
   not just on the next manual reload. A separate banner appears whenever
   `navigator.onLine` goes false. The first visit still has to be online to
   seed the caches -- there's no bootstrapping a PWA from nothing.
+- **Open Graph / Twitter Card meta tags**: a link to the site now shows a
+  title, description, and a branded 1200x630 preview image
+  (`docs/og-image.png`, generated to match the app icon's green/gold look)
+  when pasted into Slack, iMessage, Discord, or similar, instead of a bare
+  link.
