@@ -20,6 +20,7 @@ const els = {
   installBannerText: document.getElementById("install-banner-text"),
   installBtn: document.getElementById("install-btn"),
   installDismiss: document.getElementById("install-dismiss"),
+  installIconBtn: document.getElementById("install-icon-btn"),
   themeToggle: document.getElementById("theme-toggle"),
   themeToggleIcon: document.getElementById("theme-toggle-icon"),
   themeColorToggle: document.getElementById("theme-color-toggle"),
@@ -1473,21 +1474,36 @@ function hideInstallBanner() {
   if (els.installBanner) els.installBanner.hidden = true;
 }
 
+// The banner only offers to install once (respecting a dismissal), but the
+// icon is the permanent way back in -- it renders only when installing is
+// actually possible right now (a captured beforeinstallprompt, or iOS) and
+// disappears once already installed, so there's never a dead button.
+function updateInstallIconVisibility() {
+  if (!els.installIconBtn) return;
+  els.installIconBtn.hidden = isStandaloneDisplay() || !(deferredInstallPrompt || isIOSDevice());
+}
+
 function initInstallPrompt() {
-  if (isStandaloneDisplay() || safeLocalStorageGet("usbands-install-dismissed") === "1") return;
+  if (isStandaloneDisplay()) return;
+  const dismissed = safeLocalStorageGet("usbands-install-dismissed") === "1";
 
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     deferredInstallPrompt = e;
-    showInstallBanner("prompt");
+    if (!dismissed) showInstallBanner("prompt");
+    updateInstallIconVisibility();
   });
 
   window.addEventListener("appinstalled", () => {
     deferredInstallPrompt = null;
     hideInstallBanner();
+    updateInstallIconVisibility();
   });
 
-  if (isIOSDevice()) showInstallBanner("ios");
+  if (isIOSDevice()) {
+    if (!dismissed) showInstallBanner("ios");
+    updateInstallIconVisibility();
+  }
 
   if (els.installBtn) {
     els.installBtn.addEventListener("click", async () => {
@@ -1498,6 +1514,7 @@ function initInstallPrompt() {
         await deferredInstallPrompt.userChoice;
       } finally {
         deferredInstallPrompt = null;
+        updateInstallIconVisibility();
       }
     });
   }
@@ -1505,6 +1522,21 @@ function initInstallPrompt() {
     els.installDismiss.addEventListener("click", () => {
       hideInstallBanner();
       safeLocalStorageSet("usbands-install-dismissed", "1");
+    });
+  }
+  if (els.installIconBtn) {
+    els.installIconBtn.addEventListener("click", async () => {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        try {
+          await deferredInstallPrompt.userChoice;
+        } finally {
+          deferredInstallPrompt = null;
+          updateInstallIconVisibility();
+        }
+      } else if (isIOSDevice()) {
+        showInstallBanner("ios");
+      }
     });
   }
 }

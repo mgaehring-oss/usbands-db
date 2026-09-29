@@ -179,9 +179,12 @@ without waiting for a real failure.
   directly instead of leaving it buried in a browser menu. Uses Chrome/
   Edge's `beforeinstallprompt` where available (a real Install button), and
   falls back to brief Share-sheet instructions on iOS, which has no
-  programmatic install API at all. Stays hidden once dismissed
-  (`localStorage`, same per-browser pattern as favorites/theming) or once
-  the site is already running standalone.
+  programmatic install API at all. Dismissing the banner is permanent
+  (`localStorage`, same per-browser pattern as favorites/theming), but a
+  small icon next to the theme controls stays as a permanent way back in --
+  it renders only when installing is actually still possible (a captured
+  install event, or iOS) and disappears once already installed, so there's
+  never a dead button.
 - **Accessibility pass** on the detail/compare overlays and theme picker
   popover: opening either overlay moves focus to its close button and traps
   Tab/Shift+Tab inside it (aria-modal alone doesn't enforce this for
