@@ -1,0 +1,24 @@
+name: Scraper tests
+
+on:
+  push:
+    paths:
+      - "scrape/**"
+      - ".github/workflows/test.yml"
+  pull_request:
+    paths:
+      - "scrape/**"
+      - ".github/workflows/test.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Run scraper tests
+        run: python -m unittest discover -s scrape/tests -v

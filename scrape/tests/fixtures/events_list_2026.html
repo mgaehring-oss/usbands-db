@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+
+<!-- 2026-09-28 17:57:39 America/Los_Angeles -->
+
+
+<html>
+
+<head>
+
+    <title>Events :: USBands</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <!-- force out of Compatibility Mode, which breaks everything -->
+    <meta name="csrf-token" content="16f24218d30694fd1f7fa66e6c6fcbe02694aab8c1b51b13b5cf9537ad842fd8"/>
+<script>
+(function () {
+    var meta = document.querySelector('meta[name=csrf-token]');
+    var token = meta ? meta.getAttribute('content') : '';
+    if (!token || !window.XMLHttpRequest) { return; }
+
+    // Emitted by both the page wrapper and by modal fragments, which are loaded
+    // into an already-patched page as often as they are opened on their own.
+    if (window.__wbaCsrfShim) { return; }
+    window.__wbaCsrfShim = true;
+
+    var HEADER = "X-CSRF-Token";
+    var FIELD = "csrfToken";
+    var SAFE = { GET: 1, HEAD: 1, OPTIONS: 1 };
+
+    function sameOrigin(url) {
+        var a = document.createElement('a');
+        a.href = url || window.location.href;
+        return (a.protocol + '//' + a.host) === (window.location.protocol + '//' + window.location.host);
+    }
+
+    var proto = XMLHttpRequest.prototype;
+    var open = proto.open;
+    var send = proto.send;
+    var setHeader = proto.setRequestHeader;
+
+    // Setting the same header twice appends rather than replaces, so a caller
+    // that already attached the token would produce "tok, tok" and fail.
+    proto.setRequestHeader = function (name, value) {
+        if (String(name).toLowerCase() === HEADER.toLowerCase()) { this.__wbaCsrfSent = true; }
+        return setHeader.apply(this, arguments);
+    };
+
+    proto.open = function (method, url) {
+        this.__wbaCsrfSent = false;
+        this.__wbaCsrfWanted = !SAFE[String(method || 'GET').toUpperCase()] && sameOrigin(url);
+        return open.apply(this, arguments);
+    };
+
+    proto.send = function () {
+        if (this.__wbaCsrfWanted && !this.__wbaCsrfSent) { this.setRequestHeader(HEADER, token); }
+        return send.apply(this, arguments);
+    };
+
+    if (window.fetch && window.Headers) {
+        var nativeFetch = window.fetch;
+        window.fetch = function (input, init) {
+            var url = (typeof input === 'string') ? input : (input && input.url) || '';
+            var method = String((init && init.method) || (input && input.method) || 'GET').toUpperCase();
+            if (!SAFE[method] && sameOrigin(url)) {
+                var headers = new Headers((init && init.headers) || (input && input.headers) || {});
+                if (!headers.has(HEADER)) {
+                    headers.set(HEADER, token);
+                    var next = {};
+                    for (var k in (init || {})) { next[k] = init[k]; }
+                    next.headers = headers;
+                    init = next;
+                }
+            }
+            // Bind to window: a bare fetch() call passes undefined as `this`,
+            // which some engines reject as an illegal invocation.
+            return nativeFetch.call(window, input, init);
+        };
+    }
+
+    // A plain form post never touches XHR, so it needs the token in the body.
+    // Read the action at submit time: callers rewrite it just before submitting.
+    function addField(form) {
+        if (!form || String(form.method || 'get').toUpperCase() !== 'POST') { return; }
+        if (!sameOrigin(form.getAttribute('action'))) { return; }
+        var existing = form.querySelector('input[name="' + FIELD + '"]');
+        if (existing) { existing.value = token; return; }
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = FIELD;
+        input.value = token;
+        form.appendChild(input);
+    }
+
+    document.addEventListener('submit', function (e) { addField(e.target); }, true);
+
+    // jQuery's .submit()/.trigger('submit') dispatches no DOM event — it calls
+    // this method, which per spec fires none either, so the listener above never
+    // sees a programmatic submit. Every WOMP broadcast form posts that way.
+    if (window.HTMLFormElement && HTMLFormElement.prototype.submit) {
+        var nativeFormSubmit = HTMLFormElement.prototype.submit;
+        HTMLFormElement.prototype.submit = function () {
+            addField(this);
+            return nativeFormSubmit.apply(this, arguments);
+        };
+    }
+})();
+</script>
+
+    <!-- favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/includes/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/includes/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/includes/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/includes/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/includes/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/includes/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/includes/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/includes/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/includes/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/includes/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/includes/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/includes/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/includes/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/includes/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/includes/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- smdb -->
+    <meta property="og:image" content="https://usbands.org/includes/wrapper/images/social-media/og-usbands-logo.jpg?updated=2022-03-20" />
+    <meta property="og:url" content="" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+
+
+    <!-- browser check http://outdatedbrowser.com/en -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+
+
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- https://github.com/jquery/jquery-migrate/#README -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.1.0/jquery-migrate.min.js"></script>
+
+
+<!-- retina http://retinaimag.es v1.7.2 modded -->
+<script>(function(w){var dpr=((w.devicePixelRatio===undefined)?1:w.devicePixelRatio);if(!!w.navigator.standalone){var r=new XMLHttpRequest();r.open('GET','/includes/images/retinaimages.php?devicePixelRatio='+dpr,false);r.send()}else{document.cookie='devicePixelRatio='+dpr+'; path=/'}})(window)</script>
+<noscript><style id="devicePixelRatio" media="only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)">html{background-image:url("/includes/images/retinaimages.php?devicePixelRatio=2")}</style></noscript>
+
+
+
+<!-- https://jqueryui.com -->
+<!-- so we can drag/drop table rows when they are not DataTables (such as UnitProductionPersons) -->
+<!-- this needs to go first so it doesn't conflict with bootstrap -->
+<!-- https://cdnjs.com/libraries/jqueryui -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- bootstrap -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- /bootstrap -->
+
+
+
+<!-- plugins -->
+
+<!-- blockUI http://jquery.malsup.com/block/ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+
+<!-- date/time utils http://momentjs.com -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<!-- datatables https://datatables.net -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.4/css/fixedHeader.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.4/css/rowReorder.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap4.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.4/js/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/responsive.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.2.4/js/dataTables.rowReorder.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+
+<!-- https://datatables.net/plug-ins/dataRender/ellipsis -->
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/ellipsis.js"></script>
+
+<!-- https://datatables.net/plug-ins/dataRender/datetime -->
+<!-- <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script> -->
+
+<!-- https://datatables.net/plug-ins/sorting/datetime-moment -->
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+
+<!-- URI for dealing with urls http://medialize.github.io/URI.js/docs.html -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/jquery.URI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/IPv6.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/punycode.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/SecondLevelDomains.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.fragmentQuery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.fragmentURI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URITemplate.min.js"></script>
+
+
+<!-- form validation http://formvalidation.io/ -->
+<!-- https://sellfy.com/user/purchases -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.5/es6-shim.min.js"></script> <!-- for IE to work...what year is this!??! -->
+<link href="/includes/js/formvalidation-dist-v1.6.0/dist/css/formValidation.min.css" rel="stylesheet">
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/FormValidation.full.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/J.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/Bootstrap.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/PasswordStrength.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/Recaptcha.min.js?v=100"></script>
+
+
+<!-- datetime picker https://tempusdominus.github.io/bootstrap-4/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- turns checkboxes/radios into switches http://www.bootstraptoggle.com -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<!-- make all columns the same height http://brm.io/jquery-match-height/ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js"></script>
+
+<!-- http://bootstrap-notify.remabledesigns.com -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.7/bootstrap-notify.min.js"></script>
+
+<!-- https://daneden.github.io/animate.css/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
+
+<!-- http://davidstutz.github.io/bootstrap-multiselect/ and https://github.com/davidstutz/bootstrap-multiselect -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" />
+
+<!-- icons and such http://fontawesome.io -->
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" /> -->
+<!-- <script src="https://kit.fontawesome.com/e287d65161.js"></script> the kit is SLOW -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+
+
+<!-- fancy selects https://silviomoreto.github.io/bootstrap-select/ -->
+<!-- v1.13.1 doesn't work on mobile -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
+
+<!-- http://www.dropzonejs.com/
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/basic.min.css" />
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/basic.min.css" />
+
+<!-- spinners https://github.com/hakimel/Ladda -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda-themeless.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/spin.min.js"></script> <!-- this goes first -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda.min.js"></script> <!-- this goes second -->
+
+<!-- http://twitter.github.io/typeahead.js/ -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
+
+
+<!-- lightbox http://ashleydw.github.io/lightbox/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- /plugins -->
+
+<!-- fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+
+
+<!-- my stuff -->
+<script src="/includes/js/usbands.js?v=1789991705"></script>
+<script src="/includes/js/grids.js?v=1600665536"></script>
+
+<!-- SC-1994 -->
+<script src="/includes/js/vendor/browser-image-compression.js?updated=2026-05-26-sc1994"></script>
+<script src="/includes/js/bd-uploader.js?updated=2026-05-26-sc1994"></script>
+<link rel="stylesheet" href="/includes/css/usbands.css?v=1787346830" />
+<link rel="stylesheet" href="/includes/css/typeahead.css?updated=2017-07-07" />
+<!-- /my stuff -->
+
+
+    <script>
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    function cookieConsent() {
+        if (!getCookie('allowUSBCookies')) {
+            $('.toast').toast('show')
+        } else {
+            $('#privacy-policy2').remove()
+        }
+    }
+
+    $().ready(function() {
+        updateWindowDimensionDisplay();
+        applySpecialLinkStyles();
+        initTooltips();
+        initSelects();
+        applyRequiredStyle();
+        initNotifications();
+        showQueuedNotifications();
+        initButtonGlow();
+
+        $('#btnAccept').click(() => {
+            setCookie('allowUSBCookies', '1', 30)
+            $('#privacy-policy2').hide()
+            $('.toast').toast('hide')
+        })
+        cookieConsent()
+            });
+    
+    //do stuff when a modal is done being loaded
+    $(document).on('loaded.bs.modal', function(e) {
+        applySpecialLinkStyles();
+        applyRequiredStyle();
+        initSelects();
+    });
+
+    $(window).on("resize", function() {
+        updateWindowDimensionDisplay();
+    });
+    </script>
+
+    <style>
+    .nav-item {
+        font-size: 13px;
+    }
+    </style>
+
+    <!-- google analytics -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-12659785-7"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-12659785-7');
+    </script>
+        <!-- /google analytics -->
+
+
+</head>
+
+<body>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5LG3GFLQ4"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-Q5LG3GFLQ4');
+    </script>
+    <div class="fixed-bottom p-4" id="privacy-policy2">
+        <div class="toast bg-dark text-white w-100 mw-100" role="alert" data-autohide="false">
+            <div class="toast-body  pb-2 pt-3 pl-3 pr-3 d-flex flex-column d-flex flex-column">
+                <h5 class="m-0 p-0" style="color: white;">We Value your Privacy</h5>
+                <div class="row">
+                    <div class="col-md-10 col-sm-12">
+                        <p class="mt-3">
+                            To continue using our services and site, you agree to our <a
+                                href="/home/BD Performing Arts Privacy Policy.pdf" target="_blank" style="color: white;
+text-decoration: underline;">Privacy Policy</a>.
+                            We use cookies to enhance your browsing experience. By clicking "OK", you consent.
+                        </p>
+                    </div>
+                    <div class="mx-auto col-md-2 col-sm-12 col-xs-12 pb-2 pb-md-0">
+                        <button type="button" class="btn btn-light btn-flat btn-outline-primary pl-4 pr-4"
+                            style="float: right" id="btnAccept">
+                            OK
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <!-- header nav bar -->
+    <header>
+                <nav class="navbar xnavbar-expand-lg accountNav">
+            <div class="xcollapse xnavbar-collapse d-flex justify-content-between align-items-center w-100">
+                <ul id="headerUtils" class="nav navbar-nav d-flex flex-row">
+                    <li class="nav-item"><a class="nav-link" href="/account/sign-in/">Sign In</a></li>
+                </ul>
+
+                <div class="smdb">
+                    <a href="https://www.facebook.com/USBands/"><i class="fab fa-facebook"></i></a> <a
+                        href="https://www.instagram.com/usbandsofficial/"><i class="fab fa-instagram"></i></a> <a
+                        href="https://twitter.com/usbands"><i class="fab fa-twitter-square"></i></a>
+                </div>
+            </div>
+        </nav>
+
+                <nav class="navbar navbar-expand-xl navbar-light siteNav">
+    <a class="navbar-brand" href="/" style="z-index: 1000;"><img src="/includes/wrapper/images/USBands_Logo_color.png" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <!-- Fall Events Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="fallEventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Fall Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="fallEventsDropdown">
+                    <a class="dropdown-item" href="/events/">USBands Events</a>
+                    <a class="dropdown-item" href="/showstyle/">Traditional/Showstyle Events</a>
+                    <a class="dropdown-item" href="/events/?type=the-stage">The Stage Events</a>
+                </div>
+            </li>
+
+            <!-- Winter Events Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="winterEventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Winter Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="winterEventsDropdown">
+                    <a class="dropdown-item" href="/events/?type=indoor-percussion">Indoor Percussion Events</a>
+                    <a class="dropdown-item" href="/MAIN/events/">MAIN Events</a>
+                </div>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" href="/tickets/">Tickets</a></li>
+            <li class="nav-item"><a class="nav-link" href="/education">Education</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+
+            <!-- Remove dropdown for Resources and add each link as top-level nav items -->
+            <li class="nav-item"><a class="nav-link" href="/directors/">Directors</a></li>
+            <li class="nav-item"><a class="nav-link" href="/adjudicators/">Adjudicators</a></li>
+            <li class="nav-item"><a class="nav-link" href="/event-staff/">Event Staff</a></li>
+           <!-- <li class="nav-item"><a class="nav-link" href="/parents-students/">Parents / Students</a></li>-->
+
+            <li class="nav-item"><a class="nav-link" href="/about/contact/">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://store.bluedevils.org/usbands/">Shop</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+    </header>
+    <!-- /header nav bar -->
+
+<script>
+    window.onload = function () {
+        var d = new Date();
+        var currentYear = d.getFullYear();
+        var scrollTarget;
+
+        if (currentYear.toString() === "2026") {
+            let currentTimestamp = 1790643459
+            // If no events for the current month and day or later, scroll to the next month with events
+            if (!scrollTarget) {
+                // Get today's date
+                let today =  new Date();
+                let currentYear = today.getFullYear();
+                let currentMonth = today.getMonth(); // 0-based month index
+                let currentDay = today.getDate();
+
+
+                for (let event of document.querySelectorAll('[data-time]')) {
+                    let eventTimestamp = parseInt(event.dataset.time);
+                    let eventDate = new Date(eventTimestamp * 1000); // Convert to milliseconds
+
+                    // Extract year, month, and day from event's date
+                    let eventYear = eventDate.getFullYear();
+                    let eventMonth = eventDate.getMonth();
+                    let eventDay = eventDate.getDate();
+
+                    // Check if the event's date is today
+                    if (eventYear === currentYear && eventMonth === currentMonth && eventDay === currentDay) {
+                        // If the event's date is today, set it as the scroll target
+                        scrollTarget = event;
+                        break;
+                    }
+
+                    // If the event's date is later than today, set it as the scroll target
+                    if (eventYear > currentYear ||
+                        (eventYear === currentYear && eventMonth > currentMonth) ||
+                        (eventYear === currentYear && eventMonth === currentMonth && eventDay > currentDay)) {
+                        scrollTarget = event;
+                        break;
+                    }
+                }
+            }
+
+            // If there is a target month, scroll to it
+            if (scrollTarget) {
+                var element = scrollTarget;
+                var windowHeight = window.innerHeight;
+                var elementHeight = element.offsetHeight;
+                var elementTop = element.getBoundingClientRect().top + window.pageYOffset;
+
+                const monthHead = document.getElementById('monthNav')
+                const monthHeadHeight = monthHead.offsetHeight
+
+                // Calculate the middle position
+                var middlePosition = (elementTop - elementHeight)
+
+                console.log("middlePosition", middlePosition)
+                window.scrollTo({top: middlePosition, behavior: "smooth"});
+            }
+        }
+
+        // Add the .shadow class to the sticky-row on scroll
+        window.addEventListener("scroll", function () {
+            var stickyRow = document.querySelector(".sticky-row");
+            if (window.pageYOffset > 0) {
+                stickyRow.classList.add("shadow");
+            } else {
+                stickyRow.classList.remove("shadow");
+            }
+        });
+    };
+
+</script>
+
+
+<style>
+
+
+    .event {
+        margin-bottom: 2em;
+        line-height: normal;
+        font-weight: bold;
+    }
+
+    .event:last-child {
+        margin-bottom: 0px;
+    }
+
+    .performance {
+        font-weight: bold;
+    }
+
+    .location {
+
+        font-size: 1em;
+        font-weight: normal;
+        margin-top: 5px;
+    }
+
+    td .date {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #c3c3c3;
+    }
+
+    #monthNav {
+        text-align: center;
+        font-size: 1.5em;
+
+    }
+
+    #monthNav a {
+        text-decoration: none;
+    }
+
+    .date {
+        width: 60px;
+        border-right: 1px solid #dee2e6;
+        vertical-align: middle !important;
+    }
+
+    .scoresButtons {
+        margin-top: 0.5em;
+    }
+
+    .recapButton {
+        font-size: 0.8em;
+    }
+
+    .superShow, .championships {
+        font-weight: bold;
+    }
+
+    .close {
+        position: absolute;
+        top: 27px;
+        opacity: 0.3;
+    }
+
+    .close:hover {
+        opacity: 1;
+        background-color: white !important;
+    }
+
+    .close:before, .close:after {
+        position: absolute;
+        left: 15px;
+        content: ' ';
+        height: 12px;
+        width: 2px;
+        background-color: #333;
+    }
+
+    .close:before {
+        transform: rotate(45deg);
+    }
+
+    .close:after {
+        transform: rotate(-45deg);
+    }
+
+    .btn-outline-dark:hover {
+        background-color: white;
+        color: black;
+    }
+
+    .active {
+        text-decoration: underline;
+        color: #7e151e;
+    }
+
+    .nav-menu {
+        margin-bottom: 12px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    @media (max-width: 1000px) {
+        .nav-menu {
+            display: block;
+        }
+
+        .all-link {
+            margin: 0px;
+        }
+    }
+
+    .live {
+        display: inline-block;
+        border: 0px solid #000000;
+        font-family: Futura, Tahoma, sans-serif;
+        color: #ffffff;
+        padding: 37px 10px 10px 80px;
+        border-radius: 2px;
+        background-color: #cc0323;
+        transform: skew(-25deg);
+        -webkit-transform: skew(-16deg);
+        -ms-transform: skew(-16deg);
+    }
+
+    .live::before {
+        content: 'LIVE';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: -6px;
+        z-index: -1;
+        transform: skew(15deg);
+    }
+
+    .watch {
+        width: 100px;
+        display: inline-block;
+        border: 0px solid #000000;
+        font-family: Futura, Tahoma, sans-serif;
+        color: #000000;
+        padding: 30px 31px 18px 71px;
+        border-radius: 2px;
+        background-color: #ffffff;
+        transform: skew(-25deg);
+        -webkit-transform: skew(-25deg);
+        -ms-transform: skew(-25deg);
+    "
+    }
+
+    .watch::before {
+        content: 'WATCH';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        transform: skew(25deg);
+    }
+
+    .sticky-row {
+        position: sticky;
+        top: 0;
+        background-color: white;
+        z-index: 1;
+    }
+
+    .shadow {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .event.past {
+        opacity: 0.7;
+    }
+
+    .event.past > a {
+        color: #323232;
+    }
+
+    .card-title {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .card {
+        border-radius: 10px;;
+    }
+
+    .eventtitle:focus {
+        text-decoration: underline;
+    }
+
+
+    h2 {
+        margin-top: 40px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .container > hr {
+        border-top: 1px solid rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .dropdown {
+        background-color: #f8f9fa;
+        width: max-content;
+        color: #212529;
+        border-radius: .25rem;
+    }
+
+    .dropdown ul {
+        width: 100%;
+        padding: 0;
+    }
+
+    .dropdown ul > li a {
+        color: #212529;
+        padding: .5rem;
+        display:block;
+    }
+
+    .dropdown ul > li a:hover {
+        background-color: #6d767e;
+        color: white;
+    }
+</style>
+
+
+<main>
+    <div class="container-fluid">
+        <div class="row sticky-row">
+            <div class="container">
+                <div class="row py-3">
+                    <div class="col-6 col-md-4">
+
+                        <form method="get" action="/events/">
+                                                            <input type="hidden" name="year" value="2026">
+                                                        <select name="type" class="form-control" onchange="this.form.submit()">
+                                <option value=""  selected>All Event Types</option>
+                                                                                                                                            <option value="marching-band" >
+                                        Marching Band</option>
+                                                                                                                                            <option value="show-style-band" >
+                                        Traditional/Showstyle</option>
+                                                                                                                                            <option value="indoor-percussion" >
+                                        Indoor Percussion</option>
+                                                                                                                                            <option value="concert-band" >
+                                        Concert Band</option>
+                                                                                                                                            <option value="the-stage" >
+                                        The Stage</option>
+                                                            </select>
+                        </form>
+
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div id="monthNav">
+                            <div class="form-group mb-0 text-right text-md-center">
+                                                                    <a class="year-arrow btn btn-light" href="/events/?year=2025">&larr;</a>
+                                                                    2026                                <a class="year-arrow btn btn-light" href="/events/?year=2027">&rarr;</a>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4 mt-3 mt-sm-3 mt-md-0">
+                        <label class="btn btn-light" for="checkbox-order-by-day">
+                            <input type="checkbox" id="checkbox-order-by-day">
+                            Alphabetical Order by Day
+                        </label>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Group events by week                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="javascript:void(0);" onclick="changeGroupBy(this, 'week')">Group events by week</a></li>
+                                <li><a href="javascript:void(0);" onclick="changeGroupBy(this, 'day')">Group events by day</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+
+                            <h2 id="month-9">September</h2>
+
+                <div class="card shadow mb-3 bg-white border-0 shadow" id="event-1357" data-time="1789196400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 12</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1357" id="eventID_1357" title="ID: 1357" class="eventtitle"">New Oxford High School - Clinic Show</a>
+<div class="location">
+New Oxford, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1357" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1369" data-time="1789196400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 12</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1369" id="eventID_1369" title="ID: 1369" class="eventtitle"">Frank Scott Bunnell High School</a>
+<div class="location">
+Stratford, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1369" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1355" data-time="1789196400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 12</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1355" id="eventID_1355" title="ID: 1355" class="eventtitle"">Great Mills High School</a>
+<div class="location">
+Great Mills, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1355" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1356" data-time="1789196400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 12</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1356" id="eventID_1356" title="ID: 1356" class="eventtitle"">Passaic Valley High School</a>
+<div class="location">
+Little Falls, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1356" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1368" data-time="1789196400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 12</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1368" id="eventID_1368" title="ID: 1368" class="eventtitle"">Emmaus High School</a>
+<div class="location">
+Emmaus, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1368" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1359" data-time="1789196400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 12</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1359" id="eventID_1359" title="ID: 1359" class="eventtitle"">Hempfield High School</a>
+<div class="location">
+Landisville, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1359" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1393" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1393" id="eventID_1393" title="ID: 1393" class="eventtitle"">Patuxent High School</a>
+<div class="location">
+Lusby, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1393" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1392" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1392" id="eventID_1392" title="ID: 1392" class="eventtitle"">Halifax Area High School- CLINIC</a>
+<div class="location">
+Halifax, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1392" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1388" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1388" id="eventID_1388" title="ID: 1388" class="eventtitle"">Northern Valley Regional High School at Old Tappan</a>
+<div class="location">
+Old Tappan, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1388" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1390" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1390" id="eventID_1390" title="ID: 1390" class="eventtitle"">Edison High School</a>
+<div class="location">
+Edison, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1390" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1391" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1391" id="eventID_1391" title="ID: 1391" class="eventtitle"">Hunterdon Central Regional High School</a>
+<div class="location">
+Flemington, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1391" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1389" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1389" id="eventID_1389" title="ID: 1389" class="eventtitle"">Jefferson Township High School</a>
+<div class="location">
+Oak Ridge, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1389" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1371" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1371" id="eventID_1371" title="ID: 1371" class="eventtitle"">Brien McMahon High School</a>
+<div class="location">
+Norwalk, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1371" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1372" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1372" id="eventID_1372" title="ID: 1372" class="eventtitle"">Francis T. Maloney High School</a>
+<div class="location">
+Meriden, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1372" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1373" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1373" id="eventID_1373" title="ID: 1373" class="eventtitle"">Lenape High School</a>
+<div class="location">
+Medford, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1373" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1374" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1374" id="eventID_1374" title="ID: 1374" class="eventtitle"">Rustin High School</a>
+<div class="location">
+West Chester, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1374" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1375" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1375" id="eventID_1375" title="ID: 1375" class="eventtitle"">Spring-Ford Area High School</a>
+<div class="location">
+Royersford, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1375" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1376" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1376" id="eventID_1376" title="ID: 1376" class="eventtitle"">William Tennent High School</a>
+<div class="location">
+Warminster, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1376" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1370" data-time="1789801200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1370" id="eventID_1370" title="ID: 1370" class="eventtitle"">Blackstone-Millville Regional High School</a>
+<div class="location">
+Medway, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1370" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1380" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1380"  style="color: #005072;"id="eventID_1380" title="ID: 1380" class="eventtitle" superShow">CANCELED - New England Invitational</a>
+<div class="location">
+Hadley, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1380" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1395" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1395"  style="color: #005072;"id="eventID_1395" title="ID: 1395" class="eventtitle" superShow">Saginaw Regional</a>
+<div class="location">
+Saginaw, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1395" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1382" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1382"  style="color: #005072;"id="eventID_1382" title="ID: 1382" class="eventtitle" superShow">Houston Regional</a>
+<div class="location">
+Webster, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1382" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1381" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1381"  style="color: #005072;"id="eventID_1381" title="ID: 1381" class="eventtitle" superShow">Madisonville Showcase</a>
+<div class="location">
+Madisonville, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1381" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1497" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1497" id="eventID_1497" title="ID: 1497" class="eventtitle"">STATS South Carolina</a>
+<div class="location">
+Dorchester, SC</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1497" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1409" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1409" id="eventID_1409" title="ID: 1409" class="eventtitle"">CANCELED - Hamilton High School West</a>
+<div class="location">
+Hamilton, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1409" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1398" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1398" id="eventID_1398" title="ID: 1398" class="eventtitle"">Brandon High School - CD Hagan - CLINIC</a>
+<div class="location">
+Brandon, MS</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1398" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1396" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1396"  style="color: #005072;"id="eventID_1396" title="ID: 1396" class="eventtitle" superShow">DeMoulin Central Texas Regional at Jack C. Hays (III,IV,V)</a>
+<div class="location">
+Buda, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1396" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1385" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1385" id="eventID_1385" title="ID: 1385" class="eventtitle"">CANCELED - Trumbull High School</a>
+<div class="location">
+Trumbull, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1385" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1377" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1377" id="eventID_1377" title="ID: 1377" class="eventtitle"">CANCELED - Middletown High School</a>
+<div class="location">
+Middletown, DE</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1377" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1404" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1404" id="eventID_1404" title="ID: 1404" class="eventtitle"">Chopticon High School</a>
+<div class="location">
+Morganza, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1404" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1399" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1399" id="eventID_1399" title="ID: 1399" class="eventtitle"">CANCELED - Ramsey High School</a>
+<div class="location">
+Ramsey, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1399" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1402" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1402" id="eventID_1402" title="ID: 1402" class="eventtitle"">CANCELED - South Brunswick High School</a>
+<div class="location">
+South Brunswick Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1402" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1401" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1401" id="eventID_1401" title="ID: 1401" class="eventtitle"">CANCELED - Sparta High School</a>
+<div class="location">
+Sparta Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1401" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1403" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1403" id="eventID_1403" title="ID: 1403" class="eventtitle"">POSTPONED - Hanover Park High School</a>
+<div class="location">
+East Hanover, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1403" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1397" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1397"  style="color: #005072;"id="eventID_1397" title="ID: 1397" class="eventtitle" superShow">DeMoulin Central Texas Regional (I, II, III) at Manor</a>
+<div class="location">
+Manor, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1397" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1384" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1384" id="eventID_1384" title="ID: 1384" class="eventtitle"">CANCELED - Rocky Hill High School</a>
+<div class="location">
+Rocky Hill, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1384" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1408" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1408" id="eventID_1408" title="ID: 1408" class="eventtitle"">CANCELED - Absegami High School</a>
+<div class="location">
+Galloway, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1408" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1386" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1386" id="eventID_1386" title="ID: 1386" class="eventtitle"">CANCELED - Quakertown High School</a>
+<div class="location">
+Quakertown, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1386" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1406" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1406" id="eventID_1406" title="ID: 1406" class="eventtitle"">CANCELED - Ridley High School</a>
+<div class="location">
+Folsom, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1406" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1387" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1387" id="eventID_1387" title="ID: 1387" class="eventtitle"">CANCELED - Upper Dublin High School</a>
+<div class="location">
+Fort Washington, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1387" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1405" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1405" id="eventID_1405" title="ID: 1405" class="eventtitle"">Riverside High School</a>
+<div class="location">
+Leesburg, VA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1405" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1383" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1383" id="eventID_1383" title="ID: 1383" class="eventtitle"">CANCELED - New Milford High School</a>
+<div class="location">
+New Milford, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1383" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1400" data-time="1790406000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=1400" id="eventID_1400" title="ID: 1400" class="eventtitle"">West Shore Classic</a>
+<div class="location">
+Camp Hill, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1400" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr>                <h2 id="month-10">October</h2>
+
+                <div class="card shadow mb-3 bg-white border-0 shadow" id="event-1361" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1361"  style="color: #005072;"id="eventID_1361" title="ID: 1361" class="eventtitle" superShow">Marine Corps Invitational</a>
+<div class="location">
+Annapolis, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1361" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1360" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1360"  style="color: #005072;"id="eventID_1360" title="ID: 1360" class="eventtitle" superShow">POSTPONED - Conn Selmer Classic</a>
+<div class="location">
+East Rutherford, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1360" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1411" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1411"  style="color: #005072;"id="eventID_1411" title="ID: 1411" class="eventtitle" superShow">DeMoulin Southeast Texas Regional at Baytown</a>
+<div class="location">
+Baytown, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1411" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1483" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1483"  style="color: #005072;"id="eventID_1483" title="ID: 1483" class="eventtitle" superShow">DeMoulin North Texas Regional at Crowley ISD (III, IV, V)</a>
+<div class="location">
+Fort Worth, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1483" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1485" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1485"  style="color: #005072;"id="eventID_1485" title="ID: 1485" class="eventtitle" superShow">Killeen Regional</a>
+<div class="location">
+Killeen, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1485" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1407" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1407" id="eventID_1407" title="ID: 1407" class="eventtitle"">Bordentown Regional High School</a>
+<div class="location">
+Bordentown, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1407" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1413" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1413"  style="color: #005072;"id="eventID_1413" title="ID: 1413" class="eventtitle" superShow">Crossroads Clinic</a>
+<div class="location">
+Victoria, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1413" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1484" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1484"  style="color: #005072;"id="eventID_1484" title="ID: 1484" class="eventtitle"">DeMoulin North Texas Regional at Eagle Mountain (I, II, III)</a>
+<div class="location">
+Fort Worth, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1484" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1474" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1474" id="eventID_1474" title="ID: 1474" class="eventtitle"">Ark-La-Tex</a>
+<div class="location">
+Bossier City, LA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1474" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1415" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1415" id="eventID_1415" title="ID: 1415" class="eventtitle"">Mark T. Sheehan High School</a>
+<div class="location">
+Wallingford, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1415" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1414" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1414" id="eventID_1414" title="ID: 1414" class="eventtitle"">B.M.C. Durfee High School</a>
+<div class="location">
+Fall River, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1414" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1453" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1453" id="eventID_1453" title="ID: 1453" class="eventtitle"">North Brunswick Township High School</a>
+<div class="location">
+North Brunswick Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1453" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1419" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1419" id="eventID_1419" title="ID: 1419" class="eventtitle"">Central Bucks High School South</a>
+<div class="location">
+Warrington, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1419" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1378" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1378"  style="color: #005072;"id="eventID_1378" title="ID: 1378" class="eventtitle" superShow">San Antonio Regional</a>
+<div class="location">
+San Antonio, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1378" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1490" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1490" id="eventID_1490" title="ID: 1490" class="eventtitle"">Danbury High School</a>
+<div class="location">
+Danbury, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1490" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1416" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1416" id="eventID_1416" title="ID: 1416" class="eventtitle"">Norwich Free Academy</a>
+<div class="location">
+Norwich, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1416" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1420" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1420" id="eventID_1420" title="ID: 1420" class="eventtitle"">Hammonton High School</a>
+<div class="location">
+Hammonton, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1420" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1417" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1417" id="eventID_1417" title="ID: 1417" class="eventtitle"">Boyertown Area Senior High School</a>
+<div class="location">
+Boyertown, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1417" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1418" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1418" id="eventID_1418" title="ID: 1418" class="eventtitle"">Marple Newtown High School</a>
+<div class="location">
+Newtown Square, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1418" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1452" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 3</h5>        <div class="event"><a href="details.php?ID=1452" id="eventID_1452" title="ID: 1452" class="eventtitle"">Mechanicsburg Area Senior High School</a>
+<div class="location">
+Mechanicsburg, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1452" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1498" data-time="1791010800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Oct 4</h5>        <div class="event"><a href="details.php?ID=1498" id="eventID_1498" title="ID: 1498" class="eventtitle"">STATS Southeast Regional Traditional Style Championships</a>
+<div class="location">
+Conyers, GA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1498" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1479" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1479"  style="color: #005072;"id="eventID_1479" title="ID: 1479" class="eventtitle" superShow">Conn Selmer Classic: Texas</a>
+<div class="location">
+Converse, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1479" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1459" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1459" id="eventID_1459" title="ID: 1459" class="eventtitle"">Matawan Regional High School</a>
+<div class="location">
+Aberdeen Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1459" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1478" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1478"  style="color: #005072;"id="eventID_1478" title="ID: 1478" class="eventtitle" superShow">North Houston Regional</a>
+<div class="location">
+Spring, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1478" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1476" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1476"  style="color: #005072;"id="eventID_1476" title="ID: 1476" class="eventtitle" superShow">Burleson Regional</a>
+<div class="location">
+Burleson, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1476" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1477" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1477"  style="color: #005072;"id="eventID_1477" title="ID: 1477" class="eventtitle" superShow">Midlothian Regional</a>
+<div class="location">
+Midlothian, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1477" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1457" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1457" id="eventID_1457" title="ID: 1457" class="eventtitle"">Pequannock Township High School</a>
+<div class="location">
+Pequannock Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1457" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1427" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1427" id="eventID_1427" title="ID: 1427" class="eventtitle"">Seneca High School</a>
+<div class="location">
+Tabernacle, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1427" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1458" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1458" id="eventID_1458" title="ID: 1458" class="eventtitle"">West Milford High School</a>
+<div class="location">
+West Milford, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1458" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1491" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1491" id="eventID_1491" title="ID: 1491" class="eventtitle"">Carlisle High School</a>
+<div class="location">
+Carlisle, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1491" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1456" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1456" id="eventID_1456" title="ID: 1456" class="eventtitle"">Watchung Hills Regional High School</a>
+<div class="location">
+Warren, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1456" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1488" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1488" id="eventID_1488" title="ID: 1488" class="eventtitle"">Cheshire High School</a>
+<div class="location">
+Cheshire, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1488" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1422" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1422" id="eventID_1422" title="ID: 1422" class="eventtitle"">East Lyme High School</a>
+<div class="location">
+East Lyme, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1422" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1421" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1421" id="eventID_1421" title="ID: 1421" class="eventtitle"">King Philip Regional High School</a>
+<div class="location">
+Wrentham, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1421" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1455" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1455" id="eventID_1455" title="ID: 1455" class="eventtitle"">East Ramapo High School</a>
+<div class="location">
+Spring Valley, NY</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1455" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1424" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1424" id="eventID_1424" title="ID: 1424" class="eventtitle"">North Penn High School</a>
+<div class="location">
+Lansdale, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1424" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1425" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1425" id="eventID_1425" title="ID: 1425" class="eventtitle"">Unionville High School</a>
+<div class="location">
+Kennett Square, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1425" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1499" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 10</h5>        <div class="event"><a href="details.php?ID=1499" id="eventID_1499" title="ID: 1499" class="eventtitle"">Mississippi STATS Championships</a>
+<div class="location">
+Ellisville, MS</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1499" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1423" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Oct 11</h5>        <div class="event"><a href="details.php?ID=1423" id="eventID_1423" title="ID: 1423" class="eventtitle"">Shepherd Hill Regional High School</a>
+<div class="location">
+Dudley, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1423" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1460" data-time="1791615600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Oct 11</h5>        <div class="event"><a href="details.php?ID=1460" id="eventID_1460" title="ID: 1460" class="eventtitle"">Bergenfield High School</a>
+<div class="location">
+Bergenfield, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1460" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1466" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1466" id="eventID_1466" title="ID: 1466" class="eventtitle"">Huntingtown High School</a>
+<div class="location">
+Huntingtown, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1466" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1465" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1465" id="eventID_1465" title="ID: 1465" class="eventtitle"">Old Bridge High School</a>
+<div class="location">
+Old Bridge, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1465" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1445" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1445"  style="color: #005072;"id="eventID_1445" title="ID: 1445" class="eventtitle"">Quad States Regional Championships</a>
+<div class="location">
+Vermillion, SD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1445" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1489" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1489" id="eventID_1489" title="ID: 1489" class="eventtitle"">Newtown High School</a>
+<div class="location">
+Newtown, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1489" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1428" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1428" id="eventID_1428" title="ID: 1428" class="eventtitle"">Bridgewater-Raynham Regional High School</a>
+<div class="location">
+Bridgewater, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1428" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1434" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1434" id="eventID_1434" title="ID: 1434" class="eventtitle"">Robbinsville High School</a>
+<div class="location">
+Robbinsville Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1434" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1463" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1463" id="eventID_1463" title="ID: 1463" class="eventtitle"">Somerville High School</a>
+<div class="location">
+Somerville, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1463" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1462" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1462" id="eventID_1462" title="ID: 1462" class="eventtitle"">Wayne Valley High School</a>
+<div class="location">
+Wayne, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1462" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1430" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1430" id="eventID_1430" title="ID: 1430" class="eventtitle"">Lyman Hall High School</a>
+<div class="location">
+Wallingford, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1430" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1467" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1467" id="eventID_1467" title="ID: 1467" class="eventtitle"">Severna Park High School</a>
+<div class="location">
+Severna Park, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1467" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1435" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1435" id="eventID_1435" title="ID: 1435" class="eventtitle"">Egg Harbor Township High School</a>
+<div class="location">
+Egg Harbor Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1435" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1464" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1464" id="eventID_1464" title="ID: 1464" class="eventtitle"">Lenape Valley Regional High School</a>
+<div class="location">
+Stanhope, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1464" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1461" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1461" id="eventID_1461" title="ID: 1461" class="eventtitle"">East Pennsboro High School</a>
+<div class="location">
+Enola, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1461" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1431" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1431" id="eventID_1431" title="ID: 1431" class="eventtitle"">Pennsbury High School</a>
+<div class="location">
+Fairless Hills, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1431" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1432" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1432" id="eventID_1432" title="ID: 1432" class="eventtitle"">Perkiomen Valley High School</a>
+<div class="location">
+Collegeville, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1432" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1429" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 17</h5>        <div class="event"><a href="details.php?ID=1429" id="eventID_1429" title="ID: 1429" class="eventtitle"">Cranston High School East</a>
+<div class="location">
+Cranston, RI</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1429" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1468" data-time="1792220400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Oct 18</h5>        <div class="event"><a href="details.php?ID=1468" id="eventID_1468" title="ID: 1468" class="eventtitle"">CANCELED Montville Township High School</a>
+<div class="location">
+Montville, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1468" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1436" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1436" id="eventID_1436" title="ID: 1436" class="eventtitle"">Burlington High School</a>
+<div class="location">
+Burlington, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1436" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1438" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1438" id="eventID_1438" title="ID: 1438" class="eventtitle"">Southington High School</a>
+<div class="location">
+Southington, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1438" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1486" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1486" id="eventID_1486" title="ID: 1486" class="eventtitle"">Steinert High School</a>
+<div class="location">
+Hamilton Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1486" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1437" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1437" id="eventID_1437" title="ID: 1437" class="eventtitle"">Dartmouth High School</a>
+<div class="location">
+Dartmouth, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1437" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1494" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1494" id="eventID_1494" title="ID: 1494" class="eventtitle"">Leonardtown High School</a>
+<div class="location">
+Leonardtown, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1494" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1469" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1469" id="eventID_1469" title="ID: 1469" class="eventtitle"">Vernon Township High School</a>
+<div class="location">
+Vernon Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1469" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1441" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1441" id="eventID_1441" title="ID: 1441" class="eventtitle"">West Chester East High School</a>
+<div class="location">
+West Chester, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1441" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1473" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1473" id="eventID_1473" title="ID: 1473" class="eventtitle"">Dutchtown High School</a>
+<div class="location">
+Geismar, LA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1473" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1472" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1472" id="eventID_1472" title="ID: 1472" class="eventtitle"">Hillsborough High School</a>
+<div class="location">
+Hillsborough Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1472" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1470" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1470" id="eventID_1470" title="ID: 1470" class="eventtitle"">Northern Highlands Regional High School</a>
+<div class="location">
+Allendale, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1470" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1471" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1471" id="eventID_1471" title="ID: 1471" class="eventtitle"">Ridge High School</a>
+<div class="location">
+Bernards, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1471" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1492" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1492" id="eventID_1492" title="ID: 1492" class="eventtitle"">West Shore School District</a>
+<div class="location">
+Camp Hill, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1492" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1439" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1439" id="eventID_1439" title="ID: 1439" class="eventtitle"">Bethel High School</a>
+<div class="location">
+Bethel, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1439" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1443" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1443" id="eventID_1443" title="ID: 1443" class="eventtitle"">Kingsway Regional High School</a>
+<div class="location">
+Woolwich Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1443" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1442" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1442" id="eventID_1442" title="ID: 1442" class="eventtitle"">Abington Senior High School</a>
+<div class="location">
+Abington, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1442" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1440" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 24</h5>        <div class="event"><a href="details.php?ID=1440" id="eventID_1440" title="ID: 1440" class="eventtitle"">Souderton High School</a>
+<div class="location">
+Souderton, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1440" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1548" data-time="1792825200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Oct 25</h5>        <div class="event"><a href="details.php?ID=1548" id="eventID_1548" title="ID: 1548" class="eventtitle"">Hanover Park High School</a>
+<div class="location">
+East Hanover, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1548" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1502" data-time="1793430000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 31</h5>        <div class="event"><a href="details.php?ID=1502"  style="color: #005072;"id="eventID_1502" title="ID: 1502" class="eventtitle" championships">New Jersey State Championships (I A, Opens) @ South Brunswick</a>
+<div class="location">
+South Brunswick Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1502" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1503" data-time="1793430000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 31</h5>        <div class="event"><a href="details.php?ID=1503"  style="color: #005072;"id="eventID_1503" title="ID: 1503" class="eventtitle" championships">New Jersey State Championships (III A, V A) @ Robbinsville</a>
+<div class="location">
+Robbinsville Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1503" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1505" data-time="1793430000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 31</h5>        <div class="event"><a href="details.php?ID=1505"  style="color: #005072;"id="eventID_1505" title="ID: 1505" class="eventtitle" championships">New Jersey State Championships (RA, II A, IV A) @ Mount Olive</a>
+<div class="location">
+Mount Olive, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1505" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1501" data-time="1793430000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 31</h5>        <div class="event"><a href="details.php?ID=1501"  style="color: #005072;"id="eventID_1501" title="ID: 1501" class="eventtitle" championships">Connecticut State Championships - (RA, I A, II A, III A, IV A,) @ Rockville</a>
+<div class="location">
+Vernon, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1501" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1449" data-time="1793430000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 31</h5>        <div class="event"><a href="details.php?ID=1449"  style="color: #005072;"id="eventID_1449" title="ID: 1449" class="eventtitle" championships">New England States Championships</a>
+<div class="location">
+Stoughton, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1449" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1504" data-time="1793430000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 31</h5>        <div class="event"><a href="details.php?ID=1504"  style="color: #005072;"id="eventID_1504" title="ID: 1504" class="eventtitle" championships">Connecticut State Championships - (V A  & Open) @ Naugatuck</a>
+<div class="location">
+Naugatuck, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1504" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1363" data-time="1793430000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 31</h5>        <div class="event"><a href="details.php?ID=1363"  style="color: #005072;"id="eventID_1363" title="ID: 1363" class="eventtitle" championships">Mid Atlantic States Championships</a>
+<div class="location">
+Owings Mills, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1363" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1506" data-time="1793430000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 31</h5>        <div class="event"><a href="details.php?ID=1506"  style="color: #005072;"id="eventID_1506" title="ID: 1506" class="eventtitle" championships">Pennsylvania State Championships (RA, II A, V A, IV O, V O) @ Downingtown</a>
+<div class="location">
+Downingtown, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1506" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1507" data-time="1793430000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 31</h5>        <div class="event"><a href="details.php?ID=1507"  style="color: #005072;"id="eventID_1507" title="ID: 1507" class="eventtitle" championships">Pennsylvania State Championships (III A, I O, II O, III O) @ Upper Moreland</a>
+<div class="location">
+Willow Grove, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1507" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1508" data-time="1793430000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 31</h5>        <div class="event"><a href="details.php?ID=1508"  style="color: #005072;"id="eventID_1508" title="ID: 1508" class="eventtitle" championships">Pennsylvania State Championships (I A, IV A) @ Central Dauphin</a>
+<div class="location">
+Harrisburg, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1508" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr>                <h2 id="month-11">November</h2>
+
+                <div class="card shadow mb-3 bg-white border-0 shadow" id="event-1364" data-time="1793516400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Nov 1</h5>        <div class="event"><a href="details.php?ID=1364"  style="color: #005072;"id="eventID_1364" title="ID: 1364" class="eventtitle" championships">New York State Championships</a>
+<div class="location">
+Lindenhurst, NY</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1364" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1450" data-time="1794038400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 7</h5>        <div class="event"><a href="details.php?ID=1450"  style="color: #005072;"id="eventID_1450" title="ID: 1450" class="eventtitle" championships">USBands Championships - Regional A, II A, III A, I Open</a>
+<div class="location">
+Allentown, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1450" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1451" data-time="1794038400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 7</h5>        <div class="event"><a href="details.php?ID=1451"  style="color: #005072;"id="eventID_1451" title="ID: 1451" class="eventtitle" championships">USBands Championships - II O, III O, IV O, V O</a>
+<div class="location">
+East Rutherford, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1451" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1547" data-time="1794038400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 7</h5>        <div class="event"><a href="details.php?ID=1547" id="eventID_1547" title="ID: 1547" class="eventtitle"">STATS Alabama</a>
+<div class="location">
+Huntsville, AL</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1547" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1496" data-time="1794038400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 7</h5>        <div class="event"><a href="details.php?ID=1496"  style="color: #005072;"id="eventID_1496" title="ID: 1496" class="eventtitle"">Southeastern Championships</a>
+<div class="location">
+Huntsville, AL</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1496" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1480" data-time="1794038400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 7</h5>        <div class="event"><a href="details.php?ID=1480"  style="color: #005072;"id="eventID_1480" title="ID: 1480" class="eventtitle"">Central Texas Championships</a>
+<div class="location">
+Austin, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1480" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1444" data-time="1794038400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 7</h5>        <div class="event"><a href="details.php?ID=1444"  style="color: #005072;"id="eventID_1444" title="ID: 1444" class="eventtitle"">Southeast Texas Championships</a>
+<div class="location">
+Webster, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1444" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1487" data-time="1794038400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Nov 8</h5>        <div class="event"><a href="details.php?ID=1487"  style="color: #005072;"id="eventID_1487" title="ID: 1487" class="eventtitle" championships">USBands Championships- I A, IV A, V A</a>
+<div class="location">
+Allentown, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1487" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1481" data-time="1794297600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Tue, Nov 10</h5>        <div class="event"><a href="details.php?ID=1481"  style="color: #005072;"id="eventID_1481" title="ID: 1481" class="eventtitle"">Southwestern Championships - Groups I, II, & IV</a>
+<div class="location">
+Arlington, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1481" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1482" data-time="1794297600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Wed, Nov 11</h5>        <div class="event"><a href="details.php?ID=1482"  style="color: #005072;"id="eventID_1482" title="ID: 1482" class="eventtitle"">Southwestern Championships - Groups III & V</a>
+<div class="location">
+Arlington, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1482" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-1500" data-time="1794297600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 14</h5>        <div class="event"><a href="details.php?ID=1500" id="eventID_1500" title="ID: 1500" class="eventtitle"">STATS Grand Championships</a>
+<div class="location">
+Meridian, MS</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=1500" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr>
+
+        </div> <!-- /.container -->
+</main>
+
+<script>
+    function changeGroupBy(e, type) {
+        $('#group-by-title').text(e.innerText)
+
+        var urlSearchParams = new URLSearchParams(window.location.search);
+        urlSearchParams.set('group-by', type);
+
+        // Replace the URL with the updated query parameters
+        window.location.href = '?' + urlSearchParams.toString()
+    }
+
+    function calculateLetterWeight(text) {
+        let weight = 0;
+        for (let i = 0; i < 3; i++) {
+            weight += text.charCodeAt(text[i])
+        }
+
+        return weight
+    }
+
+    $(() => {
+        $('body')
+            .on('change', '#checkbox-order-by-day', (e) => {
+                if (e.target.checked) {
+                    let eventsByDays = {};
+
+                    $('[data-time]')
+                        .each((k, i) => {
+                            if (!eventsByDays[i.dataset.time])
+                                eventsByDays[i.dataset.time] = [];
+
+                            eventsByDays[i.dataset.time].push(i)
+                        })
+
+                    for (let [key, value] of Object.entries(eventsByDays)) {
+                        value.sort((a, b) => {
+                            const titleA = $(a).find('.eventtitle').text();
+                            const titleB = $(b).find('.eventtitle').text();
+
+                            const weightA = calculateLetterWeight(titleA);
+                            const weightB = calculateLetterWeight(titleB);
+
+                            return weightA - weightB;
+                        })
+
+                        for (let i = 0; i < value.length; i++)
+                            $('[data-time="' + key + '"]').each((k, i) => {
+                                $(i).after(value[k])
+                            })
+                    }
+                } else {
+                    window.location.reload()
+                }
+            })
+    })
+</script>
+
+<!-- small modal -->
+<div class="modal fade" id="myModalSmall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!-- /.small modal -->
+
+<!-- modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!-- /.modal -->
+
+<!-- large modal -->
+<div class="modal fade" id="myModalLarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="myImageModalLarge" tabindex="-1" role="dialog" aria-labelledby="myImageModalLarge" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="max-height: 600px; overflow-y: auto;">
+            <img src="" alt="" class="poImages"/>
+            <embed src="" width="100%" height="600px" class="poPdf"/>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade marketing-global-modal marketing-global-modal-usb" id="marketingModalGlobal" tabindex="-1" role="dialog" aria-labelledby="marketingModalGlobalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h3 class="modal-title marketing-modal-title" id="marketingModalGlobalLabel"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body marketing-modal-body"></div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <a href="#" class="btn btn-danger marketing-modal-action" target="_self" style="display:none;"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.marketing-global-modal-usb .modal-dialog {
+    max-width: 640px;
+}
+
+.marketing-global-modal-usb .modal-content {
+    border: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+    background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+}
+
+.marketing-global-modal-usb .modal-header,
+.marketing-global-modal-usb .modal-body,
+.marketing-global-modal-usb .modal-footer {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.marketing-global-modal-usb .modal-title {
+    color: #10233f;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.marketing-global-modal-usb .close {
+    color: #10233f;
+    opacity: 0.7;
+}
+
+.marketing-global-modal-usb .marketing-modal-body {
+    color: #24364f;
+    font-size: 1rem;
+}
+
+.marketing-global-modal-usb .marketing-modal-body a {
+    color: #b51f2e;
+    text-decoration: underline;
+}
+
+.marketing-global-modal-usb .marketing-modal-body p:last-child {
+    margin-bottom: 0;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-dialog {
+    max-width: 760px;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-content {
+    background: transparent;
+    box-shadow: none;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    background: transparent;
+    border: 0;
+    justify-content: flex-end;
+    padding: .75rem;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .marketing-modal-body {
+    padding: 0;
+}
+
+.marketing-global-modal-usb .marketing-modal-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+@media (max-width: 575.98px) {
+    .marketing-global-modal-usb .modal-header,
+    .marketing-global-modal-usb .modal-body,
+    .marketing-global-modal-usb .modal-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+</style>
+
+<script>
+(function () {
+    var marketingModalQueue = [] || [];
+    var currentMarketingModal = null;
+
+    function getSessionCount(modalID) {
+        try {
+            if (typeof getCookie === "function") {
+                return parseInt(getCookie("marketing_modal_session_" + modalID) || "0", 10);
+            }
+            return parseInt(sessionStorage.getItem("marketing_modal_session_" + modalID) || "0", 10);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function setSessionCount(modalID, count) {
+        try {
+            if (typeof setCookie === "function") {
+                setCookie("marketing_modal_session_" + modalID, String(count));
+                return;
+            }
+            sessionStorage.setItem("marketing_modal_session_" + modalID, String(count));
+        } catch (error) {}
+    }
+
+    function getLifetimeCount(modalID) {
+        try {
+            return parseInt(localStorage.getItem("marketing_modal_lifetime_" + modalID) || "0", 10);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function setLifetimeCount(modalID, count) {
+        try {
+            localStorage.setItem("marketing_modal_lifetime_" + modalID, String(count));
+        } catch (error) {}
+    }
+
+    function canShowMarketingModal(modal) {
+        if (!modal || !modal.ID) {
+            return false;
+        }
+
+        if (modal.displayMode === "once_ever") {
+            return getLifetimeCount(modal.ID) < 1;
+        }
+
+        if (modal.displayMode === "times_per_session") {
+            return getSessionCount(modal.ID) < Math.max(parseInt(modal.displayLimit || 1, 10), 1);
+        }
+
+        return getSessionCount(modal.ID) < 1;
+    }
+
+    function recordMarketingModalView(modal) {
+        if (!modal || !modal.ID) {
+            return;
+        }
+
+        if (modal.displayMode === "once_ever") {
+            setLifetimeCount(modal.ID, getLifetimeCount(modal.ID) + 1);
+            return;
+        }
+
+        setSessionCount(modal.ID, getSessionCount(modal.ID) + 1);
+    }
+
+    function renderMarketingModal(modal) {
+        var modalElement = $("#marketingModalGlobal");
+        var isImageModal = modal.contentType === "image" && modal.imageUrl;
+        modalElement.toggleClass("marketing-modal-image-mode", !!isImageModal);
+        modalElement.find(".marketing-modal-title").text(modal.title || "").toggle(!!modal.title && !isImageModal);
+        modalElement.find(".modal-footer").toggle(!isImageModal);
+        if (isImageModal) {
+            var imageAlt = modal.imageAlt || modal.title || "";
+            modalElement.find(".marketing-modal-body").html(
+                '<img src="' + modal.imageUrl + '" alt="' + imageAlt.replace(/"/g, '&quot;') + '" class="marketing-modal-image">'
+            );
+        } else {
+            modalElement.find(".marketing-modal-body").html(modal.bodyHtml || "");
+        }
+
+        var actionButton = modalElement.find(".marketing-modal-action");
+        if (!isImageModal && modal.actionLabel && modal.actionUrl) {
+            actionButton.text(modal.actionLabel);
+            actionButton.attr("href", modal.actionUrl);
+            actionButton.attr("target", modal.actionTarget || "_self");
+            actionButton.attr("style", "");
+            if (modal.actionButtonColor) {
+                actionButton.css({
+                    backgroundColor: modal.actionButtonColor,
+                    borderColor: modal.actionButtonColor,
+                    color: "#ffffff"
+                });
+            }
+            actionButton.show();
+        } else {
+            actionButton.hide();
+            actionButton.attr("href", "#");
+            actionButton.attr("target", "_self");
+            actionButton.attr("style", "");
+            actionButton.text("");
+        }
+    }
+
+    function showNextMarketingModal() {
+        if (!marketingModalQueue.length) {
+            currentMarketingModal = null;
+            return;
+        }
+
+        currentMarketingModal = marketingModalQueue.shift();
+        renderMarketingModal(currentMarketingModal);
+        recordMarketingModalView(currentMarketingModal);
+        $("#marketingModalGlobal").modal("show");
+    }
+
+    $(function () {
+        marketingModalQueue = marketingModalQueue.filter(canShowMarketingModal);
+        if (!marketingModalQueue.length) {
+            return;
+        }
+
+        $("#marketingModalGlobal").on("hidden.bs.modal", function () {
+            showNextMarketingModal();
+        });
+
+        showNextMarketingModal();
+    });
+})();
+</script>
+
+
+<!-- start footer.php -->
+<footer>
+    
+            <div class="container-fluid sponsors">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-white mb-5">Presenting Sponsor</h3><div class="row justify-content-center align-items-center"><div class="col-8 col-sm-6 col-md-4 col-lg-3 mb-0">
+            <a href="https://connselmer.com/" title="Conn-Selmer" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/Conn-Selmer-Logo.png" alt="Conn-Selmer" class="img-fluid" style=" opacity: 0.7; mix-blend-mode: screen;" />
+            </a>
+        </div></div><div class="row justify-content-center align-items-center"><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://demoulin.com/" title="DeMoulin" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/demoulin.png" alt="DeMoulin" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://algy.com/" title="Algy" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/algyby.png" alt="Algy" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div></div><div class="row justify-content-center align-items-center"><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://bandshoppe.com/" title="Band Shoppe" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/bandshoppelogo.png" alt="Band Shoppe" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://www.drillmastersmarching.com/" title="Drillmasters" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/Drillmasters.png" alt="Drillmasters" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://peakgrouptravel.com/" title="Peak Group Travel" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/peak-group-travel.png" alt="Peak Group Travel" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://pepwear.com/" title="PepWear" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/pepwear.svg" alt="PepWear" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div></div>                </div>
+            </div>
+        </div>
+            
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events/">Events</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/directors/">Directors</a></li>
+                    <li><a href="/adjudicators/">Adjudicators</a></li>
+                    <li><a href="/parents-students/">Parents / Students</a></li>
+                    <li><a href="https://store.bluedevils.org/usbands/">Shop</a></li>
+                    <li><a href="/account/">My Account</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <h2>About USBands</h2>
+                <p>Our mission is to support the development of young people into magnificent human beings through participation in the performing arts.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="clearfix"></div>
+
+<!-- outdated browser warning -->
+<style>
+#outdated h6,
+#outdated p {
+    text-transform: none;
+}
+#outdated #btnUpdateBrowser {
+    width: 260px;
+}
+</style>
+
+<div id="outdated">
+     <h6>Your browser is out-of-date.</h6>
+     <p>Please update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Show Me Where To Get The Update</a></p>
+     <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+
+<script>
+//event listener: DOM ready
+function addLoadEvent(func) {
+    var oldonload = window.onload;
+    if(typeof window.onload != "function") {
+        window.onload = func;
+    }
+    else {
+        window.onload = function() {
+            if(oldonload) {
+                oldonload();
+            }
+            func();
+        }
+    }
+}
+//call plugin function after DOM ready
+addLoadEvent(function(){
+    outdatedBrowser({
+        bgColor: "#f25648",
+        color: "#ffffff",
+        lowerThan: "transform"
+    })
+});
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"d44cc425cd254109aeec2be026a2fd7e","r":1,"spa":2}' crossorigin="anonymous"></script>

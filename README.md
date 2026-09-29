@@ -49,6 +49,22 @@ local JSON read, not ~60 HTTP requests), not an excuse to skip it. See the
 rebuild-from-scratch (rather than patching the existing db file in place) is
 deliberate: it's what makes re-running with unchanged data byte-identical.
 
+## Testing
+
+```bash
+python -m unittest discover -s scrape/tests -v
+```
+
+`scrape/tests/` runs the parsing/build logic (`list_events`, `parse_scores`,
+`parse_performing_groups`, `classify_event`, `build_database`, the
+home-location cache's retry-safety, etc.) offline against saved real
+usbands.org pages in `scrape/tests/fixtures/`, plus a couple of hand-written
+snippets for edge cases a real page doesn't conveniently exhibit. `.github/
+workflows/test.yml` runs this on every push/PR touching `scrape/`, and
+`update.yml` runs it again before every scheduled scrape, so a scraper
+regression (or a fixture caught up in a real usbands.org markup change) fails
+loudly in CI instead of quietly shipping a broken database.
+
 ## Automation
 
 `.github/workflows/update.yml` reruns the scraper every Monday morning ET and
@@ -62,11 +78,6 @@ just a normal versioned file in this repo, so `git log` on
 usbands.org posts the next season (`BACKFILL_START_YEAR` rarely needs to
 change — it's the earliest season with real marching-band data, currently
 2022).
-
-## TODO
-
-- **Scraper test suite** with saved HTML fixtures, so a future usbands.org
-  markup change gets caught by CI before it ships bad data.
 
 ## Done
 
@@ -127,4 +138,12 @@ change — it's the earliest season with real marching-band data, currently
   (`docs/icons/`) let a phone's browser install the site to the home screen
   as a standalone app (no address bar), matching the header's music-note
   mark and brand green/gold. Useful for checking scores from a phone at a
-  competition without hunting for a browser tab.
+  competition without hunting for a browser tab. The `<meta name="theme-
+  color">` tag stays synced to whatever theme is active (default, a preset,
+  a custom pick, light/dark) by reading the live `--brand-green-700` CSS
+  variable back off the DOM, so the browser chrome color always matches.
+- **Scraper test suite** (`scrape/tests/`): unit tests for every parsing
+  function plus `build_database()`'s determinism, run offline against saved
+  real usbands.org pages. Runs in CI on every push/PR touching `scrape/` and
+  again before each scheduled scrape, so a scraper regression fails loudly
+  instead of quietly shipping a broken database.

@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+<!-- 2026-09-28 17:57:00 America/Los_Angeles -->
+
+
+<html>
+
+<head>
+
+    <title>Bands :: USBands</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <!-- force out of Compatibility Mode, which breaks everything -->
+    <meta name="csrf-token" content="52de72418c00c5c9edd080d0094702b5268af9ee6e99bbc6ac9805a2b4e0e11b"/>
+<script>
+(function () {
+    var meta = document.querySelector('meta[name=csrf-token]');
+    var token = meta ? meta.getAttribute('content') : '';
+    if (!token || !window.XMLHttpRequest) { return; }
+
+    // Emitted by both the page wrapper and by modal fragments, which are loaded
+    // into an already-patched page as often as they are opened on their own.
+    if (window.__wbaCsrfShim) { return; }
+    window.__wbaCsrfShim = true;
+
+    var HEADER = "X-CSRF-Token";
+    var FIELD = "csrfToken";
+    var SAFE = { GET: 1, HEAD: 1, OPTIONS: 1 };
+
+    function sameOrigin(url) {
+        var a = document.createElement('a');
+        a.href = url || window.location.href;
+        return (a.protocol + '//' + a.host) === (window.location.protocol + '//' + window.location.host);
+    }
+
+    var proto = XMLHttpRequest.prototype;
+    var open = proto.open;
+    var send = proto.send;
+    var setHeader = proto.setRequestHeader;
+
+    // Setting the same header twice appends rather than replaces, so a caller
+    // that already attached the token would produce "tok, tok" and fail.
+    proto.setRequestHeader = function (name, value) {
+        if (String(name).toLowerCase() === HEADER.toLowerCase()) { this.__wbaCsrfSent = true; }
+        return setHeader.apply(this, arguments);
+    };
+
+    proto.open = function (method, url) {
+        this.__wbaCsrfSent = false;
+        this.__wbaCsrfWanted = !SAFE[String(method || 'GET').toUpperCase()] && sameOrigin(url);
+        return open.apply(this, arguments);
+    };
+
+    proto.send = function () {
+        if (this.__wbaCsrfWanted && !this.__wbaCsrfSent) { this.setRequestHeader(HEADER, token); }
+        return send.apply(this, arguments);
+    };
+
+    if (window.fetch && window.Headers) {
+        var nativeFetch = window.fetch;
+        window.fetch = function (input, init) {
+            var url = (typeof input === 'string') ? input : (input && input.url) || '';
+            var method = String((init && init.method) || (input && input.method) || 'GET').toUpperCase();
+            if (!SAFE[method] && sameOrigin(url)) {
+                var headers = new Headers((init && init.headers) || (input && input.headers) || {});
+                if (!headers.has(HEADER)) {
+                    headers.set(HEADER, token);
+                    var next = {};
+                    for (var k in (init || {})) { next[k] = init[k]; }
+                    next.headers = headers;
+                    init = next;
+                }
+            }
+            // Bind to window: a bare fetch() call passes undefined as `this`,
+            // which some engines reject as an illegal invocation.
+            return nativeFetch.call(window, input, init);
+        };
+    }
+
+    // A plain form post never touches XHR, so it needs the token in the body.
+    // Read the action at submit time: callers rewrite it just before submitting.
+    function addField(form) {
+        if (!form || String(form.method || 'get').toUpperCase() !== 'POST') { return; }
+        if (!sameOrigin(form.getAttribute('action'))) { return; }
+        var existing = form.querySelector('input[name="' + FIELD + '"]');
+        if (existing) { existing.value = token; return; }
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = FIELD;
+        input.value = token;
+        form.appendChild(input);
+    }
+
+    document.addEventListener('submit', function (e) { addField(e.target); }, true);
+
+    // jQuery's .submit()/.trigger('submit') dispatches no DOM event — it calls
+    // this method, which per spec fires none either, so the listener above never
+    // sees a programmatic submit. Every WOMP broadcast form posts that way.
+    if (window.HTMLFormElement && HTMLFormElement.prototype.submit) {
+        var nativeFormSubmit = HTMLFormElement.prototype.submit;
+        HTMLFormElement.prototype.submit = function () {
+            addField(this);
+            return nativeFormSubmit.apply(this, arguments);
+        };
+    }
+})();
+</script>
+
+    <!-- favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/includes/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/includes/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/includes/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/includes/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/includes/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/includes/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/includes/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/includes/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/includes/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/includes/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/includes/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/includes/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/includes/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/includes/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/includes/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- smdb -->
+    <meta property="og:image" content="https://usbands.org/includes/wrapper/images/social-media/og-usbands-logo.jpg?updated=2022-03-20" />
+    <meta property="og:url" content="" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+
+
+    <!-- browser check http://outdatedbrowser.com/en -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+
+
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- https://github.com/jquery/jquery-migrate/#README -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.1.0/jquery-migrate.min.js"></script>
+
+
+<!-- retina http://retinaimag.es v1.7.2 modded -->
+<script>(function(w){var dpr=((w.devicePixelRatio===undefined)?1:w.devicePixelRatio);if(!!w.navigator.standalone){var r=new XMLHttpRequest();r.open('GET','/includes/images/retinaimages.php?devicePixelRatio='+dpr,false);r.send()}else{document.cookie='devicePixelRatio='+dpr+'; path=/'}})(window)</script>
+<noscript><style id="devicePixelRatio" media="only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)">html{background-image:url("/includes/images/retinaimages.php?devicePixelRatio=2")}</style></noscript>
+
+
+
+<!-- https://jqueryui.com -->
+<!-- so we can drag/drop table rows when they are not DataTables (such as UnitProductionPersons) -->
+<!-- this needs to go first so it doesn't conflict with bootstrap -->
+<!-- https://cdnjs.com/libraries/jqueryui -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- bootstrap -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- /bootstrap -->
+
+
+
+<!-- plugins -->
+
+<!-- blockUI http://jquery.malsup.com/block/ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+
+<!-- date/time utils http://momentjs.com -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<!-- datatables https://datatables.net -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.4/css/fixedHeader.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.4/css/rowReorder.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap4.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.4/js/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/responsive.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.2.4/js/dataTables.rowReorder.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+
+<!-- https://datatables.net/plug-ins/dataRender/ellipsis -->
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/ellipsis.js"></script>
+
+<!-- https://datatables.net/plug-ins/dataRender/datetime -->
+<!-- <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script> -->
+
+<!-- https://datatables.net/plug-ins/sorting/datetime-moment -->
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+
+<!-- URI for dealing with urls http://medialize.github.io/URI.js/docs.html -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/jquery.URI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/IPv6.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/punycode.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/SecondLevelDomains.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.fragmentQuery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.fragmentURI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URITemplate.min.js"></script>
+
+
+<!-- form validation http://formvalidation.io/ -->
+<!-- https://sellfy.com/user/purchases -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.5/es6-shim.min.js"></script> <!-- for IE to work...what year is this!??! -->
+<link href="/includes/js/formvalidation-dist-v1.6.0/dist/css/formValidation.min.css" rel="stylesheet">
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/FormValidation.full.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/J.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/Bootstrap.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/PasswordStrength.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/Recaptcha.min.js?v=100"></script>
+
+
+<!-- datetime picker https://tempusdominus.github.io/bootstrap-4/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- turns checkboxes/radios into switches http://www.bootstraptoggle.com -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<!-- make all columns the same height http://brm.io/jquery-match-height/ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js"></script>
+
+<!-- http://bootstrap-notify.remabledesigns.com -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.7/bootstrap-notify.min.js"></script>
+
+<!-- https://daneden.github.io/animate.css/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
+
+<!-- http://davidstutz.github.io/bootstrap-multiselect/ and https://github.com/davidstutz/bootstrap-multiselect -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" />
+
+<!-- icons and such http://fontawesome.io -->
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" /> -->
+<!-- <script src="https://kit.fontawesome.com/e287d65161.js"></script> the kit is SLOW -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+
+
+<!-- fancy selects https://silviomoreto.github.io/bootstrap-select/ -->
+<!-- v1.13.1 doesn't work on mobile -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
+
+<!-- http://www.dropzonejs.com/
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/basic.min.css" />
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/basic.min.css" />
+
+<!-- spinners https://github.com/hakimel/Ladda -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda-themeless.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/spin.min.js"></script> <!-- this goes first -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda.min.js"></script> <!-- this goes second -->
+
+<!-- http://twitter.github.io/typeahead.js/ -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
+
+
+<!-- lightbox http://ashleydw.github.io/lightbox/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- /plugins -->
+
+<!-- fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+
+
+<!-- my stuff -->
+<script src="/includes/js/usbands.js?v=1789991705"></script>
+<script src="/includes/js/grids.js?v=1600665536"></script>
+
+<!-- SC-1994 -->
+<script src="/includes/js/vendor/browser-image-compression.js?updated=2026-05-26-sc1994"></script>
+<script src="/includes/js/bd-uploader.js?updated=2026-05-26-sc1994"></script>
+<link rel="stylesheet" href="/includes/css/usbands.css?v=1787346830" />
+<link rel="stylesheet" href="/includes/css/typeahead.css?updated=2017-07-07" />
+<!-- /my stuff -->
+
+
+    <script>
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    function cookieConsent() {
+        if (!getCookie('allowUSBCookies')) {
+            $('.toast').toast('show')
+        } else {
+            $('#privacy-policy2').remove()
+        }
+    }
+
+    $().ready(function() {
+        updateWindowDimensionDisplay();
+        applySpecialLinkStyles();
+        initTooltips();
+        initSelects();
+        applyRequiredStyle();
+        initNotifications();
+        showQueuedNotifications();
+        initButtonGlow();
+
+        $('#btnAccept').click(() => {
+            setCookie('allowUSBCookies', '1', 30)
+            $('#privacy-policy2').hide()
+            $('.toast').toast('hide')
+        })
+        cookieConsent()
+            });
+    
+    //do stuff when a modal is done being loaded
+    $(document).on('loaded.bs.modal', function(e) {
+        applySpecialLinkStyles();
+        applyRequiredStyle();
+        initSelects();
+    });
+
+    $(window).on("resize", function() {
+        updateWindowDimensionDisplay();
+    });
+    </script>
+
+    <style>
+    .nav-item {
+        font-size: 13px;
+    }
+    </style>
+
+    <!-- google analytics -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-12659785-7"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-12659785-7');
+    </script>
+        <!-- /google analytics -->
+
+
+</head>
+
+<body>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5LG3GFLQ4"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-Q5LG3GFLQ4');
+    </script>
+    <div class="fixed-bottom p-4" id="privacy-policy2">
+        <div class="toast bg-dark text-white w-100 mw-100" role="alert" data-autohide="false">
+            <div class="toast-body  pb-2 pt-3 pl-3 pr-3 d-flex flex-column d-flex flex-column">
+                <h5 class="m-0 p-0" style="color: white;">We Value your Privacy</h5>
+                <div class="row">
+                    <div class="col-md-10 col-sm-12">
+                        <p class="mt-3">
+                            To continue using our services and site, you agree to our <a
+                                href="/home/BD Performing Arts Privacy Policy.pdf" target="_blank" style="color: white;
+text-decoration: underline;">Privacy Policy</a>.
+                            We use cookies to enhance your browsing experience. By clicking "OK", you consent.
+                        </p>
+                    </div>
+                    <div class="mx-auto col-md-2 col-sm-12 col-xs-12 pb-2 pb-md-0">
+                        <button type="button" class="btn btn-light btn-flat btn-outline-primary pl-4 pr-4"
+                            style="float: right" id="btnAccept">
+                            OK
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <!-- header nav bar -->
+    <header>
+                <nav class="navbar xnavbar-expand-lg accountNav">
+            <div class="xcollapse xnavbar-collapse d-flex justify-content-between align-items-center w-100">
+                <ul id="headerUtils" class="nav navbar-nav d-flex flex-row">
+                    <li class="nav-item"><a class="nav-link" href="/account/sign-in/">Sign In</a></li>
+                </ul>
+
+                <div class="smdb">
+                    <a href="https://www.facebook.com/USBands/"><i class="fab fa-facebook"></i></a> <a
+                        href="https://www.instagram.com/usbandsofficial/"><i class="fab fa-instagram"></i></a> <a
+                        href="https://twitter.com/usbands"><i class="fab fa-twitter-square"></i></a>
+                </div>
+            </div>
+        </nav>
+
+                <nav class="navbar navbar-expand-xl navbar-light siteNav">
+    <a class="navbar-brand" href="/" style="z-index: 1000;"><img src="/includes/wrapper/images/USBands_Logo_color.png" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <!-- Fall Events Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="fallEventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Fall Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="fallEventsDropdown">
+                    <a class="dropdown-item" href="/events/">USBands Events</a>
+                    <a class="dropdown-item" href="/showstyle/">Traditional/Showstyle Events</a>
+                    <a class="dropdown-item" href="/events/?type=the-stage">The Stage Events</a>
+                </div>
+            </li>
+
+            <!-- Winter Events Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="winterEventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Winter Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="winterEventsDropdown">
+                    <a class="dropdown-item" href="/events/?type=indoor-percussion">Indoor Percussion Events</a>
+                    <a class="dropdown-item" href="/MAIN/events/">MAIN Events</a>
+                </div>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" href="/tickets/">Tickets</a></li>
+            <li class="nav-item"><a class="nav-link" href="/education">Education</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+
+            <!-- Remove dropdown for Resources and add each link as top-level nav items -->
+            <li class="nav-item"><a class="nav-link" href="/directors/">Directors</a></li>
+            <li class="nav-item"><a class="nav-link" href="/adjudicators/">Adjudicators</a></li>
+            <li class="nav-item"><a class="nav-link" href="/event-staff/">Event Staff</a></li>
+           <!-- <li class="nav-item"><a class="nav-link" href="/parents-students/">Parents / Students</a></li>-->
+
+            <li class="nav-item"><a class="nav-link" href="/about/contact/">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://store.bluedevils.org/usbands/">Shop</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+    </header>
+    <!-- /header nav bar -->
+    <style>
+        main dd {
+            margin-bottom: 1em;
+        }
+
+        main .contentHeader {
+            margin-bottom: 0px;
+        }
+    </style>
+
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1 class="contentHeader">Camp Hill High School Marching Band</h1>
+
+                    <br/>
+
+                    <div class="cityState">Camp Hill High School, Camp Hill, PA</div>
+
+                                            <div class="url"><a href="http://camphill.band">camphill.band</a></div>
+                                        </div> <!-- /.col -->
+            </div> <!-- /.row -->
+
+            <hr/>
+
+            <div class="row">
+                <div class="col-sm-6">
+                                            <dl class="programName">
+                            <dt><h2>2026 Fall Program</h2></dt>
+                                                            <dd><strong>An Eye for an Eye</strong></dd>
+                                                        </dl>
+                        <p>"An Eye for an Eye" is our love-letter to "spaghetti westerns" by director Sergio Leone. Taking inspiration from classics such as "The Good, The Bad, and the Ugly," and "A Fistful of Dollars," we are excited to take the audience through a story of betrayal and revenge.<br />
+<br />
+Enjoy our 2026 production as we take you on a journey to the lawless west.</p>
+                        <h5>Musical Selections</h5>
+                        <p style="padding-left:.825rem;">The Good, the Bad, and the Ugly - Ennio Morricone<br />
+The Ecstasy of Gold - Ennio Morricone<br />
+A Duel in the Sun - Dimitri Tiomkin<br />
+Back to Black - Amy Winehouse</p>
+                        <hr/>
+
+                                                <dl>
+                            <dt>Director(s)</dt><dd>Armon Raygani (Director), Sara Benson (Assistant Director)</dd><dt>Drum Major(s)</dt><dd>Ash Fox (Drum Major), Saffron Zahuranec (Drum Major)</dd><dt>Section Leaders</dt><dd>Lydia Coley (Winds), Vivien Eisenhower (Winds), Earl Good (Winds), Eleanor Guise (Winds), Xander Hessou (Winds), Jake Hockenberry (Winds), Eve Kern (Winds), Abi Lammer (Winds), Melina Lee (Winds), Bekah Levits (Winds), Anderson Mitchell (Winds), Daniel Murphy (Winds), Vivi Rairigh (Color Guard), Sydney Snelling (Color Guard), Lillian Hursh (Color Guard), My Bui (Color Guard), Bennett Lutkins (Quartermaster), Micah Fields (Percussion), Sophia Geller (Percussion), Holden Stapp (Percussion), Samantha Armbrust (Rookie Liaison), Suhayla Huq (Rookie Liaison), Molly Kaylor (Rookie Liaison), John Willshier-Soto (Student Director)</dd><dt>Design Staff – Music</dt><dd>Zack Travis (Wind Arranger), Sara Benson (Pit Arranger), Noah Baker (Battery Arranger)</dd><dt>Design Staff – Visual</dt><dd>Armon Raygani (Visual Designer), Donovan Donnelly (Consultant)</dd><dt>Instructional Staff – Music</dt><dd>Chris Curry (Wind Staff), Logan Bruner (Wind Staff), Benjamin Haas (Wind Staff), William Morris (Wind Staff), Brandon Rubinic (Wind Staff), Hannah Brungard (Wind Staff), Andrew Snyder (Wind Staff)</dd><dt>Instructional Staff – Percussion</dt><dd>Lucas Mace (Percussion Staff), Hayden Tierney (Percussion Staff), Scott Seiver (Percussion Staff), Marshall Stabler (Percussion Staff)</dd><dt>Instructional Staff – Auxiliary</dt><dd>Taylor Aves (Color Guard Director), Taylor Curtis (Color Guard Staff), Ayasia Lay (Color Guard Staff), Corina Curry (Color Guard Staff)</dd>                        </dl>
+                        <br>
+                                        </div> <!-- /.col -->
+
+
+                <div class="col-sm-6">
+                    <h2>2026 Events</h2>
+
+                    <table class="table"><tr><td><a href="/events/details.php?ID=1357">New Oxford High School - Clinic Show</a></td><td>September 12, 2026</td></tr><tr><td><a href="/events/details.php?ID=1392">Halifax Area High School- CLINIC</a></td><td>September 19, 2026</td></tr><tr><td><a href="/events/details.php?ID=1491">Carlisle High School</a></td><td>October 10, 2026</td></tr><tr><td><a href="/events/details.php?ID=1492">West Shore School District</a></td><td>October 24, 2026</td></tr><tr><td><a href="/events/details.php?ID=1507">Pennsylvania State Championships (III A, I O, II O, III O) @ Upper Moreland</a></td><td>October 31, 2026</td></tr><tr><td><a href="/events/details.php?ID=1451">USBands Championships - II O, III O, IV O, V O</a></td><td>November 7, 2026</td></tr></table>
+                                            <div class="responsiveImageContainer"><img src="/units/files-units/cache/6000/6379/profile-images/577663340_1147234137581740_8079915335309190466_n-600x400.jpg"
+                                                                   class="img-fluid"/></div>
+                        
+                </div> <!-- /.col -->
+
+            </div> <!-- /.row -->
+        </div> <!-- /.container -->
+    </main>
+
+<!-- small modal -->
+<div class="modal fade" id="myModalSmall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!-- /.small modal -->
+
+<!-- modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!-- /.modal -->
+
+<!-- large modal -->
+<div class="modal fade" id="myModalLarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="myImageModalLarge" tabindex="-1" role="dialog" aria-labelledby="myImageModalLarge" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="max-height: 600px; overflow-y: auto;">
+            <img src="" alt="" class="poImages"/>
+            <embed src="" width="100%" height="600px" class="poPdf"/>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade marketing-global-modal marketing-global-modal-usb" id="marketingModalGlobal" tabindex="-1" role="dialog" aria-labelledby="marketingModalGlobalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h3 class="modal-title marketing-modal-title" id="marketingModalGlobalLabel"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body marketing-modal-body"></div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <a href="#" class="btn btn-danger marketing-modal-action" target="_self" style="display:none;"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.marketing-global-modal-usb .modal-dialog {
+    max-width: 640px;
+}
+
+.marketing-global-modal-usb .modal-content {
+    border: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+    background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+}
+
+.marketing-global-modal-usb .modal-header,
+.marketing-global-modal-usb .modal-body,
+.marketing-global-modal-usb .modal-footer {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.marketing-global-modal-usb .modal-title {
+    color: #10233f;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.marketing-global-modal-usb .close {
+    color: #10233f;
+    opacity: 0.7;
+}
+
+.marketing-global-modal-usb .marketing-modal-body {
+    color: #24364f;
+    font-size: 1rem;
+}
+
+.marketing-global-modal-usb .marketing-modal-body a {
+    color: #b51f2e;
+    text-decoration: underline;
+}
+
+.marketing-global-modal-usb .marketing-modal-body p:last-child {
+    margin-bottom: 0;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-dialog {
+    max-width: 760px;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-content {
+    background: transparent;
+    box-shadow: none;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    background: transparent;
+    border: 0;
+    justify-content: flex-end;
+    padding: .75rem;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .marketing-modal-body {
+    padding: 0;
+}
+
+.marketing-global-modal-usb .marketing-modal-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+@media (max-width: 575.98px) {
+    .marketing-global-modal-usb .modal-header,
+    .marketing-global-modal-usb .modal-body,
+    .marketing-global-modal-usb .modal-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+</style>
+
+<script>
+(function () {
+    var marketingModalQueue = [] || [];
+    var currentMarketingModal = null;
+
+    function getSessionCount(modalID) {
+        try {
+            if (typeof getCookie === "function") {
+                return parseInt(getCookie("marketing_modal_session_" + modalID) || "0", 10);
+            }
+            return parseInt(sessionStorage.getItem("marketing_modal_session_" + modalID) || "0", 10);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function setSessionCount(modalID, count) {
+        try {
+            if (typeof setCookie === "function") {
+                setCookie("marketing_modal_session_" + modalID, String(count));
+                return;
+            }
+            sessionStorage.setItem("marketing_modal_session_" + modalID, String(count));
+        } catch (error) {}
+    }
+
+    function getLifetimeCount(modalID) {
+        try {
+            return parseInt(localStorage.getItem("marketing_modal_lifetime_" + modalID) || "0", 10);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function setLifetimeCount(modalID, count) {
+        try {
+            localStorage.setItem("marketing_modal_lifetime_" + modalID, String(count));
+        } catch (error) {}
+    }
+
+    function canShowMarketingModal(modal) {
+        if (!modal || !modal.ID) {
+            return false;
+        }
+
+        if (modal.displayMode === "once_ever") {
+            return getLifetimeCount(modal.ID) < 1;
+        }
+
+        if (modal.displayMode === "times_per_session") {
+            return getSessionCount(modal.ID) < Math.max(parseInt(modal.displayLimit || 1, 10), 1);
+        }
+
+        return getSessionCount(modal.ID) < 1;
+    }
+
+    function recordMarketingModalView(modal) {
+        if (!modal || !modal.ID) {
+            return;
+        }
+
+        if (modal.displayMode === "once_ever") {
+            setLifetimeCount(modal.ID, getLifetimeCount(modal.ID) + 1);
+            return;
+        }
+
+        setSessionCount(modal.ID, getSessionCount(modal.ID) + 1);
+    }
+
+    function renderMarketingModal(modal) {
+        var modalElement = $("#marketingModalGlobal");
+        var isImageModal = modal.contentType === "image" && modal.imageUrl;
+        modalElement.toggleClass("marketing-modal-image-mode", !!isImageModal);
+        modalElement.find(".marketing-modal-title").text(modal.title || "").toggle(!!modal.title && !isImageModal);
+        modalElement.find(".modal-footer").toggle(!isImageModal);
+        if (isImageModal) {
+            var imageAlt = modal.imageAlt || modal.title || "";
+            modalElement.find(".marketing-modal-body").html(
+                '<img src="' + modal.imageUrl + '" alt="' + imageAlt.replace(/"/g, '&quot;') + '" class="marketing-modal-image">'
+            );
+        } else {
+            modalElement.find(".marketing-modal-body").html(modal.bodyHtml || "");
+        }
+
+        var actionButton = modalElement.find(".marketing-modal-action");
+        if (!isImageModal && modal.actionLabel && modal.actionUrl) {
+            actionButton.text(modal.actionLabel);
+            actionButton.attr("href", modal.actionUrl);
+            actionButton.attr("target", modal.actionTarget || "_self");
+            actionButton.attr("style", "");
+            if (modal.actionButtonColor) {
+                actionButton.css({
+                    backgroundColor: modal.actionButtonColor,
+                    borderColor: modal.actionButtonColor,
+                    color: "#ffffff"
+                });
+            }
+            actionButton.show();
+        } else {
+            actionButton.hide();
+            actionButton.attr("href", "#");
+            actionButton.attr("target", "_self");
+            actionButton.attr("style", "");
+            actionButton.text("");
+        }
+    }
+
+    function showNextMarketingModal() {
+        if (!marketingModalQueue.length) {
+            currentMarketingModal = null;
+            return;
+        }
+
+        currentMarketingModal = marketingModalQueue.shift();
+        renderMarketingModal(currentMarketingModal);
+        recordMarketingModalView(currentMarketingModal);
+        $("#marketingModalGlobal").modal("show");
+    }
+
+    $(function () {
+        marketingModalQueue = marketingModalQueue.filter(canShowMarketingModal);
+        if (!marketingModalQueue.length) {
+            return;
+        }
+
+        $("#marketingModalGlobal").on("hidden.bs.modal", function () {
+            showNextMarketingModal();
+        });
+
+        showNextMarketingModal();
+    });
+})();
+</script>
+
+
+<!-- start footer.php -->
+<footer>
+    
+            <div class="container-fluid sponsors">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-white mb-5">Presenting Sponsor</h3><div class="row justify-content-center align-items-center"><div class="col-8 col-sm-6 col-md-4 col-lg-3 mb-0">
+            <a href="https://connselmer.com/" title="Conn-Selmer" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/Conn-Selmer-Logo.png" alt="Conn-Selmer" class="img-fluid" style=" opacity: 0.7; mix-blend-mode: screen;" />
+            </a>
+        </div></div><div class="row justify-content-center align-items-center"><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://demoulin.com/" title="DeMoulin" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/demoulin.png" alt="DeMoulin" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://algy.com/" title="Algy" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/algyby.png" alt="Algy" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div></div><div class="row justify-content-center align-items-center"><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://bandshoppe.com/" title="Band Shoppe" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/bandshoppelogo.png" alt="Band Shoppe" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://www.drillmastersmarching.com/" title="Drillmasters" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/Drillmasters.png" alt="Drillmasters" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://peakgrouptravel.com/" title="Peak Group Travel" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/peak-group-travel.png" alt="Peak Group Travel" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://pepwear.com/" title="PepWear" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/pepwear.svg" alt="PepWear" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div></div>                </div>
+            </div>
+        </div>
+            
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events/">Events</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/directors/">Directors</a></li>
+                    <li><a href="/adjudicators/">Adjudicators</a></li>
+                    <li><a href="/parents-students/">Parents / Students</a></li>
+                    <li><a href="https://store.bluedevils.org/usbands/">Shop</a></li>
+                    <li><a href="/account/">My Account</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <h2>About USBands</h2>
+                <p>Our mission is to support the development of young people into magnificent human beings through participation in the performing arts.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="clearfix"></div>
+
+<!-- outdated browser warning -->
+<style>
+#outdated h6,
+#outdated p {
+    text-transform: none;
+}
+#outdated #btnUpdateBrowser {
+    width: 260px;
+}
+</style>
+
+<div id="outdated">
+     <h6>Your browser is out-of-date.</h6>
+     <p>Please update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Show Me Where To Get The Update</a></p>
+     <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+
+<script>
+//event listener: DOM ready
+function addLoadEvent(func) {
+    var oldonload = window.onload;
+    if(typeof window.onload != "function") {
+        window.onload = func;
+    }
+    else {
+        window.onload = function() {
+            if(oldonload) {
+                oldonload();
+            }
+            func();
+        }
+    }
+}
+//call plugin function after DOM ready
+addLoadEvent(function(){
+    outdatedBrowser({
+        bgColor: "#f25648",
+        color: "#ffffff",
+        lowerThan: "transform"
+    })
+});
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"d44cc425cd254109aeec2be026a2fd7e","r":1,"spa":2}' crossorigin="anonymous"></script>

@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+
+<!-- 2026-09-28 17:56:56 America/Los_Angeles -->
+
+
+<html>
+
+<head>
+
+    <title>Events :: USBands</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <!-- force out of Compatibility Mode, which breaks everything -->
+    <meta name="csrf-token" content="cf6398f2dd9a551d90dfc6e5d632775ba3290afa411c73495da5ea74d6568305"/>
+<script>
+(function () {
+    var meta = document.querySelector('meta[name=csrf-token]');
+    var token = meta ? meta.getAttribute('content') : '';
+    if (!token || !window.XMLHttpRequest) { return; }
+
+    // Emitted by both the page wrapper and by modal fragments, which are loaded
+    // into an already-patched page as often as they are opened on their own.
+    if (window.__wbaCsrfShim) { return; }
+    window.__wbaCsrfShim = true;
+
+    var HEADER = "X-CSRF-Token";
+    var FIELD = "csrfToken";
+    var SAFE = { GET: 1, HEAD: 1, OPTIONS: 1 };
+
+    function sameOrigin(url) {
+        var a = document.createElement('a');
+        a.href = url || window.location.href;
+        return (a.protocol + '//' + a.host) === (window.location.protocol + '//' + window.location.host);
+    }
+
+    var proto = XMLHttpRequest.prototype;
+    var open = proto.open;
+    var send = proto.send;
+    var setHeader = proto.setRequestHeader;
+
+    // Setting the same header twice appends rather than replaces, so a caller
+    // that already attached the token would produce "tok, tok" and fail.
+    proto.setRequestHeader = function (name, value) {
+        if (String(name).toLowerCase() === HEADER.toLowerCase()) { this.__wbaCsrfSent = true; }
+        return setHeader.apply(this, arguments);
+    };
+
+    proto.open = function (method, url) {
+        this.__wbaCsrfSent = false;
+        this.__wbaCsrfWanted = !SAFE[String(method || 'GET').toUpperCase()] && sameOrigin(url);
+        return open.apply(this, arguments);
+    };
+
+    proto.send = function () {
+        if (this.__wbaCsrfWanted && !this.__wbaCsrfSent) { this.setRequestHeader(HEADER, token); }
+        return send.apply(this, arguments);
+    };
+
+    if (window.fetch && window.Headers) {
+        var nativeFetch = window.fetch;
+        window.fetch = function (input, init) {
+            var url = (typeof input === 'string') ? input : (input && input.url) || '';
+            var method = String((init && init.method) || (input && input.method) || 'GET').toUpperCase();
+            if (!SAFE[method] && sameOrigin(url)) {
+                var headers = new Headers((init && init.headers) || (input && input.headers) || {});
+                if (!headers.has(HEADER)) {
+                    headers.set(HEADER, token);
+                    var next = {};
+                    for (var k in (init || {})) { next[k] = init[k]; }
+                    next.headers = headers;
+                    init = next;
+                }
+            }
+            // Bind to window: a bare fetch() call passes undefined as `this`,
+            // which some engines reject as an illegal invocation.
+            return nativeFetch.call(window, input, init);
+        };
+    }
+
+    // A plain form post never touches XHR, so it needs the token in the body.
+    // Read the action at submit time: callers rewrite it just before submitting.
+    function addField(form) {
+        if (!form || String(form.method || 'get').toUpperCase() !== 'POST') { return; }
+        if (!sameOrigin(form.getAttribute('action'))) { return; }
+        var existing = form.querySelector('input[name="' + FIELD + '"]');
+        if (existing) { existing.value = token; return; }
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = FIELD;
+        input.value = token;
+        form.appendChild(input);
+    }
+
+    document.addEventListener('submit', function (e) { addField(e.target); }, true);
+
+    // jQuery's .submit()/.trigger('submit') dispatches no DOM event — it calls
+    // this method, which per spec fires none either, so the listener above never
+    // sees a programmatic submit. Every WOMP broadcast form posts that way.
+    if (window.HTMLFormElement && HTMLFormElement.prototype.submit) {
+        var nativeFormSubmit = HTMLFormElement.prototype.submit;
+        HTMLFormElement.prototype.submit = function () {
+            addField(this);
+            return nativeFormSubmit.apply(this, arguments);
+        };
+    }
+})();
+</script>
+
+    <!-- favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/includes/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/includes/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/includes/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/includes/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/includes/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/includes/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/includes/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/includes/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/includes/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/includes/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/includes/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/includes/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/includes/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/includes/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/includes/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- smdb -->
+    <meta property="og:image" content="https://usbands.org/includes/wrapper/images/social-media/og-usbands-logo.jpg?updated=2022-03-20" />
+    <meta property="og:url" content="" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+
+
+    <!-- browser check http://outdatedbrowser.com/en -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+
+
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- https://github.com/jquery/jquery-migrate/#README -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.1.0/jquery-migrate.min.js"></script>
+
+
+<!-- retina http://retinaimag.es v1.7.2 modded -->
+<script>(function(w){var dpr=((w.devicePixelRatio===undefined)?1:w.devicePixelRatio);if(!!w.navigator.standalone){var r=new XMLHttpRequest();r.open('GET','/includes/images/retinaimages.php?devicePixelRatio='+dpr,false);r.send()}else{document.cookie='devicePixelRatio='+dpr+'; path=/'}})(window)</script>
+<noscript><style id="devicePixelRatio" media="only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)">html{background-image:url("/includes/images/retinaimages.php?devicePixelRatio=2")}</style></noscript>
+
+
+
+<!-- https://jqueryui.com -->
+<!-- so we can drag/drop table rows when they are not DataTables (such as UnitProductionPersons) -->
+<!-- this needs to go first so it doesn't conflict with bootstrap -->
+<!-- https://cdnjs.com/libraries/jqueryui -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- bootstrap -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- /bootstrap -->
+
+
+
+<!-- plugins -->
+
+<!-- blockUI http://jquery.malsup.com/block/ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+
+<!-- date/time utils http://momentjs.com -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<!-- datatables https://datatables.net -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.4/css/fixedHeader.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.4/css/rowReorder.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap4.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.4/js/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/responsive.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.2.4/js/dataTables.rowReorder.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+
+<!-- https://datatables.net/plug-ins/dataRender/ellipsis -->
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/ellipsis.js"></script>
+
+<!-- https://datatables.net/plug-ins/dataRender/datetime -->
+<!-- <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script> -->
+
+<!-- https://datatables.net/plug-ins/sorting/datetime-moment -->
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+
+<!-- URI for dealing with urls http://medialize.github.io/URI.js/docs.html -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/jquery.URI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/IPv6.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/punycode.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/SecondLevelDomains.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.fragmentQuery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.fragmentURI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URITemplate.min.js"></script>
+
+
+<!-- form validation http://formvalidation.io/ -->
+<!-- https://sellfy.com/user/purchases -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.5/es6-shim.min.js"></script> <!-- for IE to work...what year is this!??! -->
+<link href="/includes/js/formvalidation-dist-v1.6.0/dist/css/formValidation.min.css" rel="stylesheet">
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/FormValidation.full.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/J.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/Bootstrap.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/PasswordStrength.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/Recaptcha.min.js?v=100"></script>
+
+
+<!-- datetime picker https://tempusdominus.github.io/bootstrap-4/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- turns checkboxes/radios into switches http://www.bootstraptoggle.com -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<!-- make all columns the same height http://brm.io/jquery-match-height/ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js"></script>
+
+<!-- http://bootstrap-notify.remabledesigns.com -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.7/bootstrap-notify.min.js"></script>
+
+<!-- https://daneden.github.io/animate.css/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
+
+<!-- http://davidstutz.github.io/bootstrap-multiselect/ and https://github.com/davidstutz/bootstrap-multiselect -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" />
+
+<!-- icons and such http://fontawesome.io -->
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" /> -->
+<!-- <script src="https://kit.fontawesome.com/e287d65161.js"></script> the kit is SLOW -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+
+
+<!-- fancy selects https://silviomoreto.github.io/bootstrap-select/ -->
+<!-- v1.13.1 doesn't work on mobile -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
+
+<!-- http://www.dropzonejs.com/
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/basic.min.css" />
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/basic.min.css" />
+
+<!-- spinners https://github.com/hakimel/Ladda -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda-themeless.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/spin.min.js"></script> <!-- this goes first -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda.min.js"></script> <!-- this goes second -->
+
+<!-- http://twitter.github.io/typeahead.js/ -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
+
+
+<!-- lightbox http://ashleydw.github.io/lightbox/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- /plugins -->
+
+<!-- fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+
+
+<!-- my stuff -->
+<script src="/includes/js/usbands.js?v=1789991705"></script>
+<script src="/includes/js/grids.js?v=1600665536"></script>
+
+<!-- SC-1994 -->
+<script src="/includes/js/vendor/browser-image-compression.js?updated=2026-05-26-sc1994"></script>
+<script src="/includes/js/bd-uploader.js?updated=2026-05-26-sc1994"></script>
+<link rel="stylesheet" href="/includes/css/usbands.css?v=1787346830" />
+<link rel="stylesheet" href="/includes/css/typeahead.css?updated=2017-07-07" />
+<!-- /my stuff -->
+
+
+    <script>
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    function cookieConsent() {
+        if (!getCookie('allowUSBCookies')) {
+            $('.toast').toast('show')
+        } else {
+            $('#privacy-policy2').remove()
+        }
+    }
+
+    $().ready(function() {
+        updateWindowDimensionDisplay();
+        applySpecialLinkStyles();
+        initTooltips();
+        initSelects();
+        applyRequiredStyle();
+        initNotifications();
+        showQueuedNotifications();
+        initButtonGlow();
+
+        $('#btnAccept').click(() => {
+            setCookie('allowUSBCookies', '1', 30)
+            $('#privacy-policy2').hide()
+            $('.toast').toast('hide')
+        })
+        cookieConsent()
+            });
+    
+    //do stuff when a modal is done being loaded
+    $(document).on('loaded.bs.modal', function(e) {
+        applySpecialLinkStyles();
+        applyRequiredStyle();
+        initSelects();
+    });
+
+    $(window).on("resize", function() {
+        updateWindowDimensionDisplay();
+    });
+    </script>
+
+    <style>
+    .nav-item {
+        font-size: 13px;
+    }
+    </style>
+
+    <!-- google analytics -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-12659785-7"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-12659785-7');
+    </script>
+        <!-- /google analytics -->
+
+
+</head>
+
+<body>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5LG3GFLQ4"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-Q5LG3GFLQ4');
+    </script>
+    <div class="fixed-bottom p-4" id="privacy-policy2">
+        <div class="toast bg-dark text-white w-100 mw-100" role="alert" data-autohide="false">
+            <div class="toast-body  pb-2 pt-3 pl-3 pr-3 d-flex flex-column d-flex flex-column">
+                <h5 class="m-0 p-0" style="color: white;">We Value your Privacy</h5>
+                <div class="row">
+                    <div class="col-md-10 col-sm-12">
+                        <p class="mt-3">
+                            To continue using our services and site, you agree to our <a
+                                href="/home/BD Performing Arts Privacy Policy.pdf" target="_blank" style="color: white;
+text-decoration: underline;">Privacy Policy</a>.
+                            We use cookies to enhance your browsing experience. By clicking "OK", you consent.
+                        </p>
+                    </div>
+                    <div class="mx-auto col-md-2 col-sm-12 col-xs-12 pb-2 pb-md-0">
+                        <button type="button" class="btn btn-light btn-flat btn-outline-primary pl-4 pr-4"
+                            style="float: right" id="btnAccept">
+                            OK
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <!-- header nav bar -->
+    <header>
+                <nav class="navbar xnavbar-expand-lg accountNav">
+            <div class="xcollapse xnavbar-collapse d-flex justify-content-between align-items-center w-100">
+                <ul id="headerUtils" class="nav navbar-nav d-flex flex-row">
+                    <li class="nav-item"><a class="nav-link" href="/account/sign-in/">Sign In</a></li>
+                </ul>
+
+                <div class="smdb">
+                    <a href="https://www.facebook.com/USBands/"><i class="fab fa-facebook"></i></a> <a
+                        href="https://www.instagram.com/usbandsofficial/"><i class="fab fa-instagram"></i></a> <a
+                        href="https://twitter.com/usbands"><i class="fab fa-twitter-square"></i></a>
+                </div>
+            </div>
+        </nav>
+
+                <nav class="navbar navbar-expand-xl navbar-light siteNav">
+    <a class="navbar-brand" href="/" style="z-index: 1000;"><img src="/includes/wrapper/images/USBands_Logo_color.png" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <!-- Fall Events Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="fallEventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Fall Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="fallEventsDropdown">
+                    <a class="dropdown-item" href="/events/">USBands Events</a>
+                    <a class="dropdown-item" href="/showstyle/">Traditional/Showstyle Events</a>
+                    <a class="dropdown-item" href="/events/?type=the-stage">The Stage Events</a>
+                </div>
+            </li>
+
+            <!-- Winter Events Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="winterEventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Winter Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="winterEventsDropdown">
+                    <a class="dropdown-item" href="/events/?type=indoor-percussion">Indoor Percussion Events</a>
+                    <a class="dropdown-item" href="/MAIN/events/">MAIN Events</a>
+                </div>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" href="/tickets/">Tickets</a></li>
+            <li class="nav-item"><a class="nav-link" href="/education">Education</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+
+            <!-- Remove dropdown for Resources and add each link as top-level nav items -->
+            <li class="nav-item"><a class="nav-link" href="/directors/">Directors</a></li>
+            <li class="nav-item"><a class="nav-link" href="/adjudicators/">Adjudicators</a></li>
+            <li class="nav-item"><a class="nav-link" href="/event-staff/">Event Staff</a></li>
+           <!-- <li class="nav-item"><a class="nav-link" href="/parents-students/">Parents / Students</a></li>-->
+
+            <li class="nav-item"><a class="nav-link" href="/about/contact/">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://store.bluedevils.org/usbands/">Shop</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+    </header>
+    <!-- /header nav bar -->
+
+<script>
+    window.onload = function () {
+        var d = new Date();
+        var currentYear = d.getFullYear();
+        var scrollTarget;
+
+        if (currentYear.toString() === "2022") {
+            let currentTimestamp = 1790643416
+            // If no events for the current month and day or later, scroll to the next month with events
+            if (!scrollTarget) {
+                // Get today's date
+                let today =  new Date();
+                let currentYear = today.getFullYear();
+                let currentMonth = today.getMonth(); // 0-based month index
+                let currentDay = today.getDate();
+
+
+                for (let event of document.querySelectorAll('[data-time]')) {
+                    let eventTimestamp = parseInt(event.dataset.time);
+                    let eventDate = new Date(eventTimestamp * 1000); // Convert to milliseconds
+
+                    // Extract year, month, and day from event's date
+                    let eventYear = eventDate.getFullYear();
+                    let eventMonth = eventDate.getMonth();
+                    let eventDay = eventDate.getDate();
+
+                    // Check if the event's date is today
+                    if (eventYear === currentYear && eventMonth === currentMonth && eventDay === currentDay) {
+                        // If the event's date is today, set it as the scroll target
+                        scrollTarget = event;
+                        break;
+                    }
+
+                    // If the event's date is later than today, set it as the scroll target
+                    if (eventYear > currentYear ||
+                        (eventYear === currentYear && eventMonth > currentMonth) ||
+                        (eventYear === currentYear && eventMonth === currentMonth && eventDay > currentDay)) {
+                        scrollTarget = event;
+                        break;
+                    }
+                }
+            }
+
+            // If there is a target month, scroll to it
+            if (scrollTarget) {
+                var element = scrollTarget;
+                var windowHeight = window.innerHeight;
+                var elementHeight = element.offsetHeight;
+                var elementTop = element.getBoundingClientRect().top + window.pageYOffset;
+
+                const monthHead = document.getElementById('monthNav')
+                const monthHeadHeight = monthHead.offsetHeight
+
+                // Calculate the middle position
+                var middlePosition = (elementTop - elementHeight)
+
+                console.log("middlePosition", middlePosition)
+                window.scrollTo({top: middlePosition, behavior: "smooth"});
+            }
+        }
+
+        // Add the .shadow class to the sticky-row on scroll
+        window.addEventListener("scroll", function () {
+            var stickyRow = document.querySelector(".sticky-row");
+            if (window.pageYOffset > 0) {
+                stickyRow.classList.add("shadow");
+            } else {
+                stickyRow.classList.remove("shadow");
+            }
+        });
+    };
+
+</script>
+
+
+<style>
+
+
+    .event {
+        margin-bottom: 2em;
+        line-height: normal;
+        font-weight: bold;
+    }
+
+    .event:last-child {
+        margin-bottom: 0px;
+    }
+
+    .performance {
+        font-weight: bold;
+    }
+
+    .location {
+
+        font-size: 1em;
+        font-weight: normal;
+        margin-top: 5px;
+    }
+
+    td .date {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #c3c3c3;
+    }
+
+    #monthNav {
+        text-align: center;
+        font-size: 1.5em;
+
+    }
+
+    #monthNav a {
+        text-decoration: none;
+    }
+
+    .date {
+        width: 60px;
+        border-right: 1px solid #dee2e6;
+        vertical-align: middle !important;
+    }
+
+    .scoresButtons {
+        margin-top: 0.5em;
+    }
+
+    .recapButton {
+        font-size: 0.8em;
+    }
+
+    .superShow, .championships {
+        font-weight: bold;
+    }
+
+    .close {
+        position: absolute;
+        top: 27px;
+        opacity: 0.3;
+    }
+
+    .close:hover {
+        opacity: 1;
+        background-color: white !important;
+    }
+
+    .close:before, .close:after {
+        position: absolute;
+        left: 15px;
+        content: ' ';
+        height: 12px;
+        width: 2px;
+        background-color: #333;
+    }
+
+    .close:before {
+        transform: rotate(45deg);
+    }
+
+    .close:after {
+        transform: rotate(-45deg);
+    }
+
+    .btn-outline-dark:hover {
+        background-color: white;
+        color: black;
+    }
+
+    .active {
+        text-decoration: underline;
+        color: #7e151e;
+    }
+
+    .nav-menu {
+        margin-bottom: 12px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    @media (max-width: 1000px) {
+        .nav-menu {
+            display: block;
+        }
+
+        .all-link {
+            margin: 0px;
+        }
+    }
+
+    .live {
+        display: inline-block;
+        border: 0px solid #000000;
+        font-family: Futura, Tahoma, sans-serif;
+        color: #ffffff;
+        padding: 37px 10px 10px 80px;
+        border-radius: 2px;
+        background-color: #cc0323;
+        transform: skew(-25deg);
+        -webkit-transform: skew(-16deg);
+        -ms-transform: skew(-16deg);
+    }
+
+    .live::before {
+        content: 'LIVE';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: -6px;
+        z-index: -1;
+        transform: skew(15deg);
+    }
+
+    .watch {
+        width: 100px;
+        display: inline-block;
+        border: 0px solid #000000;
+        font-family: Futura, Tahoma, sans-serif;
+        color: #000000;
+        padding: 30px 31px 18px 71px;
+        border-radius: 2px;
+        background-color: #ffffff;
+        transform: skew(-25deg);
+        -webkit-transform: skew(-25deg);
+        -ms-transform: skew(-25deg);
+    "
+    }
+
+    .watch::before {
+        content: 'WATCH';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        transform: skew(25deg);
+    }
+
+    .sticky-row {
+        position: sticky;
+        top: 0;
+        background-color: white;
+        z-index: 1;
+    }
+
+    .shadow {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .event.past {
+        opacity: 0.7;
+    }
+
+    .event.past > a {
+        color: #323232;
+    }
+
+    .card-title {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .card {
+        border-radius: 10px;;
+    }
+
+    .eventtitle:focus {
+        text-decoration: underline;
+    }
+
+
+    h2 {
+        margin-top: 40px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .container > hr {
+        border-top: 1px solid rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .dropdown {
+        background-color: #f8f9fa;
+        width: max-content;
+        color: #212529;
+        border-radius: .25rem;
+    }
+
+    .dropdown ul {
+        width: 100%;
+        padding: 0;
+    }
+
+    .dropdown ul > li a {
+        color: #212529;
+        padding: .5rem;
+        display:block;
+    }
+
+    .dropdown ul > li a:hover {
+        background-color: #6d767e;
+        color: white;
+    }
+</style>
+
+
+<main>
+    <div class="container-fluid">
+        <div class="row sticky-row">
+            <div class="container">
+                <div class="row py-3">
+                    <div class="col-6 col-md-4">
+
+                        <form method="get" action="/events/">
+                                                            <input type="hidden" name="year" value="2022">
+                                                        <select name="type" class="form-control" onchange="this.form.submit()">
+                                <option value=""  selected>All Event Types</option>
+                                                                                                                                            <option value="marching-band" >
+                                        Marching Band</option>
+                                                                                                                                            <option value="show-style-band" >
+                                        Traditional/Showstyle</option>
+                                                                                                                                            <option value="indoor-percussion" >
+                                        Indoor Percussion</option>
+                                                                                                                                            <option value="concert-band" >
+                                        Concert Band</option>
+                                                                                                                                            <option value="the-stage" >
+                                        The Stage</option>
+                                                            </select>
+                        </form>
+
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div id="monthNav">
+                            <div class="form-group mb-0 text-right text-md-center">
+                                                                    <a class="year-arrow btn btn-light" href="/events/?year=2021">&larr;</a>
+                                                                    2022                                <a class="year-arrow btn btn-light" href="/events/?year=2023">&rarr;</a>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4 mt-3 mt-sm-3 mt-md-0">
+                        <label class="btn btn-light" for="checkbox-order-by-day">
+                            <input type="checkbox" id="checkbox-order-by-day">
+                            Alphabetical Order by Day
+                        </label>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Group events by week                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="javascript:void(0);" onclick="changeGroupBy(this, 'week')">Group events by week</a></li>
+                                <li><a href="javascript:void(0);" onclick="changeGroupBy(this, 'day')">Group events by day</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+
+                            <h2 id="month-1">January</h2>
+
+                <div class="card shadow mb-3 bg-white border-0 shadow" id="event-423" data-time="1642406400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Mon, Jan 17</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=423" id="eventID_423" title="ID: 423" class="eventtitle"">Wind Ensemble Rehearsal Techniques Clinic</a>
+<div class="location">
+Moraga, CA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=423" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr>                <h2 id="month-2">February</h2>
+
+                <div class="card shadow mb-3 bg-white border-0 shadow" id="event-412" data-time="1645257600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Feb 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=412" id="eventID_412" title="ID: 412" class="eventtitle"">USBands Percussion @ West Milford</a>
+<div class="location">
+West Milford, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=412" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-418" data-time="1645862400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Feb 26</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=418" id="eventID_418" title="ID: 418" class="eventtitle"">USBands Percussion @ Wayne Valley</a>
+<div class="location">
+Wayne, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=418" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr>                <h2 id="month-3">March</h2>
+
+                <div class="card shadow mb-3 bg-white border-0 shadow" id="event-413" data-time="1646467200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Mar 5</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=413" id="eventID_413" title="ID: 413" class="eventtitle"">USBands Percussion @ Fair Lawn</a>
+<div class="location">
+Fair Lawn, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=413" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-414" data-time="1647072000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Mar 12</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=414" id="eventID_414" title="ID: 414" class="eventtitle"">USBands Percussion @ Old Bridge</a>
+<div class="location">
+Matawan, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=414" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-424" data-time="1647500400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Thu, Mar 17</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=424" id="eventID_424" title="ID: 424" class="eventtitle"">USBands Concert Series at West Chester University</a>
+<div class="location">
+West Chester, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=424" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-415" data-time="1647500400">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Mar 19</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=415" id="eventID_415" title="ID: 415" class="eventtitle"">USBands Percussion @ Bergenfield High School</a>
+<div class="location">
+Bergenfield, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=415" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-426" data-time="1648105200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Thu, Mar 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=426" id="eventID_426" title="ID: 426" class="eventtitle"">USBands Concert Series at Towson University</a>
+<div class="location">
+Towson, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=426" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr>                <h2 id="month-4">April</h2>
+
+                <div class="card shadow mb-3 bg-white border-0 shadow" id="event-416" data-time="1648882800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Apr 2</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=416" id="eventID_416" title="ID: 416" class="eventtitle"">USBands Percussion Championships @ Somerville (BCMS)</a>
+<div class="location">
+Somerville, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=416" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr>                <h2 id="month-9">September</h2>
+
+                <div class="card shadow mb-3 bg-white border-0 shadow" id="event-446" data-time="1662793200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 10</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=446" id="eventID_446" title="ID: 446" class="eventtitle"">Edison High School</a>
+<div class="location">
+Edison, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=446" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-449" data-time="1662793200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 10</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=449" id="eventID_449" title="ID: 449" class="eventtitle"">Bethel High School</a>
+<div class="location">
+Bethel, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=449" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-447" data-time="1662793200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 10</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=447" id="eventID_447" title="ID: 447" class="eventtitle"">Great Mills High School</a>
+<div class="location">
+Great Mills, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=447" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-452" data-time="1663398000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 17</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=452" id="eventID_452" title="ID: 452" class="eventtitle"">Patuxent High School</a>
+<div class="location">
+Lusby, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=452" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-448" data-time="1663398000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 17</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=448" id="eventID_448" title="ID: 448" class="eventtitle"">West Milford High School</a>
+<div class="location">
+West Milford, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=448" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-483" data-time="1663398000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 17</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=483" id="eventID_483" title="ID: 483" class="eventtitle"">Hopewell Valley High School</a>
+<div class="location">
+Pennington, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=483" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-504" data-time="1663398000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 17</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=504" id="eventID_504" title="ID: 504" class="eventtitle"">Passaic Valley High School</a>
+<div class="location">
+Little Falls, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=504" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-512" data-time="1663398000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 17</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=512" id="eventID_512" title="ID: 512" class="eventtitle"">Brien McMahon High School</a>
+<div class="location">
+Norwalk, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=512" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-565" data-time="1663398000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 17</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=565" id="eventID_565" title="ID: 565" class="eventtitle"">Matawan High School</a>
+<div class="location">
+Aberdeen Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=565" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-453" data-time="1663398000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 17</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=453" id="eventID_453" title="ID: 453" class="eventtitle"">Rustin High School</a>
+<div class="location">
+West Chester, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=453" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-519" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=519"  style="color: #005072;"id="eventID_519" title="ID: 519" class="eventtitle" superShow">USBands Saginaw Regional</a>
+<div class="location">
+Saginaw, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=519" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-520" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=520"  style="color: #005072;"id="eventID_520" title="ID: 520" class="eventtitle"">USBands Madisonville Showcase & Clinic</a>
+<div class="location">
+Madisonville, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=520" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-521" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=521"  style="color: #005072;"id="eventID_521" title="ID: 521" class="eventtitle"">USBands Baytown Showcase</a>
+<div class="location">
+Baytown, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=521" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-567" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=567" id="eventID_567" title="ID: 567" class="eventtitle"">Caldwell High School</a>
+<div class="location">
+Caldwell, ID</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=567" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-462" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=462" id="eventID_462" title="ID: 462" class="eventtitle"">Chopticon High School</a>
+<div class="location">
+Morganza, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=462" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-514" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=514" id="eventID_514" title="ID: 514" class="eventtitle"">Hanover Park High School</a>
+<div class="location">
+East Hanover, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=514" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-515" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=515" id="eventID_515" title="ID: 515" class="eventtitle"">Hunterdon Central Regional High School</a>
+<div class="location">
+Flemington, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=515" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-467" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=467" id="eventID_467" title="ID: 467" class="eventtitle"">South Brunswick High School</a>
+<div class="location">
+South Brunswick, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=467" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-465" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=465" id="eventID_465" title="ID: 465" class="eventtitle"">Northern Valley Regional High School at Old Tappan</a>
+<div class="location">
+Old Tappan, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=465" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-459" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=459" id="eventID_459" title="ID: 459" class="eventtitle"">Rocky Hill High School</a>
+<div class="location">
+Rocky Hill, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=459" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-513" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=513" id="eventID_513" title="ID: 513" class="eventtitle"">Mechanicsburg High School</a>
+<div class="location">
+Mechanicsburg, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=513" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-463" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=463" id="eventID_463" title="ID: 463" class="eventtitle"">Quakertown Community High School</a>
+<div class="location">
+Quakertown, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=463" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-460" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=460" id="eventID_460" title="ID: 460" class="eventtitle"">Trumbull High School</a>
+<div class="location">
+Trumbull, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=460" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-461" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=461" id="eventID_461" title="ID: 461" class="eventtitle"">Blackstone-Millville High School</a>
+<div class="location">
+Medway, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=461" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-469" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=469" id="eventID_469" title="ID: 469" class="eventtitle"">Absegami High School</a>
+<div class="location">
+Galloway, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=469" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-458" data-time="1664002800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Sep 24</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=458" id="eventID_458" title="ID: 458" class="eventtitle"">New Milford High School</a>
+<div class="location">
+New Milford, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=458" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr>                <h2 id="month-10">October</h2>
+
+                <div class="card shadow mb-3 bg-white border-0 shadow" id="event-536" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=536"  style="color: #005072;"id="eventID_536" title="ID: 536" class="eventtitle"">CANCELED - Marine Corps Invitational</a>
+<div class="location">
+Annapolis, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=536" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-526" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=526"  style="color: #005072;"id="eventID_526" title="ID: 526" class="eventtitle"">USBands Hill Country Regional</a>
+<div class="location">
+San Antonio, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=526" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-524" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=524"  style="color: #005072;"id="eventID_524" title="ID: 524" class="eventtitle"">USBands Houston Regional</a>
+<div class="location">
+Webster, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=524" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-525" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=525"  style="color: #005072;"id="eventID_525" title="ID: 525" class="eventtitle"">USBands Goliad Showcase & Clinic</a>
+<div class="location">
+Goliad, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=525" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-476" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=476" id="eventID_476" title="ID: 476" class="eventtitle"">CANCELLED - Steinert High School</a>
+<div class="location">
+Hamilton, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=476" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-527" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=527"  style="color: #005072;"id="eventID_527" title="ID: 527" class="eventtitle"">USBands Dallas Regional</a>
+<div class="location">
+Fort Worth, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=527" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-557" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=557" id="eventID_557" title="ID: 557" class="eventtitle"">Kuna High School</a>
+<div class="location">
+Kuna, ID</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=557" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-464" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=464" id="eventID_464" title="ID: 464" class="eventtitle"">CANCELED - West Shore School District</a>
+<div class="location">
+Camp Hill, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=464" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-475" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=475" id="eventID_475" title="ID: 475" class="eventtitle"">CANCELED - Hillsborough High School</a>
+<div class="location">
+Hillsborough, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=475" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-466" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=466" id="eventID_466" title="ID: 466" class="eventtitle"">Pequannock Township High School</a>
+<div class="location">
+Pompton Plains, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=466" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-471" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=471" id="eventID_471" title="ID: 471" class="eventtitle"">CANCELED - Mark T. Sheehan High School</a>
+<div class="location">
+Wallingford, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=471" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-551" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=551" id="eventID_551" title="ID: 551" class="eventtitle"">CANCELLED - Naugatuck High School</a>
+ [cancelled]<div class="location">
+Naugatuck, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=551" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-472" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=472" id="eventID_472" title="ID: 472" class="eventtitle"">CANCELED - Dartmouth High School</a>
+<div class="location">
+Dartmouth, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=472" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-477" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=477" id="eventID_477" title="ID: 477" class="eventtitle"">Lenape High School</a>
+<div class="location">
+Medford, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=477" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-474" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=474" id="eventID_474" title="ID: 474" class="eventtitle"">Ramsey High School</a>
+<div class="location">
+Ramsey, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=474" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-473" data-time="1664607600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 1</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=473" id="eventID_473" title="ID: 473" class="eventtitle"">Central Bucks High School South</a>
+<div class="location">
+Warrington, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=473" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-562" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Tue, Oct 4</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=562"  style="color: #005072;"id="eventID_562" title="ID: 562" class="eventtitle"">AT&T Stadium Classic</a>
+<div class="location">
+Arlington, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=562" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-470" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Fri, Oct 7</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=470" id="eventID_470" title="ID: 470" class="eventtitle"">Norwich Free Academy - (Postponed from 10/1)</a>
+<div class="location">
+Norwich, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=470" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-537" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=537"  style="color: #005072;"id="eventID_537" title="ID: 537" class="eventtitle" superShow">The Ludwig Musser Classic</a>
+<div class="location">
+East Rutherford, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=537" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-529" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=529"  style="color: #005072;"id="eventID_529" title="ID: 529" class="eventtitle" superShow">The Ludwig Musser Classic - Texas Edition</a>
+<div class="location">
+Converse, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=529" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-531" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=531"  style="color: #005072;"id="eventID_531" title="ID: 531" class="eventtitle"">USBands Austin Regional</a>
+<div class="location">
+Buda, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=531" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-528" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=528"  style="color: #005072;"id="eventID_528" title="ID: 528" class="eventtitle"">USBands Burleson Regional</a>
+<div class="location">
+Burleson, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=528" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-479" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=479" id="eventID_479" title="ID: 479" class="eventtitle"">Leonardtown High School</a>
+<div class="location">
+Leonardtown, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=479" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-552" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=552" id="eventID_552" title="ID: 552" class="eventtitle"">Norwalk High School</a>
+<div class="location">
+Norwalk, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=552" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-553" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=553" id="eventID_553" title="ID: 553" class="eventtitle"">Cheshire High School</a>
+<div class="location">
+Cheshire, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=553" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-478" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=478" id="eventID_478" title="ID: 478" class="eventtitle"">King Philip High School</a>
+<div class="location">
+Wrentham, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=478" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-554" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=554" id="eventID_554" title="ID: 554" class="eventtitle"">Williamsport High School</a>
+<div class="location">
+Williamsport, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=554" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-456" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=456" id="eventID_456" title="ID: 456" class="eventtitle"">Burlington City High School</a>
+<div class="location">
+Burlington, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=456" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-482" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=482" id="eventID_482" title="ID: 482" class="eventtitle"">North Brunswick High School</a>
+<div class="location">
+North Brunswick Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=482" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-480" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 8</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=480" id="eventID_480" title="ID: 480" class="eventtitle"">Perkiomen Valley High School</a>
+<div class="location">
+Collegeville, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=480" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-570" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Oct 9</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=570" id="eventID_570" title="ID: 570" class="eventtitle"">USBands Southeast Showdown</a>
+<div class="location">
+Montgomery, AL</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=570" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-503" data-time="1664866800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Oct 9</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=503" id="eventID_503" title="ID: 503" class="eventtitle"">Bergenfield High School</a>
+<div class="location">
+Bergenfield, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=503" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-564" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=564" id="eventID_564" title="ID: 564" class="eventtitle"">Hamilton High School West</a>
+<div class="location">
+Hamilton, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=564" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-550" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=550" id="eventID_550" title="ID: 550" class="eventtitle"">USBands Show-up & Show-out on the Hill</a>
+<div class="location">
+Prairie View, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=550" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-538" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=538"  style="color: #005072;"id="eventID_538" title="ID: 538" class="eventtitle"">Quad States Regional Championships</a>
+<div class="location">
+Vermillion, SD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=538" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-485" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=485" id="eventID_485" title="ID: 485" class="eventtitle"">Lyman Hall High School</a>
+<div class="location">
+Wallingford, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=485" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-492" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=492" id="eventID_492" title="ID: 492" class="eventtitle"">Somerville High School</a>
+<div class="location">
+Somerville, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=492" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-555" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=555"  style="color: #005072;"id="eventID_555" title="ID: 555" class="eventtitle"">USBands Mid-Atlantic Showcase</a>
+<div class="location">
+Owings Mills, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=555" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-490" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=490" id="eventID_490" title="ID: 490" class="eventtitle"">Northern Highlands High School</a>
+<div class="location">
+Allendale, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=490" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-486" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=486" id="eventID_486" title="ID: 486" class="eventtitle"">Newtown High School</a>
+<div class="location">
+Newtown, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=486" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-487" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=487" id="eventID_487" title="ID: 487" class="eventtitle"">Bridgewater-Raynham High School & Stoughton POPS</a>
+<div class="location">
+Bridgewater, MA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=487" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-493" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=493" id="eventID_493" title="ID: 493" class="eventtitle"">Hightstown High School</a>
+<div class="location">
+Hightstown, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=493" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-491" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=491" id="eventID_491" title="ID: 491" class="eventtitle"">Lenape Valley Regional High School</a>
+<div class="location">
+Stanhope, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=491" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-457" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=457" id="eventID_457" title="ID: 457" class="eventtitle"">Seneca High School</a>
+<div class="location">
+Tabernacle, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=457" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-488" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=488" id="eventID_488" title="ID: 488" class="eventtitle"">North Penn High School</a>
+<div class="location">
+Lansdale, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=488" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-489" data-time="1665817200">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 15</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=489" id="eventID_489" title="ID: 489" class="eventtitle"">Unionville High School</a>
+<div class="location">
+Kennet Square, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=489" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-541" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=541"  style="color: #005072;"id="eventID_541" title="ID: 541" class="eventtitle" championships">Maryland & Virginia State Championships</a>
+<div class="location">
+Towson, MD</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=541" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-539" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=539"  style="color: #005072;"id="eventID_539" title="ID: 539" class="eventtitle" championships">Pennsylvania State Championships</a>
+<div class="location">
+Downingtown, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=539" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-586" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=586" id="eventID_586" title="ID: 586" class="eventtitle"">Burley High School</a>
+<div class="location">
+Burley, ID</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=586" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-494" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=494" id="eventID_494" title="ID: 494" class="eventtitle"">Southington High School</a>
+<div class="location">
+Southington, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=494" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-496" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=496" id="eventID_496" title="ID: 496" class="eventtitle"">Frank Scott Bunnell High School</a>
+<div class="location">
+Stratford, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=496" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-495" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=495" id="eventID_495" title="ID: 495" class="eventtitle"">Robert E. Fitch High School</a>
+<div class="location">
+Groton, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=495" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-500" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=500" id="eventID_500" title="ID: 500" class="eventtitle"">Robbinsville High School</a>
+<div class="location">
+Robbinsville, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=500" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-454" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=454" id="eventID_454" title="ID: 454" class="eventtitle"">Vernon Township High School</a>
+<div class="location">
+Glenwood, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=454" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-499" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=499" id="eventID_499" title="ID: 499" class="eventtitle"">Ridge High School</a>
+<div class="location">
+Basking Ridge, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=499" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-501" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=501" id="eventID_501" title="ID: 501" class="eventtitle"">Egg Harbor Township High School</a>
+<div class="location">
+Egg Harbor, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=501" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-563" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=563" id="eventID_563" title="ID: 563" class="eventtitle"">Old Bridge High School</a>
+<div class="location">
+Old Bridge, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=563" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-497" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 22</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=497" id="eventID_497" title="ID: 497" class="eventtitle"">Cranston High School East</a>
+<div class="location">
+Cranston, RI</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=497" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-540" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Oct 23</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=540"  style="color: #005072;"id="eventID_540" title="ID: 540" class="eventtitle" championships">USBands New York Regional Championships</a>
+<div class="location">
+Lindenhurst, NY</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=540" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-468" data-time="1666422000">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Oct 23</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=468" id="eventID_468" title="ID: 468" class="eventtitle"">Jackson Memorial High School - Postponed from 10/1</a>
+<div class="location">
+Jackson Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=468" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr><div class="card shadow mb-3 bg-white border-0 shadow" id="event-558" data-time="1667026800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 29</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=558"  style="color: #005072;"id="eventID_558" title="ID: 558" class="eventtitle" championships">New England States Championships (IIIA, IVA, VA, Open)</a>
+<div class="location">
+New Britain, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=558" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-542" data-time="1667026800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 29</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=542"  style="color: #005072;"id="eventID_542" title="ID: 542" class="eventtitle" championships">New Jersey State Championships (I A, II A, IV O)</a>
+<div class="location">
+Hillsborough Township, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=542" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-544" data-time="1667026800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 29</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=544"  style="color: #005072;"id="eventID_544" title="ID: 544" class="eventtitle"">USBands Mid Atlantic Regional Championship</a>
+<div class="location">
+Camp Hill, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=544" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-559" data-time="1667026800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 29</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=559"  style="color: #005072;"id="eventID_559" title="ID: 559" class="eventtitle" championships">New Jersey State Championships (IIIA, IVA, VA, IO, IIO, IIIO, VO)</a>
+<div class="location">
+South Brunswick, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=559" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-543" data-time="1667026800">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Oct 29</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=543"  style="color: #005072;"id="eventID_543" title="ID: 543" class="eventtitle" championships">New England States Championships - (I A, II A)</a>
+<div class="location">
+Vernon, CT</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=543" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr>                <h2 id="month-11">November</h2>
+
+                <div class="card shadow mb-3 bg-white border-0 shadow" id="event-547" data-time="1667631600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 5</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=547"  style="color: #005072;"id="eventID_547" title="ID: 547" class="eventtitle" championships">USBands Open Class National Championships</a>
+<div class="location">
+East Rutherford, NJ</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=547" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-545" data-time="1667631600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 5</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=545"  style="color: #005072;"id="eventID_545" title="ID: 545" class="eventtitle" championships">USBands A Class National Championships (Groups I, II, V)</a>
+<div class="location">
+Allentown, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=545" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-556" data-time="1667631600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 5</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=556" id="eventID_556" title="ID: 556" class="eventtitle"">USBands Showdown in the Capitol</a>
+<div class="location">
+Raleigh, NC</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=556" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-533" data-time="1667631600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 5</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=533"  style="color: #005072;"id="eventID_533" title="ID: 533" class="eventtitle"">CANCELED - USBands Southern States Championships</a>
+<div class="location">
+Huntsville, AL</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=533" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-560" data-time="1667631600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 5</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=560"  style="color: #005072;"id="eventID_560" title="ID: 560" class="eventtitle"">USBands Austin Finale</a>
+<div class="location">
+Austin, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=560" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-534" data-time="1667631600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 5</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=534"  style="color: #005072;"id="eventID_534" title="ID: 534" class="eventtitle"">USBands Houston Finale</a>
+<div class="location">
+Houston, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=534" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-535" data-time="1667631600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sat, Nov 5</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=535"  style="color: #005072;"id="eventID_535" title="ID: 535" class="eventtitle"">USBands San Antonio Finale</a>
+<div class="location">
+San Antonio, TX</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=535" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><div class="card shadow mb-3 bg-white border-0 shadow" id="event-546" data-time="1667631600">  <div class="card-body">    <div class="row">      <div class="col-md-9">        <h5 class="card-title">Sun, Nov 6</h5>        <div class="event past"><span class="checkmark mr-1">&#10003;</span><a href="details.php?ID=546"  style="color: #005072;"id="eventID_546" title="ID: 546" class="eventtitle" championships">USBands A Class National Championships (Groups III, IV)</a>
+<div class="location">
+Allentown, PA</div>
+</div>
+      </div>      <div class="col-md-3 d-flex align-items-center justify-content-start justify-content-md-end mt-2 mt-md-0">        <a href="details.php?ID=546" class="btn btn-primary">View Event</a>      </div>    </div>  </div></div><hr>
+
+        </div> <!-- /.container -->
+</main>
+
+<script>
+    function changeGroupBy(e, type) {
+        $('#group-by-title').text(e.innerText)
+
+        var urlSearchParams = new URLSearchParams(window.location.search);
+        urlSearchParams.set('group-by', type);
+
+        // Replace the URL with the updated query parameters
+        window.location.href = '?' + urlSearchParams.toString()
+    }
+
+    function calculateLetterWeight(text) {
+        let weight = 0;
+        for (let i = 0; i < 3; i++) {
+            weight += text.charCodeAt(text[i])
+        }
+
+        return weight
+    }
+
+    $(() => {
+        $('body')
+            .on('change', '#checkbox-order-by-day', (e) => {
+                if (e.target.checked) {
+                    let eventsByDays = {};
+
+                    $('[data-time]')
+                        .each((k, i) => {
+                            if (!eventsByDays[i.dataset.time])
+                                eventsByDays[i.dataset.time] = [];
+
+                            eventsByDays[i.dataset.time].push(i)
+                        })
+
+                    for (let [key, value] of Object.entries(eventsByDays)) {
+                        value.sort((a, b) => {
+                            const titleA = $(a).find('.eventtitle').text();
+                            const titleB = $(b).find('.eventtitle').text();
+
+                            const weightA = calculateLetterWeight(titleA);
+                            const weightB = calculateLetterWeight(titleB);
+
+                            return weightA - weightB;
+                        })
+
+                        for (let i = 0; i < value.length; i++)
+                            $('[data-time="' + key + '"]').each((k, i) => {
+                                $(i).after(value[k])
+                            })
+                    }
+                } else {
+                    window.location.reload()
+                }
+            })
+    })
+</script>
+
+<!-- small modal -->
+<div class="modal fade" id="myModalSmall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!-- /.small modal -->
+
+<!-- modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!-- /.modal -->
+
+<!-- large modal -->
+<div class="modal fade" id="myModalLarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="myImageModalLarge" tabindex="-1" role="dialog" aria-labelledby="myImageModalLarge" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="max-height: 600px; overflow-y: auto;">
+            <img src="" alt="" class="poImages"/>
+            <embed src="" width="100%" height="600px" class="poPdf"/>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade marketing-global-modal marketing-global-modal-usb" id="marketingModalGlobal" tabindex="-1" role="dialog" aria-labelledby="marketingModalGlobalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h3 class="modal-title marketing-modal-title" id="marketingModalGlobalLabel"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body marketing-modal-body"></div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <a href="#" class="btn btn-danger marketing-modal-action" target="_self" style="display:none;"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.marketing-global-modal-usb .modal-dialog {
+    max-width: 640px;
+}
+
+.marketing-global-modal-usb .modal-content {
+    border: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+    background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+}
+
+.marketing-global-modal-usb .modal-header,
+.marketing-global-modal-usb .modal-body,
+.marketing-global-modal-usb .modal-footer {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.marketing-global-modal-usb .modal-title {
+    color: #10233f;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.marketing-global-modal-usb .close {
+    color: #10233f;
+    opacity: 0.7;
+}
+
+.marketing-global-modal-usb .marketing-modal-body {
+    color: #24364f;
+    font-size: 1rem;
+}
+
+.marketing-global-modal-usb .marketing-modal-body a {
+    color: #b51f2e;
+    text-decoration: underline;
+}
+
+.marketing-global-modal-usb .marketing-modal-body p:last-child {
+    margin-bottom: 0;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-dialog {
+    max-width: 760px;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-content {
+    background: transparent;
+    box-shadow: none;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    background: transparent;
+    border: 0;
+    justify-content: flex-end;
+    padding: .75rem;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .marketing-modal-body {
+    padding: 0;
+}
+
+.marketing-global-modal-usb .marketing-modal-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+@media (max-width: 575.98px) {
+    .marketing-global-modal-usb .modal-header,
+    .marketing-global-modal-usb .modal-body,
+    .marketing-global-modal-usb .modal-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+</style>
+
+<script>
+(function () {
+    var marketingModalQueue = [] || [];
+    var currentMarketingModal = null;
+
+    function getSessionCount(modalID) {
+        try {
+            if (typeof getCookie === "function") {
+                return parseInt(getCookie("marketing_modal_session_" + modalID) || "0", 10);
+            }
+            return parseInt(sessionStorage.getItem("marketing_modal_session_" + modalID) || "0", 10);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function setSessionCount(modalID, count) {
+        try {
+            if (typeof setCookie === "function") {
+                setCookie("marketing_modal_session_" + modalID, String(count));
+                return;
+            }
+            sessionStorage.setItem("marketing_modal_session_" + modalID, String(count));
+        } catch (error) {}
+    }
+
+    function getLifetimeCount(modalID) {
+        try {
+            return parseInt(localStorage.getItem("marketing_modal_lifetime_" + modalID) || "0", 10);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function setLifetimeCount(modalID, count) {
+        try {
+            localStorage.setItem("marketing_modal_lifetime_" + modalID, String(count));
+        } catch (error) {}
+    }
+
+    function canShowMarketingModal(modal) {
+        if (!modal || !modal.ID) {
+            return false;
+        }
+
+        if (modal.displayMode === "once_ever") {
+            return getLifetimeCount(modal.ID) < 1;
+        }
+
+        if (modal.displayMode === "times_per_session") {
+            return getSessionCount(modal.ID) < Math.max(parseInt(modal.displayLimit || 1, 10), 1);
+        }
+
+        return getSessionCount(modal.ID) < 1;
+    }
+
+    function recordMarketingModalView(modal) {
+        if (!modal || !modal.ID) {
+            return;
+        }
+
+        if (modal.displayMode === "once_ever") {
+            setLifetimeCount(modal.ID, getLifetimeCount(modal.ID) + 1);
+            return;
+        }
+
+        setSessionCount(modal.ID, getSessionCount(modal.ID) + 1);
+    }
+
+    function renderMarketingModal(modal) {
+        var modalElement = $("#marketingModalGlobal");
+        var isImageModal = modal.contentType === "image" && modal.imageUrl;
+        modalElement.toggleClass("marketing-modal-image-mode", !!isImageModal);
+        modalElement.find(".marketing-modal-title").text(modal.title || "").toggle(!!modal.title && !isImageModal);
+        modalElement.find(".modal-footer").toggle(!isImageModal);
+        if (isImageModal) {
+            var imageAlt = modal.imageAlt || modal.title || "";
+            modalElement.find(".marketing-modal-body").html(
+                '<img src="' + modal.imageUrl + '" alt="' + imageAlt.replace(/"/g, '&quot;') + '" class="marketing-modal-image">'
+            );
+        } else {
+            modalElement.find(".marketing-modal-body").html(modal.bodyHtml || "");
+        }
+
+        var actionButton = modalElement.find(".marketing-modal-action");
+        if (!isImageModal && modal.actionLabel && modal.actionUrl) {
+            actionButton.text(modal.actionLabel);
+            actionButton.attr("href", modal.actionUrl);
+            actionButton.attr("target", modal.actionTarget || "_self");
+            actionButton.attr("style", "");
+            if (modal.actionButtonColor) {
+                actionButton.css({
+                    backgroundColor: modal.actionButtonColor,
+                    borderColor: modal.actionButtonColor,
+                    color: "#ffffff"
+                });
+            }
+            actionButton.show();
+        } else {
+            actionButton.hide();
+            actionButton.attr("href", "#");
+            actionButton.attr("target", "_self");
+            actionButton.attr("style", "");
+            actionButton.text("");
+        }
+    }
+
+    function showNextMarketingModal() {
+        if (!marketingModalQueue.length) {
+            currentMarketingModal = null;
+            return;
+        }
+
+        currentMarketingModal = marketingModalQueue.shift();
+        renderMarketingModal(currentMarketingModal);
+        recordMarketingModalView(currentMarketingModal);
+        $("#marketingModalGlobal").modal("show");
+    }
+
+    $(function () {
+        marketingModalQueue = marketingModalQueue.filter(canShowMarketingModal);
+        if (!marketingModalQueue.length) {
+            return;
+        }
+
+        $("#marketingModalGlobal").on("hidden.bs.modal", function () {
+            showNextMarketingModal();
+        });
+
+        showNextMarketingModal();
+    });
+})();
+</script>
+
+
+<!-- start footer.php -->
+<footer>
+    
+            <div class="container-fluid sponsors">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-white mb-5">Presenting Sponsor</h3><div class="row justify-content-center align-items-center"><div class="col-8 col-sm-6 col-md-4 col-lg-3 mb-0">
+            <a href="https://connselmer.com/" title="Conn-Selmer" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/Conn-Selmer-Logo.png" alt="Conn-Selmer" class="img-fluid" style=" opacity: 0.7; mix-blend-mode: screen;" />
+            </a>
+        </div></div><div class="row justify-content-center align-items-center"><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://demoulin.com/" title="DeMoulin" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/demoulin.png" alt="DeMoulin" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://algy.com/" title="Algy" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/algyby.png" alt="Algy" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div></div><div class="row justify-content-center align-items-center"><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://bandshoppe.com/" title="Band Shoppe" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/bandshoppelogo.png" alt="Band Shoppe" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://www.drillmastersmarching.com/" title="Drillmasters" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/Drillmasters.png" alt="Drillmasters" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://peakgrouptravel.com/" title="Peak Group Travel" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/peak-group-travel.png" alt="Peak Group Travel" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://pepwear.com/" title="PepWear" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/pepwear.svg" alt="PepWear" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div></div>                </div>
+            </div>
+        </div>
+            
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events/">Events</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/directors/">Directors</a></li>
+                    <li><a href="/adjudicators/">Adjudicators</a></li>
+                    <li><a href="/parents-students/">Parents / Students</a></li>
+                    <li><a href="https://store.bluedevils.org/usbands/">Shop</a></li>
+                    <li><a href="/account/">My Account</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <h2>About USBands</h2>
+                <p>Our mission is to support the development of young people into magnificent human beings through participation in the performing arts.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="clearfix"></div>
+
+<!-- outdated browser warning -->
+<style>
+#outdated h6,
+#outdated p {
+    text-transform: none;
+}
+#outdated #btnUpdateBrowser {
+    width: 260px;
+}
+</style>
+
+<div id="outdated">
+     <h6>Your browser is out-of-date.</h6>
+     <p>Please update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Show Me Where To Get The Update</a></p>
+     <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+
+<script>
+//event listener: DOM ready
+function addLoadEvent(func) {
+    var oldonload = window.onload;
+    if(typeof window.onload != "function") {
+        window.onload = func;
+    }
+    else {
+        window.onload = function() {
+            if(oldonload) {
+                oldonload();
+            }
+            func();
+        }
+    }
+}
+//call plugin function after DOM ready
+addLoadEvent(function(){
+    outdatedBrowser({
+        bgColor: "#f25648",
+        color: "#ffffff",
+        lowerThan: "transform"
+    })
+});
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"d44cc425cd254109aeec2be026a2fd7e","r":1,"spa":2}' crossorigin="anonymous"></script>

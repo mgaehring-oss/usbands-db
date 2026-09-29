@@ -24,6 +24,9 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Run scraper tests
+        run: python -m unittest discover -s scrape/tests
+
       - name: Scrape and rebuild database
         run: python scrape/update_scores.py "$BACKFILL_START_YEAR" "$CURRENT_SEASON_YEAR" docs/data/usbands.db data/cache
 

@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+
+<!-- 2026-09-28 17:56:58 America/Los_Angeles -->
+
+
+<html>
+
+<head>
+
+    <title>USBands</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <!-- force out of Compatibility Mode, which breaks everything -->
+    <meta name="csrf-token" content="5c1e571973b2664fb66f31e751ece6bd64276a943de6b08577731a72c18621b7"/>
+<script>
+(function () {
+    var meta = document.querySelector('meta[name=csrf-token]');
+    var token = meta ? meta.getAttribute('content') : '';
+    if (!token || !window.XMLHttpRequest) { return; }
+
+    // Emitted by both the page wrapper and by modal fragments, which are loaded
+    // into an already-patched page as often as they are opened on their own.
+    if (window.__wbaCsrfShim) { return; }
+    window.__wbaCsrfShim = true;
+
+    var HEADER = "X-CSRF-Token";
+    var FIELD = "csrfToken";
+    var SAFE = { GET: 1, HEAD: 1, OPTIONS: 1 };
+
+    function sameOrigin(url) {
+        var a = document.createElement('a');
+        a.href = url || window.location.href;
+        return (a.protocol + '//' + a.host) === (window.location.protocol + '//' + window.location.host);
+    }
+
+    var proto = XMLHttpRequest.prototype;
+    var open = proto.open;
+    var send = proto.send;
+    var setHeader = proto.setRequestHeader;
+
+    // Setting the same header twice appends rather than replaces, so a caller
+    // that already attached the token would produce "tok, tok" and fail.
+    proto.setRequestHeader = function (name, value) {
+        if (String(name).toLowerCase() === HEADER.toLowerCase()) { this.__wbaCsrfSent = true; }
+        return setHeader.apply(this, arguments);
+    };
+
+    proto.open = function (method, url) {
+        this.__wbaCsrfSent = false;
+        this.__wbaCsrfWanted = !SAFE[String(method || 'GET').toUpperCase()] && sameOrigin(url);
+        return open.apply(this, arguments);
+    };
+
+    proto.send = function () {
+        if (this.__wbaCsrfWanted && !this.__wbaCsrfSent) { this.setRequestHeader(HEADER, token); }
+        return send.apply(this, arguments);
+    };
+
+    if (window.fetch && window.Headers) {
+        var nativeFetch = window.fetch;
+        window.fetch = function (input, init) {
+            var url = (typeof input === 'string') ? input : (input && input.url) || '';
+            var method = String((init && init.method) || (input && input.method) || 'GET').toUpperCase();
+            if (!SAFE[method] && sameOrigin(url)) {
+                var headers = new Headers((init && init.headers) || (input && input.headers) || {});
+                if (!headers.has(HEADER)) {
+                    headers.set(HEADER, token);
+                    var next = {};
+                    for (var k in (init || {})) { next[k] = init[k]; }
+                    next.headers = headers;
+                    init = next;
+                }
+            }
+            // Bind to window: a bare fetch() call passes undefined as `this`,
+            // which some engines reject as an illegal invocation.
+            return nativeFetch.call(window, input, init);
+        };
+    }
+
+    // A plain form post never touches XHR, so it needs the token in the body.
+    // Read the action at submit time: callers rewrite it just before submitting.
+    function addField(form) {
+        if (!form || String(form.method || 'get').toUpperCase() !== 'POST') { return; }
+        if (!sameOrigin(form.getAttribute('action'))) { return; }
+        var existing = form.querySelector('input[name="' + FIELD + '"]');
+        if (existing) { existing.value = token; return; }
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = FIELD;
+        input.value = token;
+        form.appendChild(input);
+    }
+
+    document.addEventListener('submit', function (e) { addField(e.target); }, true);
+
+    // jQuery's .submit()/.trigger('submit') dispatches no DOM event — it calls
+    // this method, which per spec fires none either, so the listener above never
+    // sees a programmatic submit. Every WOMP broadcast form posts that way.
+    if (window.HTMLFormElement && HTMLFormElement.prototype.submit) {
+        var nativeFormSubmit = HTMLFormElement.prototype.submit;
+        HTMLFormElement.prototype.submit = function () {
+            addField(this);
+            return nativeFormSubmit.apply(this, arguments);
+        };
+    }
+})();
+</script>
+
+    <!-- favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/includes/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/includes/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/includes/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/includes/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/includes/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/includes/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/includes/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/includes/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/includes/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/includes/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/includes/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/includes/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/includes/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/includes/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/includes/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- smdb -->
+    <meta property="og:image" content="https://usbands.org/includes/wrapper/images/social-media/og-usbands-logo.jpg?updated=2022-03-20" />
+    <meta property="og:url" content="" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+
+
+    <!-- browser check http://outdatedbrowser.com/en -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+
+
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- https://github.com/jquery/jquery-migrate/#README -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.1.0/jquery-migrate.min.js"></script>
+
+
+<!-- retina http://retinaimag.es v1.7.2 modded -->
+<script>(function(w){var dpr=((w.devicePixelRatio===undefined)?1:w.devicePixelRatio);if(!!w.navigator.standalone){var r=new XMLHttpRequest();r.open('GET','/includes/images/retinaimages.php?devicePixelRatio='+dpr,false);r.send()}else{document.cookie='devicePixelRatio='+dpr+'; path=/'}})(window)</script>
+<noscript><style id="devicePixelRatio" media="only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)">html{background-image:url("/includes/images/retinaimages.php?devicePixelRatio=2")}</style></noscript>
+
+
+
+<!-- https://jqueryui.com -->
+<!-- so we can drag/drop table rows when they are not DataTables (such as UnitProductionPersons) -->
+<!-- this needs to go first so it doesn't conflict with bootstrap -->
+<!-- https://cdnjs.com/libraries/jqueryui -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- bootstrap -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- /bootstrap -->
+
+
+
+<!-- plugins -->
+
+<!-- blockUI http://jquery.malsup.com/block/ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+
+<!-- date/time utils http://momentjs.com -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<!-- datatables https://datatables.net -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.4/css/fixedHeader.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.4/css/rowReorder.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap4.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.4/js/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/responsive.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.2.4/js/dataTables.rowReorder.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+
+<!-- https://datatables.net/plug-ins/dataRender/ellipsis -->
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/ellipsis.js"></script>
+
+<!-- https://datatables.net/plug-ins/dataRender/datetime -->
+<!-- <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script> -->
+
+<!-- https://datatables.net/plug-ins/sorting/datetime-moment -->
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+
+<!-- URI for dealing with urls http://medialize.github.io/URI.js/docs.html -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/jquery.URI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/IPv6.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/punycode.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/SecondLevelDomains.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.fragmentQuery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.fragmentURI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URITemplate.min.js"></script>
+
+
+<!-- form validation http://formvalidation.io/ -->
+<!-- https://sellfy.com/user/purchases -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.5/es6-shim.min.js"></script> <!-- for IE to work...what year is this!??! -->
+<link href="/includes/js/formvalidation-dist-v1.6.0/dist/css/formValidation.min.css" rel="stylesheet">
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/FormValidation.full.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/J.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/Bootstrap.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/PasswordStrength.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/Recaptcha.min.js?v=100"></script>
+
+
+<!-- datetime picker https://tempusdominus.github.io/bootstrap-4/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- turns checkboxes/radios into switches http://www.bootstraptoggle.com -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<!-- make all columns the same height http://brm.io/jquery-match-height/ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js"></script>
+
+<!-- http://bootstrap-notify.remabledesigns.com -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.7/bootstrap-notify.min.js"></script>
+
+<!-- https://daneden.github.io/animate.css/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
+
+<!-- http://davidstutz.github.io/bootstrap-multiselect/ and https://github.com/davidstutz/bootstrap-multiselect -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" />
+
+<!-- icons and such http://fontawesome.io -->
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" /> -->
+<!-- <script src="https://kit.fontawesome.com/e287d65161.js"></script> the kit is SLOW -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+
+
+<!-- fancy selects https://silviomoreto.github.io/bootstrap-select/ -->
+<!-- v1.13.1 doesn't work on mobile -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
+
+<!-- http://www.dropzonejs.com/
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/basic.min.css" />
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/basic.min.css" />
+
+<!-- spinners https://github.com/hakimel/Ladda -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda-themeless.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/spin.min.js"></script> <!-- this goes first -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda.min.js"></script> <!-- this goes second -->
+
+<!-- http://twitter.github.io/typeahead.js/ -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
+
+
+<!-- lightbox http://ashleydw.github.io/lightbox/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- /plugins -->
+
+<!-- fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+
+
+<!-- my stuff -->
+<script src="/includes/js/usbands.js?v=1789991705"></script>
+<script src="/includes/js/grids.js?v=1600665536"></script>
+
+<!-- SC-1994 -->
+<script src="/includes/js/vendor/browser-image-compression.js?updated=2026-05-26-sc1994"></script>
+<script src="/includes/js/bd-uploader.js?updated=2026-05-26-sc1994"></script>
+<link rel="stylesheet" href="/includes/css/usbands.css?v=1787346830" />
+<link rel="stylesheet" href="/includes/css/typeahead.css?updated=2017-07-07" />
+<!-- /my stuff -->
+
+
+    <script>
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    function cookieConsent() {
+        if (!getCookie('allowUSBCookies')) {
+            $('.toast').toast('show')
+        } else {
+            $('#privacy-policy2').remove()
+        }
+    }
+
+    $().ready(function() {
+        updateWindowDimensionDisplay();
+        applySpecialLinkStyles();
+        initTooltips();
+        initSelects();
+        applyRequiredStyle();
+        initNotifications();
+        showQueuedNotifications();
+        initButtonGlow();
+
+        $('#btnAccept').click(() => {
+            setCookie('allowUSBCookies', '1', 30)
+            $('#privacy-policy2').hide()
+            $('.toast').toast('hide')
+        })
+        cookieConsent()
+            });
+    
+    //do stuff when a modal is done being loaded
+    $(document).on('loaded.bs.modal', function(e) {
+        applySpecialLinkStyles();
+        applyRequiredStyle();
+        initSelects();
+    });
+
+    $(window).on("resize", function() {
+        updateWindowDimensionDisplay();
+    });
+    </script>
+
+    <style>
+    .nav-item {
+        font-size: 13px;
+    }
+    </style>
+
+    <!-- google analytics -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-12659785-7"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-12659785-7');
+    </script>
+        <!-- /google analytics -->
+
+
+</head>
+
+<body>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5LG3GFLQ4"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-Q5LG3GFLQ4');
+    </script>
+    <div class="fixed-bottom p-4" id="privacy-policy2">
+        <div class="toast bg-dark text-white w-100 mw-100" role="alert" data-autohide="false">
+            <div class="toast-body  pb-2 pt-3 pl-3 pr-3 d-flex flex-column d-flex flex-column">
+                <h5 class="m-0 p-0" style="color: white;">We Value your Privacy</h5>
+                <div class="row">
+                    <div class="col-md-10 col-sm-12">
+                        <p class="mt-3">
+                            To continue using our services and site, you agree to our <a
+                                href="/home/BD Performing Arts Privacy Policy.pdf" target="_blank" style="color: white;
+text-decoration: underline;">Privacy Policy</a>.
+                            We use cookies to enhance your browsing experience. By clicking "OK", you consent.
+                        </p>
+                    </div>
+                    <div class="mx-auto col-md-2 col-sm-12 col-xs-12 pb-2 pb-md-0">
+                        <button type="button" class="btn btn-light btn-flat btn-outline-primary pl-4 pr-4"
+                            style="float: right" id="btnAccept">
+                            OK
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <!-- header nav bar -->
+    <header>
+                <nav class="navbar xnavbar-expand-lg accountNav">
+            <div class="xcollapse xnavbar-collapse d-flex justify-content-between align-items-center w-100">
+                <ul id="headerUtils" class="nav navbar-nav d-flex flex-row">
+                    <li class="nav-item"><a class="nav-link" href="/account/sign-in/">Sign In</a></li>
+                </ul>
+
+                <div class="smdb">
+                    <a href="https://www.facebook.com/USBands/"><i class="fab fa-facebook"></i></a> <a
+                        href="https://www.instagram.com/usbandsofficial/"><i class="fab fa-instagram"></i></a> <a
+                        href="https://twitter.com/usbands"><i class="fab fa-twitter-square"></i></a>
+                </div>
+            </div>
+        </nav>
+
+                <nav class="navbar navbar-expand-xl navbar-light siteNav">
+    <a class="navbar-brand" href="/" style="z-index: 1000;"><img src="/includes/wrapper/images/USBands_Logo_color.png" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <!-- Fall Events Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="fallEventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Fall Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="fallEventsDropdown">
+                    <a class="dropdown-item" href="/events/">USBands Events</a>
+                    <a class="dropdown-item" href="/showstyle/">Traditional/Showstyle Events</a>
+                    <a class="dropdown-item" href="/events/?type=the-stage">The Stage Events</a>
+                </div>
+            </li>
+
+            <!-- Winter Events Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="winterEventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Winter Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="winterEventsDropdown">
+                    <a class="dropdown-item" href="/events/?type=indoor-percussion">Indoor Percussion Events</a>
+                    <a class="dropdown-item" href="/MAIN/events/">MAIN Events</a>
+                </div>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" href="/tickets/">Tickets</a></li>
+            <li class="nav-item"><a class="nav-link" href="/education">Education</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+
+            <!-- Remove dropdown for Resources and add each link as top-level nav items -->
+            <li class="nav-item"><a class="nav-link" href="/directors/">Directors</a></li>
+            <li class="nav-item"><a class="nav-link" href="/adjudicators/">Adjudicators</a></li>
+            <li class="nav-item"><a class="nav-link" href="/event-staff/">Event Staff</a></li>
+           <!-- <li class="nav-item"><a class="nav-link" href="/parents-students/">Parents / Students</a></li>-->
+
+            <li class="nav-item"><a class="nav-link" href="/about/contact/">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://store.bluedevils.org/usbands/">Shop</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+    </header>
+    <!-- /header nav bar -->    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="_parts/event_details.css?v=1789992381">
+
+
+    <script>
+        function initRegisterButton() {
+            $(document).on("click", ".registerButton", function (event) {
+                var button = $(event.currentTarget);
+                var dataToPost = {
+                    eventID: button.data("eventid"),
+                    unitID: button.data("unitid"),
+                    eventDayID: button.data("eventdayid") || 0,
+                    action: "addToCart"
+                }
+                $.post("verify_production.php", dataToPost, function (data) {
+                    data = JSON.parse(data);
+                    if (!data.error) {
+                        $.post("add-to-cart.php", dataToPost, function (data) {
+                            data = JSON.parse(data);
+                            if (!data.error) {
+                                /*
+                                                var notification = {
+                                                    options: {
+                                                        icon: "far fa-smile",
+                                                        message: "Profile has been updated."
+                                                    }
+                                                }
+                                                saveToArrayInSessionStorage("notifications", notification);
+                                */
+                                window.location = "/units/entries/checkout.php?unitID=" + dataToPost.unitID + "";
+                            } else {
+                                alert(data.message);
+                            }
+                        });
+                    } else {
+                        $("#productionAnnouncer .modal-content").load('annoncer.php?unitID=' + dataToPost.unitID);
+                        $('#productionAnnouncer').modal("show");
+                    }
+                });
+            });
+        }
+
+        function initCritiqueRegisterButton() {
+            $(document).on("click", ".registerCritiqueButton", function (event) {
+
+                var button = $(event.currentTarget);
+                var dataToPost = {
+                    eventID: button.data("eventid"),
+                    unitID: button.data("unitid"),
+                    action: "registerToCritique"
+                }
+                var confirmString = "Are you sure you want to register this unit to Critique?";
+                if (confirm(confirmString)) {
+                    $.post("/units/entries/process.php", dataToPost, function (data) {
+                        data = JSON.parse(data);
+                        if (!data.error) {
+                            var notification = {
+                                options: {
+                                    icon: "far fa-smile",
+                                    message: "Unit registered to Critique."
+                                }
+                            }
+                            saveToArrayInSessionStorage("notifications", notification);
+                            window.location = "details.php?ID=" + button.data("eventid");
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+                } else {
+                    false;
+                }
+            });
+        }
+
+        function initWaitlistButton() {
+            $(document).on("click", ".waitlistButton", function (event) {
+                var button = $(event.currentTarget);
+                var dataToPost = {
+                    eventID: button.data("eventid"),
+                    unitID: button.data("unitid"),
+                    eventDayID: button.data("eventdayid") || 0,
+                    action: "addToWaitlist"
+                }
+
+                $.post("add-to-cart.php", dataToPost, function (data) {
+                    data = JSON.parse(data);
+                    if (!data.error) {
+                        window.location = "/units/entries/checkout.php?unitID=" + dataToPost.unitID;
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+        }
+
+        function initRegistrationUnitSelector() {
+            $(document).on("change", ".js-registration-unit-selector", function (event) {
+                var select = $(event.currentTarget);
+                var unitId = String(select.val());
+                var storageKey = select.data("storage-key");
+                var panels = $(".reg-unit-panel");
+
+                panels.addClass("d-none");
+                panels.filter('[data-unitid="' + unitId + '"]').removeClass("d-none");
+
+                if (storageKey && window.sessionStorage) {
+                    sessionStorage.setItem(storageKey, unitId);
+                }
+            });
+
+            $(".js-registration-unit-selector").each(function () {
+                var select = $(this);
+                var storageKey = select.data("storage-key");
+                var defaultUnitId = String(select.data("default-unitid") || select.val());
+                var storedUnitId = "";
+
+                if (storageKey && window.sessionStorage) {
+                    storedUnitId = sessionStorage.getItem(storageKey) || "";
+                }
+
+                var selectedUnitId = storedUnitId || defaultUnitId;
+                if (selectedUnitId) {
+                    select.val(selectedUnitId);
+                }
+                select.trigger("change");
+            });
+        }
+
+
+        function initCarousel() {
+            var carousel = $("#promoImagesCarousel").carousel({
+                interval: 5000,
+                ride: "carousel"
+            });
+            $("#heroCarousel").carousel({interval: 5000, ride: "carousel"});
+        }
+
+        function initLightbox() {
+            $(document).on("click", '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox();
+            });
+        }
+
+
+        function initAdjudicatorModals() {
+            $(".adjudicatorName").on("click", function (event) {
+                event.preventDefault();
+                var ID = $(event.currentTarget).data("id") || $(event.target).closest(".adjudicatorName").data("id");
+                if (!ID) {
+                    return;
+                }
+                $("#myModalLarge .modal-content").load("/common/people/details.php?ID=" + ID);
+                $("#myModalLarge").modal("show");
+            });
+
+        }
+
+
+        function fallbackCopy($btn, text) {
+            var $temp = $('<input>');
+            $('body').append($temp);
+            $temp.val(text).select();
+            document.execCommand('copy');
+            $temp.remove();
+
+            $btn.text('Copied!');
+            setTimeout(function () {
+                $btn.html('<i class="bi bi-share mr-1"></i> Share');
+            }, 1500);
+        }
+
+
+        $().ready(function () {
+            initRegisterButton();
+            initCritiqueRegisterButton();
+            initWaitlistButton();
+            initRegistrationUnitSelector();
+            initCarousel();
+            initAdjudicatorModals();
+            $(document).on("click", ".event-hero__zoom", function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                var $zoom = $(this);
+
+                var bg = $("#heroCarousel .carousel-item.active .event-hero__bg").css("background-image") || "";
+                var url = bg.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+
+                if (!url) return;
+                $zoom.attr("data-remote", url);
+                $zoom.attr("href", url);
+                $zoom.attr("data-type", "image");
+
+                $zoom.ekkoLightbox();
+            });
+            $(document).on('click', '.btn-share', function () {
+                var $btn = $(this);
+                var currentUrl = window.location.href;
+
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(currentUrl).then(function () {
+                        $btn.html('Copied!');
+                        setTimeout(function () {
+                            $btn.html('<i class="bi bi-share mr-1"></i> Share');
+                        }, 1500);
+                    }).catch(function () {
+                        fallbackCopy($btn, currentUrl);
+                    });
+                } else {
+                    fallbackCopy($btn, currentUrl);
+                }
+            });
+        });
+                    function initGmap() {
+                        $("<iframe>", {
+                src: "https://www.google.com/maps/embed/v1/place?key=AIzaSyC5lKb5I1hQLnTh4b45yRCJKOp1i7mPGPU&q=Kottmeyer+Stadium+445+Manor+Ave+Downingtown+PA",
+                id: "myFrame",
+                frameborder: 0,
+                scrolling: "no"
+            }).appendTo($("#map"));
+
+            return;
+
+
+            //this stuff gets us billed :(
+            var latlng = new google.maps.LatLng(40.0117674, -75.7180683);
+            var myOptions = {
+            zoom: 12,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+            var map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+            var contentString = "<br />Kottmeyer Stadium";
+
+            var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+
+            var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            animation: google.maps.Animation.DROP,
+            //title:"Hello World!"
+        });
+
+            google.maps.event.addListener(marker, "click", function () {
+            infowindow.open(map, marker);
+        });
+        }
+
+            $().ready(function () {
+            initGmap();
+        });
+            </script>
+
+    <main class="pb-5">
+        <div class="container">
+                        
+<section class="event-hero-wrap">
+
+    <a href="/events" class="p-0 mb-2 event-back-link">
+        <img src="/includes/images/events/arrow-right.svg" alt=""/> Back to Events
+    </a>
+
+            <div id="heroCarousel" class="carousel slide event-hero" data-ride="carousel" data-interval="5000">
+
+                        <div class="carousel-inner">
+                                                        <div class="carousel-item active">
+                        <div class="event-hero__bg" style="background-image:url('/events/files-events/cache/0/539/Kottmeyer-from-above-1600x682.jpeg')"></div>
+                    </div>
+                
+
+            </div>
+
+                                    <a href="#"
+               class="event-hero__zoom"
+               data-toggle="lightbox"
+               data-gallery="event-gallery"
+               data-type="image"
+               data-remote="/events/files-events/cache/0/539/Kottmeyer-from-above-1600x682.jpeg">
+                <img src="/includes/images/events/zoom-in.svg" alt="zoom-in"> Zoom
+            </a>
+
+            <div class="event-hero__overlay">
+                <div class="event-hero__content w-100">
+                    <h1 class="text-white mb-2 event-title">Pennsylvania State Championships</h1>
+
+                    <div class="text-white d-flex flex-column event-address event-meta">
+
+            <div class="event-meta__primary d-flex flex-wrap">
+                            <div class="d-flex align-items-center"><img src="/includes/images/events/calendar.svg" alt="Calendar" class="mr-2"/> October 22, 2022</div>
+                                        <div class="d-flex align-items-center"><img src="/includes/images/events/clock.svg" alt="Clock" class="mr-2"/> 2:00pm EDT</div>
+                    </div>
+    
+    <div class="event-meta__secondary">
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Kottmeyer+Stadium+445+Manor+Ave+Downingtown+PA+19335" target="_blank" rel="noopener noreferrer" class="event-meta__venue d-inline-flex align-items-center text-white text-decoration-none"><img src="/includes/images/events/pin.svg" alt="Map Pin" class="mr-2"/> Kottmeyer Stadium</a>
+                            <span class="event-meta__sep" aria-hidden="true"></span>
+            <span class="event-meta__address">445 Manor Ave, Downingtown, PA 19335</span>
+            </div>
+
+</div>
+                </div>
+            </div>
+
+        </div>
+
+        
+    
+
+</section>
+
+            <div class="container-fluid mt-3">
+
+
+                <div class="row">
+                    <div class="col-lg-4 order-lg-2">
+                        
+<div class="sticky-top" style="top: 15px;">
+
+    <!-- Registration -->
+    <div class="card mb-3 reg-card">
+        <div class="card-body">
+            
+    <div class="text-center">
+        <a href="/account/sign-in/?destination=%2Fevents%2Fdetails.php%3FID%3D539"
+           class="btn btn-primary btn-block">
+            Sign in to Register
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+
+
+    <!-- Tickets -->
+        <div class="card mb-3 tickets-modern">
+        <div class="card-body d-flex flex-column" style="gap: 24px;">
+
+            
+                            <a href="#tab-scores" class="btn btn-block btn-primary js-view-scores">
+                    View Scores
+                </a>
+                <script>
+                    $(function () {
+                        $(document).on('click', '.js-view-scores', function (e) {
+                            var card = document.querySelector('.event-tabs-card');
+                            var $tab = $('.event-tabs-card [data-toggle="tab"][href="#tab-scores"]').first();
+                            if (!$tab.length) { return; } // no Scores tab -- let the anchor jump
+                            e.preventDefault();
+                            $tab.tab('show'); // _tabs.php syncs .active across both nav copies
+                            if (card) {
+                                var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                                card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+                            }
+                        });
+                    });
+                </script>
+
+            
+            
+            <div class="tickets-modern__actions justify-content-between">
+                <div class="d-flex">
+                    <button type="button" class="btn btn-outline-secondary btn-sm btn-share">
+                        <i class="bi bi-share mr-1"></i> Share
+                    </button></div>
+                <div class="d-flex">
+                    <a href="_parts/add-to-calendar.php?eventID=539"
+                       class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-calendar2-plus mr-1"></i> Add to Calendar
+                    </a>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+            <div class="card mb-3">
+            <div class="card-body">
+                <a href="https://flosports.link/3CpzyK2" class="d-block mt-2">
+                    <img src="../home/flo_button.png" style="border-radius: 10px" class="img-fluid" alt="FloMarching">
+                </a>
+            </div>
+        </div>
+                </div>
+                    </div>
+                    <div class="col-lg-8 order-lg-1">
+                        <div class="event-tabs-card mb-3">
+    
+    <div class="event-tabs-mobile d-md-none">
+        <button class="btn event-tabs-mobile-toggle" type="button" data-toggle="collapse"
+                data-target="#event-tabs-mobile-menu-539" aria-expanded="false" aria-controls="event-tabs-mobile-menu-539">
+            <span class="event-tabs-mobile-toggle__label">
+                <span class="tab-icon tab-icon-doc mr-2" aria-hidden="true"></span>
+                Event Details
+            </span>
+        </button>
+        <div class="collapse event-tabs-mobile-menu" id="event-tabs-mobile-menu-539">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#tab-details" role="tab">
+                        <span class="tab-icon tab-icon-doc mr-2" aria-hidden="true"></span>
+                        Event Details
+                    </a>
+                </li>
+                                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-schedule" role="tab">
+                        <span class="tab-icon tab-icon-calendar mr-2" aria-hidden="true"></span>
+                        Schedule
+                    </a>
+                </li>
+                                                                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-notes" role="tab">
+                        <span class="tab-icon tab-icon-doc mr-2" aria-hidden="true"></span>
+                        Event Notes
+                    </a>
+                </li>
+                                                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-staff" role="tab">
+                        <i class="bi bi-people mr-2"></i> Event Staff
+                    </a>
+                </li>
+                                                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-downloads" role="tab">
+                        <i class="bi bi-download mr-2"></i> Downloads
+                    </a>
+                </li>
+                                                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-scores" role="tab">
+                        <span class="tab-icon tab-icon-cup mr-2" aria-hidden="true"></span>
+                        Scores
+                    </a>
+                </li>
+                                            </ul>
+        </div>
+    </div>
+
+    <div class="event-tabs-desktop d-none d-md-block">
+        <ul class="nav nav-tabs event-tabs-nav" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tab-details" role="tab">
+                    <span class="tab-icon tab-icon-doc mr-2" aria-hidden="true"></span>
+                    Event Details
+                </a>
+            </li>
+                        <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-schedule" role="tab">
+                    <span class="tab-icon tab-icon-calendar mr-2" aria-hidden="true"></span>
+                    Schedule
+                </a>
+            </li>
+                                                <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-notes" role="tab">
+                    <span class="tab-icon tab-icon-doc mr-2" aria-hidden="true"></span>
+                    Event Notes
+                </a>
+            </li>
+                                    <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-staff" role="tab">
+                    <i class="bi bi-people mr-2"></i> Event Staff
+                </a>
+            </li>
+                                    <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-downloads" role="tab">
+                    <i class="bi bi-download mr-2"></i> Downloads
+                </a>
+            </li>
+                                    <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-scores" role="tab">
+                    <span class="tab-icon tab-icon-cup mr-2" aria-hidden="true"></span>
+                    Scores
+                </a>
+            </li>
+                                </ul>
+    </div>
+
+    <div class="tab-content event-tabs-content">
+        <div class="tab-pane fade show active" id="tab-details" role="tabpanel">
+            <div class="event-details">
+
+    <h2>About This Event</h2>
+
+    <!-- description (you already echo $event->description; just wrap it) -->
+    <div class="description mb-4">
+            </div>
+
+    <!-- info panel -->
+    <div class="info-panel">
+        <h3>Event Information</h3>
+
+                <div class="info-grid">
+            
+            <div class="info-item">
+                <div class="icon"><img src="/includes/images/events/clock.svg" alt=""></div>
+                <div>
+                    <div class="label">Start Time</div>
+                    <div class="value">2:00pm EDT</div>
+                </div>
+            </div>
+        </div>
+
+            </div>
+</div>
+
+<script>
+$(function () {
+    $('.info-panel__chips .chip[data-toggle="tooltip"]').tooltip({
+        container: 'body',
+        html: true,
+        trigger: 'hover focus'
+    });
+});
+</script>
+        </div>
+                <div class="tab-pane fade" id="tab-schedule" role="tabpanel">
+            <div class="schedule-header d-flex justify-content-between align-items-center flex-wrap">  <h2 class="schedule-title mb-0">Event Schedule</h2>  <div class="d-flex align-items-center flex-wrap" style="gap:8px;">  </div></div>
+<div class="schedule-view schedule-view--performance" id="performanceSchedule">
+            <div class="schedule-table">
+            <div class="schedule-row schedule-head">
+                <div class="schedule-cell school">School Name</div>
+                <div class="schedule-cell location">City, State</div>
+                <div class="schedule-cell classification">Division &amp; Class</div>
+                <div class="schedule-cell time">Time</div>
+            </div>
+
+                                                                        <div class="schedule-row schedule-break">
+                            <div class="schedule-cell break-label">GATES OPEN</div>
+                            <div class="schedule-cell break-time">
+                                <span class="time-link">2:00 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1326&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1326"
+                                   data-season="2022">Central Bucks High School South</a>
+                            </div>
+                            <div class="schedule-cell location">Warrington, PA</div>
+                            <div class="schedule-cell classification">IV A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">3:00 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=2038&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="2038"
+                                   data-season="2022">Wissahickon High School</a>
+                            </div>
+                            <div class="schedule-cell location">Ambler, PA</div>
+                            <div class="schedule-cell classification">II Performance</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">3:15 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=2547&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="2547"
+                                   data-season="2022">St. Mark's High School</a>
+                            </div>
+                            <div class="schedule-cell location">Wilmington, DE</div>
+                            <div class="schedule-cell classification">I A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">3:30 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1397&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1397"
+                                   data-season="2022">Susquehanna Township High School</a>
+                            </div>
+                            <div class="schedule-cell location">Harrisburg, PA</div>
+                            <div class="schedule-cell classification">I A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">3:45 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1398&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1398"
+                                   data-season="2022">Hatboro Horsham High School</a>
+                            </div>
+                            <div class="schedule-cell location">Horsham, PA</div>
+                            <div class="schedule-cell classification">I A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">4:00 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1285&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1285"
+                                   data-season="2022">West Perry High School</a>
+                            </div>
+                            <div class="schedule-cell location">Elliottsburg, PA</div>
+                            <div class="schedule-cell classification">I A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">4:15 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row schedule-break">
+                            <div class="schedule-cell break-label">BREAK</div>
+                            <div class="schedule-cell break-time">
+                                <span class="time-link">4:30 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1391&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1391"
+                                   data-season="2022">Coatesville Area Senior High</a>
+                            </div>
+                            <div class="schedule-cell location">Coatesville, PA</div>
+                            <div class="schedule-cell classification">II A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">4:45 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1709&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1709"
+                                   data-season="2022">Pleasant Valley High School</a>
+                            </div>
+                            <div class="schedule-cell location">Brodheadsville, PA</div>
+                            <div class="schedule-cell classification">II A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">5:00 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1696&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1696"
+                                   data-season="2022">Avon Grove High School</a>
+                            </div>
+                            <div class="schedule-cell location">West Grove, PA</div>
+                            <div class="schedule-cell classification">II A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">5:15 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=2187&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="2187"
+                                   data-season="2022">Great Valley High School</a>
+                            </div>
+                            <div class="schedule-cell location">Malvern, PA</div>
+                            <div class="schedule-cell classification">II A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">5:30 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1440&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1440"
+                                   data-season="2022">Abington Senior High School</a>
+                            </div>
+                            <div class="schedule-cell location">Abington, PA</div>
+                            <div class="schedule-cell classification">III A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">5:45 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1637&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1637"
+                                   data-season="2022">Upper Darby High School</a>
+                            </div>
+                            <div class="schedule-cell location">Drexel Hill, PA</div>
+                            <div class="schedule-cell classification">III A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">6:00 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row schedule-break">
+                            <div class="schedule-cell break-label">A CLASS AWARDS</div>
+                            <div class="schedule-cell break-time">
+                                <span class="time-link">6:15 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1333&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1333"
+                                   data-season="2022">Rustin High School</a>
+                            </div>
+                            <div class="schedule-cell location">West Chester, PA</div>
+                            <div class="schedule-cell classification">II Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">6:45 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1404&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1404"
+                                   data-season="2022">Perkiomen Valley High School</a>
+                            </div>
+                            <div class="schedule-cell location">Collegeville, PA</div>
+                            <div class="schedule-cell classification">III Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">7:00 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1249&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1249"
+                                   data-season="2022">New Oxford High School</a>
+                            </div>
+                            <div class="schedule-cell location">New Oxford, PA</div>
+                            <div class="schedule-cell classification">III Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">7:15 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1251&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1251"
+                                   data-season="2022">Council Rock High School South</a>
+                            </div>
+                            <div class="schedule-cell location">Holland, PA</div>
+                            <div class="schedule-cell classification">III Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">7:30 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row schedule-break">
+                            <div class="schedule-cell break-label">BREAK</div>
+                            <div class="schedule-cell break-time">
+                                <span class="time-link">7:45 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1363&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1363"
+                                   data-season="2022">Mechanicsburg Area Senior High</a>
+                            </div>
+                            <div class="schedule-cell location">Mechanicsburg, PA</div>
+                            <div class="schedule-cell classification">IV Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">8:00 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1364&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1364"
+                                   data-season="2022">West Shore School District</a>
+                            </div>
+                            <div class="schedule-cell location">Lewisberry, PA</div>
+                            <div class="schedule-cell classification">IV Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">8:15 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1846&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1846"
+                                   data-season="2022">Unionville High School</a>
+                            </div>
+                            <div class="schedule-cell location">Kennett Square, PA</div>
+                            <div class="schedule-cell classification">IV Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">8:30 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1379&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1379"
+                                   data-season="2022">Quakertown Community High School</a>
+                            </div>
+                            <div class="schedule-cell location">Quakertown, PA</div>
+                            <div class="schedule-cell classification">IV Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">8:45 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=2309&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="2309"
+                                   data-season="2022">Downingtown East High School</a>
+                            </div>
+                            <div class="schedule-cell location">Exton, PA</div>
+                            <div class="schedule-cell classification">V Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">9:00 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1604&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1604"
+                                   data-season="2022">North Penn High School</a>
+                            </div>
+                            <div class="schedule-cell location">Lansdale, PA</div>
+                            <div class="schedule-cell classification">V Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">9:15 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=2228&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="2228"
+                                   data-season="2022">Downingtown West High School</a>
+                            </div>
+                            <div class="schedule-cell location">Downingtown, PA</div>
+                            <div class="schedule-cell classification">V Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">9:30 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=2330&season=2022"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="2330"
+                                   data-season="2022">West Chester University</a>
+                            </div>
+                            <div class="schedule-cell location">West Chester, PA</div>
+                            <div class="schedule-cell classification">Exhibition</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">9:45 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row schedule-break">
+                            <div class="schedule-cell break-label">OPEN CLASS AWARDS</div>
+                            <div class="schedule-cell break-time">
+                                <span class="time-link">10:00 PM</span>
+                            </div>
+                        </div>
+                                                        </div>
+    </div>
+
+
+<script>
+    $(document).on('click', '#scheduleToggleBtn', function () {
+        var $btn = $(this);
+        var currentView = $btn.attr('data-view');
+
+        if (currentView === 'performance') {
+            $('#performanceSchedule').addClass('d-none');
+            $('#warmupSchedule').removeClass('d-none');
+            $btn.attr('data-view', 'warmup').text('Show Performance Schedule');
+        } else {
+            $('#warmupSchedule').addClass('d-none');
+            $('#performanceSchedule').removeClass('d-none');
+            $btn.attr('data-view', 'performance').text('Show Warmup Schedule');
+        }
+    });
+
+    $(document).on('click', '.unitModalTrigger', function (e) {
+        e.preventDefault();
+        var unitID = $(this).data('unit-id');
+        var season = $(this).data('season');
+        $("#myModalLarge .modal-content").load(
+            "/common/units/details.php?ID=" + unitID + "&season=" + season
+        );
+        $("#myModalLarge").modal("show");
+    });
+</script>
+
+<style>
+
+    /* Schedule accordion */
+    .schedule-accordion {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .schedule-accordion-card {
+        border: none;
+        border-radius: 0 !important;
+        margin-bottom: 0;
+        background: transparent;
+    }
+    .schedule-accordion-card + .schedule-accordion-card {
+        border-top: 1px solid #e2e8f0;
+    }
+    .schedule-accordion-header {
+        background: #f8fafc;
+        padding: 0;
+        border: none;
+        border-bottom: none;
+    }
+    .schedule-accordion-btn {
+        font-weight: 600;
+        font-size: 1.05em;
+        color: #1e293b;
+        padding: 18px 24px;
+        text-decoration: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        border-radius: 0;
+        transition: background-color 0.15s ease;
+    }
+    .schedule-accordion-btn:hover,
+    .schedule-accordion-btn:focus {
+        text-decoration: none;
+        color: #1e293b;
+        background-color: #eef2f7;
+        outline: none;
+        box-shadow: none;
+    }
+    .schedule-accordion-icon {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-right: 2.5px solid #64748b;
+        border-bottom: 2.5px solid #64748b;
+        transform: rotate(45deg);
+        transition: transform 0.25s ease;
+        flex-shrink: 0;
+        margin-left: 16px;
+    }
+    .schedule-accordion-btn.collapsed .schedule-accordion-icon {
+        transform: rotate(-45deg);
+    }
+    .schedule-accordion-card .card-body {
+        padding: 0;
+    }
+    .schedule-accordion-card .schedule-table {
+        border-top: none;
+    }
+    .schedule-accordion-card .schedule-row {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    /* Flat warmup datatable layout.
+       grid-template-columns lives in _parts/event_details.css, under #warmupSchedule -
+       that ID-level selector outranks anything declared here, so restating the tracks
+       in this block would be dead code. Keep column definitions in one place. */
+    .warmup-table--flat .schedule-row {
+        display: grid;
+        gap: 8px;
+        border-bottom: 1px solid #e5e7eb;
+        align-items: center;
+    }
+
+    .warmup-table--flat .schedule-row > .schedule-cell {
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .warmup-table--flat .schedule-head .schedule-cell {
+        padding: 12px 8px;
+        font-weight: 700;
+        font-size: 12px;
+        color: #667085;
+        white-space: nowrap;
+    }
+
+    /* Not .warmup-data-row - break rows do not carry that class and still need padding. */
+    .warmup-table--flat .schedule-row:not(.schedule-head) .schedule-cell {
+        padding: 10px 8px;
+    }
+
+    .warmup-cell-school {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .warmup-school-info {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .warmup-school-info .band-name {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1.3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .warmup-data-label {
+        display: none;
+    }
+
+    .warmup-data-value {
+        font-size: 14px;
+        font-weight: 500;
+        color: #1f2937;
+    }
+
+    /* Card layout on phones, tablets and small laptops - see the note in
+       _parts/event_details.css for why the seven-column table does not start until 1200px. */
+    @media (max-width: 1199.98px) {
+        .warmup-table--flat .schedule-head {
+            display: none;
+        }
+
+        .warmup-table--flat .warmup-cell-school {
+            padding: 14px 16px;
+        }
+
+        /* Every value stays on screen - no expand toggle. The school name is the card
+           title, the other six carry their inline .warmup-data-label. */
+        .warmup-table--flat .warmup-data-cell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .warmup-data-label {
+            display: inline;
+            font-size: 12px;
+            font-weight: 600;
+            color: #667085;
+        }
+
+        .warmup-data-value {
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .warmup-school-info .band-name {
+            font-size: 15px;
+            white-space: normal;
+        }
+
+        .schedule-toggle-btn {
+            width: 100%;
+            min-width: 0;
+        }
+    }
+</style>
+        </div>
+                                <div class="tab-pane fade" id="tab-notes" role="tabpanel">
+            <div class="event-details">
+    <h2>Event Notes</h2>
+
+    <div class="description mb-4">
+        <p><span style="font-weight: 700;">This is an ACT Testing Day</span><br></p>    </div>
+</div>
+        </div>
+                        <div class="tab-pane fade" id="tab-staff" role="tabpanel">
+            
+<div class="staff-tab">
+    <h2 class="staff-tab__title">Staff &amp; Adjudicators</h2>
+
+    <!-- Adjudicators -->
+    <h3 class="staff-tab__section">Adjudicators</h3>
+
+            <div class="row">
+            <div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=3730" data-id="3730" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/3000/3730/profile-images/IMG_6024-300x300-crop_square.jpg" class="staff-avatar__img" alt="Rick Grey">      </div>      <div class="staff-meta">        <div class="staff-name">Rick Grey</div>        <div class="staff-role">Ensemble Music</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=1704" data-id="1704" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/1000/1704/profile-images/IMG_9414-300x300-crop_square.jpeg" class="staff-avatar__img" alt="Jamie Bennett">      </div>      <div class="staff-meta">        <div class="staff-name">Jamie Bennett</div>        <div class="staff-role">Individual Music</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2451" data-id="2451" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/2000/2451/profile-images/Headshot-Chris-Stanley-300x300-crop_square.jpg" class="staff-avatar__img" alt="Christopher Stanley">      </div>      <div class="staff-meta">        <div class="staff-name">Christopher Stanley</div>        <div class="staff-role">Music Effect</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2479" data-id="2479" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <div class="staff-avatar__placeholder"></div>      </div>      <div class="staff-meta">        <div class="staff-name">Shawn Wellman</div>        <div class="staff-role">Percussion</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2145" data-id="2145" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/2000/2145/profile-images/Me-updated-Copy_1-300x300-crop_square.jpg" class="staff-avatar__img" alt="Billy Saccomanno">      </div>      <div class="staff-meta">        <div class="staff-name">Billy Saccomanno</div>        <div class="staff-role">Visual Effect</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=1769" data-id="1769" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/1000/1769/profile-images/IMG_20220913_161959_301-300x300-crop_square.jpg" class="staff-avatar__img" alt="Hieu Nguyen">      </div>      <div class="staff-meta">        <div class="staff-name">Hieu Nguyen</div>        <div class="staff-role">Color Guard</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=1253" data-id="1253" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/1000/1253/profile-images/S.Pizani-2023-Final-300x300-crop_square.jpg" class="staff-avatar__img" alt="Scott Pizani">      </div>      <div class="staff-meta">        <div class="staff-name">Scott Pizani</div>        <div class="staff-role">Visual (Chief Adjudicator)</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2655" data-id="2655" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <div class="staff-avatar__placeholder"></div>      </div>      <div class="staff-meta">        <div class="staff-name">Christine O'Rourke</div>        <div class="staff-role">Adjudication Technician</div>      </div>    </a>  </div></div>        </div>
+    
+    <!-- Event Staff -->
+    <h3 class="staff-tab__section mt-4">Event Staff</h3>
+
+            <div class="row">
+            <div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2270" data-id="2270" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/2000/2270/profile-images/Screen-Shot-2023-09-13-at-9.06.27-AM-300x300-crop_square.png" class="staff-avatar__img" alt="Eric James">      </div>      <div class="staff-meta">        <div class="staff-name">Eric James</div>        <div class="staff-role">Event Manager</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2663" data-id="2663" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/2000/2663/profile-images/20230125_181104-300x300-crop_square.jpg" class="staff-avatar__img" alt="Melanie Pridgen">      </div>      <div class="staff-meta">        <div class="staff-name">Melanie Pridgen</div>        <div class="staff-role">Event Manager</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2651" data-id="2651" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/2000/2651/profile-images/jo-2-2-300x300-crop_square.jpg" class="staff-avatar__img" alt="Joanne Denslow">      </div>      <div class="staff-meta">        <div class="staff-name">Joanne Denslow</div>        <div class="staff-role">Gate Coordinator</div>      </div>    </a>  </div></div>        </div>
+    </div>
+
+        </div>
+                <div class="tab-pane fade" id="tab-downloads" role="tabpanel">
+            <div class="downloads-tab"><h2 class="downloads-title">Downloads</h2><div class="downloads-list"><a class="download-item" href="/events/files-events/0/539/PA-States-22-Packet.pdf" target="_blank" rel="noopener">  <div class="download-item__left">    <div class="download-item__title">2022 Information Packet</div>  </div>  <div class="download-item__right" aria-hidden="true">    <span class="download-item__icon"></span>  </div></a><a class="download-item" href="/events/files-events/0/539/concessions-2022.pdf" target="_blank" rel="noopener">  <div class="download-item__left">    <div class="download-item__title">concessions menu</div>  </div>  <div class="download-item__right" aria-hidden="true">    <span class="download-item__icon"></span>  </div></a><a class="download-item" href="/events/files-events/0/539/Pennsylvania-State-Championships-Logistical-Schedule-FINAL.pdf" target="_blank" rel="noopener">  <div class="download-item__left">    <div class="download-item__title">warm up and logistics schedule</div>  </div>  <div class="download-item__right" aria-hidden="true">    <span class="download-item__icon"></span>  </div></a></div></div>        </div>
+        <div class="tab-pane fade" id="tab-scores" role="tabpanel">
+            <div class="scores-tab"><h2 class="scores-title">Competition Results</h2><div class="scores-division"><div class="scores-division__name">A - Group IV</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1326&season=2022" class="band-name unitModalTrigger" data-unit-id="1326" data-season="2022">Central Bucks High School South</a></div><div class="scores-cell scores-score">83.0</div></div></div></div><div class="scores-division"><div class="scores-division__name">A - Group I</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><div class="band-name">West Perry HS Marching Band</div></div><div class="scores-cell scores-score">82.2</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">2</span></div><div class="scores-cell scores-band"><div class="band-name">Hatboro-Horsham High School</div></div><div class="scores-cell scores-score">80.7</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">3</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1397&season=2022" class="band-name unitModalTrigger" data-unit-id="1397" data-season="2022">Susquehanna Township High School</a></div><div class="scores-cell scores-score">73.6</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">4</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=2547&season=2022" class="band-name unitModalTrigger" data-unit-id="2547" data-season="2022">St. Mark's High School</a></div><div class="scores-cell scores-score">69.6</div></div></div></div><div class="scores-division"><div class="scores-division__name">A - Group II</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=2187&season=2022" class="band-name unitModalTrigger" data-unit-id="2187" data-season="2022">Great Valley High School</a></div><div class="scores-cell scores-score">86.8</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">2</span></div><div class="scores-cell scores-band"><div class="band-name">Coatesville Area High School</div></div><div class="scores-cell scores-score">84.9</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">3</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1696&season=2022" class="band-name unitModalTrigger" data-unit-id="1696" data-season="2022">Avon Grove High School</a></div><div class="scores-cell scores-score">83.9</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">4</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1709&season=2022" class="band-name unitModalTrigger" data-unit-id="1709" data-season="2022">Pleasant Valley High School</a></div><div class="scores-cell scores-score">81.6</div></div></div></div><div class="scores-division"><div class="scores-division__name">A - Group III</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1637&season=2022" class="band-name unitModalTrigger" data-unit-id="1637" data-season="2022">Upper Darby High School</a></div><div class="scores-cell scores-score">86.9</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">2</span></div><div class="scores-cell scores-band"><div class="band-name">Abington High School (PA)</div></div><div class="scores-cell scores-score">86.2</div></div></div></div><div class="scores-division"><div class="scores-division__name">Open - Group II</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1333&season=2022" class="band-name unitModalTrigger" data-unit-id="1333" data-season="2022">Rustin High School</a></div><div class="scores-cell scores-score">79.9</div></div></div></div><div class="scores-division"><div class="scores-division__name">Open - Group III</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1251&season=2022" class="band-name unitModalTrigger" data-unit-id="1251" data-season="2022">Council Rock High School South</a></div><div class="scores-cell scores-score">91.7</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">2</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1404&season=2022" class="band-name unitModalTrigger" data-unit-id="1404" data-season="2022">Perkiomen Valley High School</a></div><div class="scores-cell scores-score">87.8</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">3</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1249&season=2022" class="band-name unitModalTrigger" data-unit-id="1249" data-season="2022">New Oxford High School</a></div><div class="scores-cell scores-score">86.4</div></div></div></div><div class="scores-division"><div class="scores-division__name">Open - Group IV</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1846&season=2022" class="band-name unitModalTrigger" data-unit-id="1846" data-season="2022">Unionville High School</a></div><div class="scores-cell scores-score">91.1</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">2</span></div><div class="scores-cell scores-band"><div class="band-name">Quakertown High School</div></div><div class="scores-cell scores-score">91.0</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">3</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1364&season=2022" class="band-name unitModalTrigger" data-unit-id="1364" data-season="2022">West Shore Marching Band</a></div><div class="scores-cell scores-score">90.4</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">4</span></div><div class="scores-cell scores-band"><div class="band-name">Mechanicsburg Area Senior High School</div></div><div class="scores-cell scores-score">88.5</div></div></div></div><div class="scores-division"><div class="scores-division__name">Open - Group V</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=2228&season=2022" class="band-name unitModalTrigger" data-unit-id="2228" data-season="2022">Downingtown West High School</a></div><div class="scores-cell scores-score">95.2</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">2</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1604&season=2022" class="band-name unitModalTrigger" data-unit-id="1604" data-season="2022">North Penn High School</a></div><div class="scores-cell scores-score">93.7</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">3</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=2309&season=2022" class="band-name unitModalTrigger" data-unit-id="2309" data-season="2022">Downingtown East High School</a></div><div class="scores-cell scores-score">88.8</div></div></div></div></div>
+        </div>
+        <div class="tab-pane fade" id="tab-critique-schedule" role="tabpanel">
+            <p class="text-muted mb-0">Critique schedule is not available yet.</p>        </div>
+    </div>
+
+</div>
+
+<script>
+(function () {
+    var card = document.querySelector('.event-tabs-card');
+    if (!card) return;
+
+    var $toggleLabel = card.querySelector('.event-tabs-mobile-toggle__label');
+
+    function updateToggleLabel(tabLink) {
+        if (!$toggleLabel) return;
+        var iconEl = tabLink.querySelector('.tab-icon, .bi, .far, .fa');
+        var text = tabLink.textContent.trim();
+        var iconHtml = '';
+        if (iconEl) {
+            var clone = iconEl.cloneNode(true);
+            clone.classList.add('mr-2');
+            iconHtml = clone.outerHTML;
+        }
+        $toggleLabel.innerHTML = iconHtml + text;
+    }
+
+    $(document).on('shown.bs.tab', '.event-tabs-card [data-toggle="tab"]', function (event) {
+        var href = $(event.target).attr('href');
+        var currentCard = $(event.target).closest('.event-tabs-card');
+        currentCard.find('[data-toggle="tab"]').each(function () {
+            var link = $(this);
+            link.toggleClass('active', link.attr('href') === href);
+        });
+        updateToggleLabel(event.target);
+    });
+
+    var mobileMenu = document.getElementById('event-tabs-mobile-menu-539');
+    if (mobileMenu) {
+        $(mobileMenu).on('click', '[data-toggle="tab"]', function () {
+            $(mobileMenu).collapse('hide');
+        });
+    }
+})();
+</script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="modal fade" id="productionAnnouncer" tabindex="-1" role="dialog"
+         aria-labelledby="productionAnnouncerLabel">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+<!-- small modal -->
+<div class="modal fade" id="myModalSmall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!-- /.small modal -->
+
+<!-- modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!-- /.modal -->
+
+<!-- large modal -->
+<div class="modal fade" id="myModalLarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="myImageModalLarge" tabindex="-1" role="dialog" aria-labelledby="myImageModalLarge" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="max-height: 600px; overflow-y: auto;">
+            <img src="" alt="" class="poImages"/>
+            <embed src="" width="100%" height="600px" class="poPdf"/>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade marketing-global-modal marketing-global-modal-usb" id="marketingModalGlobal" tabindex="-1" role="dialog" aria-labelledby="marketingModalGlobalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h3 class="modal-title marketing-modal-title" id="marketingModalGlobalLabel"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body marketing-modal-body"></div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <a href="#" class="btn btn-danger marketing-modal-action" target="_self" style="display:none;"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.marketing-global-modal-usb .modal-dialog {
+    max-width: 640px;
+}
+
+.marketing-global-modal-usb .modal-content {
+    border: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+    background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+}
+
+.marketing-global-modal-usb .modal-header,
+.marketing-global-modal-usb .modal-body,
+.marketing-global-modal-usb .modal-footer {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.marketing-global-modal-usb .modal-title {
+    color: #10233f;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.marketing-global-modal-usb .close {
+    color: #10233f;
+    opacity: 0.7;
+}
+
+.marketing-global-modal-usb .marketing-modal-body {
+    color: #24364f;
+    font-size: 1rem;
+}
+
+.marketing-global-modal-usb .marketing-modal-body a {
+    color: #b51f2e;
+    text-decoration: underline;
+}
+
+.marketing-global-modal-usb .marketing-modal-body p:last-child {
+    margin-bottom: 0;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-dialog {
+    max-width: 760px;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-content {
+    background: transparent;
+    box-shadow: none;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    background: transparent;
+    border: 0;
+    justify-content: flex-end;
+    padding: .75rem;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .marketing-modal-body {
+    padding: 0;
+}
+
+.marketing-global-modal-usb .marketing-modal-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+@media (max-width: 575.98px) {
+    .marketing-global-modal-usb .modal-header,
+    .marketing-global-modal-usb .modal-body,
+    .marketing-global-modal-usb .modal-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+</style>
+
+<script>
+(function () {
+    var marketingModalQueue = [] || [];
+    var currentMarketingModal = null;
+
+    function getSessionCount(modalID) {
+        try {
+            if (typeof getCookie === "function") {
+                return parseInt(getCookie("marketing_modal_session_" + modalID) || "0", 10);
+            }
+            return parseInt(sessionStorage.getItem("marketing_modal_session_" + modalID) || "0", 10);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function setSessionCount(modalID, count) {
+        try {
+            if (typeof setCookie === "function") {
+                setCookie("marketing_modal_session_" + modalID, String(count));
+                return;
+            }
+            sessionStorage.setItem("marketing_modal_session_" + modalID, String(count));
+        } catch (error) {}
+    }
+
+    function getLifetimeCount(modalID) {
+        try {
+            return parseInt(localStorage.getItem("marketing_modal_lifetime_" + modalID) || "0", 10);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function setLifetimeCount(modalID, count) {
+        try {
+            localStorage.setItem("marketing_modal_lifetime_" + modalID, String(count));
+        } catch (error) {}
+    }
+
+    function canShowMarketingModal(modal) {
+        if (!modal || !modal.ID) {
+            return false;
+        }
+
+        if (modal.displayMode === "once_ever") {
+            return getLifetimeCount(modal.ID) < 1;
+        }
+
+        if (modal.displayMode === "times_per_session") {
+            return getSessionCount(modal.ID) < Math.max(parseInt(modal.displayLimit || 1, 10), 1);
+        }
+
+        return getSessionCount(modal.ID) < 1;
+    }
+
+    function recordMarketingModalView(modal) {
+        if (!modal || !modal.ID) {
+            return;
+        }
+
+        if (modal.displayMode === "once_ever") {
+            setLifetimeCount(modal.ID, getLifetimeCount(modal.ID) + 1);
+            return;
+        }
+
+        setSessionCount(modal.ID, getSessionCount(modal.ID) + 1);
+    }
+
+    function renderMarketingModal(modal) {
+        var modalElement = $("#marketingModalGlobal");
+        var isImageModal = modal.contentType === "image" && modal.imageUrl;
+        modalElement.toggleClass("marketing-modal-image-mode", !!isImageModal);
+        modalElement.find(".marketing-modal-title").text(modal.title || "").toggle(!!modal.title && !isImageModal);
+        modalElement.find(".modal-footer").toggle(!isImageModal);
+        if (isImageModal) {
+            var imageAlt = modal.imageAlt || modal.title || "";
+            modalElement.find(".marketing-modal-body").html(
+                '<img src="' + modal.imageUrl + '" alt="' + imageAlt.replace(/"/g, '&quot;') + '" class="marketing-modal-image">'
+            );
+        } else {
+            modalElement.find(".marketing-modal-body").html(modal.bodyHtml || "");
+        }
+
+        var actionButton = modalElement.find(".marketing-modal-action");
+        if (!isImageModal && modal.actionLabel && modal.actionUrl) {
+            actionButton.text(modal.actionLabel);
+            actionButton.attr("href", modal.actionUrl);
+            actionButton.attr("target", modal.actionTarget || "_self");
+            actionButton.attr("style", "");
+            if (modal.actionButtonColor) {
+                actionButton.css({
+                    backgroundColor: modal.actionButtonColor,
+                    borderColor: modal.actionButtonColor,
+                    color: "#ffffff"
+                });
+            }
+            actionButton.show();
+        } else {
+            actionButton.hide();
+            actionButton.attr("href", "#");
+            actionButton.attr("target", "_self");
+            actionButton.attr("style", "");
+            actionButton.text("");
+        }
+    }
+
+    function showNextMarketingModal() {
+        if (!marketingModalQueue.length) {
+            currentMarketingModal = null;
+            return;
+        }
+
+        currentMarketingModal = marketingModalQueue.shift();
+        renderMarketingModal(currentMarketingModal);
+        recordMarketingModalView(currentMarketingModal);
+        $("#marketingModalGlobal").modal("show");
+    }
+
+    $(function () {
+        marketingModalQueue = marketingModalQueue.filter(canShowMarketingModal);
+        if (!marketingModalQueue.length) {
+            return;
+        }
+
+        $("#marketingModalGlobal").on("hidden.bs.modal", function () {
+            showNextMarketingModal();
+        });
+
+        showNextMarketingModal();
+    });
+})();
+</script>
+
+
+<!-- start footer.php -->
+<footer>
+    
+            <div class="container-fluid sponsors">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-white mb-5">Presenting Sponsor</h3><div class="row justify-content-center align-items-center"><div class="col-8 col-sm-6 col-md-4 col-lg-3 mb-0">
+            <a href="https://connselmer.com/" title="Conn-Selmer" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/Conn-Selmer-Logo.png" alt="Conn-Selmer" class="img-fluid" style=" opacity: 0.7; mix-blend-mode: screen;" />
+            </a>
+        </div></div><div class="row justify-content-center align-items-center"><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://demoulin.com/" title="DeMoulin" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/demoulin.png" alt="DeMoulin" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://algy.com/" title="Algy" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/algyby.png" alt="Algy" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div></div><div class="row justify-content-center align-items-center"><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://bandshoppe.com/" title="Band Shoppe" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/bandshoppelogo.png" alt="Band Shoppe" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://www.drillmastersmarching.com/" title="Drillmasters" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/Drillmasters.png" alt="Drillmasters" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://peakgrouptravel.com/" title="Peak Group Travel" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/peak-group-travel.png" alt="Peak Group Travel" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://pepwear.com/" title="PepWear" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/pepwear.svg" alt="PepWear" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div></div>                </div>
+            </div>
+        </div>
+            
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events/">Events</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/directors/">Directors</a></li>
+                    <li><a href="/adjudicators/">Adjudicators</a></li>
+                    <li><a href="/parents-students/">Parents / Students</a></li>
+                    <li><a href="https://store.bluedevils.org/usbands/">Shop</a></li>
+                    <li><a href="/account/">My Account</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <h2>About USBands</h2>
+                <p>Our mission is to support the development of young people into magnificent human beings through participation in the performing arts.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="clearfix"></div>
+
+<!-- outdated browser warning -->
+<style>
+#outdated h6,
+#outdated p {
+    text-transform: none;
+}
+#outdated #btnUpdateBrowser {
+    width: 260px;
+}
+</style>
+
+<div id="outdated">
+     <h6>Your browser is out-of-date.</h6>
+     <p>Please update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Show Me Where To Get The Update</a></p>
+     <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+
+<script>
+//event listener: DOM ready
+function addLoadEvent(func) {
+    var oldonload = window.onload;
+    if(typeof window.onload != "function") {
+        window.onload = func;
+    }
+    else {
+        window.onload = function() {
+            if(oldonload) {
+                oldonload();
+            }
+            func();
+        }
+    }
+}
+//call plugin function after DOM ready
+addLoadEvent(function(){
+    outdatedBrowser({
+        bgColor: "#f25648",
+        color: "#ffffff",
+        lowerThan: "transform"
+    })
+});
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"d44cc425cd254109aeec2be026a2fd7e","r":1,"spa":2}' crossorigin="anonymous"></script>
