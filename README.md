@@ -91,6 +91,12 @@ under repo Settings → Secrets and variables → Actions, or via
 path anytime with `gh workflow run update.yml -f simulate_failure=true`
 without waiting for a real failure.
 
+## TODO
+
+- **Sortable columns in My Bands**: let the favorited-bands table be sorted
+  by clicking a column header (Rank, Band, Latest, Prior, Δ, etc.), instead
+  of always ranking by division roster order.
+
 ## Done
 
 - **Web UI**: a static site (`docs/index.html`, `app.js`, `style.css`) using
