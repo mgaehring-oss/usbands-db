@@ -65,8 +65,6 @@ change — it's the earliest season with real marching-band data, currently
 
 ## TODO
 
-- **PWA manifest** for a more native feel checking scores from a phone at a
-  competition.
 - **Scraper test suite** with saved HTML fixtures, so a future usbands.org
   markup change gets caught by CI before it ships bad data.
 
@@ -125,3 +123,8 @@ change — it's the earliest season with real marching-band data, currently
   resolved it's never re-fetched). A transient fetch failure is skipped
   rather than cached, so it's automatically retried on the next run instead
   of permanently recording a band as having no home state.
+- **PWA manifest**: `docs/manifest.json` plus a themed icon set
+  (`docs/icons/`) let a phone's browser install the site to the home screen
+  as a standalone app (no address bar), matching the header's music-note
+  mark and brand green/gold. Useful for checking scores from a phone at a
+  competition without hunting for a browser tab.
