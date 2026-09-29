@@ -93,9 +93,6 @@ without waiting for a real failure.
 
 ## TODO
 
-- **Accessibility pass** on the detail/compare overlays and theme picker
-  popover -- keyboard nav, focus trapping, ARIA live regions -- none of
-  which got a dedicated audit as they were built.
 - **Open Graph meta tags** so a shared URL shows a title/description preview
   when pasted into a group chat or Slack.
 
@@ -185,3 +182,15 @@ without waiting for a real failure.
   programmatic install API at all. Stays hidden once dismissed
   (`localStorage`, same per-browser pattern as favorites/theming) or once
   the site is already running standalone.
+- **Accessibility pass** on the detail/compare overlays and theme picker
+  popover: opening either overlay moves focus to its close button and traps
+  Tab/Shift+Tab inside it (aria-modal alone doesn't enforce this for
+  keyboard users), and closing it (Escape, the × button, or a backdrop
+  click) restores focus to whatever triggered it -- the exact leaderboard
+  row or Compare button, not just "somewhere on the page." The theme picker
+  popover gets the same treatment (aria-expanded on its toggle, focus-follows-
+  open/close) plus closes on focus-out, not just an outside click, so
+  tabbing past it doesn't leave it visually open. A visually-hidden
+  `aria-live` region announces the filtered band/group count on every
+  re-render, instead of the whole results table being (silently, or overly
+  verbosely) re-announced.

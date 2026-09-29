@@ -28,7 +28,7 @@
       </div>
       <div class="site-header__actions">
         <div class="theme-color-wrap">
-          <button id="theme-color-toggle" class="theme-toggle" type="button" aria-label="Customize colors" aria-haspopup="true">
+          <button id="theme-color-toggle" class="theme-toggle" type="button" aria-label="Customize colors" aria-haspopup="true" aria-controls="theme-color-panel" aria-expanded="false">
             <span aria-hidden="true">&#127912;</span>
           </button>
           <div id="theme-color-panel" class="theme-color-panel" hidden>
@@ -99,6 +99,7 @@
     </div>
 
     <div id="status" class="status" role="status">Loading season data…</div>
+    <div id="results-summary" class="sr-only" aria-live="polite"></div>
     <div id="results"></div>
   </main>
 

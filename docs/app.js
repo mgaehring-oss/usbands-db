@@ -6,6 +6,7 @@ const SQLJS_CDN = "https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/";
 const els = {
   status: document.getElementById("status"),
   results: document.getElementById("results"),
+  resultsSummary: document.getElementById("results-summary"),
   seasonSelect: document.getElementById("season-select"),
   divisionFilter: document.getElementById("filter-division"),
   stateFilter: document.getElementById("filter-state"),
@@ -436,11 +437,15 @@ function render() {
 
   els.results.innerHTML = "";
   let anyRows = false;
+  let totalBands = 0;
+  let shownDivisions = 0;
 
   for (const division of divisionsToShow) {
     const rows = computeRows(division, opts);
     if (rows.length === 0) continue;
     anyRows = true;
+    totalBands += rows.length;
+    shownDivisions += 1;
 
     const section = el("section", { class: "division-section" }, [
       el("div", { class: "division-section__head" }, [
@@ -500,6 +505,12 @@ function render() {
 
   if (!anyRows) {
     els.results.appendChild(el("div", { class: "empty-note" }, ["No bands match the current filters."]));
+  }
+
+  if (els.resultsSummary) {
+    els.resultsSummary.textContent = anyRows
+      ? `Showing ${totalBands} band${totalBands === 1 ? "" : "s"} across ${shownDivisions} group${shownDivisions === 1 ? "" : "s"}.`
+      : "No bands match the current filters.";
   }
 
   updateURLFromFilters();
@@ -757,7 +768,38 @@ let currentDetailDivisionLabel = null;
 let currentDetailSeasonPoints = null;
 let currentDetailAllPoints = null; // lazily fetched on first switch to "all", cached per open band
 
+/* ---------------- Accessibility: focus trapping for modal overlays ---------------- */
+
+// Keyboard users tabbing through an open overlay must not be able to tab
+// into the page behind it -- aria-modal alone signals this to screen
+// readers but doesn't enforce it for sighted keyboard navigation, so this
+// wraps Tab/Shift+Tab at the overlay's own first/last focusable element.
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+function getFocusable(container) {
+  return [...container.querySelectorAll(FOCUSABLE_SELECTOR)].filter((node) => node.getClientRects().length > 0);
+}
+
+function trapTabKey(container, e) {
+  if (e.key !== "Tab") return;
+  const focusable = getFocusable(container);
+  if (focusable.length === 0) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
+}
+
+let detailReturnFocusEl = null;
+
 function openDetail(row, division) {
+  detailReturnFocusEl = document.activeElement;
   currentDetailUnitId = row.unitId;
   currentDetailMode = "season";
   currentDetailDivisionLabel = division.label;
@@ -777,6 +819,7 @@ function openDetail(row, division) {
   updateDetailModeButtons();
   renderDetailBody();
   els.overlay.hidden = false;
+  els.overlayClose.focus();
 }
 
 function updateDetailModeButtons() {
@@ -836,7 +879,10 @@ function renderDetailBody() {
 }
 
 function closeDetail() {
+  if (els.overlay.hidden) return;
   els.overlay.hidden = true;
+  if (detailReturnFocusEl && document.body.contains(detailReturnFocusEl)) detailReturnFocusEl.focus();
+  detailReturnFocusEl = null;
 }
 
 /* ---------------- Compare (multiple favorited bands) ---------------- */
@@ -855,9 +901,12 @@ function currentComparePalette() {
   return isDark ? COMPARE_PALETTE_DARK : COMPARE_PALETTE_LIGHT;
 }
 
+let compareReturnFocusEl = null;
+
 function openCompare() {
   const found = getFavoritedRows();
   if (found.length < 2) return;
+  compareReturnFocusEl = document.activeElement;
 
   const palette = currentComparePalette();
   const series = found.map((f, i) => ({
@@ -896,10 +945,14 @@ function openCompare() {
   }
 
   els.compareOverlay.hidden = false;
+  els.compareClose.focus();
 }
 
 function closeCompare() {
+  if (els.compareOverlay.hidden) return;
   els.compareOverlay.hidden = true;
+  if (compareReturnFocusEl && document.body.contains(compareReturnFocusEl)) compareReturnFocusEl.focus();
+  compareReturnFocusEl = null;
 }
 
 function buildCompareChart(series) {
@@ -1482,25 +1535,48 @@ async function main() {
   els.themePrimaryInput.addEventListener("input", applyFromInputs);
   els.themeAccentInput.addEventListener("input", applyFromInputs);
   els.themeResetButton.addEventListener("click", resetCustomTheme);
+  function openThemePanel() {
+    els.themeColorPanel.hidden = false;
+    els.themeColorToggle.setAttribute("aria-expanded", "true");
+    const firstControl = els.themeColorPanel.querySelector("input, button");
+    if (firstControl) firstControl.focus();
+  }
+  function closeThemePanel({ returnFocus = false } = {}) {
+    if (els.themeColorPanel.hidden) return;
+    els.themeColorPanel.hidden = true;
+    els.themeColorToggle.setAttribute("aria-expanded", "false");
+    if (returnFocus) els.themeColorToggle.focus();
+  }
+  els.themeColorToggle.setAttribute("aria-expanded", "false");
   els.themeColorToggle.addEventListener("click", (e) => {
     e.stopPropagation();
-    els.themeColorPanel.hidden = !els.themeColorPanel.hidden;
+    if (els.themeColorPanel.hidden) openThemePanel();
+    else closeThemePanel();
   });
   document.addEventListener("click", (e) => {
     if (!els.themeColorPanel.hidden && !els.themeColorPanel.contains(e.target) && e.target !== els.themeColorToggle) {
-      els.themeColorPanel.hidden = true;
+      closeThemePanel();
+    }
+  });
+  // Closes the panel when Tab moves focus out of it, not just on a mouse
+  // click outside -- otherwise a keyboard user tabbing past it leaves it
+  // visually open while focus has already moved elsewhere on the page.
+  document.addEventListener("focusin", (e) => {
+    if (!els.themeColorPanel.hidden && !els.themeColorPanel.contains(e.target) && e.target !== els.themeColorToggle) {
+      closeThemePanel();
     }
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") els.themeColorPanel.hidden = true;
+    if (e.key === "Escape" && !els.themeColorPanel.hidden) closeThemePanel({ returnFocus: true });
   });
 
   els.overlayClose.addEventListener("click", closeDetail);
   els.overlay.addEventListener("click", (e) => {
     if (e.target === els.overlay) closeDetail();
   });
-  document.addEventListener("keydown", (e) => {
+  els.overlay.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeDetail();
+    else trapTabKey(els.overlay, e);
   });
   els.detailModeSeason.addEventListener("click", () => setDetailMode("season"));
   els.detailModeAll.addEventListener("click", () => setDetailMode("all"));
@@ -1509,8 +1585,9 @@ async function main() {
   els.compareOverlay.addEventListener("click", (e) => {
     if (e.target === els.compareOverlay) closeCompare();
   });
-  document.addEventListener("keydown", (e) => {
+  els.compareOverlay.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeCompare();
+    else trapTabKey(els.compareOverlay, e);
   });
 
   els.exportCsvBtn.addEventListener("click", exportCSV);

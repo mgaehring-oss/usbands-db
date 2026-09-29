@@ -300,6 +300,7 @@ a:hover { color: var(--brand-green-700); }
   cursor: pointer;
 }
 .theme-reset:hover { background: var(--brand-green-100); }
+.theme-reset:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 
 /* ---------- Layout ---------- */
 
@@ -320,6 +321,7 @@ main {
 
 /* ---------- Install banner ---------- */
 
+.install-banner[hidden] { display: none; }
 .install-banner {
   display: flex;
   flex-wrap: wrap;
@@ -694,6 +696,7 @@ table.leaderboard tbody tr.is-favorite:hover { background: var(--brand-gold-200)
   line-height: 1;
 }
 .detail-panel__close:hover { background: var(--brand-green-100); }
+.detail-panel__close:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 
 .detail-panel h2 { margin: 0 0 2px; font-size: 19px; color: var(--text-primary); padding-right: 30px; }
 .detail-panel__sub { margin: 0 0 14px; font-size: 13px; color: var(--text-muted); }
