@@ -14,6 +14,7 @@ const els = {
   favoritesFilter: document.getElementById("filter-favorites"),
   searchFilter: document.getElementById("filter-search"),
   mybands: document.getElementById("mybands"),
+  lastUpdated: document.getElementById("last-updated"),
   themeToggle: document.getElementById("theme-toggle"),
   themeToggleIcon: document.getElementById("theme-toggle-icon"),
   themeColorToggle: document.getElementById("theme-color-toggle"),
@@ -1361,6 +1362,28 @@ function safeLocalStorageSet(key, val) {
   try { localStorage.setItem(key, val); } catch { /* ignore */ }
 }
 
+/* ---------------- Last-updated indicator ---------------- */
+
+// data/last_updated.txt is written by the weekly workflow only in the same
+// commit as an actual data change (see update.yml) -- so this reflects when
+// the data last changed, not merely when the job last ran, and its absence
+// (e.g. very first deploy, before that file exists) is silently ignored
+// rather than shown as an error.
+async function loadLastUpdated() {
+  if (!els.lastUpdated) return;
+  try {
+    const resp = await fetch("data/last_updated.txt", { cache: "no-store" });
+    if (!resp.ok) return;
+    const text = (await resp.text()).trim();
+    const date = new Date(text);
+    if (isNaN(date)) return;
+    const formatted = date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+    els.lastUpdated.textContent = ` (last updated ${formatted})`;
+  } catch {
+    /* offline or file missing -- leave the generic footer text as-is */
+  }
+}
+
 /* ---------------- Init ---------------- */
 
 let dbHandle = null;
@@ -1435,6 +1458,7 @@ async function main() {
   });
 
   loadFavorites();
+  loadLastUpdated();
 
   try {
     dbHandle = await openDatabase();

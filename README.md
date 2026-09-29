@@ -79,6 +79,20 @@ usbands.org posts the next season (`BACKFILL_START_YEAR` rarely needs to
 change — it's the earliest season with real marching-band data, currently
 2022).
 
+## TODO
+
+- **Failure notification** for the weekly scrape -- right now a failed run
+  (or a tripped sanity check) is silent unless someone checks the Actions
+  tab.
+- **Accessibility pass** on the detail/compare overlays and theme picker
+  popover -- keyboard nav, focus trapping, ARIA live regions -- none of
+  which got a dedicated audit as they were built.
+- **Open Graph meta tags** so a shared URL shows a title/description preview
+  when pasted into a group chat or Slack.
+- **Surface the "Add to Home Screen" install prompt** directly, since most
+  mobile browsers bury it in a menu and the PWA manifest may otherwise go
+  undiscovered.
+
 ## Done
 
 - **Web UI**: a static site (`docs/index.html`, `app.js`, `style.css`) using
@@ -147,3 +161,9 @@ change — it's the earliest season with real marching-band data, currently
   real usbands.org pages. Runs in CI on every push/PR touching `scrape/` and
   again before each scheduled scrape, so a scraper regression fails loudly
   instead of quietly shipping a broken database.
+- **"Last updated" indicator**: the footer shows the actual date the data
+  last changed, not just a generic "refreshed weekly." `update.yml` writes
+  `docs/data/last_updated.txt` only in the same commit as a real data change
+  (so it reflects when the data changed, not merely when the job ran), and
+  the page fetches it at load time -- missing or unreachable is handled
+  silently, falling back to the generic text.
