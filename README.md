@@ -79,11 +79,20 @@ usbands.org posts the next season (`BACKFILL_START_YEAR` rarely needs to
 change — it's the earliest season with real marching-band data, currently
 2022).
 
+**Failure notification:** if a run fails (or trips the sanity check), the
+workflow both files a GitHub issue (titled "Weekly USBands scrape failed,"
+auto-closed on the next success) and emails `mgaehring@gmail.com`. The email
+step needs two repo secrets that aren't set by this repo automatically:
+`MAIL_USERNAME` (a Gmail address) and `MAIL_PASSWORD` (a Gmail [App
+Password](https://myaccount.google.com/apppasswords), not the account
+password — requires 2-Step Verification on that Google account). Add them
+under repo Settings → Secrets and variables → Actions, or via
+`gh secret set MAIL_USERNAME` / `gh secret set MAIL_PASSWORD`. Test the whole
+path anytime with `gh workflow run update.yml -f simulate_failure=true`
+without waiting for a real failure.
+
 ## TODO
 
-- **Failure notification** for the weekly scrape -- right now a failed run
-  (or a tripped sanity check) is silent unless someone checks the Actions
-  tab.
 - **Accessibility pass** on the detail/compare overlays and theme picker
   popover -- keyboard nav, focus trapping, ARIA live regions -- none of
   which got a dedicated audit as they were built.
@@ -167,3 +176,8 @@ change — it's the earliest season with real marching-band data, currently
   (so it reflects when the data changed, not merely when the job ran), and
   the page fetches it at load time -- missing or unreachable is handled
   silently, falling back to the generic text.
+- **Failure notification**: a failed scheduled run (or one that trips the
+  sanity check) files a GitHub issue and emails `mgaehring@gmail.com`
+  instead of staying silent until someone checks the Actions tab; the issue
+  auto-closes itself on the next success. See "Automation" above for the
+  one-time secret setup the email path needs.

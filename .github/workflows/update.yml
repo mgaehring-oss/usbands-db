@@ -5,7 +5,12 @@ on:
     # Mondays at 12:00 UTC (8am EDT / 7am EST) -- an extra day's buffer past
     # Saturday's events in case usbands.org posts/corrects results late
     - cron: "0 12 * * 1"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      simulate_failure:
+        description: "Force this run to fail (to test the failure-notification path)"
+        type: boolean
+        default: false
 
 env:
   BACKFILL_START_YEAR: "2022"   # earliest season with real marching-band data; rarely changes
@@ -13,6 +18,7 @@ env:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   update:
@@ -23,6 +29,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
+
+      - name: Simulate failure (manual test only)
+        if: ${{ inputs.simulate_failure }}
+        run: |
+          echo "Forcing a failure because simulate_failure was set."
+          exit 1
 
       - name: Run scraper tests
         run: python -m unittest discover -s scrape/tests
@@ -38,6 +50,87 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes."
           else
+            date -u +"%Y-%m-%dT%H:%M:%SZ" > docs/data/last_updated.txt
+            git add docs/data/last_updated.txt
             git commit -m "Update USBands database ($(date -u +%Y-%m-%d))"
             git push
           fi
+
+      # --- Failure notification -------------------------------------------
+      # A failed run (or a step above that tripped the sanity check and
+      # exited non-zero) would otherwise be silent unless someone happens to
+      # check the Actions tab. These two steps only run `if: failure()`, i.e.
+      # only when something above didn't succeed.
+
+      - name: File or update a failure issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = "Weekly USBands scrape failed";
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const { data: openIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+            });
+            const existing = openIssues.find((i) => i.title === title);
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body: `Failed again: ${runUrl}`,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body: `The scheduled scrape failed or tripped its sanity check.\n\nFailed run: ${runUrl}\n\nThis issue closes automatically once a scheduled run succeeds again.`,
+              });
+            }
+
+      - name: Email failure notification
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          from: USBands Scraper <${{ secrets.MAIL_USERNAME }}>
+          to: mgaehring@gmail.com
+          subject: "USBands scraper failed"
+          body: |
+            The weekly USBands scrape failed or tripped its sanity check.
+
+            Failed run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      # --- Auto-clear on the next success ---------------------------------
+
+      - name: Close any open failure issue
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = "Weekly USBands scrape failed";
+            const { data: openIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+            });
+            for (const issue of openIssues.filter((i) => i.title === title)) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: "Resolved -- a scheduled run succeeded again.",
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: "closed",
+              });
+            }
