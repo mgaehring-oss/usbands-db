@@ -65,6 +65,26 @@ workflows/test.yml` runs this on every push/PR touching `scrape/`, and
 regression (or a fixture caught up in a real usbands.org markup change) fails
 loudly in CI instead of quietly shipping a broken database.
 
+```bash
+npm install
+npx playwright install --with-deps chromium   # first time only
+npm test
+```
+
+`tests/pwa/` (Playwright) covers the PWA mechanics of `docs/`: the manifest
+and its icons resolve and match their declared sizes, the service worker
+registers and actually takes control on the next load (a brand-new
+registration does *not* control the page that triggered it -- see the
+comment in `sw.js`), the app shell/database/sql.js vendor bundle end up in
+Cache Storage, a genuinely offline reload (`context.setOffline(true)`, not
+a mock) still renders the leaderboard, and the install banner/icon show,
+hide, and re-offer correctly including on a simulated iOS user agent. This
+exists as a real-browser suite rather than a DOM simulation because the
+actual bugs found while building offline support (a service worker
+terminated mid-revalidation, a `Response` clone race) only ever reproduced
+under a real browser. `.github/workflows/pwa-tests.yml` runs it on every
+push/PR touching `docs/` or `tests/pwa/`.
+
 ## Automation
 
 `.github/workflows/update.yml` reruns the scraper every Monday morning ET and
@@ -217,3 +237,8 @@ without waiting for a real failure.
   yet always sorts last regardless of direction, rather than being buried
   arbitrarily by a `null` comparison. The choice persists per browser
   (`localStorage`), same pattern as favorites and theming.
+- **PWA test suite** (`tests/pwa/`, Playwright): a real-browser suite
+  covering the manifest/icons, service worker registration and caching, a
+  genuinely offline reload, and the install banner/icon across normal and
+  simulated-iOS user agents. See "Testing" above for why this runs in a real
+  browser rather than a DOM simulation.

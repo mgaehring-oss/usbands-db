@@ -1,0 +1,12 @@
+{
+  "name": "usbands-db-pwa-tests",
+  "private": true,
+  "description": "Playwright test suite for the PWA behavior of docs/ (manifest, service worker, offline caching, install prompt). Not part of the deployed site.",
+  "scripts": {
+    "test": "playwright test",
+    "test:install": "playwright install --with-deps chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}
