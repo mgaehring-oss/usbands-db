@@ -111,6 +111,26 @@ under repo Settings → Secrets and variables → Actions, or via
 path anytime with `gh workflow run update.yml -f simulate_failure=true`
 without waiting for a real failure.
 
+## TODO
+
+- **Lighthouse/PWA audit** against the live site -- validates everything
+  already built (manifest, service worker, offline caching, install
+  prompts) rather than adding new scope, and would catch anything manual
+  testing missed (performance budget, additional a11y gaps, best-practices
+  warnings).
+- **Circuit-wide historical trend view**, beyond the existing per-band
+  cross-season chart -- e.g. a division's average score by year, or which
+  bands improved the most season over season.
+- **Full-season data export** (CSV/JSON) independent of the current
+  filters, for parents/coaches who want to do their own analysis -- the CSV
+  export today is scoped to whatever's currently filtered.
+- **Confirm PWA icon updates propagate correctly** through the same
+  stale-while-revalidate shell cache path verified for `app.js` -- low risk
+  since icons rarely change, but never explicitly checked.
+- **Periodically revisit the scraper's 20%-drop sanity-check threshold**
+  as more seasons of history accumulate, to confirm it's still the right
+  sensitivity (not code work -- a recurring judgment check).
+
 ## Done
 
 - **Web UI**: a static site (`docs/index.html`, `app.js`, `style.css`) using
