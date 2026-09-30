@@ -121,9 +121,6 @@ without waiting for a real failure.
   skeleton loader sized to a reasonable guess at final height) rather than
   a quick patch, since fully eliminating it would mean real architecture
   changes.
-- **Circuit-wide historical trend view**, beyond the existing per-band
-  cross-season chart -- e.g. a division's average score by year, or which
-  bands improved the most season over season.
 - **Confirm PWA icon updates propagate correctly** through the same
   stale-while-revalidate shell cache path verified for `app.js` -- low risk
   since icons rarely change, but never explicitly checked.
@@ -295,3 +292,13 @@ without waiting for a real failure.
   from the existing filtered CSV export (a latest/prior snapshot): it's the
   band's full trajectory across every show, suitable for pivoting in a
   spreadsheet, which a snapshot can't provide.
+- **Circuit Trends**: a new "Circuit Trends" panel (header button, same
+  overlay pattern as Compare/the per-band detail view) with two views.
+  **Division Averages** charts one group's average final-score-of-the-season
+  across every backfilled year, defaulting to whichever group the main
+  leaderboard is currently filtered to. **Most Improved** ranks every band
+  by the change in their final score between two consecutive seasons, using
+  each band's own trajectory regardless of division (a band that moved
+  groups between seasons is still compared to itself, matching how the
+  per-band cross-season chart already treats division changes) -- a band
+  needs a score in both seasons being compared to appear at all.

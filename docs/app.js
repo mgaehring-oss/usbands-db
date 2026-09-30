@@ -53,6 +53,19 @@ const els = {
   compareLegend: document.getElementById("compare-legend"),
   compareChart: document.getElementById("compare-chart"),
   compareTableBody: document.getElementById("compare-table-body"),
+  trendsOpen: document.getElementById("trends-open"),
+  trendsOverlay: document.getElementById("trends-overlay"),
+  trendsClose: document.getElementById("trends-close"),
+  trendsModeAverages: document.getElementById("trends-mode-averages"),
+  trendsModeImproved: document.getElementById("trends-mode-improved"),
+  trendsAveragesView: document.getElementById("trends-averages-view"),
+  trendsImprovedView: document.getElementById("trends-improved-view"),
+  trendsDivisionSelect: document.getElementById("trends-division-select"),
+  trendsAveragesChart: document.getElementById("trends-averages-chart"),
+  trendsAveragesTableBody: document.getElementById("trends-averages-table-body"),
+  trendsImprovedSelect: document.getElementById("trends-improved-select"),
+  trendsImprovedSub: document.getElementById("trends-improved-sub"),
+  trendsImprovedTableBody: document.getElementById("trends-improved-table-body"),
   exportCsvBtn: document.getElementById("export-csv"),
   exportFullCsvBtn: document.getElementById("export-full-csv"),
   exportFullJsonBtn: document.getElementById("export-full-json"),
@@ -1195,6 +1208,305 @@ function buildCompareChart(series) {
   return container;
 }
 
+/* ---------------- Circuit Trends (division averages / most improved) ---------------- */
+
+let trendsMode = "averages"; // "averages" | "improved"
+let trendsReturnFocusEl = null;
+
+function openTrends() {
+  trendsReturnFocusEl = document.activeElement;
+  populateTrendsDivisionSelect();
+  populateTrendsImprovedSelect();
+  renderTrendsAverages();
+  renderTrendsImproved();
+  setTrendsMode(trendsMode);
+  els.trendsOverlay.hidden = false;
+  els.trendsClose.focus();
+}
+
+function closeTrends() {
+  if (els.trendsOverlay.hidden) return;
+  els.trendsOverlay.hidden = true;
+  if (trendsReturnFocusEl && document.body.contains(trendsReturnFocusEl)) trendsReturnFocusEl.focus();
+  trendsReturnFocusEl = null;
+}
+
+function setTrendsMode(mode) {
+  trendsMode = mode;
+  els.trendsModeAverages.classList.toggle("is-active", mode === "averages");
+  els.trendsModeImproved.classList.toggle("is-active", mode === "improved");
+  els.trendsAveragesView.hidden = mode !== "averages";
+  els.trendsImprovedView.hidden = mode !== "improved";
+}
+
+// Defaults to whatever division the main leaderboard is currently filtered
+// to, if any -- a nice touch for "I was just looking at A - Group III,
+// show me its history" -- otherwise the first division in the fixed
+// vocabulary. Divisions are a reference table (not season-scoped), so this
+// never needs to change based on the selected season.
+function populateTrendsDivisionSelect() {
+  const current = els.trendsDivisionSelect.value;
+  els.trendsDivisionSelect.innerHTML = "";
+  for (const d of model.divisions) {
+    els.trendsDivisionSelect.appendChild(el("option", { value: String(d.id) }, [d.label]));
+  }
+  const mainFilter = els.divisionFilter.value;
+  els.trendsDivisionSelect.value =
+    current || (mainFilter !== "all" ? mainFilter : String(model.divisions[0].id));
+}
+
+// Consecutive-year pairs across every backfilled season, most recent first.
+function populateTrendsImprovedSelect() {
+  const current = els.trendsImprovedSelect.value;
+  els.trendsImprovedSelect.innerHTML = "";
+  const years = [...model.allSeasons].sort((a, b) => b - a); // descending
+  for (let i = 0; i < years.length - 1; i++) {
+    const toYear = years[i], fromYear = years[i + 1];
+    els.trendsImprovedSelect.appendChild(
+      el("option", { value: `${fromYear}-${toYear}` }, [`${fromYear} → ${toYear}`])
+    );
+  }
+  if (current) els.trendsImprovedSelect.value = current;
+}
+
+// A band's "final" score for a season within some scope (a single division,
+// or -- for Most Improved -- every division at once) is the chronologically
+// LAST one, same definition used everywhere else in the app (see
+// historyFor()'s "latest"), not the best one. Rows must already be sorted
+// by event_date for "last wins" to be correct.
+function latestPerBandPerYear(rows) {
+  const byYearThenBand = new Map(); // year -> unitId -> row (last one wins)
+  for (const r of rows) {
+    if (!byYearThenBand.has(r.year)) byYearThenBand.set(r.year, new Map());
+    byYearThenBand.get(r.year).set(r.unitId, r);
+  }
+  return byYearThenBand;
+}
+
+function renderTrendsAverages() {
+  const divisionId = Number(els.trendsDivisionSelect.value);
+  const rows = queryAll(
+    dbHandle,
+    `SELECT e.season_year AS year, s.unit_id AS unitId, s.score AS score
+     FROM scores s
+     JOIN events e ON e.id = s.event_id
+     WHERE s.division_id = ?
+     ORDER BY e.season_year, e.event_date`,
+    [divisionId]
+  );
+
+  const byYear = latestPerBandPerYear(rows);
+  const points = [...byYear.keys()]
+    .sort((a, b) => a - b)
+    .map((year) => {
+      const bandRows = [...byYear.get(year).values()];
+      const avg = bandRows.reduce((sum, r) => sum + r.score, 0) / bandRows.length;
+      return { year, avgScore: avg, bandCount: bandRows.length };
+    });
+
+  els.trendsAveragesChart.innerHTML = "";
+  if (points.length === 0) {
+    els.trendsAveragesChart.appendChild(el("p", { class: "empty-note" }, ["Not enough data yet for this group."]));
+  } else {
+    els.trendsAveragesChart.appendChild(buildYearlyTrendChart(points));
+  }
+
+  els.trendsAveragesTableBody.innerHTML = "";
+  for (const p of [...points].reverse()) {
+    els.trendsAveragesTableBody.appendChild(
+      el("tr", {}, [
+        el("td", {}, [String(p.year)]),
+        el("td", { class: "num" }, [String(p.bandCount)]),
+        el("td", { class: "num" }, [p.avgScore.toFixed(1)]),
+      ])
+    );
+  }
+}
+
+function renderTrendsImproved() {
+  const [fromYear, toYear] = (els.trendsImprovedSelect.value || "").split("-").map(Number);
+  els.trendsImprovedTableBody.innerHTML = "";
+  if (!fromYear || !toYear) {
+    els.trendsImprovedSub.textContent = "";
+    return;
+  }
+  els.trendsImprovedSub.textContent = `Comparing each band's final score of the season, ${fromYear} vs ${toYear}`;
+
+  const rows = queryAll(
+    dbHandle,
+    `SELECT e.season_year AS year, s.unit_id AS unitId, s.score AS score, d.label AS divisionLabel
+     FROM scores s
+     JOIN events e ON e.id = s.event_id
+     JOIN divisions d ON d.id = s.division_id
+     WHERE e.season_year IN (?, ?)
+     ORDER BY e.event_date`,
+    [fromYear, toYear]
+  );
+
+  const byYear = latestPerBandPerYear(rows);
+  const fromRows = byYear.get(fromYear) || new Map();
+  const toRows = byYear.get(toYear) || new Map();
+
+  const improved = [];
+  for (const [unitId, toRow] of toRows) {
+    const fromRow = fromRows.get(unitId);
+    if (!fromRow) continue; // needs a score in both seasons to compute a delta
+    improved.push({
+      unitId,
+      name: model.bandNames.get(unitId) || `Unit ${unitId}`,
+      divisionLabel: toRow.divisionLabel,
+      fromScore: fromRow.score,
+      toScore: toRow.score,
+      delta: round1(toRow.score - fromRow.score),
+    });
+  }
+  improved.sort((a, b) => b.delta - a.delta);
+
+  if (improved.length === 0) {
+    els.trendsImprovedTableBody.appendChild(
+      el("tr", {}, [el("td", { colspan: "6", class: "empty-note" }, ["No bands scored in both seasons."])])
+    );
+    return;
+  }
+
+  improved.slice(0, 25).forEach((b, i) => {
+    els.trendsImprovedTableBody.appendChild(
+      el("tr", {}, [
+        el("td", {}, [rankBadge(i + 1)]),
+        el("td", {}, [el("span", { class: "band-name" }, [b.name])]),
+        el("td", {}, [b.divisionLabel]),
+        el("td", { class: "num" }, [b.fromScore.toFixed(1)]),
+        el("td", { class: "num" }, [b.toScore.toFixed(1)]),
+        el("td", { class: "num" }, [deltaCell(b.delta)]),
+      ])
+    );
+  });
+}
+
+// A simpler cousin of buildChart()/buildCompareChart(): one point per
+// season year (never per individual event), so there's no per-event x-axis
+// density or division-change dashing to handle -- just a short, sparse
+// trend line across however many seasons have been backfilled.
+function buildYearlyTrendChart(points) {
+  const width = 640, height = 220;
+  const padL = 34, padR = 16, padT = 16, padB = 26;
+  const innerW = width - padL - padR, innerH = height - padT - padB;
+
+  const scores = points.map((p) => p.avgScore);
+  const min = Math.min(...scores), max = Math.max(...scores);
+  const lo = Math.floor((min - 1) * 2) / 2;
+  const hi = Math.ceil((max + 1) * 2) / 2;
+  const range = hi - lo || 1;
+
+  const stepX = points.length > 1 ? innerW / (points.length - 1) : 0;
+  const xy = points.map((p, i) => ({
+    x: padL + i * stepX,
+    y: padT + innerH - ((p.avgScore - lo) / range) * innerH,
+    point: p,
+  }));
+
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Average score by season line chart");
+
+  [lo, (lo + hi) / 2, hi].forEach((val) => {
+    const y = padT + innerH - ((val - lo) / range) * innerH;
+    const line = document.createElementNS(ns, "line");
+    line.setAttribute("x1", padL);
+    line.setAttribute("x2", width - padR);
+    line.setAttribute("y1", y);
+    line.setAttribute("y2", y);
+    line.setAttribute("class", "chart-gridline");
+    svg.appendChild(line);
+
+    const label = document.createElementNS(ns, "text");
+    label.setAttribute("x", padL - 6);
+    label.setAttribute("y", y + 3);
+    label.setAttribute("text-anchor", "end");
+    label.setAttribute("class", "chart-axis-label");
+    label.textContent = val.toFixed(1);
+    svg.appendChild(label);
+  });
+
+  xy.forEach((p) => {
+    const label = document.createElementNS(ns, "text");
+    label.setAttribute("x", p.x);
+    label.setAttribute("y", height - 6);
+    label.setAttribute("text-anchor", "middle");
+    label.setAttribute("class", "chart-axis-label");
+    label.textContent = String(p.point.year);
+    svg.appendChild(label);
+  });
+
+  let d = "";
+  xy.forEach((p, i) => {
+    d += i === 0 ? `M${p.x},${p.y}` : ` L${p.x},${p.y}`;
+  });
+  const path = document.createElementNS(ns, "path");
+  path.setAttribute("d", d);
+  path.setAttribute("class", "chart-line");
+  svg.appendChild(path);
+
+  const container = el("div", { style: "position:relative" }, []);
+
+  const crosshair = document.createElementNS(ns, "line");
+  crosshair.setAttribute("y1", padT);
+  crosshair.setAttribute("y2", height - padB);
+  crosshair.setAttribute("class", "chart-crosshair");
+  crosshair.style.opacity = "0";
+  svg.appendChild(crosshair);
+
+  const tooltip = el("div", { class: "chart-tooltip" }, []);
+
+  xy.forEach((p) => {
+    const dot = document.createElementNS(ns, "circle");
+    dot.setAttribute("cx", p.x);
+    dot.setAttribute("cy", p.y);
+    dot.setAttribute("r", 4);
+    dot.setAttribute("class", "chart-dot");
+    svg.appendChild(dot);
+
+    const hit = document.createElementNS(ns, "circle");
+    hit.setAttribute("cx", p.x);
+    hit.setAttribute("cy", p.y);
+    hit.setAttribute("r", 14);
+    hit.setAttribute("fill", "transparent");
+    hit.style.cursor = "pointer";
+    hit.tabIndex = 0;
+    const show = () => {
+      crosshair.setAttribute("x1", p.x);
+      crosshair.setAttribute("x2", p.x);
+      crosshair.style.opacity = "1";
+      dot.classList.add("is-active");
+      tooltip.textContent = "";
+      const strong = el("strong", {}, [p.point.avgScore.toFixed(1)]);
+      tooltip.appendChild(strong);
+      tooltip.appendChild(
+        document.createTextNode(` avg — ${p.point.bandCount} band${p.point.bandCount === 1 ? "" : "s"} (${p.point.year})`)
+      );
+      tooltip.style.left = `${(p.x / width) * 100}%`;
+      tooltip.style.top = `${(p.y / height) * 100}%`;
+      tooltip.classList.add("is-visible");
+    };
+    const hide = () => {
+      crosshair.style.opacity = "0";
+      dot.classList.remove("is-active");
+      tooltip.classList.remove("is-visible");
+    };
+    hit.addEventListener("mouseenter", show);
+    hit.addEventListener("mouseleave", hide);
+    hit.addEventListener("focus", show);
+    hit.addEventListener("blur", hide);
+    svg.appendChild(hit);
+  });
+
+  container.appendChild(svg);
+  container.appendChild(tooltip);
+  return container;
+}
+
 /* ---------------- Export (CSV / print) ---------------- */
 
 function csvEscape(value) {
@@ -1835,6 +2147,20 @@ async function main() {
     if (e.key === "Escape") closeCompare();
     else trapTabKey(els.compareOverlay, e);
   });
+
+  els.trendsOpen.addEventListener("click", openTrends);
+  els.trendsClose.addEventListener("click", closeTrends);
+  els.trendsOverlay.addEventListener("click", (e) => {
+    if (e.target === els.trendsOverlay) closeTrends();
+  });
+  els.trendsOverlay.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeTrends();
+    else trapTabKey(els.trendsOverlay, e);
+  });
+  els.trendsModeAverages.addEventListener("click", () => setTrendsMode("averages"));
+  els.trendsModeImproved.addEventListener("click", () => setTrendsMode("improved"));
+  els.trendsDivisionSelect.addEventListener("change", renderTrendsAverages);
+  els.trendsImprovedSelect.addEventListener("change", renderTrendsImproved);
 
   els.exportCsvBtn.addEventListener("click", exportCSV);
   els.exportFullCsvBtn.addEventListener("click", exportFullSeasonCSV);

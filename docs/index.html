@@ -39,6 +39,7 @@
         </div>
       </div>
       <div class="site-header__actions">
+        <button id="trends-open" class="compare-btn" type="button">Circuit Trends</button>
         <div class="theme-color-wrap">
           <button id="theme-color-toggle" class="theme-toggle" type="button" aria-label="Customize colors" aria-haspopup="true" aria-controls="theme-color-panel" aria-expanded="false">
             <span aria-hidden="true">&#127912;</span>
@@ -188,6 +189,52 @@
           </thead>
           <tbody id="compare-table-body"></tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="trends-overlay" class="detail-overlay" hidden>
+    <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="trends-title">
+      <button id="trends-close" class="detail-panel__close" type="button" aria-label="Close">&times;</button>
+      <h2 id="trends-title">Circuit Trends</h2>
+      <div class="segmented" role="group" aria-label="Trend view">
+        <button type="button" class="segmented__option is-active" id="trends-mode-averages">Division Averages</button>
+        <button type="button" class="segmented__option" id="trends-mode-improved">Most Improved</button>
+      </div>
+
+      <div id="trends-averages-view">
+        <label class="field">
+          <span class="field__label">Group</span>
+          <select id="trends-division-select"></select>
+        </label>
+        <div id="trends-averages-chart" class="detail-chart"></div>
+        <div class="table-scroll">
+          <table class="detail-table">
+            <thead>
+              <tr><th>Season</th><th class="num">Bands</th><th class="num">Avg Score</th></tr>
+            </thead>
+            <tbody id="trends-averages-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="trends-improved-view" hidden>
+        <label class="field">
+          <span class="field__label">Seasons compared</span>
+          <select id="trends-improved-select"></select>
+        </label>
+        <p id="trends-improved-sub" class="detail-panel__sub"></p>
+        <div class="table-scroll">
+          <table class="detail-table">
+            <thead>
+              <tr>
+                <th>Rank</th><th>Band</th><th>Group</th>
+                <th class="num">Prior</th><th class="num">Latest</th><th class="num">Δ</th>
+              </tr>
+            </thead>
+            <tbody id="trends-improved-table-body"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
