@@ -113,11 +113,14 @@ without waiting for a real failure.
 
 ## TODO
 
-- **Lighthouse/PWA audit** against the live site -- validates everything
-  already built (manifest, service worker, offline caching, install
-  prompts) rather than adding new scope, and would catch anything manual
-  testing missed (performance budget, additional a11y gaps, best-practices
-  warnings).
+- **Reduce Cumulative Layout Shift** (0.946, "poor" per Lighthouse). The
+  page paints a small header+filters shell, then the entire leaderboard
+  (hundreds of rows) mounts once the WASM database finishes loading,
+  shoving everything down -- somewhat inherent to a client-rendered,
+  database-driven static site. Worth a deliberate mitigation (e.g. a
+  skeleton loader sized to a reasonable guess at final height) rather than
+  a quick patch, since fully eliminating it would mean real architecture
+  changes.
 - **Circuit-wide historical trend view**, beyond the existing per-band
   cross-season chart -- e.g. a division's average score by year, or which
   bands improved the most season over season.
@@ -276,3 +279,15 @@ without waiting for a real failure.
   byte-different `sw.js` to disk mid-test, the same way a real deploy
   changes it, always restored afterward even on failure). See "Testing"
   above for why this runs in a real browser rather than a DOM simulation.
+- **Lighthouse audit + two real fixes it surfaced**: Performance 75 /
+  Accessibility 96 / Best Practices 100 / SEO 100 on the live site. Fixed
+  (1) a genuine dark-mode contrast bug affecting five components (division
+  headers, export buttons, sort headers, the segmented control's active
+  state, and the install banner's dismiss hover) -- each had a color
+  override for the *explicit* dark-mode toggle but was missing the
+  equivalent for the `prefers-color-scheme: dark` media query, so anyone
+  relying on system dark mode without ever touching the in-app toggle saw
+  `--brand-green-700` text at a 3:1 contrast ratio where 4.5:1 is required;
+  and (2) render-blocking `app.js`/sql.js script tags, now loaded with
+  `defer`. The remaining finding (high Cumulative Layout Shift) is tracked
+  above as a deliberate follow-up rather than a quick patch.

@@ -69,6 +69,22 @@
     --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
     --shadow-2: 0 8px 28px rgba(0, 0, 0, 0.5);
   }
+
+  /* Component-level dark tweaks that need a color picked outright (not just
+     a token swap) have to be repeated here, same as the tokens above --
+     the explicit [data-theme="dark"] versions further down only fire once
+     the toggle has actually been clicked, never for a browser merely
+     following prefers-color-scheme. Missing this exact block for five
+     components (caught by a Lighthouse contrast audit) is what let
+     OS-dark-mode users without ever touching the toggle see
+     --brand-green-700 text at a 3:1 ratio where 4.5:1 is required. */
+  :root:not([data-theme="light"]) .division-section__head h2,
+  :root:not([data-theme="light"]) .install-banner__dismiss:hover,
+  :root:not([data-theme="light"]) .export-btn:hover,
+  :root:not([data-theme="light"]) .sort-btn:hover,
+  :root:not([data-theme="light"]) .segmented__option.is-active {
+    color: var(--brand-green-500);
+  }
 }
 
 :root[data-theme="dark"] {
@@ -116,8 +132,6 @@ html, body {
 
 a { color: var(--brand-green-600); }
 a:hover { color: var(--brand-green-700); }
-
-:root[data-theme="dark"] a, @media (prefers-color-scheme: dark) { }
 
 /* ---------- Header ---------- */
 
