@@ -224,6 +224,18 @@ without waiting for a real failure.
   not just on the next manual reload. A separate banner appears whenever
   `navigator.onLine` goes false. The first visit still has to be online to
   seed the caches -- there's no bootstrapping a PWA from nothing.
+- **App-update notice**: the app shell (`app.js`/`index.html`/`style.css`)
+  is cached the same stale-while-revalidate way as the database, which
+  means a load always gets the *previous* cached version first, even when a
+  newer one already exists -- combined with the service worker's own
+  `skipWaiting()`/`clients.claim()` installing new versions silently, an
+  already-open tab or an installed app reopened without a full relaunch
+  could sit on old code indefinitely with no indication (this is exactly
+  what caused a shipped feature to not show up on an installed PWA before
+  this was added). Now a "New version available -- Reload" banner appears
+  via `registration.addEventListener("updatefound", ...)` whenever a
+  genuine update is detected (never on the very first install, since
+  there's nothing to update *from* yet).
 - **Open Graph / Twitter Card meta tags**: a link to the site now shows a
   title, description, and a branded 1200x630 preview image
   (`docs/og-image.png`, generated to match the app icon's green/gold look)
@@ -239,6 +251,8 @@ without waiting for a real failure.
   (`localStorage`), same pattern as favorites and theming.
 - **PWA test suite** (`tests/pwa/`, Playwright): a real-browser suite
   covering the manifest/icons, service worker registration and caching, a
-  genuinely offline reload, and the install banner/icon across normal and
-  simulated-iOS user agents. See "Testing" above for why this runs in a real
-  browser rather than a DOM simulation.
+  genuinely offline reload, the install banner/icon across normal and
+  simulated-iOS user agents, and the app-update-notice banner (writes a
+  byte-different `sw.js` to disk mid-test, the same way a real deploy
+  changes it, always restored afterward even on failure). See "Testing"
+  above for why this runs in a real browser rather than a DOM simulation.

@@ -25,6 +25,9 @@ const els = {
   dataUpdateBanner: document.getElementById("data-update-banner"),
   dataUpdateRefresh: document.getElementById("data-update-refresh"),
   dataUpdateDismiss: document.getElementById("data-update-dismiss"),
+  appUpdateBanner: document.getElementById("app-update-banner"),
+  appUpdateRefresh: document.getElementById("app-update-refresh"),
+  appUpdateDismiss: document.getElementById("app-update-dismiss"),
   themeToggle: document.getElementById("theme-toggle"),
   themeToggleIcon: document.getElementById("theme-toggle-icon"),
   themeColorToggle: document.getElementById("theme-color-toggle"),
@@ -1623,18 +1626,53 @@ function initOfflineBanner() {
   window.addEventListener("offline", updateOfflineBanner);
 }
 
-/* ---------------- Service worker (offline caching + data-update notice) ---------------- */
+/* ---------------- Service worker (offline caching + update notices) ---------------- */
 
 // The service worker caches the app shell, the sql.js WASM bundle, and the
 // database offline (see sw.js). It also diffs last_updated.txt on every
 // background refresh -- a few bytes, cheap to check on every load -- as the
 // signal that the (much larger) database actually changed, and messages
 // this page immediately rather than waiting for the next manual reload.
+//
+// The app shell itself (app.js/index.html/style.css) is cached the same
+// stale-while-revalidate way: a load always gets the cached version first,
+// even when a newer one exists, and only the *next* load benefits from the
+// background refresh. Combined with the service worker's own
+// skipWaiting()/clients.claim() installing a new version silently, an
+// already-open tab or an installed app that's reopened without a full
+// relaunch can sit on old code indefinitely with zero indication -- this
+// surfaces that explicitly instead of leaving it to chance.
+function showAppUpdateBanner() {
+  if (els.appUpdateBanner) els.appUpdateBanner.hidden = false;
+}
+
 function initServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
-  navigator.serviceWorker.register("sw.js").catch(() => {
-    /* offline on first visit, or an unsupported context -- just skip it */
-  });
+
+  navigator.serviceWorker
+    .register("sw.js")
+    .then((registration) => {
+      // A worker already found waiting (e.g. installed by a background
+      // check while this page wasn't focused) is exactly the same "there's
+      // a newer version than what's currently running" case.
+      if (registration.waiting && navigator.serviceWorker.controller) showAppUpdateBanner();
+
+      registration.addEventListener("updatefound", () => {
+        const installing = registration.installing;
+        if (!installing) return;
+        installing.addEventListener("statechange", () => {
+          // A controller already existing means this is a genuine update,
+          // not the very first-ever install (nothing to update *from* yet).
+          if (installing.state === "installed" && navigator.serviceWorker.controller) {
+            showAppUpdateBanner();
+          }
+        });
+      });
+    })
+    .catch(() => {
+      /* offline on first visit, or an unsupported context -- just skip it */
+    });
+
   navigator.serviceWorker.addEventListener("message", (event) => {
     if (event.data && event.data.type === "usbands-data-updated" && els.dataUpdateBanner) {
       els.dataUpdateBanner.hidden = false;
@@ -1644,6 +1682,12 @@ function initServiceWorker() {
   if (els.dataUpdateDismiss) {
     els.dataUpdateDismiss.addEventListener("click", () => {
       els.dataUpdateBanner.hidden = true;
+    });
+  }
+  if (els.appUpdateRefresh) els.appUpdateRefresh.addEventListener("click", () => location.reload());
+  if (els.appUpdateDismiss) {
+    els.appUpdateDismiss.addEventListener("click", () => {
+      els.appUpdateBanner.hidden = true;
     });
   }
 }
