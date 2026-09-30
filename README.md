@@ -121,12 +121,6 @@ without waiting for a real failure.
   skeleton loader sized to a reasonable guess at final height) rather than
   a quick patch, since fully eliminating it would mean real architecture
   changes.
-- **Confirm PWA icon updates propagate correctly** through the same
-  stale-while-revalidate shell cache path verified for `app.js` -- low risk
-  since icons rarely change, but never explicitly checked.
-- **Periodically revisit the scraper's 20%-drop sanity-check threshold**
-  as more seasons of history accumulate, to confirm it's still the right
-  sensitivity (not code work -- a recurring judgment check).
 
 ## Done
 
@@ -302,3 +296,33 @@ without waiting for a real failure.
   groups between seasons is still compared to itself, matching how the
   per-band cross-season chart already treats division changes) -- a band
   needs a score in both seasons being compared to appear at all.
+- **Confirmed PWA icon caching, and found a real asymmetry with app.js**
+  (`tests/pwa/icon-update.spec.js`): icons are precached and served through
+  the same stale-while-revalidate path as the app shell, but a plain
+  `page.reload()` issues *zero* network requests for `<link rel="icon">`-
+  type resources -- confirmed empirically with a request listener across a
+  reload. Browsers cache favicons far more aggressively than scripts or
+  stylesheets, largely independent of normal per-navigation fetching, so
+  the service worker's revalidation logic (proven correct once a fetch
+  actually happens) often never gets the chance a simple reload gives
+  app.js. Practical upshot documented in the test: if an icon's pixels ever
+  need to change, ship it under a new filename rather than overwriting the
+  existing one in place and hoping a revalidation happens to occur.
+  Also bumped the Playwright config's test timeout to 60s and enabled a
+  retry locally (not just in CI) -- as the suite grew, service-worker
+  registration checks started timing out under this dev machine's
+  contention from unrelated concurrent work, even though CI (a dedicated
+  runner) had passed cleanly every time; the timeout/retry combination
+  absorbs that local-only contention without masking a real regression,
+  which would still fail both the attempt and the retry.
+- **Reviewed the scraper's 20%-drop sanity-check threshold** (2026-09-30)
+  against real commit history for the 2026 season's score count. Every
+  observed transition so far has been flat or growing (149 -> 163 -> 272,
+  then flat across three consecutive automated runs) -- the check only
+  fires on a *drop*, and since a season's score count only grows as more
+  shows get scored, no legitimate week-to-week transition has ever come
+  close to tripping it. 20% remains a reasonable threshold: loose enough
+  to never flag a normal week, tight enough to almost certainly catch a
+  real scraper breakage (which would collapse the count, not trim it
+  slightly). Worth another look once more real weekly production cycles
+  (as opposed to this backfill's dev-time test runs) have accumulated.
