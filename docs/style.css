@@ -35,6 +35,8 @@
 
   --shadow-1: 0 1px 2px rgba(18, 38, 27, 0.06), 0 1px 1px rgba(18, 38, 27, 0.04);
   --shadow-2: 0 8px 24px rgba(18, 38, 27, 0.14);
+
+  --skeleton-shimmer: rgba(255, 255, 255, 0.7);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -68,6 +70,8 @@
 
     --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
     --shadow-2: 0 8px 28px rgba(0, 0, 0, 0.5);
+
+    --skeleton-shimmer: rgba(255, 255, 255, 0.06);
   }
 
   /* Component-level dark tweaks that need a color picked outright (not just
@@ -117,6 +121,8 @@
 
   --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-2: 0 8px 28px rgba(0, 0, 0, 0.5);
+
+  --skeleton-shimmer: rgba(255, 255, 255, 0.06);
 }
 
 * { box-sizing: border-box; }
@@ -487,6 +493,65 @@ main {
 }
 .status.error { color: var(--status-critical); }
 
+/* ---------- Loading skeleton ---------- */
+
+/* Static placeholder for #results, shown until the first real render()
+   replaces it -- sized to roughly one viewport of actual leaderboard
+   content (see the Division sections block below for the real dimensions
+   this approximates) so the page doesn't jump from near-empty to full
+   height once the WASM database finishes loading. This can't match every
+   season/filter's actual final height exactly, but shrinking the gap this
+   much is most of the win: only the difference between skeleton and real
+   height still shifts anything below it. */
+
+.skeleton-results {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.skeleton-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  padding-bottom: 14px;
+}
+
+.skeleton-bar, .skeleton-row {
+  position: relative;
+  overflow: hidden;
+  background: var(--gridline);
+}
+
+.skeleton-bar--head {
+  height: 48px;
+}
+
+.skeleton-row {
+  height: 20px;
+  margin: 9px 14px;
+  border-radius: 6px;
+}
+
+.skeleton-bar::after, .skeleton-row::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--skeleton-shimmer), transparent);
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-bar::after, .skeleton-row::after { animation: none; }
+}
+
 /* ---------- Division sections ---------- */
 
 .division-section {
@@ -839,7 +904,8 @@ table.leaderboard tbody tr.is-favorite:hover { background: var(--brand-gold-200)
 @media print {
   body { background: #fff; color: #000; }
   .site-header, .filters, .export-toolbar, .site-footer,
-  .star-col, .compare-btn, .theme-color-panel, .install-banner { display: none !important; }
+  .star-col, .compare-btn, .theme-color-panel, .install-banner,
+  .skeleton-results { display: none !important; }
   main { padding: 0; max-width: none; }
   .division-section, .mybands-section {
     box-shadow: none;

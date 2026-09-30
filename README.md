@@ -111,17 +111,6 @@ under repo Settings → Secrets and variables → Actions, or via
 path anytime with `gh workflow run update.yml -f simulate_failure=true`
 without waiting for a real failure.
 
-## TODO
-
-- **Reduce Cumulative Layout Shift** (0.946, "poor" per Lighthouse). The
-  page paints a small header+filters shell, then the entire leaderboard
-  (hundreds of rows) mounts once the WASM database finishes loading,
-  shoving everything down -- somewhat inherent to a client-rendered,
-  database-driven static site. Worth a deliberate mitigation (e.g. a
-  skeleton loader sized to a reasonable guess at final height) rather than
-  a quick patch, since fully eliminating it would mean real architecture
-  changes.
-
 ## Done
 
 - **Web UI**: a static site (`docs/index.html`, `app.js`, `style.css`) using
@@ -326,3 +315,15 @@ without waiting for a real failure.
   real scraper breakage (which would collapse the count, not trim it
   slightly). Worth another look once more real weekly production cycles
   (as opposed to this backfill's dev-time test runs) have accumulated.
+- **Skeleton loader to fix Cumulative Layout Shift**: `#results` now starts
+  with a static, animated placeholder (a couple of division-shaped skeleton
+  sections) sized to roughly one viewport of real content, instead of
+  sitting empty while the WASM database loads -- `render()`'s existing
+  `results.innerHTML = ""` naturally clears it the moment real content is
+  ready, no extra JS needed. Measured directly with Lighthouse rather than
+  assumed: CLS went from 0.946 ("poor") to 0.077 ("good"), and the overall
+  Performance score from 75 to 99. The skeleton's height is still a guess
+  (it can't know a season's real row count in advance), but shrinking the
+  gap between guess and reality turned out to matter far more than
+  expected -- only the *difference* between skeleton and final height
+  shifts anything below it, not the full height jump from empty to full.
