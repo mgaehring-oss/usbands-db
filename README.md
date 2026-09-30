@@ -91,12 +91,6 @@ under repo Settings → Secrets and variables → Actions, or via
 path anytime with `gh workflow run update.yml -f simulate_failure=true`
 without waiting for a real failure.
 
-## TODO
-
-- **Sortable columns in My Bands**: let the favorited-bands table be sorted
-  by clicking a column header (Rank, Band, Latest, Prior, Δ, etc.), instead
-  of always ranking by division roster order.
-
 ## Done
 
 - **Web UI**: a static site (`docs/index.html`, `app.js`, `style.css`) using
@@ -215,3 +209,11 @@ without waiting for a real failure.
   (`docs/og-image.png`, generated to match the app icon's green/gold look)
   when pasted into Slack, iMessage, Discord, or similar, instead of a bare
   link.
+- **Sortable My Bands columns**: click Rank, Band, Group, Latest, Prior, or
+  Δ to sort the favorited-bands table by that column (`aria-sort` kept in
+  sync); clicking the active column again reverses direction. Score columns
+  default to descending (highest first) on first click, text/rank columns
+  to ascending, matching how each is naturally read. A band with no score
+  yet always sorts last regardless of direction, rather than being buried
+  arbitrarily by a `null` comparison. The choice persists per browser
+  (`localStorage`), same pattern as favorites and theming.

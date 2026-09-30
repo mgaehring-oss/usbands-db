@@ -569,6 +569,24 @@ table.leaderboard tbody tr:last-child td { border-bottom: none; }
 
 .num { text-align: right; font-variant-numeric: tabular-nums; }
 
+.sort-btn {
+  font: inherit;
+  font-weight: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+.sort-btn:hover { color: var(--brand-green-700); }
+:root[data-theme="dark"] .sort-btn:hover { color: var(--brand-green-500); }
+.sort-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.sort-btn__arrow { font-size: 9px; }
+
 /* ---------- Favorites ---------- */
 
 .star-col { width: 1%; }

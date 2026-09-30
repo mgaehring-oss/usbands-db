@@ -526,6 +526,71 @@ function render() {
 // Always rank against the FULL division roster, independent of whatever the
 // main leaderboard's filters are currently set to. Shared by renderMyBands()
 // and the compare view so both agree on each favorited band's true rank.
+// My Bands column sorting. Defaults: text/rank columns ascending, score
+// columns descending (highest first) -- matches how each column is read.
+const MYBANDS_SORT_DEFAULT_DIR = { rank: 1, name: 1, group: 1, latest: -1, prior: -1, delta: -1 };
+const MYBANDS_SORT_ACCESSORS = {
+  rank: ({ row }) => row.rank,
+  name: ({ row }) => row.name.toLowerCase(),
+  group: ({ division }) => division.label,
+  latest: ({ row }) => (row.latest ? row.latest.score : null),
+  prior: ({ row }) => (row.prior ? row.prior.score : null),
+  delta: ({ row }) => row.delta,
+};
+
+let myBandsSort = { key: "name", dir: 1 };
+
+function loadMyBandsSort() {
+  try {
+    const parsed = JSON.parse(safeLocalStorageGet("usbands-mybands-sort") || "null");
+    if (parsed && MYBANDS_SORT_ACCESSORS[parsed.key] && (parsed.dir === 1 || parsed.dir === -1)) {
+      myBandsSort = parsed;
+    }
+  } catch {
+    /* ignore corrupt value */
+  }
+}
+
+function setMyBandsSort(key) {
+  myBandsSort =
+    myBandsSort.key === key
+      ? { key, dir: -myBandsSort.dir }
+      : { key, dir: MYBANDS_SORT_DEFAULT_DIR[key] ?? 1 };
+  safeLocalStorageSet("usbands-mybands-sort", JSON.stringify(myBandsSort));
+  renderMyBands();
+}
+
+// Nulls (no score yet, unranked) always sort to the bottom regardless of
+// direction -- reversing direction should never bury ranked bands under
+// unscored ones.
+function sortFoundRows(found) {
+  const accessor = MYBANDS_SORT_ACCESSORS[myBandsSort.key];
+  if (!accessor) return found;
+  const dir = myBandsSort.dir;
+  return [...found].sort((a, b) => {
+    const va = accessor(a);
+    const vb = accessor(b);
+    const aNull = va === null || va === undefined;
+    const bNull = vb === null || vb === undefined;
+    if (aNull && bNull) return 0;
+    if (aNull) return 1;
+    if (bNull) return -1;
+    return typeof va === "string" ? va.localeCompare(vb) * dir : (va - vb) * dir;
+  });
+}
+
+function sortableHeader(label, key, extraClass) {
+  const isActive = myBandsSort.key === key;
+  const dirWord = isActive ? (myBandsSort.dir === 1 ? "ascending" : "descending") : "none";
+  const arrow = isActive ? (myBandsSort.dir === 1 ? "▲" : "▼") : "";
+  const btn = el("button", { type: "button", class: "sort-btn" }, [
+    label,
+    arrow ? el("span", { class: "sort-btn__arrow", "aria-hidden": "true" }, [` ${arrow}`]) : null,
+  ]);
+  btn.addEventListener("click", () => setMyBandsSort(key));
+  return el("th", { class: extraClass || "", "aria-sort": dirWord }, [btn]);
+}
+
 function getFavoritedRows() {
   const unfiltered = { stateGroupId: "all", finalsOnly: false, favoritesOnly: false, search: "" };
   const found = [];
@@ -544,8 +609,9 @@ function renderMyBands() {
   els.mybands.innerHTML = "";
   if (model.favorites.size === 0) return;
 
-  const found = getFavoritedRows();
+  let found = getFavoritedRows();
   if (found.length === 0) return;
+  found = sortFoundRows(found);
 
   const rightChildren = [el("span", { class: "division-section__count" }, [`${found.length} favorited`])];
   if (found.length >= 2) {
@@ -565,12 +631,12 @@ function renderMyBands() {
     el("thead", {}, [
       el("tr", {}, [
         el("th", { class: "star-col" }, ["★"]),
-        el("th", {}, ["Rank"]),
-        el("th", {}, ["Band"]),
-        el("th", {}, ["Group"]),
-        el("th", { class: "num" }, ["Latest"]),
-        el("th", { class: "num" }, ["Prior"]),
-        el("th", { class: "num" }, ["Δ"]),
+        sortableHeader("Rank", "rank"),
+        sortableHeader("Band", "name"),
+        sortableHeader("Group", "group"),
+        sortableHeader("Latest", "latest", "num"),
+        sortableHeader("Prior", "prior", "num"),
+        sortableHeader("Δ", "delta", "num"),
         el("th", {}, ["History"]),
       ]),
     ]),
@@ -1680,6 +1746,7 @@ async function main() {
   });
 
   loadFavorites();
+  loadMyBandsSort();
   loadLastUpdated();
   initInstallPrompt();
   initOfflineBanner();
