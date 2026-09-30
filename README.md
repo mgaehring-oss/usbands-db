@@ -124,9 +124,6 @@ without waiting for a real failure.
 - **Circuit-wide historical trend view**, beyond the existing per-band
   cross-season chart -- e.g. a division's average score by year, or which
   bands improved the most season over season.
-- **Full-season data export** (CSV/JSON) independent of the current
-  filters, for parents/coaches who want to do their own analysis -- the CSV
-  export today is scoped to whatever's currently filtered.
 - **Confirm PWA icon updates propagate correctly** through the same
   stale-while-revalidate shell cache path verified for `app.js` -- low risk
   since icons rarely change, but never explicitly checked.
@@ -291,3 +288,10 @@ without waiting for a real failure.
   and (2) render-blocking `app.js`/sql.js script tags, now loaded with
   `defer`. The remaining finding (high Cumulative Layout Shift) is tracked
   above as a deliberate follow-up rather than a quick patch.
+- **Full-season data export** (CSV and JSON): "Full Season CSV"/"Full
+  Season JSON" buttons download every individual score for the selected
+  season -- one row per (event, division, band), completely independent of
+  the leaderboard's current filters. This is a genuinely different dataset
+  from the existing filtered CSV export (a latest/prior snapshot): it's the
+  band's full trajectory across every show, suitable for pivoting in a
+  spreadsheet, which a snapshot can't provide.

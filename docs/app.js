@@ -54,6 +54,8 @@ const els = {
   compareChart: document.getElementById("compare-chart"),
   compareTableBody: document.getElementById("compare-table-body"),
   exportCsvBtn: document.getElementById("export-csv"),
+  exportFullCsvBtn: document.getElementById("export-full-csv"),
+  exportFullJsonBtn: document.getElementById("export-full-json"),
   exportPrintBtn: document.getElementById("export-print"),
 };
 
@@ -1251,15 +1253,76 @@ function exportCSV() {
   }
 
   const csv = lines.map((row) => row.map(csvEscape).join(",")).join("\r\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  triggerDownload(exportFilename(opts), csv, "text/csv;charset=utf-8;");
+}
+
+function triggerDownload(filename, content, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = exportFilename(opts);
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+const EVENT_KIND_LABELS = {
+  regular: "Regular",
+  state_championship: "State Championship",
+  usbands_championship: "USBands Championship",
+};
+
+// Every individual score for the season, straight from the database and
+// completely independent of the leaderboard's current filters -- the
+// filtered CSV above is a latest/prior snapshot, useful for "how do things
+// stand right now," but can't show a band's full trajectory across every
+// show. This is the raw material for that: one row per (event, division,
+// band) score, suitable for pivoting in a spreadsheet.
+function fetchFullSeasonRows() {
+  return queryAll(
+    dbHandle,
+    `SELECT e.event_date AS date, e.name AS event, e.event_kind AS eventKind,
+            d.label AS division, b.name AS band, b.home_state AS homeState,
+            s.score AS score, s.rank AS rank
+     FROM scores s
+     JOIN events e ON e.id = s.event_id
+     JOIN divisions d ON d.id = s.division_id
+     JOIN bands b ON b.unit_id = s.unit_id
+     WHERE e.season_year = ?
+     ORDER BY e.event_date, d.id, s.rank`,
+    [model.seasonYear]
+  );
+}
+
+function exportFullSeasonCSV() {
+  const rows = fetchFullSeasonRows();
+  const header = ["Date", "Event", "Event Type", "Group", "Band", "Home State", "Score", "Rank"];
+  const lines = [header];
+  for (const r of rows) {
+    lines.push([
+      r.date, r.event, EVENT_KIND_LABELS[r.eventKind] || r.eventKind, r.division, r.band,
+      r.homeState || "", r.score.toFixed(1), r.rank ?? "",
+    ]);
+  }
+  const csv = lines.map((row) => row.map(csvEscape).join(",")).join("\r\n");
+  triggerDownload(`usbands-${model.seasonYear}-full-season.csv`, csv, "text/csv;charset=utf-8;");
+}
+
+function exportFullSeasonJSON() {
+  const rows = fetchFullSeasonRows().map((r) => ({
+    date: r.date,
+    event: r.event,
+    eventType: EVENT_KIND_LABELS[r.eventKind] || r.eventKind,
+    division: r.division,
+    band: r.band,
+    homeState: r.homeState || null,
+    score: r.score,
+    rank: r.rank ?? null,
+  }));
+  const json = JSON.stringify({ season: model.seasonYear, scores: rows }, null, 2);
+  triggerDownload(`usbands-${model.seasonYear}-full-season.json`, json, "application/json;charset=utf-8;");
 }
 
 /* ---------------- Filters setup ---------------- */
@@ -1774,6 +1837,8 @@ async function main() {
   });
 
   els.exportCsvBtn.addEventListener("click", exportCSV);
+  els.exportFullCsvBtn.addEventListener("click", exportFullSeasonCSV);
+  els.exportFullJsonBtn.addEventListener("click", exportFullSeasonJSON);
   els.exportPrintBtn.addEventListener("click", () => window.print());
 
   for (const control of [els.divisionFilter, els.stateFilter, els.homeStateFilter, els.finalsFilter, els.favoritesFilter]) {
