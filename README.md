@@ -111,14 +111,31 @@ under repo Settings → Secrets and variables → Actions, or via
 path anytime with `gh workflow run update.yml -f simulate_failure=true`
 without waiting for a real failure.
 
-**Staleness watchdog:** those alerts live inside the update job, so they
-can't fire if GitHub never starts it (a job cancelled before any step ran,
-a skipped cron, a disabled schedule). `.github/workflows/freshness-check.yml`
-runs daily as a separate job and alerts (issue + email, same secrets) if
-`update.yml` hasn't *succeeded* in 8 days. It checks last-success time, not
-`last_updated.txt`, because that file only changes when scores do -- a quiet
-week or the off-season would otherwise look stale. Test it with
-`gh workflow run freshness-check.yml -f simulate_stale=true`.
+**Retries, the 8-day alert, and the heartbeat:** the alerts above live
+inside the update job, so they can't fire if GitHub never starts it (a job
+cancelled before any step ran, a skipped cron, a disabled schedule).
+`.github/workflows/freshness-check.yml` runs daily as a separate job and
+handles that from the outside (decision logic is in
+`.github/scripts/freshness.py`, unit-tested):
+
+- **Retry:** if the update job failed or was cancelled since its last
+  success, re-dispatch it about every 2 days (daily check + a 40h
+  threshold), noting each attempt on the failure issue. Retry runs comment
+  on that issue but don't email again.
+- **Alert:** issue + email only once the job has been failing for 8 days,
+  measured from the *first* failure so retries get the whole window. (If no
+  failure was ever recorded -- the cron just never fired -- it measures from
+  the last success instead.) It uses run history, not `last_updated.txt`,
+  because that file only changes when scores do and a quiet week would
+  look stale while healthy.
+- **Heartbeat:** GitHub disables scheduled workflows in a public repo after
+  60 days without repository activity, which in a long off-season (no score
+  changes, so no data commits) would silently take down both jobs. A tiny
+  commit to `.github/heartbeat.txt` every 30 days of inactivity prevents it.
+
+Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true`
+(alert path), `-f retry_after_hours=0` (retry path, after a failed run), or
+`-f force_heartbeat=true`.
 
 ## Done
 
@@ -336,13 +353,15 @@ week or the off-season would otherwise look stale. Test it with
   gap between guess and reality turned out to matter far more than
   expected -- only the *difference* between skeleton and final height
   shifts anything below it, not the full height jump from empty to full.
-- **Staleness watchdog** (`freshness-check.yml`): found the hard way when a
-  scheduled run was cancelled by GitHub with zero steps executed (started ~8
-  hours late, killed at 15 minutes, no logs) -- update.yml's failure alerts
-  never fired because the job never ran, and the data sat stale four days
-  unnoticed. A separate daily workflow now checks from the outside and opens
-  an issue + emails if update.yml hasn't succeeded in 8 days (weekly cron +
-  GitHub scheduling delay + slack), auto-closing once it recovers. Known
-  limit: GitHub disables scheduled workflows in a public repo after 60 days
-  with no repository activity, which would take this watchdog down with the
-  update job -- most relevant in a long off-season with no data commits.
+- **Update retries, staleness watchdog, and heartbeat**
+  (`freshness-check.yml`): found the hard way when a scheduled run was
+  cancelled by GitHub with zero steps executed (started ~8 hours late, killed
+  at 15 minutes, no logs) -- update.yml's failure alerts never fired because
+  the job never ran, and the data sat stale four days unnoticed. A separate
+  daily workflow now retries a failed/cancelled update about every 2 days,
+  emails only if it's *still* failing 8 days after the first failure, and
+  makes a tiny monthly commit so GitHub's 60-day inactivity rule can't
+  disable the schedules during a quiet off-season. The retry/alert decisions
+  are a pure, unit-tested function (`.github/scripts/freshness.py`) replaying
+  the real Oct 5 timeline. update.yml also gained a concurrency lock so a
+  retry can never overlap a late scheduled run and collide on the push.

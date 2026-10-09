@@ -11,10 +11,21 @@ on:
         description: "Force this run to fail (to test the failure-notification path)"
         type: boolean
         default: false
+      is_retry:
+        description: "Set by freshness-check.yml when it re-dispatches after a failed/cancelled run"
+        type: boolean
+        default: false
 
 env:
   BACKFILL_START_YEAR: "2022"   # earliest season with real marching-band data; rarely changes
   CURRENT_SEASON_YEAR: "2026"   # bump when usbands.org posts the next season -- always scraped fresh, never cached
+
+# A watchdog retry must never overlap a late scheduled run -- both would try
+# to commit and push the rebuilt database. Queue instead of cancelling, so a
+# run that's already mid-scrape is never killed.
+concurrency:
+  group: update-usbands
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -91,8 +102,11 @@ jobs:
               });
             }
 
+      # Retry runs (is_retry) still comment on the failure issue, but don't
+      # email again: freshness-check.yml emails once if the job is still
+      # failing after 8 days, instead of one message per failed retry.
       - name: Email failure notification
-        if: failure()
+        if: failure() && !inputs.is_retry
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com

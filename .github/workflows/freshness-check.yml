@@ -5,12 +5,23 @@ name: Check update freshness
 # skipped/delayed cron, a disabled schedule) is silent from inside it --
 # that's exactly how a cancelled Oct 5 run left the data stale for four
 # days with no alert. This watchdog runs separately and checks from the
-# outside.
+# outside. It does three things (decision logic lives in
+# .github/scripts/freshness.py, unit-tested there):
 #
-# It deliberately looks at when update.yml last SUCCEEDED, not at
-# docs/data/last_updated.txt: that file only changes when scores change, so
-# a quiet week or the off-season would look "stale" while everything is
-# healthy. A successful run with no data changes still counts as fresh.
+#   1. RETRY: if update.yml has failed or been cancelled since its last
+#      success, re-dispatch it every ~2 days (the daily check + a 40h
+#      threshold).
+#   2. ALERT: email + issue only once the job has been failing for 8 days
+#      straight -- measured from the FIRST failure, so retries get the full
+#      window to work. (If no failure was ever recorded -- the cron just
+#      never fired -- measured from the last success instead.)
+#   3. HEARTBEAT: GitHub disables scheduled workflows in a public repo after
+#      60 days without repository activity, which in a long off-season (no
+#      score changes, so no data commits) would silently take down both the
+#      update job and this watchdog. A tiny monthly commit prevents that.
+#
+# It looks at update.yml run history, not docs/data/last_updated.txt: that
+# file only changes when scores do, so a quiet week would look stale.
 
 on:
   schedule:
@@ -21,47 +32,81 @@ on:
         description: "Force a stale result (to test the alert path)"
         type: boolean
         default: false
+      retry_after_hours:
+        description: "Hours since the newest failure before retrying (normally 40; 0 to test)"
+        default: "40"
+      force_heartbeat:
+        description: "Make the heartbeat commit even if the repo is recently active (to test)"
+        type: boolean
+        default: false
 
 env:
-  # Weekly cron + several hours of GitHub scheduling delay + a little slack.
-  MAX_AGE_DAYS: "8"
+  MAX_FAILING_DAYS: "8"
+  HEARTBEAT_AFTER_DAYS: "30"
 
 permissions:
-  contents: read
-  actions: read
+  contents: write   # heartbeat commit
+  actions: write    # re-dispatch update.yml
   issues: write
 
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - name: Find the last successful update run
+      - uses: actions/checkout@v4
+
+      - name: Evaluate update history
         id: freshness
         env:
           GH_TOKEN: ${{ github.token }}
           SIMULATE_STALE: ${{ inputs.simulate_stale }}
+          RETRY_AFTER_HOURS: ${{ inputs.retry_after_hours || '40' }}
         run: |
-          last=$(gh run list --repo "${{ github.repository }}" --workflow=update.yml \
-                   --status=success --limit 1 --json createdAt -q '.[0].createdAt')
-          now=$(date -u +%s)
-          if [ -z "$last" ]; then
-            age_days=9999
-            message="update.yml has no successful run on record."
-          else
-            age_days=$(( (now - $(date -u -d "$last" +%s)) / 86400 ))
-            message="The last successful update run was $last (${age_days} days ago; limit is ${MAX_AGE_DAYS})."
-          fi
-          echo "$message"
-          if [ "$SIMULATE_STALE" = "true" ]; then
-            age_days=9999
-            message="SIMULATED: $message"
-          fi
-          if [ "$age_days" -gt "$MAX_AGE_DAYS" ]; then
-            echo "stale=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "stale=false" >> "$GITHUB_OUTPUT"
-          fi
-          echo "message=$message" >> "$GITHUB_OUTPUT"
+          args="--max-days $MAX_FAILING_DAYS --retry-hours $RETRY_AFTER_HOURS"
+          if [ "$SIMULATE_STALE" = "true" ]; then args="$args --simulate-stale"; fi
+          gh run list --repo "${{ github.repository }}" --workflow=update.yml --limit 50 \
+            --json status,conclusion,createdAt,url \
+            | python .github/scripts/freshness.py $args
+
+      # --- 1. Retry ------------------------------------------------------
+
+      - name: Re-dispatch the update job
+        if: steps.freshness.outputs.retry == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run update.yml --repo "${{ github.repository }}" -f is_retry=true
+
+      # The cancelled-before-any-step case can't file this itself, so record
+      # it here (issue only -- no email until the 8-day mark).
+      - name: Note the failure and retry on the failure issue
+        if: steps.freshness.outputs.retry == 'true'
+        uses: actions/github-script@v7
+        env:
+          MESSAGE: ${{ steps.freshness.outputs.message }}
+          RUN_URL: ${{ steps.freshness.outputs.run_url }}
+        with:
+          script: |
+            const title = "Weekly USBands scrape failed";
+            const note = `${process.env.MESSAGE}\n\nLatest failed/cancelled run: ${process.env.RUN_URL}\n\nAutomatically re-running it now (retries happen about every 2 days). You'll be emailed only if it's still failing after 8 days.`;
+            const { data: openIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+            });
+            const existing = openIssues.find((i) => i.title === title);
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.number, body: note,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, body: `${note}\n\nThis issue closes automatically once a run succeeds.`,
+              });
+            }
+
+      # --- 2. Alert ------------------------------------------------------
 
       - name: File or update a staleness issue
         if: steps.freshness.outputs.stale == 'true'
@@ -72,7 +117,7 @@ jobs:
           script: |
             const title = "USBands update job hasn't succeeded recently";
             const runsUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/workflows/update.yml`;
-            const body = `${process.env.MESSAGE}\n\nThe weekly scrape may have been cancelled, skipped, or disabled before any of its own failure alerts could fire. Check: ${runsUrl}\n\nThis issue closes automatically once update.yml succeeds again.`;
+            const body = `${process.env.MESSAGE}\n\nThe weekly scrape may have been cancelled, skipped, or disabled, and automatic retries haven't recovered it. Check: ${runsUrl}\n\nThis issue closes automatically once update.yml succeeds again.`;
             const { data: openIssues } = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -109,7 +154,7 @@ jobs:
           body: |
             ${{ steps.freshness.outputs.message }}
 
-            The weekly update may have been cancelled, skipped, or disabled.
+            Automatic retries haven't recovered it. The weekly update may have been cancelled, skipped, or disabled.
             Check: ${{ github.server_url }}/${{ github.repository }}/actions/workflows/update.yml
 
       - name: Close any open staleness issue
@@ -128,7 +173,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issue.number,
-                body: "Resolved -- update.yml has succeeded recently again.",
+                body: "Resolved -- update.yml is no longer in a failing streak.",
               });
               await github.rest.issues.update({
                 owner: context.repo.owner,
@@ -137,3 +182,22 @@ jobs:
                 state: "closed",
               });
             }
+
+      # --- 3. Heartbeat --------------------------------------------------
+
+      - name: Monthly heartbeat commit
+        env:
+          FORCE_HEARTBEAT: ${{ inputs.force_heartbeat }}
+        run: |
+          last_commit=$(git log -1 --format=%ct)
+          age_days=$(( ($(date -u +%s) - last_commit) / 86400 ))
+          echo "Newest commit is ${age_days} days old (heartbeat after ${HEARTBEAT_AFTER_DAYS})."
+          if [ "$age_days" -ge "$HEARTBEAT_AFTER_DAYS" ] || [ "$FORCE_HEARTBEAT" = "true" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git pull --rebase --quiet
+            date -u +"%Y-%m-%dT%H:%M:%SZ" > .github/heartbeat.txt
+            git add .github/heartbeat.txt
+            git commit -m "Heartbeat ($(date -u +%Y-%m-%d)): keep scheduled workflows enabled"
+            git push
+          fi
