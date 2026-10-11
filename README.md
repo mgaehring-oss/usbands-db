@@ -393,3 +393,17 @@ Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true
   bump would have silently kept next season from ever starting). Paused runs
   still succeed, so retries, the 8-day alert and the heartbeat all keep working
   year-round.
+- **Footer "last updated" date now follows the "New scores" Refresh button**:
+  after clicking Refresh on the new-scores banner, the scores updated but the
+  footer kept the old date until a second manual reload. The service worker
+  announced the change *before* it had finished caching the new
+  `last_updated.txt` and database, so the reload the banner triggered could be
+  served the old copies. It now writes both to the cache first and only then
+  notifies the page, and its data revalidation bypasses the browser's HTTP
+  cache (GitHub Pages sends `max-age=600`, which could otherwise hand the
+  "revalidation" the same stale bytes for up to ten minutes). New Playwright
+  test `tests/pwa/data-update.spec.js` edits `last_updated.txt` on disk, clicks
+  through the banner, and checks the footer date. I couldn't reproduce the
+  exact stale-date symptom locally (the test passed before the fix too), so
+  this closes the race and the HTTP-cache gap rather than a confirmed single
+  cause -- if it ever recurs, that points somewhere else.

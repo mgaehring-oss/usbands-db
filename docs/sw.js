@@ -62,25 +62,54 @@ async function notifyClients(message) {
 // .then() below) and kept as a plain string -- holding onto the Response
 // object itself across that async boundary and cloning it later triggered
 // a real "Response body is already used" error under concurrent access.
-async function staleWhileRevalidate(event, request, cacheName, { notifyOnChange = false } = {}) {
+async function staleWhileRevalidate(event, request, cacheName, { notifyOnChange = false, bypassHttpCache = false } = {}) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
   const cachedText = notifyOnChange && cached ? await cached.clone().text() : null;
 
-  const networkFetch = fetch(request)
+  // Data files must always be checked against the server. A plain fetch()
+  // goes through the browser's HTTP cache first (GitHub Pages sends
+  // max-age=600), so for up to ten minutes the "revalidation" could just hand
+  // back the same stale bytes and write them over the cache. "no-cache" makes
+  // it a conditional request instead: a cheap 304 when nothing changed.
+  const networkRequest = bypassHttpCache ? new Request(request, { cache: "no-cache" }) : request;
+
+  const networkFetch = fetch(networkRequest)
     .then(async (response) => {
       if (!response.ok) return response;
+      let changed = false;
       if (cachedText !== null) {
         const newText = await response.clone().text();
-        if (cachedText.trim() !== newText.trim()) notifyClients({ type: "usbands-data-updated" });
+        changed = cachedText.trim() !== newText.trim();
       }
       await cache.put(request, response.clone());
+      // Tell the page only once EVERYTHING it will reload is already in the
+      // cache -- the new last_updated.txt (above) and the new database.
+      // Announcing first meant clicking the banner's Refresh could reload
+      // against the old copies, leaving stale scores or a stale footer date
+      // until a second manual reload.
+      if (changed) {
+        await refreshDatabase(cache, request.url);
+        notifyClients({ type: "usbands-data-updated" });
+      }
       return response;
     })
     .catch(() => null);
 
   event.waitUntil(networkFetch);
   return cached || (await networkFetch) || Response.error();
+}
+
+// Pulls the database that sits beside last_updated.txt straight into the
+// cache. Failure is non-fatal: the next load revalidates it anyway.
+async function refreshDatabase(cache, stampUrl) {
+  try {
+    const dbUrl = new URL("usbands.db", stampUrl).href;
+    const response = await fetch(dbUrl, { cache: "no-cache" });
+    if (response.ok) await cache.put(dbUrl, response);
+  } catch {
+    /* offline or transient -- leave the cached copy */
+  }
 }
 
 async function cacheFirst(request, cacheName) {
@@ -98,7 +127,10 @@ self.addEventListener("fetch", (event) => {
 
   if (isDataAsset(url)) {
     event.respondWith(
-      staleWhileRevalidate(event, event.request, DATA_CACHE, { notifyOnChange: url.pathname.endsWith("last_updated.txt") })
+      staleWhileRevalidate(event, event.request, DATA_CACHE, {
+        notifyOnChange: url.pathname.endsWith("last_updated.txt"),
+        bypassHttpCache: true,
+      })
     );
     return;
   }
