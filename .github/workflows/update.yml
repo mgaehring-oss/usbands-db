@@ -2,9 +2,11 @@ name: Update USBands database
 
 on:
   schedule:
-    # Mondays at 12:00 UTC (8am EDT / 7am EST) -- an extra day's buffer past
-    # Saturday's events in case usbands.org posts/corrects results late
-    - cron: "0 12 * * 1"
+    # Sunday and Monday at 18:00 UTC (2pm EDT / 1pm EST): Sunday afternoon
+    # picks up Saturday shows (and any Sunday ones) as soon as they're
+    # entered, Monday afternoon catches late postings and corrections. GitHub
+    # often starts scheduled runs late, so this is "afternoon", not a promise.
+    - cron: "0 18 * * 0,1"
   workflow_dispatch:
     inputs:
       simulate_failure:
@@ -15,10 +17,14 @@ on:
         description: "Set by freshness-check.yml when it re-dispatches after a failed/cancelled run"
         type: boolean
         default: false
+      pretend_today:
+        description: "Test only: YYYY-MM-DD to run the season gate as of (use with is_retry, since manual runs bypass the gate)"
+        default: ""
 
 env:
   BACKFILL_START_YEAR: "2022"   # earliest season with real marching-band data; rarely changes
-  CURRENT_SEASON_YEAR: "2026"   # bump when usbands.org posts the next season -- always scraped fresh, never cached
+  # The current season year is no longer a hand-bumped constant: the season
+  # gate below derives it from the calendar, so the next season resumes on its own.
 
 # A watchdog retry must never overlap a late scheduled run -- both would try
 # to commit and push the rebuilt database. Queue instead of cancelling, so a
@@ -50,10 +56,33 @@ jobs:
       - name: Run scraper tests
         run: python -m unittest discover -s scrape/tests
 
+      # The cron fires year-round, but once a season is over (final-day
+      # results in, grace period past) there's nothing new to fetch until the
+      # next one starts. In that case the job still SUCCEEDS -- just without
+      # scraping -- so freshness-check.yml's retry/alert logic, which reads
+      # run history, keeps seeing a healthy job all winter. A person
+      # dispatching a run by hand always scrapes; retries and the schedule
+      # respect the gate. See .github/scripts/season_gate.py for the rules.
+      - name: Decide whether the season needs scraping
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          IS_RETRY: ${{ inputs.is_retry }}
+          PRETEND_TODAY: ${{ inputs.pretend_today }}
+        run: |
+          args=""
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "$IS_RETRY" != "true" ]; then args="--force"; fi
+          if [ -n "$PRETEND_TODAY" ]; then args="$args --today $PRETEND_TODAY"; fi
+          python .github/scripts/season_gate.py docs/data/usbands.db $args
+
       - name: Scrape and rebuild database
-        run: python scrape/update_scores.py "$BACKFILL_START_YEAR" "$CURRENT_SEASON_YEAR" docs/data/usbands.db data/cache
+        if: steps.gate.outputs.run == 'true'
+        env:
+          SEASON_YEAR: ${{ steps.gate.outputs.season_year }}
+        run: python scrape/update_scores.py "$BACKFILL_START_YEAR" "$SEASON_YEAR" docs/data/usbands.db data/cache
 
       - name: Commit and push if changed
+        if: steps.gate.outputs.run == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

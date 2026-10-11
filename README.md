@@ -87,17 +87,34 @@ push/PR touching `docs/` or `tests/pwa/`.
 
 ## Automation
 
-`.github/workflows/update.yml` reruns the scraper every Monday morning ET and
-commits `docs/data/usbands.db` (and any newly-created `data/cache/*.json`,
-which only happens in the rare week a season first closes out) if anything
-changed. No cloud routine or Drive upload dance needed — the database is
-just a normal versioned file in this repo, so `git log` on
+`.github/workflows/update.yml` reruns the scraper **Sunday and Monday at
+18:00 UTC** (2pm EDT / 1pm EST) and commits `docs/data/usbands.db` (and any
+newly-created `data/cache/*.json`, which only happens when a season first
+closes out) if anything changed. Sunday afternoon picks up Saturday shows --
+and any Sunday ones -- as soon as they're entered; Monday afternoon catches
+late postings and corrections. GitHub often starts scheduled runs hours late,
+so read that as "afternoon". No cloud routine or Drive upload dance needed --
+the database is just a normal versioned file in this repo, so `git log` on
 `docs/data/usbands.db` is the history.
 
-**Update each season:** bump `CURRENT_SEASON_YEAR` in the workflow once
-usbands.org posts the next season (`BACKFILL_START_YEAR` rarely needs to
-change — it's the earliest season with real marching-band data, currently
-2022).
+**It stops on its own when the season ends, and starts again next year.**
+The cron fires all year, but each run first asks `.github/scripts/season_gate.py`
+whether there's anything to fetch. Seasons run roughly Sept-Nov; the gate
+looks at the *last event date* in the committed database (not a finals event
+type -- finals were titled "National Championships" in 2022-24 and "USBands
+Championships" in 2026, but the last day on the calendar is always finals
+day) and stops once that date is 14+ days past **and** every event on it has
+scores. If a final-day event never gets scored (cancelled, or another
+circuit's listing), it gives up after 45 days rather than scraping all winter.
+A paused run still *succeeds* in seconds without scraping, so the watchdog
+below keeps seeing a healthy job. The current season year is derived from the
+calendar (August onward = this year's season; Jan-Jul = last year's, finished),
+so on Aug 1 the new year has no events on record and scraping resumes with no
+manual step -- the finished season gets crawled fresh once and cached then,
+which also picks up anything added while updates were paused. A run you
+dispatch by hand always scrapes; the schedule and watchdog retries respect the
+gate. (`BACKFILL_START_YEAR` rarely needs to change -- it's the earliest season
+with real marching-band data, currently 2022.)
 
 **Failure notification:** if a run fails (or trips the sanity check), the
 workflow both files a GitHub issue (titled "Weekly USBands scrape failed,"
@@ -365,3 +382,14 @@ Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true
   are a pure, unit-tested function (`.github/scripts/freshness.py`) replaying
   the real Oct 5 timeline. update.yml also gained a concurrency lock so a
   retry can never overlap a late scheduled run and collide on the push.
+- **Sunday + Monday afternoon refresh, and an automatic off-season pause**:
+  the update cron moved from one Monday-morning run to Sunday and Monday at
+  18:00 UTC so Saturday/Sunday shows show up as soon as they're entered. A new
+  season gate (`.github/scripts/season_gate.py`, unit-tested and replayed
+  against the real database) stops scraping once a season's last-event date is
+  14+ days past with final-day scores in, and resumes on Aug 1 when the new
+  year has no events on record -- which also replaces the hand-bumped
+  `CURRENT_SEASON_YEAR`, a latent hazard once updates can pause (a forgotten
+  bump would have silently kept next season from ever starting). Paused runs
+  still succeed, so retries, the 8-day alert and the heartbeat all keep working
+  year-round.
