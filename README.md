@@ -6,6 +6,26 @@ division/group (RA, A/Open x Group I-V), and every USBands event for the
 season — regular season shows, state championships, and USBands
 Championships (finals).
 
+**Live site:** <https://mgaehring-oss.github.io/usbands-db/> -- a static,
+installable (PWA) leaderboard that runs entirely in the browser against this
+database (sql.js), so there's no server to run or pay for.
+
+## How it works
+
+1. **Scrape** -- `scrape/update_scores.py` crawls usbands.org and rebuilds
+   `docs/data/usbands.db` from scratch (deterministically, so unchanged data
+   means no diff). Closed seasons come from a JSON cache; only the current
+   season is fetched live.
+2. **Check** -- before anything is written, `scrape/data_quality.py` sanity-
+   checks the scrape (see [Data-quality checks](#data-quality-checks)); a
+   suspicious build is refused rather than committed.
+3. **Publish** -- GitHub Actions runs the scrape Sunday and Monday afternoons
+   during the season (and pauses itself in the off-season), commits the new
+   database, and GitHub Pages serves `docs/`. Failed or missing runs are
+   retried and escalated automatically (see [Automation](#automation)).
+4. **View** -- the site (`docs/`) downloads the database once, caches it for
+   offline use, and tells open tabs when newer scores are available.
+
 Scope is deliberately the **USBands circuit only**. usbands.org's events
 calendar also lists other circuits (STATS, DeMoulin, Southwestern,
 Southeastern, Ark-La-Tex, Quad States, etc.) that share the same site/booking
@@ -24,6 +44,9 @@ filters on.
   (state champs are often split across multiple venues/dates by group)
 - `championship_group_events` — join table for the above
 - `scores` — one row per (event, band, division): score + computed rank
+- `event_entries` — who is registered for each event (scored or not), so the
+  site can list a band's upcoming shows. Only populated for seasons crawled
+  live (the current one); closed seasons restored from an older cache have none
 - `band_season_division` / `band_season_state_championship` /
   `band_season_final` — per-season tags: which group a band competes in,
   which state championship they're affiliated with, and whether they
@@ -85,6 +108,25 @@ terminated mid-revalidation, a `Response` clone race) only ever reproduced
 under a real browser. `.github/workflows/pwa-tests.yml` runs it on every
 push/PR touching `docs/` or `tests/pwa/`.
 
+## Data-quality checks
+
+The 20%-score-drop check catches a scraper that stops matching usbands.org
+entirely. `scrape/data_quality.py` catches the subtler failure -- markup that
+still matches but is mis-read -- on the freshly scraped data, *before* the
+database is written:
+
+- **Errors (build refused, same failure path as the drop check):** a score
+  outside 0-100 or not a number; a score pointing at an event that wasn't
+  kept; more than 5% of the current season's scores being exactly 0.0 (real
+  forfeits are ~0.3%, so many zeros means the score column stopped parsing).
+- **Warnings (printed, and shown on the Actions run summary; never blocking):**
+  an event dated outside its season, a scored event dated in the future,
+  duplicate listings (same date/title/city), and any band whose consecutive
+  scores in the current season differ by 25+ points (forfeit zeros ignored).
+
+Thresholds were set against the real 2022-2026 data, which passes with no
+findings. Unit tests: `scrape/tests/test_data_quality.py`.
+
 ## Automation
 
 `.github/workflows/update.yml` reruns the scraper **Sunday and Monday at
@@ -117,7 +159,8 @@ gate. (`BACKFILL_START_YEAR` rarely needs to change -- it's the earliest season
 with real marching-band data, currently 2022.)
 
 **Failure notification:** if a run fails (or trips the sanity check), the
-workflow both files a GitHub issue (titled "Weekly USBands scrape failed,"
+workflow both files a GitHub issue (titled "Weekly USBands scrape failed" --
+a name kept from when the job ran weekly, since the issue lookup depends on it,
 auto-closed on the next success) and emails `mgaehring@gmail.com`. The email
 step needs two repo secrets that aren't set by this repo automatically:
 `MAIL_USERNAME` (a Gmail address) and `MAIL_PASSWORD` (a Gmail [App
@@ -154,6 +197,14 @@ Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true
 (alert path), `-f retry_after_hours=0` (retry path, after a failed run), or
 `-f force_heartbeat=true`.
 
+## TODO
+
+- **Push / email alerts for My Bands:** notify someone when a favorited band
+  gets a new score, even if the site isn't open. Needs a place to keep
+  subscriptions and send from (web-push needs a server component; email needs
+  a list + sender), which this serverless site doesn't have yet. The on-site
+  "What's new" card covers the in-browser version of this.
+
 ## Done
 
 - **Web UI**: a static site (`docs/index.html`, `app.js`, `style.css`) using
@@ -162,7 +213,7 @@ Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true
   division/state/finals, score history charts, and favoriting.
 - **Backfill prior seasons + season selector**: seasons 2022-2026 are all in
   the database (a season selector in the site header switches between them),
-  with a per-season JSON cache so weekly runs only ever re-scrape the current
+  with a per-season JSON cache so each scheduled run only ever re-scrapes the current
   season.
 - **User-selectable theming**: a palette icon next to the dark-mode toggle
   opens a popover with Primary/Accent color pickers plus a few common
@@ -223,7 +274,7 @@ Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true
   again before each scheduled scrape, so a scraper regression fails loudly
   instead of quietly shipping a broken database.
 - **"Last updated" indicator**: the footer shows the actual date the data
-  last changed, not just a generic "refreshed weekly." `update.yml` writes
+  last changed, not just a generic "refreshed" line. `update.yml` writes
   `docs/data/last_updated.txt` only in the same commit as a real data change
   (so it reflects when the data changed, not merely when the job ran), and
   the page fetches it at load time -- missing or unreachable is handled
@@ -356,7 +407,7 @@ Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true
   close to tripping it. 20% remains a reasonable threshold: loose enough
   to never flag a normal week, tight enough to almost certainly catch a
   real scraper breakage (which would collapse the count, not trim it
-  slightly). Worth another look once more real weekly production cycles
+  slightly). Worth another look once more real production cycles
   (as opposed to this backfill's dev-time test runs) have accumulated.
 - **Skeleton loader to fix Cumulative Layout Shift**: `#results` now starts
   with a static, animated placeholder (a couple of division-shaped skeleton
@@ -393,6 +444,41 @@ Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true
   bump would have silently kept next season from ever starting). Paused runs
   still succeed, so retries, the 8-day alert and the heartbeat all keep working
   year-round.
+- **"What's new for your bands" card**: on load, a card lists favorited bands
+  with scores you haven't seen yet (score, change from the previous show, rank
+  at that show, event, date; "+N earlier" if several arrived), with a
+  **Got it** button. It's entirely client-side: the set of already-seen scores
+  (event + group + band + score, so a corrected score counts as new) lives in
+  localStorage. A first visit with favorites -- and starring a band -- seed it
+  silently so existing scores are never announced as news. (The push/email
+  version is the TODO above.)
+- **Rank change indicators**: ▲2 / ▼1 / NEW next to each band's rank, measured
+  against the field as it stood a week before the newest scores (anchored to
+  the newest scored date rather than today, so it still means something
+  between shows and after the season). No arrow when the rank didn't move, and
+  no indicators at all early in the season before anyone has a prior score.
+  Works in the leaderboard and My Bands, and respects the active filters.
+- **Upcoming shows view** (button under the header): future events grouped by
+  day with location, a badge for state/USBands championships, how many bands
+  are entered, and your favorited bands entered in each (click through to the
+  band). Backed by the new `event_entries` table. Tolerates an older cached
+  database that predates that table.
+- **Season-start handling**: the site opens on the newest season that has
+  scores, so when the scraper adds the next season on Aug 1 visitors don't land
+  on an empty leaderboard. The empty season stays selectable, labelled "(not
+  started)", with a note and a "View season 20XX" button.
+- **Finals results view**: each group's top three at finals (all results
+  expandable) for the selected season. Finals are found by shape for 2022-25
+  (a "Championship" in the final week with a real field) because they were
+  titled differently every year and only 2026+ are tagged
+  `usbands_championship`.
+- **Band links + detail stats**: opening a band's panel puts `?band=<unit id>`
+  in the address bar; a **Copy link** button shares it, and loading such a link
+  opens the panel (switching season if that band isn't in the current one). The
+  panel also shows show count, average, peak and best finish.
+- **Scraper data-quality checks** (see [Data-quality checks](#data-quality-checks)).
+- **README tidy**: added the "How it works" overview and removed stale
+  "weekly" wording now that updates run Sunday + Monday.
 - **Footer "last updated" date now follows the "New scores" Refresh button**:
   after clicking Refresh on the new-scores banner, the scores updated but the
   footer kept the old date until a second manual reload. The service worker
