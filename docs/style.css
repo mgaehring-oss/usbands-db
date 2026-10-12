@@ -823,6 +823,18 @@ table.leaderboard tbody tr.is-favorite:hover { background: var(--brand-gold-200)
 :root[data-theme="dark"] .segmented__option.is-active { color: var(--brand-green-500); }
 .segmented__option:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
 
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin-bottom: 8px;
+}
+.detail-actions .segmented { margin-bottom: 0; }
+.detail-stats { margin: 0 0 12px; font-size: 13px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.detail-stats:empty { display: none; }
+
 .detail-chart { margin-bottom: 6px; }
 .detail-chart svg { width: 100%; height: auto; display: block; overflow: visible; }
 .detail-chart-caption { margin: 0 0 14px; font-size: 11.5px; color: var(--text-muted); }
@@ -899,11 +911,122 @@ table.leaderboard tbody tr.is-favorite:hover { background: var(--brand-gold-200)
   .sparkline { width: 60px; }
 }
 
+/* ---------- View toolbar, rank change, What's new, season note ---------- */
+
+.view-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.rank-cell { white-space: nowrap; }
+.rank-change {
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.rank-change--up { color: var(--status-good); }
+.rank-change--down { color: var(--status-critical); }
+.rank-change--new {
+  color: var(--brand-gold-700);
+  letter-spacing: 0.04em;
+}
+:root[data-theme="dark"] .rank-change--new { color: var(--brand-gold-500); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .rank-change--new { color: var(--brand-gold-500); }
+}
+
+.whatsnew {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand-gold-500);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 0 0 20px;
+  box-shadow: var(--shadow-1);
+}
+.whatsnew__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.whatsnew__head h2 { margin: 0; font-size: 15px; color: var(--text-primary); }
+.whatsnew__list { list-style: none; margin: 0; padding: 0; }
+.whatsnew__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  padding: 6px 0;
+  border-top: 1px solid var(--border);
+  font-size: 13.5px;
+}
+.whatsnew__band {
+  font: inherit;
+  font-weight: 600;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--brand-green-700);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+:root[data-theme="dark"] .whatsnew__band { color: var(--brand-green-500); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .whatsnew__band { color: var(--brand-green-500); }
+}
+.whatsnew__band:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.whatsnew__group, .whatsnew__where { color: var(--text-muted); font-size: 12.5px; }
+.whatsnew__score { font-weight: 700; font-variant-numeric: tabular-nums; }
+.whatsnew__more { padding: 6px 0 0; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-muted); }
+
+.season-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand-gold-500);
+  border-radius: 12px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+/* ---------- Upcoming shows / Finals results ---------- */
+
+.upcoming-day__title {
+  margin: 14px 0 6px;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.upcoming-event { padding: 8px 0; border-top: 1px solid var(--border); }
+.upcoming-event__head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.upcoming-event__name { font-weight: 600; font-size: 14px; color: var(--text-primary); }
+.upcoming-event__meta { font-size: 12.5px; color: var(--text-muted); }
+.upcoming-event__mine { margin-top: 3px; font-size: 13px; color: var(--text-secondary); }
+
+.finals-division { margin-bottom: 14px; }
+.finals-division__title { margin: 0 0 4px; font-size: 14px; color: var(--text-primary); }
+.finals-division .detail-table td:first-child { width: 56px; }
+.finals-division__rest { margin-top: 4px; font-size: 13px; }
+.finals-division__rest summary { cursor: pointer; color: var(--text-secondary); padding: 4px 0; }
+
 /* ---------- Print ---------- */
 
 @media print {
   body { background: #fff; color: #000; }
-  .site-header, .filters, .export-toolbar, .site-footer,
+  .site-header, .filters, .export-toolbar, .view-toolbar, .whatsnew, .site-footer,
   .star-col, .compare-btn, .theme-color-panel, .install-banner,
   .skeleton-results { display: none !important; }
   main { padding: 0; max-width: none; }

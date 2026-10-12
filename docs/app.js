@@ -66,6 +66,21 @@ const els = {
   trendsImprovedSelect: document.getElementById("trends-improved-select"),
   trendsImprovedSub: document.getElementById("trends-improved-sub"),
   trendsImprovedTableBody: document.getElementById("trends-improved-table-body"),
+  whatsnew: document.getElementById("whatsnew"),
+  detailCopyLink: document.getElementById("detail-copy-link"),
+  detailStats: document.getElementById("detail-stats"),
+  upcomingOpen: document.getElementById("upcoming-open"),
+  upcomingOverlay: document.getElementById("upcoming-overlay"),
+  upcomingClose: document.getElementById("upcoming-close"),
+  upcomingSub: document.getElementById("upcoming-sub"),
+  upcomingModeAll: document.getElementById("upcoming-mode-all"),
+  upcomingModeMine: document.getElementById("upcoming-mode-mine"),
+  upcomingList: document.getElementById("upcoming-list"),
+  finalsOpen: document.getElementById("finals-open"),
+  finalsOverlay: document.getElementById("finals-overlay"),
+  finalsClose: document.getElementById("finals-close"),
+  finalsSub: document.getElementById("finals-sub"),
+  finalsBody: document.getElementById("finals-body"),
   exportCsvBtn: document.getElementById("export-csv"),
   exportFullCsvBtn: document.getElementById("export-full-csv"),
   exportFullJsonBtn: document.getElementById("export-full-json"),
@@ -77,6 +92,10 @@ const els = {
 const model = {
   seasonYear: null,
   allSeasons: [],                 // [year, ...] descending, every season in the db
+  defaultSeason: null,            // newest season that has any scores (see pickDefaultSeason)
+  seasonScoreCounts: new Map(),   // year -> number of scores, every season
+  latestEventDate: "",            // newest scored event date in the selected season
+  rankChangeCutoff: null,         // ISO date a week before latestEventDate, or null
   divisions: [],                 // [{id, class, group_number, label}] fixed order
   stateGroups: [],                // [{id, name}] kind='state', this season
   bandsByDivision: new Map(),      // division_id -> Set(unit_id)
@@ -112,9 +131,15 @@ function isFavorite(unitId) {
 
 function toggleFavorite(unitId) {
   if (model.favorites.has(unitId)) model.favorites.delete(unitId);
-  else model.favorites.add(unitId);
+  else {
+    model.favorites.add(unitId);
+    // Starring a band shouldn't instantly announce its existing scores as
+    // "new" -- only what arrives after this moment is news.
+    markBandSeen(unitId);
+  }
   saveFavorites();
   renderAll();
+  renderWhatsNew();
   // renderAll() rebuilds the main table + My Bands, but the detail panel
   // (if open) is a separate DOM subtree it doesn't touch -- refresh its star.
   if (!els.overlay.hidden && currentDetailUnitId === unitId) {
@@ -236,6 +261,8 @@ function buildModelForSeason(db, year) {
      WHERE e.season_year = ?`,
     [year]
   );
+  model.latestEventDate = scoreRows.reduce((m, r) => (r.event_date > m ? r.event_date : m), "");
+  model.rankChangeCutoff = model.latestEventDate ? addDaysISO(model.latestEventDate, -RANK_CHANGE_DAYS) : null;
   const grouped = new Map();
   for (const row of scoreRows) {
     const key = `${row.unit_id}|${row.division_id}`;
@@ -251,6 +278,32 @@ function buildModelForSeason(db, year) {
     list.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
     model.historyByKey.set(key, list);
   }
+}
+
+// Rank movement is measured against the field as it stood a week before the
+// newest scores: shows are weekly, so "since last week" means "before this
+// weekend's results". Anchored to the newest scored date (not today) so it
+// still means something between shows and after the season ends.
+const RANK_CHANGE_DAYS = 7;
+
+function addDaysISO(iso, days) {
+  const d = new Date(`${iso}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+function todayISO() {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+/** The season to open on: the newest one that actually has scores. Once the
+ * scraper starts a new season (Aug 1) it exists in the database for weeks
+ * before its first show, and landing visitors on an empty leaderboard would
+ * look broken. Falls back to the newest season if none has scores. */
+function pickDefaultSeason(seasonsDesc, scoreCounts) {
+  return seasonsDesc.find((y) => (scoreCounts.get(y) || 0) > 0) ?? seasonsDesc[0] ?? null;
 }
 
 function historyFor(unitId, divisionId) {
@@ -307,6 +360,35 @@ function computeRows(division, opts) {
     }
     row.rank = rank;
   });
+
+  // Rank change: re-rank the same field using each band's latest score as of
+  // the cutoff (a week before the newest scores). Ties share a rank, same as
+  // above. If nobody had a score by then (early season), show no indicators
+  // at all rather than marking the whole field "new".
+  const cutoff = model.rankChangeCutoff;
+  if (cutoff) {
+    const prior = [];
+    for (const row of rows) {
+      row.prevAtCutoff = null;
+      for (const p of row.history) if (p.date <= cutoff) row.prevAtCutoff = p;
+      if (row.prevAtCutoff) prior.push(row);
+    }
+    prior.sort((a, b) => b.prevAtCutoff.score - a.prevAtCutoff.score);
+    let pr = 0;
+    let plast = null;
+    prior.forEach((row, i) => {
+      if (row.prevAtCutoff.score !== plast) {
+        pr = i + 1;
+        plast = row.prevAtCutoff.score;
+      }
+      row.prevRank = pr;
+    });
+    for (const row of rows) {
+      if (prior.length === 0 || row.rank === null) row.rankChange = null;
+      else if (row.prevAtCutoff) row.rankChange = row.prevRank - row.rank;
+      else row.rankChange = "new";
+    }
+  }
 
   // Favorites-only is a pure display filter applied AFTER ranking, so the
   // rank shown always reflects the real (division/state/finals) field --
@@ -387,6 +469,36 @@ function rankBadge(rank) {
   return el("span", { class: `rank-badge${cls}` }, [String(rank)]);
 }
 
+/** ▲2 / ▼1 / NEW next to a rank. Nothing at all when the rank didn't move,
+ * to keep the table calm. */
+function rankChangeBadge(row) {
+  const c = row.rankChange;
+  if (c === undefined || c === null) return null;
+  const since = fmtDate(model.rankChangeCutoff);
+  if (c === "new") {
+    return el("span", { class: "rank-change rank-change--new", title: `First score since ${since}`, "aria-label": `New since ${since}` }, ["NEW"]);
+  }
+  if (c === 0) return null;
+  const places = `${Math.abs(c)} place${Math.abs(c) === 1 ? "" : "s"}`;
+  const up = c > 0;
+  return el(
+    "span",
+    {
+      class: `rank-change rank-change--${up ? "up" : "down"}`,
+      title: `${up ? "Up" : "Down"} ${places} since ${since}`,
+      "aria-label": `${up ? "Up" : "Down"} ${places} since ${since}`,
+    },
+    [`${up ? "▲" : "▼"}${Math.abs(c)}`]
+  );
+}
+
+function rankCell(row) {
+  const kids = [rankBadge(row.rank)];
+  const change = rankChangeBadge(row);
+  if (change) kids.push(change);
+  return el("td", { class: "rank-cell" }, kids);
+}
+
 function currentFilterOpts() {
   return {
     divisionId: els.divisionFilter.value,
@@ -410,6 +522,7 @@ function readFiltersFromURL() {
     finals: p.get("finals") === "1",
     favorites: p.get("favorites") === "1",
     q: p.get("q") || "",
+    band: p.has("band") && Number.isInteger(Number(p.get("band"))) ? Number(p.get("band")) : null,
   };
 }
 
@@ -437,7 +550,7 @@ function applyFiltersFromURL(params) {
 // entry per keystroke in the search box.
 function updateURLFromFilters() {
   const p = new URLSearchParams();
-  if (model.seasonYear && model.allSeasons.length && model.seasonYear !== model.allSeasons[0]) {
+  if (model.seasonYear && model.defaultSeason && model.seasonYear !== model.defaultSeason) {
     p.set("season", String(model.seasonYear));
   }
   if (els.divisionFilter.value !== "all") p.set("group", els.divisionFilter.value);
@@ -446,6 +559,9 @@ function updateURLFromFilters() {
   if (els.finalsFilter.checked) p.set("finals", "1");
   if (els.favoritesFilter.checked) p.set("favorites", "1");
   if (els.searchFilter.value.trim()) p.set("q", els.searchFilter.value.trim());
+  // An open band panel is part of the view too -- this is what makes a band's
+  // detail shareable (?band=<unit id>).
+  if (els.overlay && !els.overlay.hidden && currentDetailUnitId) p.set("band", String(currentDetailUnitId));
 
   const qs = p.toString();
   const newUrl = qs ? `${location.pathname}?${qs}` : location.pathname;
@@ -459,6 +575,17 @@ function render() {
     opts.divisionId === "all" ? model.divisions : model.divisions.filter((d) => String(d.id) === opts.divisionId);
 
   els.results.innerHTML = "";
+  if ((model.seasonScoreCounts.get(model.seasonYear) || 0) === 0) {
+    const note = el("div", { class: "season-note", role: "note" }, [
+      el("span", {}, [`Season ${model.seasonYear} hasn't started yet -- scores appear here after its first shows (usually early September).`]),
+    ]);
+    if (model.defaultSeason && model.defaultSeason !== model.seasonYear) {
+      const btn = el("button", { type: "button", class: "export-btn" }, [`View season ${model.defaultSeason}`]);
+      btn.addEventListener("click", () => switchSeason(model.defaultSeason));
+      note.appendChild(btn);
+    }
+    els.results.appendChild(note);
+  }
   let anyRows = false;
   let totalBands = 0;
   let shownDivisions = 0;
@@ -504,7 +631,7 @@ function render() {
 
       const tr = el("tr", { tabindex: "0", class: isFavorite(row.unitId) ? "is-favorite" : "" }, [
         el("td", { class: "star-col" }, [starButton(row.unitId, row.name)]),
-        el("td", {}, [rankBadge(row.rank)]),
+        rankCell(row),
         el("td", {}, [el("span", { class: "band-name" }, [row.name])]),
         el("td", { class: "num" }, [fmtScore(row.latest && row.latest.score)]),
         el("td", { class: "num" }, [fmtScore(row.prior && row.prior.score)]),
@@ -664,7 +791,7 @@ function renderMyBands() {
   for (const { row, division } of found) {
     const tr = el("tr", { tabindex: "0", class: "is-favorite" }, [
       el("td", { class: "star-col" }, [starButton(row.unitId, row.name)]),
-      el("td", {}, [rankBadge(row.rank)]),
+      rankCell(row),
       el("td", {}, [el("span", { class: "band-name" }, [row.name])]),
       el("td", {}, [division.label]),
       el("td", { class: "num" }, [fmtScore(row.latest && row.latest.score)]),
@@ -909,6 +1036,86 @@ function openDetail(row, division) {
   renderDetailBody();
   els.overlay.hidden = false;
   els.overlayClose.focus();
+  els.detailCopyLink.textContent = "Copy link";
+  updateURLFromFilters();
+}
+
+/** The link to this band's panel, independent of whatever filters happen to
+ * be set on the leaderboard behind it. */
+function bandLinkURL() {
+  const p = new URLSearchParams();
+  if (model.seasonYear !== model.defaultSeason) p.set("season", String(model.seasonYear));
+  p.set("band", String(currentDetailUnitId));
+  return `${location.origin}${location.pathname}?${p}`;
+}
+
+async function copyBandLink() {
+  const url = bandLinkURL();
+  try {
+    await navigator.clipboard.writeText(url);
+    els.detailCopyLink.textContent = "Link copied";
+  } catch {
+    // Clipboard API unavailable (insecure context, denied permission): hand
+    // the link over in a prompt so it can still be copied by hand.
+    window.prompt("Copy this link", url);
+  }
+}
+
+function switchSeason(year) {
+  els.seasonSelect.value = String(year);
+  buildModelForSeason(dbHandle, year);
+  resetFilterControls();
+  populateFilters();
+  renderAll();
+}
+
+/** Finds a band's row in the selected season. A band can change groups
+ * mid-season, so when it appears in two, the one with the newest score wins. */
+function findBandRow(unitId) {
+  const unfiltered = { stateGroupId: "all", finalsOnly: false, favoritesOnly: false, search: "" };
+  let best = null;
+  for (const division of model.divisions) {
+    const roster = model.bandsByDivision.get(division.id);
+    if (!roster || !roster.has(unitId)) continue;
+    const row = computeRows(division, unfiltered).find((r) => r.unitId === unitId);
+    if (!row) continue;
+    const when = row.latest ? row.latest.date : "";
+    if (!best || when > best.when) best = { row, division, when };
+  }
+  return best;
+}
+
+/** Opens a band's detail panel by id, switching season if the band isn't in
+ * the one on screen. Returns false if the id isn't a band we know about. */
+function openBandDetail(unitId, seasonYear) {
+  if (seasonYear && seasonYear !== model.seasonYear && model.allSeasons.includes(seasonYear)) switchSeason(seasonYear);
+  let hit = findBandRow(unitId);
+  if (!hit) {
+    const latest = queryAll(dbHandle, "SELECT MAX(season_year) AS y FROM band_season_division WHERE unit_id = ?", [unitId])[0];
+    if (latest && latest.y && latest.y !== model.seasonYear) {
+      switchSeason(latest.y);
+      hit = findBandRow(unitId);
+    }
+  }
+  if (!hit) return false;
+  openDetail(hit.row, hit.division);
+  return true;
+}
+
+/** "5 shows · Avg 78.4 · Peak 82.1 (10/10) · Best finish #2" */
+function detailStatsText(points) {
+  const scored = points.filter((p) => p.score !== null && p.score !== undefined);
+  if (scored.length === 0) return "";
+  const avg = scored.reduce((sum, p) => sum + p.score, 0) / scored.length;
+  const peak = scored.reduce((a, b) => (b.score > a.score ? b : a));
+  const ranks = scored.map((p) => p.rank).filter((r) => r !== null && r !== undefined);
+  const parts = [
+    `${scored.length} show${scored.length === 1 ? "" : "s"}`,
+    `Avg ${avg.toFixed(1)}`,
+    `Peak ${peak.score.toFixed(1)} (${fmtDate(peak.date)})`,
+  ];
+  if (ranks.length) parts.push(`Best finish #${Math.min(...ranks)}`);
+  return parts.join(" · ");
 }
 
 function updateDetailModeButtons() {
@@ -942,6 +1149,7 @@ function renderDetailBody() {
   els.detailSub.textContent =
     currentDetailMode === "all" ? "All seasons — score history" : `${currentDetailDivisionLabel} — score history`;
 
+  els.detailStats.textContent = detailStatsText(points);
   els.detailChart.innerHTML = "";
   els.detailChartCaption.hidden = true;
   if (points.length >= 2) {
@@ -972,6 +1180,7 @@ function closeDetail() {
   els.overlay.hidden = true;
   if (detailReturnFocusEl && document.body.contains(detailReturnFocusEl)) detailReturnFocusEl.focus();
   detailReturnFocusEl = null;
+  updateURLFromFilters();
 }
 
 /* ---------------- Compare (multiple favorited bands) ---------------- */
@@ -1674,7 +1883,8 @@ function resetFilterControls() {
 function populateSeasonSelect() {
   els.seasonSelect.innerHTML = "";
   for (const year of model.allSeasons) {
-    els.seasonSelect.appendChild(el("option", { value: String(year) }, [`Season ${year}`]));
+    const started = (model.seasonScoreCounts.get(year) || 0) > 0;
+    els.seasonSelect.appendChild(el("option", { value: String(year) }, [`Season ${year}${started ? "" : " (not started)"}`]));
   }
   els.seasonSelect.value = String(model.seasonYear);
 }
@@ -2067,9 +2277,411 @@ function initServiceWorker() {
   }
 }
 
+/* ---------------- What's new (favorites since your last visit) ---------------- */
+
+// Remembers which of a favorited band's scores have already been shown, as
+// "<event>:<division>:<band>:<score>" keys in localStorage. Anything not in
+// that set is news -- including a corrected score, since the score is part of
+// the key. Entirely client-side: no accounts, nothing sent anywhere.
+const WHATSNEW_KEY = "usbands-whatsnew-seen";
+const WHATSNEW_MAX_SHOWN = 6;
+let whatsNewShownKeys = [];
+
+function whatsNewKey(r) {
+  return `${r.event_id}:${r.division_id}:${r.unit_id}:${r.score}`;
+}
+
+function loadSeenKeys() {
+  const raw = safeLocalStorageGet(WHATSNEW_KEY);
+  if (raw === null || raw === undefined) return null;
+  try {
+    return new Set(JSON.parse(raw).keys || []);
+  } catch {
+    return null;
+  }
+}
+
+function saveSeenKeys(set) {
+  safeLocalStorageSet(WHATSNEW_KEY, JSON.stringify({ v: 1, keys: [...set] }));
+}
+
+function queryScoresForBands(unitIds, seasonYear) {
+  if (!unitIds.length || !seasonYear) return [];
+  return queryAll(
+    dbHandle,
+    `SELECT s.event_id, s.unit_id, s.division_id, s.score, s.rank,
+            e.event_date, e.name AS event_name, d.label AS division_label, b.name AS band_name
+     FROM scores s
+     JOIN events e ON e.id = s.event_id
+     JOIN divisions d ON d.id = s.division_id
+     JOIN bands b ON b.unit_id = s.unit_id
+     WHERE e.season_year = ? AND s.unit_id IN (${unitIds.map(() => "?").join(",")})
+     ORDER BY e.event_date, e.id`,
+    [seasonYear, ...unitIds]
+  );
+}
+
+function markBandSeen(unitId) {
+  if (!dbHandle) return;
+  const seen = loadSeenKeys() || new Set();
+  for (const r of queryScoresForBands([unitId], model.defaultSeason)) seen.add(whatsNewKey(r));
+  saveSeenKeys(seen);
+}
+
+/** Pure: turns a list of score rows (ascending by date) plus the set of
+ * already-seen keys into one item per band+group with something new. */
+function buildWhatsNew(rows, seen) {
+  const groups = new Map();
+  for (const r of rows) {
+    const k = `${r.unit_id}|${r.division_id}`;
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(r);
+  }
+  const items = [];
+  for (const list of groups.values()) {
+    const fresh = list.filter((r) => !seen.has(whatsNewKey(r)));
+    if (fresh.length === 0) continue;
+    const last = fresh[fresh.length - 1];
+    const idx = list.indexOf(last);
+    const prior = idx > 0 ? list[idx - 1] : null;
+    items.push({
+      unitId: last.unit_id,
+      name: last.band_name,
+      divisionLabel: last.division_label,
+      score: last.score,
+      delta: prior ? round1(last.score - prior.score) : null,
+      rank: last.rank,
+      eventName: last.event_name,
+      date: last.event_date,
+      more: fresh.length - 1,
+      keys: fresh.map(whatsNewKey),
+    });
+  }
+  items.sort((a, b) => (a.date === b.date ? a.name.localeCompare(b.name) : a.date < b.date ? 1 : -1));
+  return items;
+}
+
+function renderWhatsNew() {
+  els.whatsnew.innerHTML = "";
+  whatsNewShownKeys = [];
+  if (!dbHandle || model.favorites.size === 0) return;
+
+  const rows = queryScoresForBands([...model.favorites], model.defaultSeason);
+  const seen = loadSeenKeys();
+  if (seen === null) {
+    // First visit with favorites (or since storage was cleared): everything
+    // currently in the database counts as already seen.
+    saveSeenKeys(new Set(rows.map(whatsNewKey)));
+    return;
+  }
+  const items = buildWhatsNew(rows, seen);
+  if (items.length === 0) return;
+  whatsNewShownKeys = items.flatMap((i) => i.keys);
+
+  const list = el("ul", { class: "whatsnew__list" }, []);
+  for (const item of items.slice(0, WHATSNEW_MAX_SHOWN)) {
+    const nameBtn = el("button", { type: "button", class: "whatsnew__band" }, [item.name]);
+    nameBtn.addEventListener("click", () => openBandDetail(item.unitId, model.defaultSeason));
+    const detail = [item.rank ? `#${item.rank} at ${item.eventName}` : item.eventName, fmtDate(item.date)];
+    if (item.more > 0) detail.push(`+${item.more} earlier`);
+    list.appendChild(
+      el("li", { class: "whatsnew__item" }, [
+        nameBtn,
+        el("span", { class: "whatsnew__group" }, [item.divisionLabel]),
+        el("span", { class: "whatsnew__score" }, [fmtScore(item.score)]),
+        item.delta === null ? null : deltaCell(item.delta),
+        el("span", { class: "whatsnew__where" }, [detail.join(" · ")]),
+      ])
+    );
+  }
+  const hidden = items.length - WHATSNEW_MAX_SHOWN;
+  if (hidden > 0) list.appendChild(el("li", { class: "whatsnew__more" }, [`and ${hidden} more band${hidden === 1 ? "" : "s"}`]));
+
+  const dismiss = el("button", { type: "button", class: "export-btn" }, ["Got it"]);
+  dismiss.addEventListener("click", dismissWhatsNew);
+  els.whatsnew.appendChild(
+    el("section", { class: "whatsnew", role: "region", "aria-label": "What's new for your bands" }, [
+      el("div", { class: "whatsnew__head" }, [
+        el("h2", {}, [`★ What's new — ${items.length} of your bands ${items.length === 1 ? "has" : "have"} new scores`]),
+        dismiss,
+      ]),
+      list,
+    ])
+  );
+}
+
+function dismissWhatsNew() {
+  const seen = loadSeenKeys() || new Set();
+  for (const k of whatsNewShownKeys) seen.add(k);
+  saveSeenKeys(seen);
+  renderWhatsNew();
+}
+
+/* ---------------- Shared overlay plumbing (Upcoming, Finals) ---------------- */
+
+const upcomingView = { returnFocus: null };
+const finalsView = { returnFocus: null };
+
+function initOverlay(view, openBtn, overlay, closeBtn, fill) {
+  view.open = () => {
+    view.returnFocus = document.activeElement;
+    fill();
+    overlay.hidden = false;
+    closeBtn.focus();
+  };
+  view.close = () => {
+    if (overlay.hidden) return;
+    overlay.hidden = true;
+    if (view.returnFocus && document.body.contains(view.returnFocus)) view.returnFocus.focus();
+    view.returnFocus = null;
+  };
+  openBtn.addEventListener("click", view.open);
+  closeBtn.addEventListener("click", view.close);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) view.close();
+  });
+  overlay.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") view.close();
+    else trapTabKey(overlay, e);
+  });
+}
+
+/* ---------------- Upcoming shows ---------------- */
+
+let upcomingMode = "all"; // "all" | "mine"
+
+function setUpcomingMode(mode) {
+  upcomingMode = mode;
+  els.upcomingModeAll.classList.toggle("is-active", mode === "all");
+  els.upcomingModeMine.classList.toggle("is-active", mode === "mine");
+  renderUpcoming();
+}
+
+function fmtLongDate(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+}
+
+/** Events dated today or later with their entry lists. Older databases (a
+ * cached copy from before event_entries existed) just report no entries. */
+function loadUpcoming(today) {
+  const events = queryAll(
+    dbHandle,
+    `SELECT e.id, e.event_date, e.name, e.city, e.state, e.event_kind,
+            (SELECT COUNT(*) FROM scores s WHERE s.event_id = e.id) AS scored
+     FROM events e WHERE e.event_date >= ? ORDER BY e.event_date, e.name`,
+    [today]
+  );
+  const entriesByEvent = new Map();
+  try {
+    for (const r of queryAll(
+      dbHandle,
+      `SELECT n.event_id, n.unit_id, d.label AS division_label, b.name AS band_name
+       FROM event_entries n
+       JOIN events e ON e.id = n.event_id
+       JOIN divisions d ON d.id = n.division_id
+       JOIN bands b ON b.unit_id = n.unit_id
+       WHERE e.event_date >= ?`,
+      [today]
+    )) {
+      if (!entriesByEvent.has(r.event_id)) entriesByEvent.set(r.event_id, []);
+      entriesByEvent.get(r.event_id).push(r);
+    }
+  } catch {
+    /* no event_entries table in this (older, cached) database */
+  }
+  return events.map((e) => ({ ...e, entries: entriesByEvent.get(e.id) || [] }));
+}
+
+/** Pure: events -> [{date, events: [...]}] groups, optionally only events with
+ * a favorited band entered. Each event gains `mine` (the favorited entries). */
+function groupUpcoming(events, favorites, mode) {
+  const days = new Map();
+  for (const e of events) {
+    const mine = e.entries.filter((n) => favorites.has(n.unit_id));
+    if (mode === "mine" && mine.length === 0) continue;
+    if (!days.has(e.event_date)) days.set(e.event_date, []);
+    days.get(e.event_date).push({ ...e, mine });
+  }
+  return [...days.entries()].map(([date, evs]) => ({ date, events: evs }));
+}
+
+function openUpcomingContent() {
+  upcomingMode = "all";
+  els.upcomingModeAll.classList.add("is-active");
+  els.upcomingModeMine.classList.remove("is-active");
+  renderUpcoming();
+}
+
+function renderUpcoming() {
+  const today = todayISO();
+  const events = loadUpcoming(today);
+  const days = groupUpcoming(events, model.favorites, upcomingMode);
+  const shown = days.reduce((n, d) => n + d.events.length, 0);
+
+  els.upcomingSub.textContent =
+    events.length === 0
+      ? ""
+      : `${shown} of ${events.length} upcoming show${events.length === 1 ? "" : "s"}, ${fmtLongDate(events[0].event_date)} to ${fmtLongDate(events[events.length - 1].event_date)}`;
+
+  els.upcomingList.innerHTML = "";
+  if (events.length === 0) {
+    els.upcomingList.appendChild(
+      el("p", { class: "empty-note" }, ["No upcoming shows on the calendar. The next season's schedule appears here once usbands.org posts it."])
+    );
+    return;
+  }
+  if (shown === 0) {
+    els.upcomingList.appendChild(
+      el("p", { class: "empty-note" }, [
+        model.favorites.size === 0
+          ? "Star some bands (☆) to see where they're performing next."
+          : "None of your favorited bands are entered in an upcoming show yet.",
+      ])
+    );
+    return;
+  }
+
+  for (const day of days) {
+    const section = el("section", { class: "upcoming-day" }, [
+      el("h3", { class: "upcoming-day__title" }, [day.date === today ? `${fmtLongDate(day.date)} — today` : fmtLongDate(day.date)]),
+    ]);
+    for (const e of day.events) {
+      const where = [e.city, e.state].filter(Boolean).join(", ");
+      const bandCount = new Set(e.entries.map((n) => n.unit_id)).size;
+      const kids = [
+        el("div", { class: "upcoming-event__head" }, [
+          el("span", { class: "upcoming-event__name" }, [e.name]),
+          e.event_kind !== "regular" ? el("span", { class: "badge badge--finals" }, [EVENT_KIND_LABELS[e.event_kind] || e.event_kind]) : null,
+        ]),
+        el("div", { class: "upcoming-event__meta" }, [
+          [where, bandCount ? `${bandCount} bands entered` : "", e.scored ? "scores posted" : ""].filter(Boolean).join(" · "),
+        ]),
+      ];
+      if (e.mine.length) {
+        const mineLine = el("div", { class: "upcoming-event__mine" }, [el("span", { "aria-hidden": "true" }, ["★ "])]);
+        e.mine.forEach((n, i) => {
+          const btn = el("button", { type: "button", class: "whatsnew__band" }, [n.band_name]);
+          btn.addEventListener("click", () => {
+            upcomingView.close();
+            openBandDetail(n.unit_id);
+          });
+          if (i > 0) mineLine.appendChild(document.createTextNode(", "));
+          mineLine.appendChild(btn);
+          mineLine.appendChild(document.createTextNode(` (${n.division_label})`));
+        });
+        kids.push(mineLine);
+      }
+      section.appendChild(el("div", { class: "upcoming-event" }, kids));
+    }
+    els.upcomingList.appendChild(section);
+  }
+}
+
+/* ---------------- Finals results ---------------- */
+
+/** Pure: which of a season's events were the finals. Only 2026 onward is
+ * tagged 'usbands_championship' in the database; earlier years' finals were
+ * titled "... National Championships" (2022-24) or "... Championships"
+ * (2025) and stored as plain events. Those are recognised by shape instead:
+ * a "Championship" in the final week of the season with a real field (a
+ * regular show or another circuit's listing that week has a handful of
+ * scores, finals have dozens). State championships are never finals. */
+function pickFinalsEvents(events) {
+  const lastDate = events.reduce((m, e) => (e.event_date > m ? e.event_date : m), "");
+  if (!lastDate) return [];
+  const windowStart = addDaysISO(lastDate, -6);
+  return events.filter(
+    (e) =>
+      e.event_kind === "usbands_championship" ||
+      (e.event_kind === "regular" && /championship/i.test(e.name) && e.event_date >= windowStart && e.scored >= 15)
+  );
+}
+
+function openFinalsContent() {
+  const year = model.seasonYear;
+  els.finalsBody.innerHTML = "";
+  const finalsEvents = pickFinalsEvents(
+    queryAll(
+      dbHandle,
+      `SELECT e.id, e.event_date, e.name, e.event_kind, e.city, e.state,
+              (SELECT COUNT(*) FROM scores s WHERE s.event_id = e.id) AS scored
+       FROM events e WHERE e.season_year = ? AND e.event_kind != 'state_championship' ORDER BY e.event_date`,
+      [year]
+    )
+  );
+  const ids = finalsEvents.map((e) => e.id);
+  const rows = ids.length
+    ? queryAll(
+        dbHandle,
+        `SELECT s.division_id, s.rank, s.score, b.name, b.unit_id
+         FROM scores s
+         JOIN bands b ON b.unit_id = s.unit_id
+         WHERE s.event_id IN (${ids.map(() => "?").join(",")})
+         ORDER BY s.division_id, s.rank, b.name`,
+        ids
+      )
+    : [];
+
+  if (rows.length === 0) {
+    els.finalsSub.textContent = `Season ${year}`;
+    const when = finalsEvents.length ? ` Finals are scheduled for ${fmtLongDate(finalsEvents[0].event_date)}.` : "";
+    els.finalsBody.appendChild(
+      el("p", { class: "empty-note" }, [`No finals results yet for season ${year}.${when} They appear here as soon as scores are posted.`])
+    );
+    return;
+  }
+  els.finalsSub.textContent = `Season ${year} — finals, ${fmtLongDate(finalsEvents[0].event_date)}`;
+
+  const byDivision = new Map();
+  for (const r of rows) {
+    if (!byDivision.has(r.division_id)) byDivision.set(r.division_id, []);
+    byDivision.get(r.division_id).push(r);
+  }
+  const resultsTable = (items) =>
+    el("table", { class: "detail-table" }, [
+      el(
+        "tbody",
+        {},
+        items.map((r) =>
+          el("tr", {}, [el("td", {}, [rankBadge(r.rank)]), el("td", {}, [r.name]), el("td", { class: "num" }, [fmtScore(r.score)])])
+        )
+      ),
+    ]);
+  for (const division of model.divisions) {
+    const list = byDivision.get(division.id);
+    if (!list) continue;
+    const section = el("section", { class: "finals-division" }, [
+      el("h3", { class: "finals-division__title" }, [division.label]),
+      el("div", { class: "table-scroll" }, [resultsTable(list.slice(0, 3))]),
+    ]);
+    if (list.length > 3) {
+      section.appendChild(
+        el("details", { class: "finals-division__rest" }, [
+          el("summary", {}, [`All ${list.length} results`]),
+          el("div", { class: "table-scroll" }, [resultsTable(list)]),
+        ])
+      );
+    }
+    els.finalsBody.appendChild(section);
+  }
+}
+
 /* ---------------- Init ---------------- */
 
 let dbHandle = null;
+
+/** Which seasons exist, how many scores each has, and which to open on. */
+function loadSeasonMeta() {
+  model.allSeasons = queryAll(dbHandle, "SELECT year FROM seasons ORDER BY year DESC").map((r) => r.year);
+  model.seasonScoreCounts = new Map(
+    queryAll(
+      dbHandle,
+      "SELECT e.season_year AS y, COUNT(*) AS n FROM scores s JOIN events e ON e.id = s.event_id GROUP BY e.season_year"
+    ).map((r) => [r.y, r.n])
+  );
+  model.defaultSeason = pickDefaultSeason(model.allSeasons, model.seasonScoreCounts);
+}
 
 async function main() {
   initTheme();
@@ -2172,13 +2784,13 @@ async function main() {
   }
   els.searchFilter.addEventListener("input", render);
 
-  els.seasonSelect.addEventListener("change", () => {
-    const year = Number(els.seasonSelect.value);
-    buildModelForSeason(dbHandle, year);
-    resetFilterControls();
-    populateFilters();
-    renderAll();
-  });
+  els.seasonSelect.addEventListener("change", () => switchSeason(Number(els.seasonSelect.value)));
+
+  els.detailCopyLink.addEventListener("click", copyBandLink);
+  initOverlay(upcomingView, els.upcomingOpen, els.upcomingOverlay, els.upcomingClose, openUpcomingContent);
+  initOverlay(finalsView, els.finalsOpen, els.finalsOverlay, els.finalsClose, openFinalsContent);
+  els.upcomingModeAll.addEventListener("click", () => setUpcomingMode("all"));
+  els.upcomingModeMine.addEventListener("click", () => setUpcomingMode("mine"));
 
   loadFavorites();
   loadMyBandsSort();
@@ -2195,15 +2807,17 @@ async function main() {
     return;
   }
 
-  model.allSeasons = queryAll(dbHandle, "SELECT year FROM seasons ORDER BY year DESC").map((r) => r.year);
+  loadSeasonMeta();
   const urlParams = readFiltersFromURL();
-  const initialYear = urlParams.season && model.allSeasons.includes(urlParams.season) ? urlParams.season : model.allSeasons[0];
+  const initialYear = urlParams.season && model.allSeasons.includes(urlParams.season) ? urlParams.season : model.defaultSeason;
   buildModelForSeason(dbHandle, initialYear);
   populateSeasonSelect();
   populateFilters();
   applyFiltersFromURL(urlParams);
   els.status.hidden = true;
   renderAll();
+  renderWhatsNew();
+  if (urlParams.band) openBandDetail(urlParams.band);
 }
 
 main();

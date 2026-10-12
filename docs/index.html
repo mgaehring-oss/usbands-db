@@ -100,6 +100,13 @@
       </div>
     </div>
 
+    <div class="view-toolbar" role="group" aria-label="Views">
+      <button id="upcoming-open" class="export-btn" type="button">Upcoming shows</button>
+      <button id="finals-open" class="export-btn" type="button">Finals results</button>
+    </div>
+
+    <div id="whatsnew"></div>
+
     <div id="mybands"></div>
 
     <div class="filters" role="group" aria-label="Filters">
@@ -170,7 +177,7 @@
 
   <footer class="site-footer">
     <p>Data scraped from <a href="https://usbands.org/events/" target="_blank" rel="noopener">usbands.org</a>,
-       refreshed weekly<span id="last-updated"></span>. Source on
+       refreshed Sunday and Monday afternoons during the season<span id="last-updated"></span>. Source on
        <a href="https://github.com/mgaehring-oss/usbands-db" target="_blank" rel="noopener">GitHub</a>.</p>
   </footer>
 
@@ -179,10 +186,14 @@
       <button id="detail-close" class="detail-panel__close" type="button" aria-label="Close">&times;</button>
       <h2 id="detail-title-row"><span id="detail-title"></span></h2>
       <p id="detail-sub" class="detail-panel__sub"></p>
-      <div class="segmented" role="group" aria-label="Time range">
-        <button type="button" class="segmented__option is-active" id="detail-mode-season">This Season</button>
-        <button type="button" class="segmented__option" id="detail-mode-all">All Seasons</button>
+      <div class="detail-actions">
+        <div class="segmented" role="group" aria-label="Time range">
+          <button type="button" class="segmented__option is-active" id="detail-mode-season">This Season</button>
+          <button type="button" class="segmented__option" id="detail-mode-all">All Seasons</button>
+        </div>
+        <button id="detail-copy-link" class="export-btn" type="button">Copy link</button>
       </div>
+      <p id="detail-stats" class="detail-stats"></p>
       <div id="detail-chart" class="detail-chart"></div>
       <p id="detail-chart-caption" class="detail-chart-caption" hidden>┄ dashed = group changed</p>
       <div class="table-scroll">
@@ -263,6 +274,28 @@
           </table>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div id="upcoming-overlay" class="detail-overlay" hidden>
+    <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="upcoming-title">
+      <button id="upcoming-close" class="detail-panel__close" type="button" aria-label="Close">&times;</button>
+      <h2 id="upcoming-title">Upcoming shows</h2>
+      <p id="upcoming-sub" class="detail-panel__sub"></p>
+      <div class="segmented" role="group" aria-label="Which shows">
+        <button type="button" class="segmented__option is-active" id="upcoming-mode-all">All shows</button>
+        <button type="button" class="segmented__option" id="upcoming-mode-mine">My bands</button>
+      </div>
+      <div id="upcoming-list" class="upcoming-list"></div>
+    </div>
+  </div>
+
+  <div id="finals-overlay" class="detail-overlay" hidden>
+    <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="finals-title">
+      <button id="finals-close" class="detail-panel__close" type="button" aria-label="Close">&times;</button>
+      <h2 id="finals-title">Finals results</h2>
+      <p id="finals-sub" class="detail-panel__sub"></p>
+      <div id="finals-body" class="finals-body"></div>
     </div>
   </div>
 
