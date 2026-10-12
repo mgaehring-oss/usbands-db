@@ -29,6 +29,7 @@ date on the calendar is always a finals day.
 """
 import argparse
 import os
+import re
 import sqlite3
 import sys
 from datetime import date
@@ -36,6 +37,10 @@ from datetime import date
 GRACE_DAYS = 14
 SCORES_TIMEOUT_DAYS = 45
 SEASON_START_MONTH = 8  # August: first possible shows are early September
+
+# A cancelled or postponed show never gets scores, so it must not count as an
+# "unscored final-day event" that holds the season open (or as the last date).
+CANCELLED_RE = re.compile(r"^\W*(cancel+ed|postponed)\b", re.I)
 
 
 def current_season_year(today):
@@ -71,11 +76,12 @@ def read_season_events(db_path, season_year):
         return []
     conn = sqlite3.connect(db_path)
     try:
-        return conn.execute(
-            """SELECT e.event_date, (SELECT COUNT(*) FROM scores s WHERE s.event_id = e.id)
+        rows = conn.execute(
+            """SELECT e.event_date, (SELECT COUNT(*) FROM scores s WHERE s.event_id = e.id), e.name
                FROM events e WHERE e.season_year = ?""",
             (season_year,),
         ).fetchall()
+        return [(d, n) for d, n, name in rows if not CANCELLED_RE.match(name)]
     except sqlite3.OperationalError:
         return []  # no schema yet (first-ever run)
     finally:

@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+
+<!-- 2026-10-11 18:14:35 America/Los_Angeles -->
+
+
+<html>
+
+<head>
+
+    <title>USBands</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <!-- force out of Compatibility Mode, which breaks everything -->
+    <meta name="csrf-token" content="9eb885c43e85aa15c100b2df4e882ca7e84c769e3b08a6d6e18329e7ee861d52"/>
+<script>
+(function () {
+    var meta = document.querySelector('meta[name=csrf-token]');
+    var token = meta ? meta.getAttribute('content') : '';
+    if (!token || !window.XMLHttpRequest) { return; }
+
+    // Emitted by both the page wrapper and by modal fragments, which are loaded
+    // into an already-patched page as often as they are opened on their own.
+    if (window.__wbaCsrfShim) { return; }
+    window.__wbaCsrfShim = true;
+
+    var HEADER = "X-CSRF-Token";
+    var FIELD = "csrfToken";
+    var SAFE = { GET: 1, HEAD: 1, OPTIONS: 1 };
+
+    function sameOrigin(url) {
+        var a = document.createElement('a');
+        a.href = url || window.location.href;
+        return (a.protocol + '//' + a.host) === (window.location.protocol + '//' + window.location.host);
+    }
+
+    var proto = XMLHttpRequest.prototype;
+    var open = proto.open;
+    var send = proto.send;
+    var setHeader = proto.setRequestHeader;
+
+    // Setting the same header twice appends rather than replaces, so a caller
+    // that already attached the token would produce "tok, tok" and fail.
+    proto.setRequestHeader = function (name, value) {
+        if (String(name).toLowerCase() === HEADER.toLowerCase()) { this.__wbaCsrfSent = true; }
+        return setHeader.apply(this, arguments);
+    };
+
+    proto.open = function (method, url) {
+        this.__wbaCsrfSent = false;
+        this.__wbaCsrfWanted = !SAFE[String(method || 'GET').toUpperCase()] && sameOrigin(url);
+        return open.apply(this, arguments);
+    };
+
+    proto.send = function () {
+        if (this.__wbaCsrfWanted && !this.__wbaCsrfSent) { this.setRequestHeader(HEADER, token); }
+        return send.apply(this, arguments);
+    };
+
+    if (window.fetch && window.Headers) {
+        var nativeFetch = window.fetch;
+        window.fetch = function (input, init) {
+            var url = (typeof input === 'string') ? input : (input && input.url) || '';
+            var method = String((init && init.method) || (input && input.method) || 'GET').toUpperCase();
+            if (!SAFE[method] && sameOrigin(url)) {
+                var headers = new Headers((init && init.headers) || (input && input.headers) || {});
+                if (!headers.has(HEADER)) {
+                    headers.set(HEADER, token);
+                    var next = {};
+                    for (var k in (init || {})) { next[k] = init[k]; }
+                    next.headers = headers;
+                    init = next;
+                }
+            }
+            // Bind to window: a bare fetch() call passes undefined as `this`,
+            // which some engines reject as an illegal invocation.
+            return nativeFetch.call(window, input, init);
+        };
+    }
+
+    // A plain form post never touches XHR, so it needs the token in the body.
+    // Read the action at submit time: callers rewrite it just before submitting.
+    function addField(form) {
+        if (!form || String(form.method || 'get').toUpperCase() !== 'POST') { return; }
+        if (!sameOrigin(form.getAttribute('action'))) { return; }
+        var existing = form.querySelector('input[name="' + FIELD + '"]');
+        if (existing) { existing.value = token; return; }
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = FIELD;
+        input.value = token;
+        form.appendChild(input);
+    }
+
+    document.addEventListener('submit', function (e) { addField(e.target); }, true);
+
+    // jQuery's .submit()/.trigger('submit') dispatches no DOM event — it calls
+    // this method, which per spec fires none either, so the listener above never
+    // sees a programmatic submit. Every WOMP broadcast form posts that way.
+    if (window.HTMLFormElement && HTMLFormElement.prototype.submit) {
+        var nativeFormSubmit = HTMLFormElement.prototype.submit;
+        HTMLFormElement.prototype.submit = function () {
+            addField(this);
+            return nativeFormSubmit.apply(this, arguments);
+        };
+    }
+})();
+</script>
+
+    <!-- favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/includes/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/includes/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/includes/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/includes/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/includes/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/includes/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/includes/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/includes/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/includes/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/includes/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/includes/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/includes/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/includes/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/includes/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/includes/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- smdb -->
+    <meta property="og:image" content="https://usbands.org/includes/wrapper/images/social-media/og-usbands-logo.jpg?updated=2022-03-20" />
+    <meta property="og:url" content="" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+
+
+    <!-- browser check http://outdatedbrowser.com/en -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+
+
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- https://github.com/jquery/jquery-migrate/#README -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.1.0/jquery-migrate.min.js"></script>
+
+
+<!-- retina http://retinaimag.es v1.7.2 modded -->
+<script>(function(w){var dpr=((w.devicePixelRatio===undefined)?1:w.devicePixelRatio);if(!!w.navigator.standalone){var r=new XMLHttpRequest();r.open('GET','/includes/images/retinaimages.php?devicePixelRatio='+dpr,false);r.send()}else{document.cookie='devicePixelRatio='+dpr+'; path=/'}})(window)</script>
+<noscript><style id="devicePixelRatio" media="only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)">html{background-image:url("/includes/images/retinaimages.php?devicePixelRatio=2")}</style></noscript>
+
+
+
+<!-- https://jqueryui.com -->
+<!-- so we can drag/drop table rows when they are not DataTables (such as UnitProductionPersons) -->
+<!-- this needs to go first so it doesn't conflict with bootstrap -->
+<!-- https://cdnjs.com/libraries/jqueryui -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- bootstrap -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- /bootstrap -->
+
+
+
+<!-- plugins -->
+
+<!-- blockUI http://jquery.malsup.com/block/ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+
+<!-- date/time utils http://momentjs.com -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<!-- datatables https://datatables.net -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.4/css/fixedHeader.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.4/css/rowReorder.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap4.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.4/js/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/responsive.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.2.4/js/dataTables.rowReorder.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+
+<!-- https://datatables.net/plug-ins/dataRender/ellipsis -->
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/ellipsis.js"></script>
+
+<!-- https://datatables.net/plug-ins/dataRender/datetime -->
+<!-- <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script> -->
+
+<!-- https://datatables.net/plug-ins/sorting/datetime-moment -->
+<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+
+<!-- URI for dealing with urls http://medialize.github.io/URI.js/docs.html -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/jquery.URI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/IPv6.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/punycode.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/SecondLevelDomains.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.fragmentQuery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.fragmentURI.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URITemplate.min.js"></script>
+
+
+<!-- form validation http://formvalidation.io/ -->
+<!-- https://sellfy.com/user/purchases -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.5/es6-shim.min.js"></script> <!-- for IE to work...what year is this!??! -->
+<link href="/includes/js/formvalidation-dist-v1.6.0/dist/css/formValidation.min.css" rel="stylesheet">
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/FormValidation.full.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/J.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/Bootstrap.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/PasswordStrength.min.js"></script>
+<script src="/includes/js/formvalidation-dist-v1.6.0/dist/js/plugins/Recaptcha.min.js?v=100"></script>
+
+
+<!-- datetime picker https://tempusdominus.github.io/bootstrap-4/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- turns checkboxes/radios into switches http://www.bootstraptoggle.com -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<!-- make all columns the same height http://brm.io/jquery-match-height/ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js"></script>
+
+<!-- http://bootstrap-notify.remabledesigns.com -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.7/bootstrap-notify.min.js"></script>
+
+<!-- https://daneden.github.io/animate.css/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
+
+<!-- http://davidstutz.github.io/bootstrap-multiselect/ and https://github.com/davidstutz/bootstrap-multiselect -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" />
+
+<!-- icons and such http://fontawesome.io -->
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" /> -->
+<!-- <script src="https://kit.fontawesome.com/e287d65161.js"></script> the kit is SLOW -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+
+
+<!-- fancy selects https://silviomoreto.github.io/bootstrap-select/ -->
+<!-- v1.13.1 doesn't work on mobile -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
+
+<!-- http://www.dropzonejs.com/
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/basic.min.css" />
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/basic.min.css" />
+
+<!-- spinners https://github.com/hakimel/Ladda -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda-themeless.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/spin.min.js"></script> <!-- this goes first -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.6/ladda.min.js"></script> <!-- this goes second -->
+
+<!-- http://twitter.github.io/typeahead.js/ -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
+
+
+<!-- lightbox http://ashleydw.github.io/lightbox/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- /plugins -->
+
+<!-- fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+
+
+<!-- my stuff -->
+<script src="/includes/js/usbands.js?v=1789991705"></script>
+<script src="/includes/js/grids.js?v=1600665536"></script>
+
+<!-- SC-1994 -->
+<script src="/includes/js/vendor/browser-image-compression.js?updated=2026-05-26-sc1994"></script>
+<script src="/includes/js/bd-uploader.js?updated=2026-05-26-sc1994"></script>
+<link rel="stylesheet" href="/includes/css/usbands.css?v=1787346830" />
+<link rel="stylesheet" href="/includes/css/typeahead.css?updated=2017-07-07" />
+<!-- /my stuff -->
+
+
+    <script>
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    function cookieConsent() {
+        if (!getCookie('allowUSBCookies')) {
+            $('.toast').toast('show')
+        } else {
+            $('#privacy-policy2').remove()
+        }
+    }
+
+    $().ready(function() {
+        updateWindowDimensionDisplay();
+        applySpecialLinkStyles();
+        initTooltips();
+        initSelects();
+        applyRequiredStyle();
+        initNotifications();
+        showQueuedNotifications();
+        initButtonGlow();
+
+        $('#btnAccept').click(() => {
+            setCookie('allowUSBCookies', '1', 30)
+            $('#privacy-policy2').hide()
+            $('.toast').toast('hide')
+        })
+        cookieConsent()
+            });
+    
+    //do stuff when a modal is done being loaded
+    $(document).on('loaded.bs.modal', function(e) {
+        applySpecialLinkStyles();
+        applyRequiredStyle();
+        initSelects();
+    });
+
+    $(window).on("resize", function() {
+        updateWindowDimensionDisplay();
+    });
+    </script>
+
+    <style>
+    .nav-item {
+        font-size: 13px;
+    }
+    </style>
+
+    <!-- google analytics -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-12659785-7"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-12659785-7');
+    </script>
+        <!-- /google analytics -->
+
+
+</head>
+
+<body>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5LG3GFLQ4"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-Q5LG3GFLQ4');
+    </script>
+    <div class="fixed-bottom p-4" id="privacy-policy2">
+        <div class="toast bg-dark text-white w-100 mw-100" role="alert" data-autohide="false">
+            <div class="toast-body  pb-2 pt-3 pl-3 pr-3 d-flex flex-column d-flex flex-column">
+                <h5 class="m-0 p-0" style="color: white;">We Value your Privacy</h5>
+                <div class="row">
+                    <div class="col-md-10 col-sm-12">
+                        <p class="mt-3">
+                            To continue using our services and site, you agree to our <a
+                                href="/home/BD Performing Arts Privacy Policy.pdf" target="_blank" style="color: white;
+text-decoration: underline;">Privacy Policy</a>.
+                            We use cookies to enhance your browsing experience. By clicking "OK", you consent.
+                        </p>
+                    </div>
+                    <div class="mx-auto col-md-2 col-sm-12 col-xs-12 pb-2 pb-md-0">
+                        <button type="button" class="btn btn-light btn-flat btn-outline-primary pl-4 pr-4"
+                            style="float: right" id="btnAccept">
+                            OK
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <!-- header nav bar -->
+    <header>
+                <nav class="navbar xnavbar-expand-lg accountNav">
+            <div class="xcollapse xnavbar-collapse d-flex justify-content-between align-items-center w-100">
+                <ul id="headerUtils" class="nav navbar-nav d-flex flex-row">
+                    <li class="nav-item"><a class="nav-link" href="/account/sign-in/">Sign In</a></li>
+                </ul>
+
+                <div class="smdb">
+                    <a href="https://www.facebook.com/USBands/"><i class="fab fa-facebook"></i></a> <a
+                        href="https://www.instagram.com/usbandsofficial/"><i class="fab fa-instagram"></i></a> <a
+                        href="https://twitter.com/usbands"><i class="fab fa-twitter-square"></i></a>
+                </div>
+            </div>
+        </nav>
+
+                <nav class="navbar navbar-expand-xl navbar-light siteNav">
+    <a class="navbar-brand" href="/" style="z-index: 1000;"><img src="/includes/wrapper/images/USBands_Logo_color.png" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <!-- Fall Events Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="fallEventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Fall Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="fallEventsDropdown">
+                    <a class="dropdown-item" href="/events/">USBands Events</a>
+                    <a class="dropdown-item" href="/showstyle/">Traditional/Showstyle Events</a>
+                    <a class="dropdown-item" href="/events/?type=the-stage">The Stage Events</a>
+                </div>
+            </li>
+
+            <!-- Winter Events Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="winterEventsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Winter Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="winterEventsDropdown">
+                    <a class="dropdown-item" href="/events/?type=indoor-percussion">Indoor Percussion Events</a>
+                    <a class="dropdown-item" href="/MAIN/events/">MAIN Events</a>
+                </div>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" href="/tickets/">Tickets</a></li>
+            <li class="nav-item"><a class="nav-link" href="/education">Education</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+
+            <!-- Remove dropdown for Resources and add each link as top-level nav items -->
+            <li class="nav-item"><a class="nav-link" href="/directors/">Directors</a></li>
+            <li class="nav-item"><a class="nav-link" href="/adjudicators/">Adjudicators</a></li>
+            <li class="nav-item"><a class="nav-link" href="/event-staff/">Event Staff</a></li>
+           <!-- <li class="nav-item"><a class="nav-link" href="/parents-students/">Parents / Students</a></li>-->
+
+            <li class="nav-item"><a class="nav-link" href="/about/contact/">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://store.bluedevils.org/usbands/">Shop</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+    </header>
+    <!-- /header nav bar -->    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="_parts/event_details.css?v=1789992381">
+
+
+    <script>
+        function initRegisterButton() {
+            $(document).on("click", ".registerButton", function (event) {
+                var button = $(event.currentTarget);
+                var dataToPost = {
+                    eventID: button.data("eventid"),
+                    unitID: button.data("unitid"),
+                    eventDayID: button.data("eventdayid") || 0,
+                    action: "addToCart"
+                }
+                $.post("verify_production.php", dataToPost, function (data) {
+                    data = JSON.parse(data);
+                    if (!data.error) {
+                        $.post("add-to-cart.php", dataToPost, function (data) {
+                            data = JSON.parse(data);
+                            if (!data.error) {
+                                /*
+                                                var notification = {
+                                                    options: {
+                                                        icon: "far fa-smile",
+                                                        message: "Profile has been updated."
+                                                    }
+                                                }
+                                                saveToArrayInSessionStorage("notifications", notification);
+                                */
+                                window.location = "/units/entries/checkout.php?unitID=" + dataToPost.unitID + "";
+                            } else {
+                                alert(data.message);
+                            }
+                        });
+                    } else {
+                        $("#productionAnnouncer .modal-content").load('annoncer.php?unitID=' + dataToPost.unitID);
+                        $('#productionAnnouncer').modal("show");
+                    }
+                });
+            });
+        }
+
+        function initCritiqueRegisterButton() {
+            $(document).on("click", ".registerCritiqueButton", function (event) {
+
+                var button = $(event.currentTarget);
+                var dataToPost = {
+                    eventID: button.data("eventid"),
+                    unitID: button.data("unitid"),
+                    action: "registerToCritique"
+                }
+                var confirmString = "Are you sure you want to register this unit to Critique?";
+                if (confirm(confirmString)) {
+                    $.post("/units/entries/process.php", dataToPost, function (data) {
+                        data = JSON.parse(data);
+                        if (!data.error) {
+                            var notification = {
+                                options: {
+                                    icon: "far fa-smile",
+                                    message: "Unit registered to Critique."
+                                }
+                            }
+                            saveToArrayInSessionStorage("notifications", notification);
+                            window.location = "details.php?ID=" + button.data("eventid");
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+                } else {
+                    false;
+                }
+            });
+        }
+
+        function initWaitlistButton() {
+            $(document).on("click", ".waitlistButton", function (event) {
+                var button = $(event.currentTarget);
+                var dataToPost = {
+                    eventID: button.data("eventid"),
+                    unitID: button.data("unitid"),
+                    eventDayID: button.data("eventdayid") || 0,
+                    action: "addToWaitlist"
+                }
+
+                $.post("add-to-cart.php", dataToPost, function (data) {
+                    data = JSON.parse(data);
+                    if (!data.error) {
+                        window.location = "/units/entries/checkout.php?unitID=" + dataToPost.unitID;
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+        }
+
+        function initRegistrationUnitSelector() {
+            $(document).on("change", ".js-registration-unit-selector", function (event) {
+                var select = $(event.currentTarget);
+                var unitId = String(select.val());
+                var storageKey = select.data("storage-key");
+                var panels = $(".reg-unit-panel");
+
+                panels.addClass("d-none");
+                panels.filter('[data-unitid="' + unitId + '"]').removeClass("d-none");
+
+                if (storageKey && window.sessionStorage) {
+                    sessionStorage.setItem(storageKey, unitId);
+                }
+            });
+
+            $(".js-registration-unit-selector").each(function () {
+                var select = $(this);
+                var storageKey = select.data("storage-key");
+                var defaultUnitId = String(select.data("default-unitid") || select.val());
+                var storedUnitId = "";
+
+                if (storageKey && window.sessionStorage) {
+                    storedUnitId = sessionStorage.getItem(storageKey) || "";
+                }
+
+                var selectedUnitId = storedUnitId || defaultUnitId;
+                if (selectedUnitId) {
+                    select.val(selectedUnitId);
+                }
+                select.trigger("change");
+            });
+        }
+
+
+        function initCarousel() {
+            var carousel = $("#promoImagesCarousel").carousel({
+                interval: 5000,
+                ride: "carousel"
+            });
+            $("#heroCarousel").carousel({interval: 5000, ride: "carousel"});
+        }
+
+        function initLightbox() {
+            $(document).on("click", '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox();
+            });
+        }
+
+
+        function initAdjudicatorModals() {
+            $(".adjudicatorName").on("click", function (event) {
+                event.preventDefault();
+                var ID = $(event.currentTarget).data("id") || $(event.target).closest(".adjudicatorName").data("id");
+                if (!ID) {
+                    return;
+                }
+                $("#myModalLarge .modal-content").load("/common/people/details.php?ID=" + ID);
+                $("#myModalLarge").modal("show");
+            });
+
+        }
+
+
+        function fallbackCopy($btn, text) {
+            var $temp = $('<input>');
+            $('body').append($temp);
+            $temp.val(text).select();
+            document.execCommand('copy');
+            $temp.remove();
+
+            $btn.text('Copied!');
+            setTimeout(function () {
+                $btn.html('<i class="bi bi-share mr-1"></i> Share');
+            }, 1500);
+        }
+
+
+        $().ready(function () {
+            initRegisterButton();
+            initCritiqueRegisterButton();
+            initWaitlistButton();
+            initRegistrationUnitSelector();
+            initCarousel();
+            initAdjudicatorModals();
+            $(document).on("click", ".event-hero__zoom", function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                var $zoom = $(this);
+
+                var bg = $("#heroCarousel .carousel-item.active .event-hero__bg").css("background-image") || "";
+                var url = bg.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+
+                if (!url) return;
+                $zoom.attr("data-remote", url);
+                $zoom.attr("href", url);
+                $zoom.attr("data-type", "image");
+
+                $zoom.ekkoLightbox();
+            });
+            $(document).on('click', '.btn-share', function () {
+                var $btn = $(this);
+                var currentUrl = window.location.href;
+
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(currentUrl).then(function () {
+                        $btn.html('Copied!');
+                        setTimeout(function () {
+                            $btn.html('<i class="bi bi-share mr-1"></i> Share');
+                        }, 1500);
+                    }).catch(function () {
+                        fallbackCopy($btn, currentUrl);
+                    });
+                } else {
+                    fallbackCopy($btn, currentUrl);
+                }
+            });
+        });
+                    function initGmap() {
+                        $("<iframe>", {
+                src: "https://www.google.com/maps/embed/v1/place?key=AIzaSyC5lKb5I1hQLnTh4b45yRCJKOp1i7mPGPU&q=Cheshire+High+School+525+S+Main+St+Cheshire+CT",
+                id: "myFrame",
+                frameborder: 0,
+                scrolling: "no"
+            }).appendTo($("#map"));
+
+            return;
+
+
+            //this stuff gets us billed :(
+            var latlng = new google.maps.LatLng(41.4901913, -72.9069286);
+            var myOptions = {
+            zoom: 12,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+            var map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+            var contentString = "<br />Cheshire High School";
+
+            var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+
+            var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            animation: google.maps.Animation.DROP,
+            //title:"Hello World!"
+        });
+
+            google.maps.event.addListener(marker, "click", function () {
+            infowindow.open(map, marker);
+        });
+        }
+
+            $().ready(function () {
+            initGmap();
+        });
+            </script>
+
+    <main class="pb-5">
+        <div class="container">
+                        
+<section class="event-hero-wrap">
+
+    <a href="/events" class="p-0 mb-2 event-back-link">
+        <img src="/includes/images/events/arrow-right.svg" alt=""/> Back to Events
+    </a>
+
+            <div id="heroCarousel" class="carousel slide event-hero" data-ride="carousel" data-interval="5000">
+
+                        <div class="carousel-inner">
+                                                        <div class="carousel-item active">
+                        <div class="event-hero__bg" style="background-image:url('/events/files-events/cache/1000/1488/cheshire-high-school-cheshire-ct-6-schoolphoto-1600x1066.jpg')"></div>
+                    </div>
+                
+
+            </div>
+
+                                    <a href="#"
+               class="event-hero__zoom"
+               data-toggle="lightbox"
+               data-gallery="event-gallery"
+               data-type="image"
+               data-remote="/events/files-events/cache/1000/1488/cheshire-high-school-cheshire-ct-6-schoolphoto-1600x1066.jpg">
+                <img src="/includes/images/events/zoom-in.svg" alt="zoom-in"> Zoom
+            </a>
+
+            <div class="event-hero__overlay">
+                <div class="event-hero__content w-100">
+                    <h1 class="text-white mb-2 event-title">Cheshire High School</h1>
+
+                    <div class="text-white d-flex flex-column event-address event-meta">
+
+            <div class="event-meta__primary d-flex flex-wrap">
+                            <div class="d-flex align-items-center"><img src="/includes/images/events/calendar.svg" alt="Calendar" class="mr-2"/> October 10, 2026</div>
+                                        <div class="d-flex align-items-center"><img src="/includes/images/events/clock.svg" alt="Clock" class="mr-2"/> 5:00pm EDT</div>
+                    </div>
+    
+    <div class="event-meta__secondary">
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Cheshire+High+School+525+S+Main+St+Cheshire+CT+06410" target="_blank" rel="noopener noreferrer" class="event-meta__venue d-inline-flex align-items-center text-white text-decoration-none"><img src="/includes/images/events/pin.svg" alt="Map Pin" class="mr-2"/> Cheshire High School</a>
+                            <span class="event-meta__sep" aria-hidden="true"></span>
+            <span class="event-meta__address">525 S Main St, Cheshire, CT 06410</span>
+            </div>
+
+</div>
+                </div>
+            </div>
+
+        </div>
+
+        
+    
+
+</section>
+
+            <div class="container-fluid mt-3">
+
+
+                <div class="row">
+                    <div class="col-lg-4 order-lg-2">
+                        
+<div class="sticky-top" style="top: 15px;">
+
+    <!-- Registration -->
+    <div class="card mb-3 reg-card">
+        <div class="card-body">
+            
+    <div class="text-center">
+        <a href="/account/sign-in/?destination=%2Fevents%2Fdetails.php%3FID%3D1488"
+           class="btn btn-primary btn-block">
+            Sign in to Register
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+
+
+    <!-- Tickets -->
+        <div class="card mb-3 tickets-modern">
+        <div class="card-body d-flex flex-column" style="gap: 24px;">
+
+            
+                            <a href="#tab-scores" class="btn btn-block btn-primary js-view-scores">
+                    View Scores
+                </a>
+                <script>
+                    $(function () {
+                        $(document).on('click', '.js-view-scores', function (e) {
+                            var card = document.querySelector('.event-tabs-card');
+                            var $tab = $('.event-tabs-card [data-toggle="tab"][href="#tab-scores"]').first();
+                            if (!$tab.length) { return; } // no Scores tab -- let the anchor jump
+                            e.preventDefault();
+                            $tab.tab('show'); // _tabs.php syncs .active across both nav copies
+                            if (card) {
+                                var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                                card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+                            }
+                        });
+                    });
+                </script>
+
+            
+            
+            <div class="tickets-modern__actions justify-content-between">
+                <div class="d-flex">
+                    <button type="button" class="btn btn-outline-secondary btn-sm btn-share">
+                        <i class="bi bi-share mr-1"></i> Share
+                    </button></div>
+                <div class="d-flex">
+                    <a href="_parts/add-to-calendar.php?eventID=1488"
+                       class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-calendar2-plus mr-1"></i> Add to Calendar
+                    </a>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+            </div>
+                    </div>
+                    <div class="col-lg-8 order-lg-1">
+                        <div class="event-tabs-card mb-3">
+    
+    <div class="event-tabs-mobile d-md-none">
+        <button class="btn event-tabs-mobile-toggle" type="button" data-toggle="collapse"
+                data-target="#event-tabs-mobile-menu-1488" aria-expanded="false" aria-controls="event-tabs-mobile-menu-1488">
+            <span class="event-tabs-mobile-toggle__label">
+                <span class="tab-icon tab-icon-doc mr-2" aria-hidden="true"></span>
+                Event Details
+            </span>
+        </button>
+        <div class="collapse event-tabs-mobile-menu" id="event-tabs-mobile-menu-1488">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#tab-details" role="tab">
+                        <span class="tab-icon tab-icon-doc mr-2" aria-hidden="true"></span>
+                        Event Details
+                    </a>
+                </li>
+                                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-schedule" role="tab">
+                        <span class="tab-icon tab-icon-calendar mr-2" aria-hidden="true"></span>
+                        Schedule
+                    </a>
+                </li>
+                                                                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-notes" role="tab">
+                        <span class="tab-icon tab-icon-doc mr-2" aria-hidden="true"></span>
+                        Event Notes
+                    </a>
+                </li>
+                                                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-staff" role="tab">
+                        <i class="bi bi-people mr-2"></i> Event Staff
+                    </a>
+                </li>
+                                                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-downloads" role="tab">
+                        <i class="bi bi-download mr-2"></i> Downloads
+                    </a>
+                </li>
+                                                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-scores" role="tab">
+                        <span class="tab-icon tab-icon-cup mr-2" aria-hidden="true"></span>
+                        Scores
+                    </a>
+                </li>
+                                            </ul>
+        </div>
+    </div>
+
+    <div class="event-tabs-desktop d-none d-md-block">
+        <ul class="nav nav-tabs event-tabs-nav" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tab-details" role="tab">
+                    <span class="tab-icon tab-icon-doc mr-2" aria-hidden="true"></span>
+                    Event Details
+                </a>
+            </li>
+                        <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-schedule" role="tab">
+                    <span class="tab-icon tab-icon-calendar mr-2" aria-hidden="true"></span>
+                    Schedule
+                </a>
+            </li>
+                                                <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-notes" role="tab">
+                    <span class="tab-icon tab-icon-doc mr-2" aria-hidden="true"></span>
+                    Event Notes
+                </a>
+            </li>
+                                    <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-staff" role="tab">
+                    <i class="bi bi-people mr-2"></i> Event Staff
+                </a>
+            </li>
+                                    <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-downloads" role="tab">
+                    <i class="bi bi-download mr-2"></i> Downloads
+                </a>
+            </li>
+                                    <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-scores" role="tab">
+                    <span class="tab-icon tab-icon-cup mr-2" aria-hidden="true"></span>
+                    Scores
+                </a>
+            </li>
+                                </ul>
+    </div>
+
+    <div class="tab-content event-tabs-content">
+        <div class="tab-pane fade show active" id="tab-details" role="tabpanel">
+            <div class="event-details">
+
+    <h2>About This Event</h2>
+
+    <!-- description (you already echo $event->description; just wrap it) -->
+    <div class="description mb-4">
+            </div>
+
+    <!-- info panel -->
+    <div class="info-panel">
+        <h3>Event Information</h3>
+
+                <div class="info-grid">
+            
+            <div class="info-item">
+                <div class="icon"><img src="/includes/images/events/clock.svg" alt=""></div>
+                <div>
+                    <div class="label">Start Time</div>
+                    <div class="value">5:00pm EDT</div>
+                </div>
+            </div>
+        </div>
+
+            </div>
+</div>
+
+<script>
+$(function () {
+    $('.info-panel__chips .chip[data-toggle="tooltip"]').tooltip({
+        container: 'body',
+        html: true,
+        trigger: 'hover focus'
+    });
+});
+</script>
+        </div>
+                <div class="tab-pane fade" id="tab-schedule" role="tabpanel">
+            <div class="schedule-header d-flex justify-content-between align-items-center flex-wrap">  <h2 class="schedule-title mb-0">Event Schedule</h2>  <div class="d-flex align-items-center flex-wrap" style="gap:8px;">  </div></div>
+<div class="schedule-view schedule-view--performance" id="performanceSchedule">
+            <div class="schedule-table">
+            <div class="schedule-row schedule-head">
+                <div class="schedule-cell school">School Name</div>
+                <div class="schedule-cell location">City, State</div>
+                <div class="schedule-cell classification">Division &amp; Class</div>
+                <div class="schedule-cell time">Time</div>
+            </div>
+
+                                                                        <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=7883&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="7883"
+                                   data-season="2026">Shelton High School</a>
+                            </div>
+                            <div class="schedule-cell location">Shelton, CT</div>
+                            <div class="schedule-cell classification">I A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">5:00 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=6491&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="6491"
+                                   data-season="2026">John F. Kennedy High School</a>
+                            </div>
+                            <div class="schedule-cell location">Waterbury, CT</div>
+                            <div class="schedule-cell classification">III A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">5:13 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1878&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1878"
+                                   data-season="2026">Hamden High School</a>
+                            </div>
+                            <div class="schedule-cell location">Hamden, CT</div>
+                            <div class="schedule-cell classification">III A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">5:27 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1400&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1400"
+                                   data-season="2026">Frank Scott Bunnell High School</a>
+                            </div>
+                            <div class="schedule-cell location">Stratford, CT</div>
+                            <div class="schedule-cell classification">III A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">5:41 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1746&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1746"
+                                   data-season="2026">Mark T. Sheehan High School</a>
+                            </div>
+                            <div class="schedule-cell location">Wallingford, CT</div>
+                            <div class="schedule-cell classification">III A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">5:55 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1491&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1491"
+                                   data-season="2026">Westhill High School</a>
+                            </div>
+                            <div class="schedule-cell location">Stamford, CT</div>
+                            <div class="schedule-cell classification">III A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">6:09 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1633&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1633"
+                                   data-season="2026">Danbury High School</a>
+                            </div>
+                            <div class="schedule-cell location">Danbury, CT</div>
+                            <div class="schedule-cell classification">IV A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">6:23 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=6391&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="6391"
+                                   data-season="2026">West Haven High School</a>
+                            </div>
+                            <div class="schedule-cell location">West Haven, CT</div>
+                            <div class="schedule-cell classification">V A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">6:38 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1344&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1344"
+                                   data-season="2026">Francis T. Maloney High School</a>
+                            </div>
+                            <div class="schedule-cell location">Meriden, CT</div>
+                            <div class="schedule-cell classification">V A</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">6:53 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row schedule-break">
+                            <div class="schedule-cell break-label">INTERMISSION</div>
+                            <div class="schedule-cell break-time">
+                                <span class="time-link">7:08 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1257&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1257"
+                                   data-season="2026">Bethel High School</a>
+                            </div>
+                            <div class="schedule-cell location">Bethel, CT</div>
+                            <div class="schedule-cell classification">I Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">7:38 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1311&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1311"
+                                   data-season="2026">Newtown High School</a>
+                            </div>
+                            <div class="schedule-cell location">Sandy Hook, CT</div>
+                            <div class="schedule-cell classification">II Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">7:51 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1522&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1522"
+                                   data-season="2026">Trumbull High School</a>
+                            </div>
+                            <div class="schedule-cell location">Trumbull, CT</div>
+                            <div class="schedule-cell classification">III Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">8:04 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1565&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1565"
+                                   data-season="2026">Naugatuck High School</a>
+                            </div>
+                            <div class="schedule-cell location">Naugatuck, CT</div>
+                            <div class="schedule-cell classification">III Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">8:18 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1327&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1327"
+                                   data-season="2026">Southington High School</a>
+                            </div>
+                            <div class="schedule-cell location">Southington, CT</div>
+                            <div class="schedule-cell classification">IV Open</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">8:32 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row">
+                            <div class="schedule-cell school">
+                                <a href="/units/details.php?ID=1690&season=2026"
+                                   class="band-name unitModalTrigger"
+                                   data-unit-id="1690"
+                                   data-season="2026">Cheshire High School</a>
+                            </div>
+                            <div class="schedule-cell location">Cheshire, CT</div>
+                            <div class="schedule-cell classification">Exhibition</div>
+                            <div class="schedule-cell time">
+                                <span class="time-link">8:46 PM</span>
+                            </div>
+                        </div>
+                                                                                <div class="schedule-row schedule-break">
+                            <div class="schedule-cell break-label">AWARDS and MEET &amp; GREET</div>
+                            <div class="schedule-cell break-time">
+                                <span class="time-link">9:15 PM</span>
+                            </div>
+                        </div>
+                                                        </div>
+    </div>
+
+
+<script>
+    $(document).on('click', '#scheduleToggleBtn', function () {
+        var $btn = $(this);
+        var currentView = $btn.attr('data-view');
+
+        if (currentView === 'performance') {
+            $('#performanceSchedule').addClass('d-none');
+            $('#warmupSchedule').removeClass('d-none');
+            $btn.attr('data-view', 'warmup').text('Show Performance Schedule');
+        } else {
+            $('#warmupSchedule').addClass('d-none');
+            $('#performanceSchedule').removeClass('d-none');
+            $btn.attr('data-view', 'performance').text('Show Warmup Schedule');
+        }
+    });
+
+    $(document).on('click', '.unitModalTrigger', function (e) {
+        e.preventDefault();
+        var unitID = $(this).data('unit-id');
+        var season = $(this).data('season');
+        $("#myModalLarge .modal-content").load(
+            "/common/units/details.php?ID=" + unitID + "&season=" + season
+        );
+        $("#myModalLarge").modal("show");
+    });
+</script>
+
+<style>
+
+    /* Schedule accordion */
+    .schedule-accordion {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .schedule-accordion-card {
+        border: none;
+        border-radius: 0 !important;
+        margin-bottom: 0;
+        background: transparent;
+    }
+    .schedule-accordion-card + .schedule-accordion-card {
+        border-top: 1px solid #e2e8f0;
+    }
+    .schedule-accordion-header {
+        background: #f8fafc;
+        padding: 0;
+        border: none;
+        border-bottom: none;
+    }
+    .schedule-accordion-btn {
+        font-weight: 600;
+        font-size: 1.05em;
+        color: #1e293b;
+        padding: 18px 24px;
+        text-decoration: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        border-radius: 0;
+        transition: background-color 0.15s ease;
+    }
+    .schedule-accordion-btn:hover,
+    .schedule-accordion-btn:focus {
+        text-decoration: none;
+        color: #1e293b;
+        background-color: #eef2f7;
+        outline: none;
+        box-shadow: none;
+    }
+    .schedule-accordion-icon {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-right: 2.5px solid #64748b;
+        border-bottom: 2.5px solid #64748b;
+        transform: rotate(45deg);
+        transition: transform 0.25s ease;
+        flex-shrink: 0;
+        margin-left: 16px;
+    }
+    .schedule-accordion-btn.collapsed .schedule-accordion-icon {
+        transform: rotate(-45deg);
+    }
+    .schedule-accordion-card .card-body {
+        padding: 0;
+    }
+    .schedule-accordion-card .schedule-table {
+        border-top: none;
+    }
+    .schedule-accordion-card .schedule-row {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    /* Flat warmup datatable layout.
+       grid-template-columns lives in _parts/event_details.css, under #warmupSchedule -
+       that ID-level selector outranks anything declared here, so restating the tracks
+       in this block would be dead code. Keep column definitions in one place. */
+    .warmup-table--flat .schedule-row {
+        display: grid;
+        gap: 8px;
+        border-bottom: 1px solid #e5e7eb;
+        align-items: center;
+    }
+
+    .warmup-table--flat .schedule-row > .schedule-cell {
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .warmup-table--flat .schedule-head .schedule-cell {
+        padding: 12px 8px;
+        font-weight: 700;
+        font-size: 12px;
+        color: #667085;
+        white-space: nowrap;
+    }
+
+    /* Not .warmup-data-row - break rows do not carry that class and still need padding. */
+    .warmup-table--flat .schedule-row:not(.schedule-head) .schedule-cell {
+        padding: 10px 8px;
+    }
+
+    .warmup-cell-school {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .warmup-school-info {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .warmup-school-info .band-name {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1.3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .warmup-data-label {
+        display: none;
+    }
+
+    .warmup-data-value {
+        font-size: 14px;
+        font-weight: 500;
+        color: #1f2937;
+    }
+
+    /* Card layout on phones, tablets and small laptops - see the note in
+       _parts/event_details.css for why the seven-column table does not start until 1200px. */
+    @media (max-width: 1199.98px) {
+        .warmup-table--flat .schedule-head {
+            display: none;
+        }
+
+        .warmup-table--flat .warmup-cell-school {
+            padding: 14px 16px;
+        }
+
+        /* Every value stays on screen - no expand toggle. The school name is the card
+           title, the other six carry their inline .warmup-data-label. */
+        .warmup-table--flat .warmup-data-cell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .warmup-data-label {
+            display: inline;
+            font-size: 12px;
+            font-weight: 600;
+            color: #667085;
+        }
+
+        .warmup-data-value {
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .warmup-school-info .band-name {
+            font-size: 15px;
+            white-space: normal;
+        }
+
+        .schedule-toggle-btn {
+            width: 100%;
+            min-width: 0;
+        }
+    }
+</style>
+        </div>
+                                <div class="tab-pane fade" id="tab-notes" role="tabpanel">
+            <div class="event-details">
+    <h2>Event Notes</h2>
+
+    <div class="description mb-4">
+        <p><img src="data:image/png;base64,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" style="max-width: 80%;"></p>    </div>
+</div>
+        </div>
+                        <div class="tab-pane fade" id="tab-staff" role="tabpanel">
+            
+<div class="staff-tab">
+    <h2 class="staff-tab__title">Staff &amp; Adjudicators</h2>
+
+    <!-- Adjudicators -->
+    <h3 class="staff-tab__section">Adjudicators</h3>
+
+            <div class="row">
+            <div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=5867" data-id="5867" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/5000/5867/profile-images/IMG_6548-300x300-crop_square.jpg" class="staff-avatar__img" alt="Brandon McArdell">      </div>      <div class="staff-meta">        <div class="staff-name">Brandon McArdell</div>        <div class="staff-role">Music Proficiency</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2487" data-id="2487" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/2000/2487/profile-images/IMG_1801_2-300x300-crop_square.jpeg" class="staff-avatar__img" alt="Mike Lewis">      </div>      <div class="staff-meta">        <div class="staff-name">Mike Lewis</div>        <div class="staff-role">Ensemble Music</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=1262" data-id="1262" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/1000/1262/profile-images/image0-6-300x300-crop_square.jpeg" class="staff-avatar__img" alt="Brian Murphy">      </div>      <div class="staff-meta">        <div class="staff-name">Brian Murphy</div>        <div class="staff-role">Visual (Chief Adjudicator)</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2442" data-id="2442" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <div class="staff-avatar__placeholder"></div>      </div>      <div class="staff-meta">        <div class="staff-name">Jim Dugan</div>        <div class="staff-role">Music Effect</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=6929" data-id="6929" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/6000/6929/profile-images/Pavlock-300x300-crop_square.jpeg" class="staff-avatar__img" alt="Michael Pavlock">      </div>      <div class="staff-meta">        <div class="staff-name">Michael Pavlock</div>        <div class="staff-role">Visual Effect</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=5382" data-id="5382" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/5000/5382/profile-images/IMG_7277-300x300-crop_square.png" class="staff-avatar__img" alt="Lori McBride">      </div>      <div class="staff-meta">        <div class="staff-name">Lori McBride</div>        <div class="staff-role">Colorguard</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2712" data-id="2712" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/2000/2712/profile-images/475781402_10111355097430612_6171679422130152825_n-300x300-crop_square.jpg" class="staff-avatar__img" alt="Dr. Alexander Casimiro">      </div>      <div class="staff-meta">        <div class="staff-name">Dr. Alexander Casimiro</div>        <div class="staff-role">Percussion</div>      </div>    </a>  </div></div>        </div>
+    
+    <!-- Event Staff -->
+    <h3 class="staff-tab__section mt-4">Event Staff</h3>
+
+            <div class="row">
+            <div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=2704" data-id="2704" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/2000/2704/profile-images/DE2E4F8B-1560-4F83-B0A9-13471E32266C-300x300-crop_square.jpeg" class="staff-avatar__img" alt="Bruce Wood">      </div>      <div class="staff-meta">        <div class="staff-name">Bruce Wood</div>        <div class="staff-role">Adjudication Technician</div>      </div>    </a>  </div></div><div class="col-md-6 mb-3">  <div class="staff-card">    <a href="/common/people/details.php?ID=5575" data-id="5575" class="staff-card__inner adjudicatorName">      <div class="staff-avatar">        <img src="/users/files-users/cache/5000/5575/profile-images/1000007398-300x300-crop_square.jpg" class="staff-avatar__img" alt="Philip Wegman">      </div>      <div class="staff-meta">        <div class="staff-name">Philip Wegman</div>        <div class="staff-role">Field Coordinator</div>      </div>    </a>  </div></div>        </div>
+    </div>
+
+        </div>
+                <div class="tab-pane fade" id="tab-downloads" role="tabpanel">
+            <div class="downloads-tab"><h2 class="downloads-title">Downloads</h2><div class="downloads-list"><a class="download-item" href="/events/files-events/1000/1488/Cheshire-High-School-Event-Information-Packet.pdf" target="_blank" rel="noopener">  <div class="download-item__left">    <div class="download-item__title">Event Information Packet</div>  </div>  <div class="download-item__right" aria-hidden="true">    <span class="download-item__icon"></span>  </div></a></div></div>        </div>
+        <div class="tab-pane fade" id="tab-scores" role="tabpanel">
+            <div class="scores-tab"><h2 class="scores-title">Competition Results</h2><div class="scores-division"><div class="scores-division__name">A - Group I</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=7883&season=2026" class="band-name unitModalTrigger" data-unit-id="7883" data-season="2026">Shelton High School</a></div><div class="scores-cell scores-score">72.2</div></div></div></div><div class="scores-division"><div class="scores-division__name">A - Group III</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1491&season=2026" class="band-name unitModalTrigger" data-unit-id="1491" data-season="2026">Westhill High School</a></div><div class="scores-cell scores-score">76.5</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">2</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1878&season=2026" class="band-name unitModalTrigger" data-unit-id="1878" data-season="2026">Hamden High School</a></div><div class="scores-cell scores-score">76.1</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">3</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1400&season=2026" class="band-name unitModalTrigger" data-unit-id="1400" data-season="2026">Frank Scott Bunnell High School</a></div><div class="scores-cell scores-score">74.8</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">4</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1746&season=2026" class="band-name unitModalTrigger" data-unit-id="1746" data-season="2026">Mark T. Sheehan High School</a></div><div class="scores-cell scores-score">74.5</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">5</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=6491&season=2026" class="band-name unitModalTrigger" data-unit-id="6491" data-season="2026">John F. Kennedy High School</a></div><div class="scores-cell scores-score">73.7</div></div></div></div><div class="scores-division"><div class="scores-division__name">A - Group IV</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1633&season=2026" class="band-name unitModalTrigger" data-unit-id="1633" data-season="2026">Danbury High School</a></div><div class="scores-cell scores-score">76.6</div></div></div></div><div class="scores-division"><div class="scores-division__name">A - Group V</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1344&season=2026" class="band-name unitModalTrigger" data-unit-id="1344" data-season="2026">Francis T. Maloney High School</a></div><div class="scores-cell scores-score">80.9</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">2</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=6391&season=2026" class="band-name unitModalTrigger" data-unit-id="6391" data-season="2026">West Haven High School</a></div><div class="scores-cell scores-score">71.6</div></div></div></div><div class="scores-division"><div class="scores-division__name">Open - Group I</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1257&season=2026" class="band-name unitModalTrigger" data-unit-id="1257" data-season="2026">Bethel High School</a></div><div class="scores-cell scores-score">75.4</div></div></div></div><div class="scores-division"><div class="scores-division__name">Open - Group II</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1311&season=2026" class="band-name unitModalTrigger" data-unit-id="1311" data-season="2026">Newtown High School</a></div><div class="scores-cell scores-score">80.4</div></div></div></div><div class="scores-division"><div class="scores-division__name">Open - Group III</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1522&season=2026" class="band-name unitModalTrigger" data-unit-id="1522" data-season="2026">Trumbull High School</a></div><div class="scores-cell scores-score">79.6</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">2</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1565&season=2026" class="band-name unitModalTrigger" data-unit-id="1565" data-season="2026">Naugatuck High School</a></div><div class="scores-cell scores-score">78.9</div></div></div></div><div class="scores-division"><div class="scores-division__name">Open - Group IV</div><div class="scores-table"><div class="scores-row scores-head"><div class="scores-cell scores-rank">Rank</div><div class="scores-cell scores-band">Band</div><div class="scores-cell scores-score">Score</div></div><div class="scores-row"><div class="scores-cell scores-rank"><span class="rank-num">1</span></div><div class="scores-cell scores-band"><a href="/units/details.php?ID=1327&season=2026" class="band-name unitModalTrigger" data-unit-id="1327" data-season="2026">Southington High School</a></div><div class="scores-cell scores-score">86.1</div></div></div></div></div>
+        </div>
+        <div class="tab-pane fade" id="tab-critique-schedule" role="tabpanel">
+            <p class="text-muted mb-0">Critique schedule is not available yet.</p>        </div>
+    </div>
+
+</div>
+
+<script>
+(function () {
+    var card = document.querySelector('.event-tabs-card');
+    if (!card) return;
+
+    var $toggleLabel = card.querySelector('.event-tabs-mobile-toggle__label');
+
+    function updateToggleLabel(tabLink) {
+        if (!$toggleLabel) return;
+        var iconEl = tabLink.querySelector('.tab-icon, .bi, .far, .fa');
+        var text = tabLink.textContent.trim();
+        var iconHtml = '';
+        if (iconEl) {
+            var clone = iconEl.cloneNode(true);
+            clone.classList.add('mr-2');
+            iconHtml = clone.outerHTML;
+        }
+        $toggleLabel.innerHTML = iconHtml + text;
+    }
+
+    $(document).on('shown.bs.tab', '.event-tabs-card [data-toggle="tab"]', function (event) {
+        var href = $(event.target).attr('href');
+        var currentCard = $(event.target).closest('.event-tabs-card');
+        currentCard.find('[data-toggle="tab"]').each(function () {
+            var link = $(this);
+            link.toggleClass('active', link.attr('href') === href);
+        });
+        updateToggleLabel(event.target);
+    });
+
+    var mobileMenu = document.getElementById('event-tabs-mobile-menu-1488');
+    if (mobileMenu) {
+        $(mobileMenu).on('click', '[data-toggle="tab"]', function () {
+            $(mobileMenu).collapse('hide');
+        });
+    }
+})();
+</script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="modal fade" id="productionAnnouncer" tabindex="-1" role="dialog"
+         aria-labelledby="productionAnnouncerLabel">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+<!-- small modal -->
+<div class="modal fade" id="myModalSmall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!-- /.small modal -->
+
+<!-- modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!-- /.modal -->
+
+<!-- large modal -->
+<div class="modal fade" id="myModalLarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="myImageModalLarge" tabindex="-1" role="dialog" aria-labelledby="myImageModalLarge" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="max-height: 600px; overflow-y: auto;">
+            <img src="" alt="" class="poImages"/>
+            <embed src="" width="100%" height="600px" class="poPdf"/>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade marketing-global-modal marketing-global-modal-usb" id="marketingModalGlobal" tabindex="-1" role="dialog" aria-labelledby="marketingModalGlobalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h3 class="modal-title marketing-modal-title" id="marketingModalGlobalLabel"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body marketing-modal-body"></div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <a href="#" class="btn btn-danger marketing-modal-action" target="_self" style="display:none;"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.marketing-global-modal-usb .modal-dialog {
+    max-width: 640px;
+}
+
+.marketing-global-modal-usb .modal-content {
+    border: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+    background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+}
+
+.marketing-global-modal-usb .modal-header,
+.marketing-global-modal-usb .modal-body,
+.marketing-global-modal-usb .modal-footer {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.marketing-global-modal-usb .modal-title {
+    color: #10233f;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.marketing-global-modal-usb .close {
+    color: #10233f;
+    opacity: 0.7;
+}
+
+.marketing-global-modal-usb .marketing-modal-body {
+    color: #24364f;
+    font-size: 1rem;
+}
+
+.marketing-global-modal-usb .marketing-modal-body a {
+    color: #b51f2e;
+    text-decoration: underline;
+}
+
+.marketing-global-modal-usb .marketing-modal-body p:last-child {
+    margin-bottom: 0;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-dialog {
+    max-width: 760px;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-content {
+    background: transparent;
+    box-shadow: none;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .modal-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    background: transparent;
+    border: 0;
+    justify-content: flex-end;
+    padding: .75rem;
+}
+
+.marketing-global-modal-usb.marketing-modal-image-mode .marketing-modal-body {
+    padding: 0;
+}
+
+.marketing-global-modal-usb .marketing-modal-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+@media (max-width: 575.98px) {
+    .marketing-global-modal-usb .modal-header,
+    .marketing-global-modal-usb .modal-body,
+    .marketing-global-modal-usb .modal-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+</style>
+
+<script>
+(function () {
+    var marketingModalQueue = [] || [];
+    var currentMarketingModal = null;
+
+    function getSessionCount(modalID) {
+        try {
+            if (typeof getCookie === "function") {
+                return parseInt(getCookie("marketing_modal_session_" + modalID) || "0", 10);
+            }
+            return parseInt(sessionStorage.getItem("marketing_modal_session_" + modalID) || "0", 10);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function setSessionCount(modalID, count) {
+        try {
+            if (typeof setCookie === "function") {
+                setCookie("marketing_modal_session_" + modalID, String(count));
+                return;
+            }
+            sessionStorage.setItem("marketing_modal_session_" + modalID, String(count));
+        } catch (error) {}
+    }
+
+    function getLifetimeCount(modalID) {
+        try {
+            return parseInt(localStorage.getItem("marketing_modal_lifetime_" + modalID) || "0", 10);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function setLifetimeCount(modalID, count) {
+        try {
+            localStorage.setItem("marketing_modal_lifetime_" + modalID, String(count));
+        } catch (error) {}
+    }
+
+    function canShowMarketingModal(modal) {
+        if (!modal || !modal.ID) {
+            return false;
+        }
+
+        if (modal.displayMode === "once_ever") {
+            return getLifetimeCount(modal.ID) < 1;
+        }
+
+        if (modal.displayMode === "times_per_session") {
+            return getSessionCount(modal.ID) < Math.max(parseInt(modal.displayLimit || 1, 10), 1);
+        }
+
+        return getSessionCount(modal.ID) < 1;
+    }
+
+    function recordMarketingModalView(modal) {
+        if (!modal || !modal.ID) {
+            return;
+        }
+
+        if (modal.displayMode === "once_ever") {
+            setLifetimeCount(modal.ID, getLifetimeCount(modal.ID) + 1);
+            return;
+        }
+
+        setSessionCount(modal.ID, getSessionCount(modal.ID) + 1);
+    }
+
+    function renderMarketingModal(modal) {
+        var modalElement = $("#marketingModalGlobal");
+        var isImageModal = modal.contentType === "image" && modal.imageUrl;
+        modalElement.toggleClass("marketing-modal-image-mode", !!isImageModal);
+        modalElement.find(".marketing-modal-title").text(modal.title || "").toggle(!!modal.title && !isImageModal);
+        modalElement.find(".modal-footer").toggle(!isImageModal);
+        if (isImageModal) {
+            var imageAlt = modal.imageAlt || modal.title || "";
+            modalElement.find(".marketing-modal-body").html(
+                '<img src="' + modal.imageUrl + '" alt="' + imageAlt.replace(/"/g, '&quot;') + '" class="marketing-modal-image">'
+            );
+        } else {
+            modalElement.find(".marketing-modal-body").html(modal.bodyHtml || "");
+        }
+
+        var actionButton = modalElement.find(".marketing-modal-action");
+        if (!isImageModal && modal.actionLabel && modal.actionUrl) {
+            actionButton.text(modal.actionLabel);
+            actionButton.attr("href", modal.actionUrl);
+            actionButton.attr("target", modal.actionTarget || "_self");
+            actionButton.attr("style", "");
+            if (modal.actionButtonColor) {
+                actionButton.css({
+                    backgroundColor: modal.actionButtonColor,
+                    borderColor: modal.actionButtonColor,
+                    color: "#ffffff"
+                });
+            }
+            actionButton.show();
+        } else {
+            actionButton.hide();
+            actionButton.attr("href", "#");
+            actionButton.attr("target", "_self");
+            actionButton.attr("style", "");
+            actionButton.text("");
+        }
+    }
+
+    function showNextMarketingModal() {
+        if (!marketingModalQueue.length) {
+            currentMarketingModal = null;
+            return;
+        }
+
+        currentMarketingModal = marketingModalQueue.shift();
+        renderMarketingModal(currentMarketingModal);
+        recordMarketingModalView(currentMarketingModal);
+        $("#marketingModalGlobal").modal("show");
+    }
+
+    $(function () {
+        marketingModalQueue = marketingModalQueue.filter(canShowMarketingModal);
+        if (!marketingModalQueue.length) {
+            return;
+        }
+
+        $("#marketingModalGlobal").on("hidden.bs.modal", function () {
+            showNextMarketingModal();
+        });
+
+        showNextMarketingModal();
+    });
+})();
+</script>
+
+
+<!-- start footer.php -->
+<footer>
+    
+            <div class="container-fluid sponsors">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-white mb-5">Presenting Sponsor</h3><div class="row justify-content-center align-items-center"><div class="col-8 col-sm-6 col-md-4 col-lg-3 mb-0">
+            <a href="https://connselmer.com/" title="Conn-Selmer" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/Conn-Selmer-Logo.png" alt="Conn-Selmer" class="img-fluid" style=" opacity: 0.7; mix-blend-mode: screen;" />
+            </a>
+        </div></div><div class="row justify-content-center align-items-center"><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://demoulin.com/" title="DeMoulin" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/demoulin.png" alt="DeMoulin" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://algy.com/" title="Algy" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/algyby.png" alt="Algy" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div></div><div class="row justify-content-center align-items-center"><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://bandshoppe.com/" title="Band Shoppe" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/bandshoppelogo.png" alt="Band Shoppe" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://www.drillmastersmarching.com/" title="Drillmasters" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/Drillmasters.png" alt="Drillmasters" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://peakgrouptravel.com/" title="Peak Group Travel" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/peak-group-travel.png" alt="Peak Group Travel" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div><div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-0">
+            <a href="https://pepwear.com/" title="PepWear" target="_blank" class="d-block h-100">
+                <img src="/includes/wrapper/images/sponsors/pepwear.svg" alt="PepWear" class="img-fluid" style="max-width: 150px; opacity: 0.7;" />
+            </a>
+        </div></div>                </div>
+            </div>
+        </div>
+            
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events/">Events</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/directors/">Directors</a></li>
+                    <li><a href="/adjudicators/">Adjudicators</a></li>
+                    <li><a href="/parents-students/">Parents / Students</a></li>
+                    <li><a href="https://store.bluedevils.org/usbands/">Shop</a></li>
+                    <li><a href="/account/">My Account</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <h2>About USBands</h2>
+                <p>Our mission is to support the development of young people into magnificent human beings through participation in the performing arts.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="clearfix"></div>
+
+<!-- outdated browser warning -->
+<style>
+#outdated h6,
+#outdated p {
+    text-transform: none;
+}
+#outdated #btnUpdateBrowser {
+    width: 260px;
+}
+</style>
+
+<div id="outdated">
+     <h6>Your browser is out-of-date.</h6>
+     <p>Please update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Show Me Where To Get The Update</a></p>
+     <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+
+<script>
+//event listener: DOM ready
+function addLoadEvent(func) {
+    var oldonload = window.onload;
+    if(typeof window.onload != "function") {
+        window.onload = func;
+    }
+    else {
+        window.onload = function() {
+            if(oldonload) {
+                oldonload();
+            }
+            func();
+        }
+    }
+}
+//call plugin function after DOM ready
+addLoadEvent(function(){
+    outdatedBrowser({
+        bgColor: "#f25648",
+        color: "#ffffff",
+        lowerThan: "transform"
+    })
+});
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"d44cc425cd254109aeec2be026a2fd7e","r":1,"spa":2}' crossorigin="anonymous"></script>

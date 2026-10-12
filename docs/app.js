@@ -2457,6 +2457,19 @@ function setUpcomingMode(mode) {
   renderUpcoming();
 }
 
+/** "CANCELED - X" / "CANCELLED X" / "POSTPONED - X" -> status. usbands.org has
+ * no status field; the organisers put it in the title. */
+function eventStatus(name) {
+  const m = /^\W*(cancel+ed|postponed)\b/i.exec(name);
+  if (!m) return "scheduled";
+  return m[1].toLowerCase() === "postponed" ? "postponed" : "cancelled";
+}
+
+/** The title without its CANCELED/POSTPONED prefix (the badge says it). */
+function cleanEventName(name) {
+  return name.replace(/^\W*(cancel+ed|postponed)\b\s*[-:–—]?\s*/i, "").trim() || name;
+}
+
 function fmtLongDate(iso) {
   const [y, m, d] = iso.split("-").map(Number);
   return new Date(y, m - 1, d).toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
@@ -2473,6 +2486,7 @@ function loadUpcoming(today) {
     [today]
   );
   const entriesByEvent = new Map();
+  let entriesKnown = true;
   try {
     for (const r of queryAll(
       dbHandle,
@@ -2488,9 +2502,9 @@ function loadUpcoming(today) {
       entriesByEvent.get(r.event_id).push(r);
     }
   } catch {
-    /* no event_entries table in this (older, cached) database */
+    entriesKnown = false; // no event_entries table in this (older, cached) database
   }
-  return events.map((e) => ({ ...e, entries: entriesByEvent.get(e.id) || [] }));
+  return events.map((e) => ({ ...e, entries: entriesByEvent.get(e.id) || [], entriesKnown }));
 }
 
 /** Pure: events -> [{date, events: [...]}] groups, optionally only events with
@@ -2519,10 +2533,11 @@ function renderUpcoming() {
   const days = groupUpcoming(events, model.favorites, upcomingMode);
   const shown = days.reduce((n, d) => n + d.events.length, 0);
 
+  const called = events.filter((e) => eventStatus(e.name) !== "scheduled").length;
   els.upcomingSub.textContent =
     events.length === 0
       ? ""
-      : `${shown} of ${events.length} upcoming show${events.length === 1 ? "" : "s"}, ${fmtLongDate(events[0].event_date)} to ${fmtLongDate(events[events.length - 1].event_date)}`;
+      : `${shown} of ${events.length} upcoming show${events.length === 1 ? "" : "s"}${called ? ` (${called} cancelled or postponed)` : ""}, ${fmtLongDate(events[0].event_date)} to ${fmtLongDate(events[events.length - 1].event_date)}`;
 
   els.upcomingList.innerHTML = "";
   if (events.length === 0) {
@@ -2542,6 +2557,17 @@ function renderUpcoming() {
     return;
   }
 
+  // If a show one of your bands was entered in has been called off, say so up
+  // front -- that's the "I thought they were performing" case.
+  const affected = events.filter((e) => eventStatus(e.name) !== "scheduled" && e.entries.some((n) => model.favorites.has(n.unit_id)));
+  if (affected.length) {
+    els.upcomingList.appendChild(
+      el("div", { class: "upcoming-alert", role: "note" }, [
+        `Heads up: ${affected.length === 1 ? "a show" : `${affected.length} shows`} your bands were entered in ${affected.length === 1 ? "has" : "have"} been cancelled or postponed -- marked below.`,
+      ])
+    );
+  }
+
   for (const day of days) {
     const section = el("section", { class: "upcoming-day" }, [
       el("h3", { class: "upcoming-day__title" }, [day.date === today ? `${fmtLongDate(day.date)} — today` : fmtLongDate(day.date)]),
@@ -2549,13 +2575,22 @@ function renderUpcoming() {
     for (const e of day.events) {
       const where = [e.city, e.state].filter(Boolean).join(", ");
       const bandCount = new Set(e.entries.map((n) => n.unit_id)).size;
+      const status = eventStatus(e.name);
+      const off = status !== "scheduled";
+      const statusLabel = status === "postponed" ? "Postponed" : "Cancelled";
+      const bandsNote = bandCount
+        ? off ? `${bandCount} bands had been entered` : `${bandCount} bands entered`
+        : !off && e.entriesKnown && !e.scored ? "entries not posted yet" : "";
       const kids = [
         el("div", { class: "upcoming-event__head" }, [
-          el("span", { class: "upcoming-event__name" }, [e.name]),
+          off ? el("span", { class: "badge badge--cancelled" }, [statusLabel]) : null,
+          el("span", { class: "upcoming-event__name" }, [cleanEventName(e.name)]),
           e.event_kind !== "regular" ? el("span", { class: "badge badge--finals" }, [EVENT_KIND_LABELS[e.event_kind] || e.event_kind]) : null,
         ]),
         el("div", { class: "upcoming-event__meta" }, [
-          [where, bandCount ? `${bandCount} bands entered` : "", e.scored ? "scores posted" : ""].filter(Boolean).join(" · "),
+          [where, bandsNote, e.scored ? "scores posted" : "", status === "postponed" ? "new date not listed here -- check usbands.org" : ""]
+            .filter(Boolean)
+            .join(" · "),
         ]),
       ];
       if (e.mine.length) {
@@ -2569,10 +2604,11 @@ function renderUpcoming() {
           if (i > 0) mineLine.appendChild(document.createTextNode(", "));
           mineLine.appendChild(btn);
           mineLine.appendChild(document.createTextNode(` (${n.division_label})`));
+          if (off) mineLine.appendChild(el("strong", { class: "upcoming-event__off" }, [` -- not performing here (${statusLabel.toLowerCase()})`]));
         });
         kids.push(mineLine);
       }
-      section.appendChild(el("div", { class: "upcoming-event" }, kids));
+      section.appendChild(el("div", { class: `upcoming-event${off ? " upcoming-event--off" : ""}` }, kids));
     }
     els.upcomingList.appendChild(section);
   }

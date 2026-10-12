@@ -235,6 +235,57 @@ test.describe("upcoming shows", () => {
     await expect(page.locator(".upcoming-event").first()).toBeVisible();
   });
 
+  test("reads CANCELED / POSTPONED from the title", async ({ page }) => {
+    await ready(page);
+    const out = await page.evaluate(() => [
+      eventStatus("CANCELED - Trumbull High School"),
+      eventStatus("CANCELLED Montville Township High School"),
+      eventStatus("POSTPONED - Conn Selmer Classic"),
+      eventStatus("Canceledville Invitational"),
+      eventStatus("Trumbull High School"),
+      cleanEventName("CANCELED - Trumbull High School"),
+      cleanEventName("CANCELLED Montville Township High School"),
+      cleanEventName("POSTPONED: Conn Selmer Classic"),
+      cleanEventName("Trumbull High School"),
+    ]);
+    expect(out).toEqual([
+      "cancelled", "cancelled", "postponed", "scheduled", "scheduled",
+      "Trumbull High School", "Montville Township High School", "Conn Selmer Classic", "Trumbull High School",
+    ]);
+  });
+
+  test("lists a cancelled show, marked as cancelled, and warns about a favorited band's entry", async ({ page }) => {
+    await ready(page);
+    const band = await bandWithScores(page, 1);
+    await page.evaluate((id) => {
+      dbHandle.run("INSERT INTO events (id, season_year, name, event_date, city, state, event_kind) VALUES (99999, 2026, 'CANCELED - Test Invitational', '2026-10-20', 'Springfield', 'NJ', 'regular')");
+      dbHandle.run("INSERT INTO events (id, season_year, name, event_date, city, state, event_kind) VALUES (99998, 2026, 'Test Classic', '2026-10-20', 'Springfield', 'NJ', 'regular')");
+      dbHandle.run("INSERT INTO event_entries VALUES (99999, ?, 2)", [id]);
+      dbHandle.run("INSERT INTO event_entries VALUES (99998, ?, 2)", [id]);
+      model.favorites.add(id);
+    }, band.id);
+
+    await page.click("#upcoming-open");
+    const alert = page.locator(".upcoming-alert");
+    await expect(alert).toContainText("been cancelled or postponed");
+
+    const off = page.locator(".upcoming-event--off", { hasText: "Test Invitational" });
+    await expect(off.locator(".badge--cancelled")).toHaveText("Cancelled");
+    await expect(off.locator(".upcoming-event__name")).toHaveText("Test Invitational"); // prefix stripped
+    await expect(off).toContainText("not performing here (cancelled)");
+    await expect(off).toContainText("had been entered");
+
+    // The same band's normal show the same day is NOT marked.
+    const ok = page.locator(".upcoming-event", { hasText: "Test Classic" });
+    await expect(ok.locator(".badge--cancelled")).toHaveCount(0);
+    await expect(ok).not.toContainText("not performing");
+
+    await expect(page.locator("#upcoming-sub")).toContainText("cancelled or postponed");
+    // And it stays visible, still marked, in the My bands view.
+    await page.click("#upcoming-mode-mine");
+    await expect(page.locator(".upcoming-event--off", { hasText: "Test Invitational" })).toBeVisible();
+  });
+
   test("says so when the calendar is empty", async ({ page }) => {
     await page.clock.setFixedTime(new Date("2031-01-01T12:00:00"));
     await ready(page);

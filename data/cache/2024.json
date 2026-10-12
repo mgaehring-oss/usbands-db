@@ -31,12 +31,22 @@
    "Open - Group IV"
   ],
   [
+   1257,
+   2024,
+   "Open - Group II"
+  ],
+  [
    1259,
    2024,
    "Open - Group I"
   ],
   [
    1261,
+   2024,
+   "A - Group IV"
+  ],
+  [
+   1267,
    2024,
    "A - Group IV"
   ],
@@ -64,6 +74,11 @@
    1284,
    2024,
    "A - Group I"
+  ],
+  [
+   1285,
+   2024,
+   "Open - Group I"
   ],
   [
    1288,
@@ -126,6 +141,11 @@
    "A - Group II"
   ],
   [
+   1325,
+   2024,
+   "A - Group II"
+  ],
+  [
    1326,
    2024,
    "A - Group IV"
@@ -166,6 +186,16 @@
    "Open - Group II"
   ],
   [
+   1342,
+   2024,
+   "RA"
+  ],
+  [
+   1343,
+   2024,
+   "Open - Group IV"
+  ],
+  [
    1344,
    2024,
    "A - Group V"
@@ -181,9 +211,19 @@
    "Open - Group II"
   ],
   [
+   1348,
+   2024,
+   "RA"
+  ],
+  [
    1349,
    2024,
    "A - Group II"
+  ],
+  [
+   1352,
+   2024,
+   "Open - Group I"
   ],
   [
    1356,
@@ -201,6 +241,11 @@
    "Open - Group II"
   ],
   [
+   1363,
+   2024,
+   "Open - Group V"
+  ],
+  [
    1364,
    2024,
    "Open - Group V"
@@ -211,12 +256,32 @@
    "A - Group II"
   ],
   [
+   1379,
+   2024,
+   "Open - Group IV"
+  ],
+  [
+   1382,
+   2024,
+   "RA"
+  ],
+  [
    1387,
    2024,
    "A - Group III"
   ],
   [
+   1391,
+   2024,
+   "A - Group I"
+  ],
+  [
    1397,
+   2024,
+   "A - Group I"
+  ],
+  [
+   1398,
    2024,
    "A - Group I"
   ],
@@ -241,9 +306,24 @@
    "Open - Group III"
   ],
   [
+   1407,
+   2024,
+   "Open - Group II"
+  ],
+  [
    1411,
    2024,
    "A - Group I"
+  ],
+  [
+   1415,
+   2024,
+   "RA"
+  ],
+  [
+   1417,
+   2024,
+   "Open - Group IV"
   ],
   [
    1419,
@@ -321,6 +401,16 @@
    "Open - Group II"
   ],
   [
+   1558,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   1559,
+   2024,
+   "Open - Group II"
+  ],
+  [
    1560,
    2024,
    "Open - Group V"
@@ -344,6 +434,11 @@
    1563,
    2024,
    "Open - Group III"
+  ],
+  [
+   1564,
+   2024,
+   "A - Group IV"
   ],
   [
    1565,
@@ -371,6 +466,11 @@
    "A - Group I"
   ],
   [
+   1582,
+   2024,
+   "A - Group II"
+  ],
+  [
    1586,
    2024,
    "Open - Group IV"
@@ -394,6 +494,11 @@
    1592,
    2024,
    "A - Group III"
+  ],
+  [
+   1593,
+   2024,
+   "A - Group IV"
   ],
   [
    1594,
@@ -426,6 +531,11 @@
    "A - Group III"
   ],
   [
+   1607,
+   2024,
+   "A - Group II"
+  ],
+  [
    1608,
    2024,
    "A - Group II"
@@ -439,6 +549,11 @@
    1611,
    2024,
    "A - Group I"
+  ],
+  [
+   1613,
+   2024,
+   "A - Group III"
   ],
   [
    1617,
@@ -471,6 +586,11 @@
    "A - Group II"
   ],
   [
+   1634,
+   2024,
+   "RA"
+  ],
+  [
    1635,
    2024,
    "A - Group I"
@@ -479,6 +599,11 @@
    1637,
    2024,
    "A - Group V"
+  ],
+  [
+   1650,
+   2024,
+   "A - Group III"
   ],
   [
    1654,
@@ -666,9 +791,19 @@
    "Open - Group I"
   ],
   [
+   1807,
+   2024,
+   "RA"
+  ],
+  [
    1809,
    2024,
    "A - Group V"
+  ],
+  [
+   1811,
+   2024,
+   "Open - Group V"
   ],
   [
    1813,
@@ -751,6 +886,11 @@
    "A - Group III"
   ],
   [
+   1876,
+   2024,
+   "A - Group III"
+  ],
+  [
    1877,
    2024,
    "A - Group V"
@@ -761,9 +901,19 @@
    "A - Group II"
   ],
   [
+   1880,
+   2024,
+   "A - Group II"
+  ],
+  [
    1883,
    2024,
    "A - Group I"
+  ],
+  [
+   1884,
+   2024,
+   "A - Group III"
   ],
   [
    1886,
@@ -784,6 +934,11 @@
    1896,
    2024,
    "A - Group V"
+  ],
+  [
+   1897,
+   2024,
+   "RA"
   ],
   [
    1902,
@@ -856,9 +1011,19 @@
    "A - Group III"
   ],
   [
+   1954,
+   2024,
+   "A - Group IV"
+  ],
+  [
    1963,
    2024,
    "Open - Group V"
+  ],
+  [
+   1967,
+   2024,
+   "A - Group V"
   ],
   [
    1973,
@@ -886,6 +1051,11 @@
    "A - Group II"
   ],
   [
+   1998,
+   2024,
+   "A - Group II"
+  ],
+  [
    2002,
    2024,
    "Open - Group IV"
@@ -909,6 +1079,11 @@
    2014,
    2024,
    "Open - Group II"
+  ],
+  [
+   2015,
+   2024,
+   "A - Group I"
   ],
   [
    2019,
@@ -961,6 +1136,11 @@
    "A - Group II"
   ],
   [
+   2069,
+   2024,
+   "Open - Group I"
+  ],
+  [
    2076,
    2024,
    "A - Group I"
@@ -971,6 +1151,11 @@
    "A - Group II"
   ],
   [
+   2106,
+   2024,
+   "RA"
+  ],
+  [
    2175,
    2024,
    "A - Group III"
@@ -979,6 +1164,11 @@
    2187,
    2024,
    "Open - Group II"
+  ],
+  [
+   2189,
+   2024,
+   "A - Group IV"
   ],
   [
    2191,
@@ -994,6 +1184,11 @@
    2209,
    2024,
    "Open - Group IV"
+  ],
+  [
+   2222,
+   2024,
+   "Open - Group III"
   ],
   [
    2223,
@@ -1026,6 +1221,11 @@
    "A - Group I"
   ],
   [
+   2240,
+   2024,
+   "Open - Group IV"
+  ],
+  [
    2241,
    2024,
    "Open - Group III"
@@ -1034,6 +1234,11 @@
    2242,
    2024,
    "Open - Group IV"
+  ],
+  [
+   2247,
+   2024,
+   "A - Group IV"
   ],
   [
    2248,
@@ -1059,6 +1264,11 @@
    2293,
    2024,
    "A - Group IV"
+  ],
+  [
+   2295,
+   2024,
+   "Open - Group I"
   ],
   [
    2309,
@@ -1156,6 +1366,11 @@
    "Open - Group V"
   ],
   [
+   2493,
+   2024,
+   "A - Group III"
+  ],
+  [
    2494,
    2024,
    "A - Group II"
@@ -1186,6 +1401,11 @@
    "A - Group III"
   ],
   [
+   2533,
+   2024,
+   "A - Group III"
+  ],
+  [
    2547,
    2024,
    "A - Group I"
@@ -1194,6 +1414,11 @@
    2621,
    2024,
    "A - Group III"
+  ],
+  [
+   2637,
+   2024,
+   "A - Group I"
   ],
   [
    6303,
@@ -1209,6 +1434,11 @@
    6312,
    2024,
    "Open - Group III"
+  ],
+  [
+   6323,
+   2024,
+   "Open - Group V"
   ],
   [
    6332,
@@ -1236,6 +1466,11 @@
    "A - Group V"
   ],
   [
+   6360,
+   2024,
+   "A - Group III"
+  ],
+  [
    6366,
    2024,
    "Open - Group IV"
@@ -1256,9 +1491,19 @@
    "A - Group III"
   ],
   [
+   6403,
+   2024,
+   "A - Group IV"
+  ],
+  [
    6406,
    2024,
    "Open - Group V"
+  ],
+  [
+   6410,
+   2024,
+   "RA"
   ],
   [
    6449,
@@ -1376,6 +1621,11 @@
    "A - Group V"
   ],
   [
+   6585,
+   2024,
+   "A - Group I"
+  ],
+  [
    6597,
    2024,
    "A - Group III"
@@ -1384,6 +1634,16 @@
    6666,
    2024,
    "A - Group IV"
+  ],
+  [
+   6710,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   6711,
+   2024,
+   "A - Group II"
   ],
   [
    6713,
@@ -1416,6 +1676,11 @@
    "A - Group I"
   ],
   [
+   6726,
+   2024,
+   "A - Group III"
+  ],
+  [
    6729,
    2024,
    "Open - Group V"
@@ -1427,6 +1692,16 @@
   ],
   [
    6735,
+   2024,
+   "Open - Group V"
+  ],
+  [
+   6736,
+   2024,
+   "RA"
+  ],
+  [
+   6737,
    2024,
    "Open - Group V"
   ],
@@ -1501,6 +1776,11 @@
    "A - Group III"
   ],
   [
+   6783,
+   2024,
+   "RA"
+  ],
+  [
    6786,
    2024,
    "A - Group II"
@@ -1534,6 +1814,11 @@
    6803,
    2024,
    "Open - Group II"
+  ],
+  [
+   6807,
+   2024,
+   "RA"
   ],
   [
    6812,
@@ -1586,6 +1871,11 @@
    "A - Group III"
   ],
   [
+   6862,
+   2024,
+   "RA"
+  ],
+  [
    6864,
    2024,
    "Open - Group V"
@@ -1636,12 +1926,27 @@
    "Open - Group II"
   ],
   [
+   6909,
+   2024,
+   "A - Group I"
+  ],
+  [
+   6910,
+   2024,
+   "RA"
+  ],
+  [
    6914,
    2024,
    "A - Group II"
   ],
   [
    6915,
+   2024,
+   "A - Group III"
+  ],
+  [
+   6920,
    2024,
    "A - Group III"
   ],
@@ -1699,6 +2004,11 @@
    6966,
    2024,
    "Open - Group I"
+  ],
+  [
+   6975,
+   2024,
+   "RA"
   ],
   [
    6985,
@@ -1766,6 +2076,11 @@
    "A - Group V"
   ],
   [
+   7303,
+   2024,
+   "Open - Group V"
+  ],
+  [
    7339,
    2024,
    "Open - Group IV"
@@ -1824,6 +2139,16 @@
    "New Jersey State Championships"
   ],
   [
+   1257,
+   2024,
+   "Connecticut State Championships"
+  ],
+  [
+   1267,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
    1275,
    2024,
    "New Jersey State Championships"
@@ -1842,6 +2167,11 @@
    1284,
    2024,
    "New Jersey State Championships"
+  ],
+  [
+   1285,
+   2024,
+   "Pennsylvania State Championships"
   ],
   [
    1292,
@@ -1884,6 +2214,11 @@
    "Pennsylvania State Championships"
   ],
   [
+   1325,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
    1326,
    2024,
    "Pennsylvania State Championships"
@@ -1924,6 +2259,16 @@
    "New Jersey State Championships"
   ],
   [
+   1342,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   1343,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
    1344,
    2024,
    "Connecticut State Championships"
@@ -1937,6 +2282,16 @@
    1347,
    2024,
    "New Jersey State Championships"
+  ],
+  [
+   1348,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1352,
+   2024,
+   "Connecticut State Championships"
   ],
   [
    1356,
@@ -1954,7 +2309,22 @@
    "New Jersey State Championships"
   ],
   [
+   1363,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
    1364,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1379,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   1382,
    2024,
    "Pennsylvania State Championships"
   ],
@@ -1962,6 +2332,11 @@
    1387,
    2024,
    "Connecticut State Championships"
+  ],
+  [
+   1391,
+   2024,
+   "Pennsylvania State Championships"
   ],
   [
    1397,
@@ -1989,9 +2364,24 @@
    "Pennsylvania State Championships"
   ],
   [
+   1407,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
    1411,
    2024,
    "New Jersey State Championships"
+  ],
+  [
+   1415,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1417,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
   ],
   [
    1419,
@@ -2059,6 +2449,16 @@
    "New Jersey State Championships"
   ],
   [
+   1558,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1559,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
    1560,
    2024,
    "New Jersey State Championships"
@@ -2077,6 +2477,11 @@
    1563,
    2024,
    "Maryland & Virginia State Championships"
+  ],
+  [
+   1564,
+   2024,
+   "New Jersey State Championships"
   ],
   [
    1565,
@@ -2104,6 +2509,11 @@
    "New Jersey State Championships"
   ],
   [
+   1582,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
    1586,
    2024,
    "Massachusetts / Rhode Island State Championships"
@@ -2120,6 +2530,11 @@
   ],
   [
    1592,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1593,
    2024,
    "New Jersey State Championships"
   ],
@@ -2177,6 +2592,11 @@
    1637,
    2024,
    "Pennsylvania State Championships"
+  ],
+  [
+   1650,
+   2024,
+   "New Jersey State Championships"
   ],
   [
    1654,
@@ -2289,14 +2709,29 @@
    "Pennsylvania State Championships"
   ],
   [
+   1880,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
    1883,
    2024,
    "Massachusetts / Rhode Island State Championships"
   ],
   [
+   1884,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
    1896,
    2024,
    "New Jersey State Championships"
+  ],
+  [
+   1897,
+   2024,
+   "Connecticut State Championships"
   ],
   [
    1902,
@@ -2315,6 +2750,11 @@
   ],
   [
    1951,
+   2024,
+   "New Jersey State Championships"
+  ],
+  [
+   1967,
    2024,
    "New Jersey State Championships"
   ],
@@ -2354,6 +2794,11 @@
    "Maryland & Virginia State Championships"
   ],
   [
+   2106,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
    2175,
    2024,
    "New Jersey State Championships"
@@ -2362,6 +2807,11 @@
    2187,
    2024,
    "Pennsylvania State Championships"
+  ],
+  [
+   2189,
+   2024,
+   "New Jersey State Championships"
   ],
   [
    2191,
@@ -2382,6 +2832,11 @@
    2238,
    2024,
    "Maryland & Virginia State Championships"
+  ],
+  [
+   2240,
+   2024,
+   "New Jersey State Championships"
   ],
   [
    2248,
@@ -2434,6 +2889,11 @@
    "Pennsylvania State Championships"
   ],
   [
+   2493,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
    2494,
    2024,
    "Connecticut State Championships"
@@ -2445,6 +2905,11 @@
   ],
   [
    2621,
+   2024,
+   "Pennsylvania State Championships"
+  ],
+  [
+   2637,
    2024,
    "Pennsylvania State Championships"
   ],
@@ -2544,6 +3009,11 @@
    "New Jersey State Championships"
   ],
   [
+   6862,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
    6876,
    2024,
    "New Jersey State Championships"
@@ -2552,6 +3022,16 @@
    6899,
    2024,
    "Pennsylvania State Championships"
+  ],
+  [
+   6909,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
+  ],
+  [
+   6910,
+   2024,
+   "Massachusetts / Rhode Island State Championships"
   ],
   [
    7000,
@@ -2581,13 +3061,16 @@
   "1251": "Council Rock High School South",
   "1253": "Immaculata High School",
   "1256": "Edison High School",
+  "1257": "Bethel High School",
   "1259": "Wayne Valley High School",
   "1261": "Hightstown High School",
+  "1267": "Robbinsville High School",
   "1272": "Metuchen High School",
   "1275": "Pequannock Township High School",
   "1278": "Rocky Hill High School",
   "1283": "Delaware Valley Regional High School",
   "1284": "Burlington City High School",
+  "1285": "West Perry High School",
   "1288": "Burley High School",
   "1292": "Mainland Regional High School",
   "1293": "O'Neill High School",
@@ -2600,6 +3083,7 @@
   "1313": "Ridgewood High School",
   "1318": "Vernon Township High School",
   "1322": "Ridley High School",
+  "1325": "Passaic Valley Regional High School",
   "1326": "Central Bucks High School South",
   "1327": "Southington High School",
   "1330": "Glen Ridge High School",
@@ -2608,22 +3092,34 @@
   "1335": "Brien McMahon High School",
   "1336": "West Milford High School",
   "1341": "Lenape Valley Regional High School",
+  "1342": "Cranston High School East",
+  "1343": "Somerville High School",
   "1344": "Francis T. Maloney High School",
   "1345": "Patuxent High School",
   "1347": "Seneca High School",
+  "1348": "Weehawken High School",
   "1349": "B. Reed Henderson High School",
+  "1352": "East Haven High School",
   "1356": "Northern Valley Regional High School at Old Tappan",
   "1360": "Warren Hills Regional High School",
   "1361": "Delran High School",
+  "1363": "Mechanicsburg Area Senior High",
   "1364": "West Shore Marching Band",
   "1372": "Jordan Elbridge High School",
+  "1379": "Quakertown Community High School",
+  "1382": "Delaware Valley Middle/High School",
   "1387": "Ledyard High School",
+  "1391": "Coatesville Area Senior High",
   "1397": "Susquehanna Township High School",
+  "1398": "Hatboro Horsham High School",
   "1400": "Frank Scott Bunnell High School",
   "1402": "Hanover Park High School",
   "1403": "Hopewell Valley Central High School",
   "1404": "Perkiomen Valley High School",
+  "1407": "West Essex High School",
   "1411": "Matawan Regional High School",
+  "1415": "North Warren Regional High School",
+  "1417": "Blackstone-Millville Regional High School",
   "1419": "Monsignor Farrell High School",
   "1423": "Madison High School",
   "1440": "Abington Senior High School",
@@ -2638,36 +3134,45 @@
   "1551": "Tenafly High School",
   "1553": "King Philip Regional High School",
   "1557": "Bordentown Regional High School",
+  "1558": "Hillsborough High School",
+  "1559": "Allentown High School",
   "1560": "New Providence High School",
   "1561": "Nottingham High School",
   "1562": "Lyman Hall High School",
   "1563": "Leonardtown High School",
+  "1564": "Howell High School",
   "1565": "Naugatuck High School",
   "1571": "Great Mills High School",
   "1573": "Robert E. Fitch High School",
   "1574": "North Brunswick Township High School",
   "1575": "Rancocas Valley Regional High School",
+  "1582": "Dennis Yarmouth Regional High School",
   "1586": "Dartmouth High School",
   "1589": "Bishop Kelly High School",
   "1590": "Jackson Memorial High School",
   "1591": "Fort Lee High School",
   "1592": "Steinert High School",
+  "1593": "Passaic High School",
   "1594": "Bayonne High School",
   "1598": "Calvert Hall College High School",
   "1601": "Kittatinny Regional High School",
   "1602": "Elkhart High School",
   "1604": "North Penn High School",
   "1605": "Parsippany High School",
+  "1607": "Emerson Jr/Sr High School",
   "1608": "Colonia High School",
   "1610": "Morristown High School",
   "1611": "Park Ridge Jr./Sr. High School",
+  "1613": "Jackson Township High School",
   "1617": "Old Bridge High School",
   "1620": "New Milford High School",
   "1624": "Hamilton High School West",
   "1626": "Staten Island Technical High School",
   "1633": "Danbury High School",
+  "1634": "Burlington Township High School",
   "1635": "Calvert High School",
   "1637": "Upper Darby High School",
+  "1650": "Northern Valley Regional High School Demarest",
   "1654": "Absegami High School",
   "1661": "Huntingtown High School",
   "1665": "South Hunterdon Regional High School",
@@ -2705,7 +3210,9 @@
   "1797": "Yorktown High School",
   "1800": "The Gilbert School",
   "1804": "Westwood High School",
+  "1807": "Waldwick High School",
   "1809": "Ellington High School",
+  "1811": "West Springfield High School",
   "1813": "Victoria East High School",
   "1814": "Klein Collins High School",
   "1815": "Minico High School",
@@ -2722,13 +3229,17 @@
   "1855": "Huron High School",
   "1859": "Mountain Home High School",
   "1863": "Manassas Park High School",
+  "1876": "Mount Vernon High School",
   "1877": "Penncrest High School",
   "1878": "Hamden High School",
+  "1880": "Bridgewater-Raynham Regional High School",
   "1883": "B.M.C. Durfee High School",
+  "1884": "Central Bucks High School East",
   "1886": "Everett High School",
   "1887": "Skyview High School",
   "1892": "Pierce High School",
   "1896": "Ramsey High School",
+  "1897": "Middletown High School",
   "1902": "Wilton High School",
   "1903": "Jerome High School",
   "1911": "Mount Olive High School",
@@ -2743,17 +3254,21 @@
   "1946": "Capital High School",
   "1947": "New Britain High School",
   "1951": "Northern Highlands Regional High School",
+  "1954": "Scotch Plains Fanwood High School",
   "1963": "James W. Robinson Secondary School",
+  "1967": "Franklin High School",
   "1973": "Borah High School",
   "1974": "Wendell High School",
   "1976": "Heritage High School",
   "1982": "Academy High School",
   "1993": "Payette High School",
+  "1998": "Wallkill Valley Regional HS",
   "2002": "Clarksville High School",
   "2007": "North Hagerstown High School",
   "2008": "Bob Jones High School",
   "2013": "Rockville High School",
   "2014": "Dekaney High School",
+  "2015": "Marsing Sr/Jr High School",
   "2019": "Caldwell High School",
   "2020": "Annandale High School",
   "2023": "Newton High School",
@@ -2764,25 +3279,32 @@
   "2051": "Somerset Berkley Regional High School",
   "2062": "Lindenwold High School",
   "2067": "North Bergen High School",
+  "2069": "Bloomfield High School",
   "2076": "Fauquier High School",
+  "2106": "Abington High School",
   "2175": "Montville Township High School",
   "2187": "Great Valley High School",
+  "2189": "Columbia High School",
   "2191": "Tottenville High School",
   "2208": "Parkside High School",
   "2209": "Liverpool High School",
+  "2222": "Cherokee High School",
   "2223": "Midland Park High School",
   "2225": "Aldine High School",
   "2228": "Downingtown West High School",
   "2232": "Upper Dublin High School",
   "2236": "Marriotts Ridge High School",
   "2238": "Falls Church High School",
+  "2240": "Egg Harbor Township High School",
   "2241": "Terry High School",
   "2242": "Arlington High School",
+  "2247": "Passaic County Technical-Vocational Schools",
   "2248": "Lakeland Regional High School",
   "2268": "West Monroe High School",
   "2282": "Central Dauphin High School",
   "2289": "Langley High School",
   "2293": "Mohonasen High School",
+  "2295": "Arthur L. Johnson High School",
   "2309": "Downingtown East High School",
   "2312": "Middletown High School North",
   "2321": "Old Mill High School",
@@ -2802,26 +3324,33 @@
   "2424": "George C. Marshall High School",
   "2441": "Biglerville High School",
   "2458": "Kearney High School",
+  "2493": "Westerly High School",
   "2494": "Manchester High School",
   "2496": "Highland High School",
   "2504": "Idaho Falls High School",
-  "2510": "Marion High school",
+  "2510": "Marion High School",
   "2529": "Bensalem High School",
+  "2533": "Harry S Truman High School",
   "2547": "St. Mark's High School",
   "2621": "Marple Newtown High School",
+  "2637": "Halifax Area High School",
   "6303": "Kingsway Regional High School",
   "6306": "Shawnee High School",
   "6312": "Ellison High School",
+  "6323": "Conroe High School",
   "6332": "Morris Hills High School",
   "6339": "Corning-Painted Post Area School District",
   "6344": "South Hadley High School",
   "6350": "Framingham High School",
   "6356": "Acton-Boxborough Regional High School",
+  "6360": "Auburn High School",
   "6366": "South Western High School",
   "6379": "Camp Hill High School",
   "6380": "West Genesee High School",
   "6400": "Souderton Area High School",
+  "6403": "East Syracuse Minoa",
   "6406": "Lightridge High School",
+  "6410": "Hawthorne High School",
   "6449": "Morris Knolls High School",
   "6464": "American Falls High School",
   "6466": "Kennett High School",
@@ -2844,17 +3373,23 @@
   "6546": "Canyon Ridge High School",
   "6563": "Ouachita Parish High School",
   "6576": "Tea Area High School",
+  "6585": "High Point Regional High School",
   "6597": "Star Valley High School",
   "6666": "Sparta High School",
+  "6710": "Spring-Ford High School",
+  "6711": "Council Rock High School North",
   "6713": "Hammonton High School",
   "6719": "Methacton High School",
   "6720": "Wylie High School",
   "6722": "James Earl Rudder High School",
   "6724": "Butler High School",
   "6725": "Penn Wood High School",
+  "6726": "Le Roy Jr./Sr. High",
   "6729": "Brazoswood High School",
   "6731": "Neshaminy High School",
   "6735": "Central High School",
+  "6736": "Northwestern Lehigh High School",
+  "6737": "West Orange High School",
   "6738": "Mandeville High School",
   "6739": "South Lafourche High School",
   "6741": "E.D. White Catholic High School",
@@ -2869,6 +3404,7 @@
   "6774": "Susquenita High School",
   "6777": "Harrison County High School",
   "6781": "Sanford High School",
+  "6783": "Cranford High School",
   "6786": "Parsippany Hills High School",
   "6787": "Central High School",
   "6790": "Shepherd Hill Regional High School",
@@ -2876,6 +3412,7 @@
   "6793": "Humble High school",
   "6795": "Milford High School",
   "6803": "Wall High School",
+  "6807": "Gettysburg Area High School",
   "6812": "Northern High School",
   "6818": "Northshore High School",
   "6828": "Westbrook High School",
@@ -2886,6 +3423,7 @@
   "6853": "Denham Springs High School",
   "6856": "Erath High School",
   "6857": "Watchung Hills Regional High School",
+  "6862": "Attleboro High School",
   "6864": "Baldwinsville High School",
   "6865": "Terrebonne High School",
   "6866": "Phoenix High School",
@@ -2896,8 +3434,11 @@
   "6899": "Louis E. Dieruff High School",
   "6903": "Texas Leadership Charter Academy San Angelo",
   "6906": "Rockdale High School",
+  "6909": "Auburn Senior High School",
+  "6910": "Burlington High School",
   "6914": "North Hunterdon High School",
   "6915": "Hackensack High School",
+  "6920": "Plymouth North and South High Schools",
   "6921": "Appoquinimink High School",
   "6927": "Jefferson Township High School",
   "6930": "Emmaus High School",
@@ -2909,6 +3450,7 @@
   "6949": "Pine Prairie High School",
   "6955": "North Arlington High School",
   "6966": "Brady High School",
+  "6975": "St. Charles High School",
   "6985": "Lake View High School",
   "7000": "Chichester High School",
   "7011": "Norristown High School",
@@ -2922,6 +3464,7 @@
   "7079": "Deshler High School",
   "7130": "Pen Argyl High School",
   "7150": "Livingston High School",
+  "7303": "John P Stevens High School",
   "7339": "Cicero-North Syracuse High School",
   "7731": "Northern Burlington County Regional High School",
   "7792": "Goliad High School",
@@ -2988,7 +3531,6610 @@
   "Open - Group II",
   "Open - Group III",
   "Open - Group IV",
-  "Open - Group V"
+  "Open - Group V",
+  "RA"
+ ],
+ "entries": [
+  [
+   829,
+   1293,
+   "A - Group II"
+  ],
+  [
+   829,
+   1785,
+   "Open - Group V"
+  ],
+  [
+   829,
+   1819,
+   "A - Group IV"
+  ],
+  [
+   829,
+   1855,
+   "Open - Group V"
+  ],
+  [
+   829,
+   1892,
+   "A - Group II"
+  ],
+  [
+   829,
+   1941,
+   "A - Group IV"
+  ],
+  [
+   829,
+   1943,
+   "Open - Group IV"
+  ],
+  [
+   829,
+   2343,
+   "Open - Group IV"
+  ],
+  [
+   829,
+   2373,
+   "Open - Group III"
+  ],
+  [
+   829,
+   2458,
+   "Open - Group V"
+  ],
+  [
+   829,
+   6493,
+   "Open - Group IV"
+  ],
+  [
+   829,
+   6576,
+   "A - Group V"
+  ],
+  [
+   829,
+   6877,
+   "A - Group V"
+  ],
+  [
+   829,
+   7023,
+   "Open - Group III"
+  ],
+  [
+   880,
+   1253,
+   "A - Group II"
+  ],
+  [
+   880,
+   1283,
+   "A - Group II"
+  ],
+  [
+   880,
+   1298,
+   "A - Group III"
+  ],
+  [
+   880,
+   1318,
+   "A - Group III"
+  ],
+  [
+   880,
+   1322,
+   "A - Group II"
+  ],
+  [
+   880,
+   1360,
+   "A - Group III"
+  ],
+  [
+   880,
+   1372,
+   "A - Group II"
+  ],
+  [
+   880,
+   1491,
+   "A - Group II"
+  ],
+  [
+   880,
+   1543,
+   "A - Group III"
+  ],
+  [
+   880,
+   1561,
+   "A - Group II"
+  ],
+  [
+   880,
+   1562,
+   "A - Group II"
+  ],
+  [
+   880,
+   1601,
+   "A - Group III"
+  ],
+  [
+   880,
+   1605,
+   "A - Group III"
+  ],
+  [
+   880,
+   1681,
+   "A - Group III"
+  ],
+  [
+   880,
+   1683,
+   "A - Group II"
+  ],
+  [
+   880,
+   1684,
+   "A - Group II"
+  ],
+  [
+   880,
+   1696,
+   "A - Group III"
+  ],
+  [
+   880,
+   1745,
+   "A - Group II"
+  ],
+  [
+   880,
+   1761,
+   "A - Group II"
+  ],
+  [
+   880,
+   2062,
+   "A - Group II"
+  ],
+  [
+   880,
+   2175,
+   "A - Group III"
+  ],
+  [
+   880,
+   2232,
+   "A - Group III"
+  ],
+  [
+   880,
+   2360,
+   "A - Group II"
+  ],
+  [
+   880,
+   2402,
+   "A - Group II"
+  ],
+  [
+   880,
+   2621,
+   "A - Group III"
+  ],
+  [
+   880,
+   6350,
+   "A - Group II"
+  ],
+  [
+   880,
+   6360,
+   "A - Group III"
+  ],
+  [
+   880,
+   6400,
+   "A - Group III"
+  ],
+  [
+   880,
+   6491,
+   "A - Group II"
+  ],
+  [
+   880,
+   6711,
+   "A - Group II"
+  ],
+  [
+   880,
+   6719,
+   "A - Group III"
+  ],
+  [
+   880,
+   6846,
+   "A - Group II"
+  ],
+  [
+   880,
+   6876,
+   "A - Group II"
+  ],
+  [
+   904,
+   1253,
+   "A - Group II"
+  ],
+  [
+   904,
+   1275,
+   "Open - Group III"
+  ],
+  [
+   904,
+   1298,
+   "A - Group III"
+  ],
+  [
+   904,
+   1299,
+   "Open - Group V"
+  ],
+  [
+   904,
+   1303,
+   "Open - Group V"
+  ],
+  [
+   904,
+   1318,
+   "A - Group III"
+  ],
+  [
+   904,
+   1325,
+   "A - Group II"
+  ],
+  [
+   904,
+   1332,
+   "A - Group I"
+  ],
+  [
+   904,
+   1335,
+   "A - Group IV"
+  ],
+  [
+   904,
+   1336,
+   "Open - Group IV"
+  ],
+  [
+   904,
+   1343,
+   "Open - Group IV"
+  ],
+  [
+   904,
+   1347,
+   "Open - Group II"
+  ],
+  [
+   904,
+   1348,
+   "RA"
+  ],
+  [
+   904,
+   1360,
+   "A - Group III"
+  ],
+  [
+   904,
+   1382,
+   "RA"
+  ],
+  [
+   904,
+   1400,
+   "A - Group IV"
+  ],
+  [
+   904,
+   1403,
+   "A - Group III"
+  ],
+  [
+   904,
+   1415,
+   "RA"
+  ],
+  [
+   904,
+   1419,
+   "A - Group I"
+  ],
+  [
+   904,
+   1423,
+   "A - Group IV"
+  ],
+  [
+   904,
+   1534,
+   "A - Group I"
+  ],
+  [
+   904,
+   1558,
+   "Open - Group V"
+  ],
+  [
+   904,
+   1564,
+   "A - Group IV"
+  ],
+  [
+   904,
+   1573,
+   "A - Group I"
+  ],
+  [
+   904,
+   1591,
+   "A - Group V"
+  ],
+  [
+   904,
+   1601,
+   "A - Group III"
+  ],
+  [
+   904,
+   1605,
+   "A - Group III"
+  ],
+  [
+   904,
+   1611,
+   "A - Group I"
+  ],
+  [
+   904,
+   1633,
+   "A - Group II"
+  ],
+  [
+   904,
+   1674,
+   "Open - Group III"
+  ],
+  [
+   904,
+   1681,
+   "A - Group III"
+  ],
+  [
+   904,
+   1761,
+   "A - Group II"
+  ],
+  [
+   904,
+   1778,
+   "A - Group V"
+  ],
+  [
+   904,
+   1911,
+   "A - Group III"
+  ],
+  [
+   904,
+   1967,
+   "A - Group V"
+  ],
+  [
+   904,
+   2035,
+   "A - Group II"
+  ],
+  [
+   904,
+   2222,
+   "Open - Group III"
+  ],
+  [
+   904,
+   2247,
+   "A - Group IV"
+  ],
+  [
+   904,
+   2248,
+   "A - Group III"
+  ],
+  [
+   904,
+   2295,
+   "Open - Group I"
+  ],
+  [
+   904,
+   6303,
+   "A - Group V"
+  ],
+  [
+   904,
+   6380,
+   "Open - Group IV"
+  ],
+  [
+   904,
+   6449,
+   "A - Group III"
+  ],
+  [
+   904,
+   6585,
+   "A - Group I"
+  ],
+  [
+   904,
+   6783,
+   "RA"
+  ],
+  [
+   904,
+   6876,
+   "A - Group II"
+  ],
+  [
+   905,
+   1285,
+   "Open - Group I"
+  ],
+  [
+   905,
+   1364,
+   "Open - Group V"
+  ],
+  [
+   905,
+   2375,
+   "A - Group I"
+  ],
+  [
+   905,
+   2393,
+   "A - Group I"
+  ],
+  [
+   905,
+   2441,
+   "Open - Group I"
+  ],
+  [
+   905,
+   2637,
+   "A - Group I"
+  ],
+  [
+   905,
+   6366,
+   "Open - Group IV"
+  ],
+  [
+   905,
+   6379,
+   "A - Group III"
+  ],
+  [
+   905,
+   6807,
+   "RA"
+  ],
+  [
+   906,
+   1345,
+   "A - Group I"
+  ],
+  [
+   906,
+   1563,
+   "Open - Group III"
+  ],
+  [
+   906,
+   1661,
+   "A - Group II"
+  ],
+  [
+   906,
+   1684,
+   "A - Group II"
+  ],
+  [
+   906,
+   1769,
+   "A - Group I"
+  ],
+  [
+   906,
+   1828,
+   "A - Group I"
+  ],
+  [
+   907,
+   2035,
+   "A - Group II"
+  ],
+  [
+   907,
+   2232,
+   "A - Group III"
+  ],
+  [
+   907,
+   6400,
+   "A - Group III"
+  ],
+  [
+   907,
+   6899,
+   "A - Group I"
+  ],
+  [
+   907,
+   7011,
+   "A - Group II"
+  ],
+  [
+   908,
+   1311,
+   "Open - Group III"
+  ],
+  [
+   908,
+   1620,
+   "Open - Group IV"
+  ],
+  [
+   908,
+   1690,
+   "Open - Group V"
+  ],
+  [
+   908,
+   2242,
+   "Open - Group IV"
+  ],
+  [
+   910,
+   1312,
+   "A - Group IV"
+  ],
+  [
+   910,
+   1327,
+   "Open - Group V"
+  ],
+  [
+   910,
+   1562,
+   "A - Group II"
+  ],
+  [
+   910,
+   1562,
+   "A - Group III"
+  ],
+  [
+   910,
+   1565,
+   "Open - Group III"
+  ],
+  [
+   910,
+   1690,
+   "Open - Group V"
+  ],
+  [
+   910,
+   1746,
+   "A - Group III"
+  ],
+  [
+   910,
+   1878,
+   "A - Group II"
+  ],
+  [
+   911,
+   1251,
+   "Open - Group III"
+  ],
+  [
+   911,
+   1404,
+   "Open - Group III"
+  ],
+  [
+   911,
+   1604,
+   "Open - Group V"
+  ],
+  [
+   911,
+   1637,
+   "A - Group V"
+  ],
+  [
+   911,
+   1698,
+   "Open - Group V"
+  ],
+  [
+   911,
+   1884,
+   "A - Group III"
+  ],
+  [
+   911,
+   2035,
+   "A - Group II"
+  ],
+  [
+   911,
+   2187,
+   "Open - Group II"
+  ],
+  [
+   911,
+   6400,
+   "A - Group III"
+  ],
+  [
+   911,
+   6711,
+   "A - Group II"
+  ],
+  [
+   911,
+   6736,
+   "RA"
+  ],
+  [
+   911,
+   6899,
+   "A - Group I"
+  ],
+  [
+   912,
+   1257,
+   "Open - Group II"
+  ],
+  [
+   912,
+   1335,
+   "A - Group IV"
+  ],
+  [
+   912,
+   1400,
+   "A - Group IV"
+  ],
+  [
+   912,
+   1491,
+   "A - Group II"
+  ],
+  [
+   912,
+   1491,
+   "A - Group III"
+  ],
+  [
+   912,
+   1522,
+   "Open - Group III"
+  ],
+  [
+   912,
+   1620,
+   "Open - Group IV"
+  ],
+  [
+   912,
+   1633,
+   "A - Group I"
+  ],
+  [
+   912,
+   1633,
+   "A - Group II"
+  ],
+  [
+   912,
+   1747,
+   "Open - Group V"
+  ],
+  [
+   912,
+   1778,
+   "A - Group V"
+  ],
+  [
+   912,
+   1902,
+   "A - Group IV"
+  ],
+  [
+   912,
+   7883,
+   "A - Group I"
+  ],
+  [
+   912,
+   7883,
+   "A - Group II"
+  ],
+  [
+   917,
+   1345,
+   "A - Group I"
+  ],
+  [
+   917,
+   1563,
+   "Open - Group III"
+  ],
+  [
+   917,
+   1571,
+   "A - Group I"
+  ],
+  [
+   917,
+   1635,
+   "A - Group I"
+  ],
+  [
+   917,
+   1683,
+   "A - Group II"
+  ],
+  [
+   917,
+   1684,
+   "A - Group II"
+  ],
+  [
+   917,
+   1769,
+   "A - Group I"
+  ],
+  [
+   917,
+   1828,
+   "A - Group I"
+  ],
+  [
+   917,
+   6975,
+   "RA"
+  ],
+  [
+   918,
+   1330,
+   "Open - Group I"
+  ],
+  [
+   918,
+   1594,
+   "A - Group II"
+  ],
+  [
+   918,
+   1761,
+   "A - Group II"
+  ],
+  [
+   918,
+   2067,
+   "A - Group II"
+  ],
+  [
+   918,
+   6737,
+   "Open - Group V"
+  ],
+  [
+   919,
+   1292,
+   "Open - Group II"
+  ],
+  [
+   919,
+   1347,
+   "Open - Group II"
+  ],
+  [
+   919,
+   1654,
+   "Open - Group II"
+  ],
+  [
+   919,
+   2412,
+   "A - Group I"
+  ],
+  [
+   919,
+   6306,
+   "Open - Group II"
+  ],
+  [
+   919,
+   6792,
+   "A - Group I"
+  ],
+  [
+   919,
+   6876,
+   "A - Group II"
+  ],
+  [
+   920,
+   1253,
+   "A - Group II"
+  ],
+  [
+   920,
+   1361,
+   "Open - Group II"
+  ],
+  [
+   920,
+   1411,
+   "A - Group I"
+  ],
+  [
+   920,
+   1574,
+   "A - Group V"
+  ],
+  [
+   920,
+   1590,
+   "A - Group III"
+  ],
+  [
+   920,
+   1610,
+   "Open - Group IV"
+  ],
+  [
+   920,
+   1674,
+   "Open - Group III"
+  ],
+  [
+   920,
+   1954,
+   "A - Group IV"
+  ],
+  [
+   920,
+   6783,
+   "RA"
+  ],
+  [
+   920,
+   7303,
+   "Open - Group V"
+  ],
+  [
+   921,
+   1322,
+   "A - Group II"
+  ],
+  [
+   921,
+   1440,
+   "A - Group IV"
+  ],
+  [
+   921,
+   1846,
+   "Open - Group IV"
+  ],
+  [
+   921,
+   2222,
+   "Open - Group III"
+  ],
+  [
+   921,
+   2228,
+   "Open - Group V"
+  ],
+  [
+   921,
+   2332,
+   "A - Group II"
+  ],
+  [
+   921,
+   6710,
+   "Open - Group V"
+  ],
+  [
+   921,
+   6719,
+   "A - Group III"
+  ],
+  [
+   921,
+   6725,
+   "A - Group I"
+  ],
+  [
+   922,
+   1318,
+   "A - Group III"
+  ],
+  [
+   922,
+   1341,
+   "Open - Group II"
+  ],
+  [
+   922,
+   2223,
+   "A - Group II"
+  ],
+  [
+   922,
+   6585,
+   "A - Group I"
+  ],
+  [
+   922,
+   6724,
+   "A - Group III"
+  ],
+  [
+   922,
+   6786,
+   "A - Group II"
+  ],
+  [
+   922,
+   6927,
+   "A - Group II"
+  ],
+  [
+   922,
+   6955,
+   "A - Group I"
+  ],
+  [
+   923,
+   1312,
+   "A - Group IV"
+  ],
+  [
+   923,
+   1352,
+   "Open - Group I"
+  ],
+  [
+   923,
+   1387,
+   "A - Group III"
+  ],
+  [
+   923,
+   1530,
+   "A - Group III"
+  ],
+  [
+   923,
+   1537,
+   "Open - Group III"
+  ],
+  [
+   923,
+   1562,
+   "A - Group II"
+  ],
+  [
+   923,
+   1562,
+   "A - Group III"
+  ],
+  [
+   923,
+   1573,
+   "A - Group I"
+  ],
+  [
+   923,
+   2013,
+   "Open - Group III"
+  ],
+  [
+   924,
+   1257,
+   "Open - Group II"
+  ],
+  [
+   924,
+   1311,
+   "Open - Group III"
+  ],
+  [
+   924,
+   1335,
+   "A - Group IV"
+  ],
+  [
+   924,
+   1400,
+   "A - Group IV"
+  ],
+  [
+   924,
+   1565,
+   "Open - Group III"
+  ],
+  [
+   924,
+   1633,
+   "A - Group I"
+  ],
+  [
+   924,
+   1633,
+   "A - Group II"
+  ],
+  [
+   924,
+   1690,
+   "Open - Group V"
+  ],
+  [
+   924,
+   1747,
+   "Open - Group V"
+  ],
+  [
+   924,
+   1778,
+   "A - Group V"
+  ],
+  [
+   924,
+   1902,
+   "A - Group IV"
+  ],
+  [
+   925,
+   1278,
+   "Open - Group III"
+  ],
+  [
+   925,
+   1327,
+   "Open - Group V"
+  ],
+  [
+   925,
+   1344,
+   "A - Group V"
+  ],
+  [
+   925,
+   1522,
+   "Open - Group III"
+  ],
+  [
+   925,
+   1562,
+   "A - Group II"
+  ],
+  [
+   925,
+   1562,
+   "A - Group III"
+  ],
+  [
+   925,
+   1690,
+   "Open - Group V"
+  ],
+  [
+   925,
+   1800,
+   "A - Group II"
+  ],
+  [
+   925,
+   6491,
+   "A - Group II"
+  ],
+  [
+   925,
+   6491,
+   "A - Group III"
+  ],
+  [
+   926,
+   1417,
+   "Open - Group IV"
+  ],
+  [
+   926,
+   1586,
+   "Open - Group IV"
+  ],
+  [
+   926,
+   1758,
+   "A - Group IV"
+  ],
+  [
+   926,
+   1880,
+   "A - Group II"
+  ],
+  [
+   926,
+   1883,
+   "A - Group I"
+  ],
+  [
+   926,
+   2106,
+   "RA"
+  ],
+  [
+   926,
+   6350,
+   "A - Group II"
+  ],
+  [
+   926,
+   6790,
+   "Open - Group I"
+  ],
+  [
+   926,
+   6862,
+   "RA"
+  ],
+  [
+   927,
+   1563,
+   "Open - Group III"
+  ],
+  [
+   927,
+   1571,
+   "A - Group I"
+  ],
+  [
+   927,
+   1683,
+   "A - Group II"
+  ],
+  [
+   927,
+   1684,
+   "A - Group II"
+  ],
+  [
+   927,
+   1976,
+   "A - Group I"
+  ],
+  [
+   927,
+   2020,
+   "A - Group II"
+  ],
+  [
+   927,
+   6975,
+   "RA"
+  ],
+  [
+   928,
+   1267,
+   "A - Group IV"
+  ],
+  [
+   928,
+   1284,
+   "A - Group I"
+  ],
+  [
+   928,
+   1298,
+   "A - Group III"
+  ],
+  [
+   928,
+   1361,
+   "Open - Group II"
+  ],
+  [
+   928,
+   1557,
+   "Open - Group II"
+  ],
+  [
+   928,
+   1561,
+   "A - Group II"
+  ],
+  [
+   928,
+   1590,
+   "A - Group III"
+  ],
+  [
+   928,
+   1592,
+   "A - Group III"
+  ],
+  [
+   928,
+   7033,
+   "A - Group IV"
+  ],
+  [
+   929,
+   1292,
+   "Open - Group II"
+  ],
+  [
+   929,
+   1347,
+   "Open - Group II"
+  ],
+  [
+   929,
+   1361,
+   "Open - Group II"
+  ],
+  [
+   929,
+   1559,
+   "Open - Group II"
+  ],
+  [
+   929,
+   1624,
+   "A - Group II"
+  ],
+  [
+   929,
+   2240,
+   "Open - Group IV"
+  ],
+  [
+   929,
+   6306,
+   "Open - Group II"
+  ],
+  [
+   929,
+   6792,
+   "A - Group I"
+  ],
+  [
+   929,
+   6876,
+   "A - Group II"
+  ],
+  [
+   930,
+   1299,
+   "Open - Group V"
+  ],
+  [
+   930,
+   1330,
+   "Open - Group I"
+  ],
+  [
+   930,
+   1341,
+   "Open - Group II"
+  ],
+  [
+   930,
+   1540,
+   "A - Group I"
+  ],
+  [
+   930,
+   1543,
+   "A - Group III"
+  ],
+  [
+   930,
+   1551,
+   "Open - Group IV"
+  ],
+  [
+   930,
+   1611,
+   "A - Group I"
+  ],
+  [
+   930,
+   1650,
+   "A - Group III"
+  ],
+  [
+   930,
+   1674,
+   "Open - Group III"
+  ],
+  [
+   930,
+   1896,
+   "A - Group V"
+  ],
+  [
+   930,
+   1951,
+   "A - Group III"
+  ],
+  [
+   930,
+   6410,
+   "RA"
+  ],
+  [
+   930,
+   6852,
+   "A - Group II"
+  ],
+  [
+   930,
+   6857,
+   "A - Group III"
+  ],
+  [
+   931,
+   1283,
+   "A - Group II"
+  ],
+  [
+   931,
+   1303,
+   "Open - Group V"
+  ],
+  [
+   931,
+   1343,
+   "Open - Group IV"
+  ],
+  [
+   931,
+   1360,
+   "A - Group III"
+  ],
+  [
+   931,
+   1403,
+   "A - Group III"
+  ],
+  [
+   931,
+   1411,
+   "A - Group I"
+  ],
+  [
+   931,
+   1665,
+   "A - Group I"
+  ],
+  [
+   931,
+   1967,
+   "A - Group V"
+  ],
+  [
+   931,
+   2191,
+   "A - Group IV"
+  ],
+  [
+   931,
+   6914,
+   "A - Group II"
+  ],
+  [
+   932,
+   1249,
+   "Open - Group II"
+  ],
+  [
+   932,
+   1285,
+   "Open - Group I"
+  ],
+  [
+   932,
+   1363,
+   "Open - Group V"
+  ],
+  [
+   932,
+   1397,
+   "A - Group I"
+  ],
+  [
+   932,
+   2360,
+   "A - Group II"
+  ],
+  [
+   932,
+   2375,
+   "A - Group I"
+  ],
+  [
+   932,
+   2393,
+   "A - Group I"
+  ],
+  [
+   932,
+   2441,
+   "Open - Group I"
+  ],
+  [
+   933,
+   1322,
+   "A - Group II"
+  ],
+  [
+   933,
+   1326,
+   "A - Group IV"
+  ],
+  [
+   933,
+   1349,
+   "A - Group II"
+  ],
+  [
+   933,
+   1598,
+   "Open - Group II"
+  ],
+  [
+   933,
+   1696,
+   "A - Group III"
+  ],
+  [
+   933,
+   1877,
+   "A - Group V"
+  ],
+  [
+   933,
+   2038,
+   "A - Group I"
+  ],
+  [
+   933,
+   2402,
+   "A - Group II"
+  ],
+  [
+   933,
+   2547,
+   "A - Group I"
+  ],
+  [
+   933,
+   6466,
+   "A - Group III"
+  ],
+  [
+   933,
+   6725,
+   "A - Group I"
+  ],
+  [
+   933,
+   7000,
+   "A - Group I"
+  ],
+  [
+   934,
+   1257,
+   "Open - Group II"
+  ],
+  [
+   934,
+   1311,
+   "Open - Group III"
+  ],
+  [
+   934,
+   1327,
+   "Open - Group V"
+  ],
+  [
+   934,
+   1335,
+   "A - Group IV"
+  ],
+  [
+   934,
+   1491,
+   "A - Group II"
+  ],
+  [
+   934,
+   1491,
+   "A - Group III"
+  ],
+  [
+   934,
+   1522,
+   "Open - Group III"
+  ],
+  [
+   934,
+   1620,
+   "Open - Group IV"
+  ],
+  [
+   934,
+   1633,
+   "A - Group I"
+  ],
+  [
+   934,
+   1633,
+   "A - Group II"
+  ],
+  [
+   934,
+   1747,
+   "Open - Group V"
+  ],
+  [
+   934,
+   1778,
+   "A - Group V"
+  ],
+  [
+   934,
+   7883,
+   "A - Group I"
+  ],
+  [
+   935,
+   1278,
+   "Open - Group III"
+  ],
+  [
+   935,
+   1312,
+   "A - Group IV"
+  ],
+  [
+   935,
+   1537,
+   "Open - Group III"
+  ],
+  [
+   935,
+   1565,
+   "Open - Group III"
+  ],
+  [
+   935,
+   1690,
+   "Open - Group V"
+  ],
+  [
+   935,
+   1809,
+   "A - Group V"
+  ],
+  [
+   935,
+   1947,
+   "A - Group V"
+  ],
+  [
+   936,
+   1312,
+   "A - Group IV"
+  ],
+  [
+   936,
+   1332,
+   "A - Group I"
+  ],
+  [
+   936,
+   1352,
+   "Open - Group I"
+  ],
+  [
+   936,
+   1387,
+   "A - Group III"
+  ],
+  [
+   936,
+   1573,
+   "A - Group I"
+  ],
+  [
+   936,
+   2013,
+   "Open - Group III"
+  ],
+  [
+   936,
+   2494,
+   "A - Group II"
+  ],
+  [
+   937,
+   1345,
+   "A - Group I"
+  ],
+  [
+   937,
+   1532,
+   "Open - Group IV"
+  ],
+  [
+   937,
+   1563,
+   "Open - Group III"
+  ],
+  [
+   937,
+   1571,
+   "A - Group I"
+  ],
+  [
+   937,
+   1635,
+   "A - Group I"
+  ],
+  [
+   937,
+   1683,
+   "A - Group II"
+  ],
+  [
+   937,
+   1684,
+   "A - Group II"
+  ],
+  [
+   937,
+   1828,
+   "A - Group I"
+  ],
+  [
+   937,
+   2238,
+   "A - Group I"
+  ],
+  [
+   937,
+   6975,
+   "RA"
+  ],
+  [
+   938,
+   1341,
+   "Open - Group II"
+  ],
+  [
+   938,
+   1593,
+   "A - Group IV"
+  ],
+  [
+   938,
+   1605,
+   "A - Group III"
+  ],
+  [
+   938,
+   1913,
+   "Open - Group IV"
+  ],
+  [
+   938,
+   2069,
+   "Open - Group I"
+  ],
+  [
+   938,
+   2248,
+   "A - Group III"
+  ],
+  [
+   938,
+   6332,
+   "A - Group IV"
+  ],
+  [
+   938,
+   6666,
+   "A - Group IV"
+  ],
+  [
+   939,
+   1313,
+   "A - Group IV"
+  ],
+  [
+   939,
+   1318,
+   "A - Group III"
+  ],
+  [
+   939,
+   1356,
+   "Open - Group IV"
+  ],
+  [
+   939,
+   1611,
+   "A - Group I"
+  ],
+  [
+   939,
+   1650,
+   "A - Group III"
+  ],
+  [
+   939,
+   1761,
+   "A - Group II"
+  ],
+  [
+   939,
+   1951,
+   "A - Group III"
+  ],
+  [
+   939,
+   2223,
+   "A - Group II"
+  ],
+  [
+   940,
+   1253,
+   "A - Group II"
+  ],
+  [
+   940,
+   1267,
+   "A - Group IV"
+  ],
+  [
+   940,
+   1298,
+   "A - Group III"
+  ],
+  [
+   940,
+   1330,
+   "Open - Group I"
+  ],
+  [
+   940,
+   1343,
+   "Open - Group IV"
+  ],
+  [
+   940,
+   1411,
+   "A - Group I"
+  ],
+  [
+   940,
+   1419,
+   "A - Group I"
+  ],
+  [
+   940,
+   1558,
+   "Open - Group V"
+  ],
+  [
+   940,
+   1559,
+   "Open - Group II"
+  ],
+  [
+   940,
+   1561,
+   "A - Group II"
+  ],
+  [
+   940,
+   1564,
+   "A - Group IV"
+  ],
+  [
+   940,
+   1574,
+   "A - Group V"
+  ],
+  [
+   940,
+   2191,
+   "A - Group IV"
+  ],
+  [
+   940,
+   2395,
+   "A - Group I"
+  ],
+  [
+   940,
+   6783,
+   "RA"
+  ],
+  [
+   941,
+   1284,
+   "A - Group I"
+  ],
+  [
+   941,
+   1292,
+   "Open - Group II"
+  ],
+  [
+   941,
+   1347,
+   "Open - Group II"
+  ],
+  [
+   941,
+   1361,
+   "Open - Group II"
+  ],
+  [
+   941,
+   1575,
+   "A - Group I"
+  ],
+  [
+   941,
+   1590,
+   "A - Group III"
+  ],
+  [
+   941,
+   1624,
+   "A - Group II"
+  ],
+  [
+   941,
+   1654,
+   "Open - Group II"
+  ],
+  [
+   941,
+   2062,
+   "A - Group II"
+  ],
+  [
+   941,
+   2222,
+   "Open - Group III"
+  ],
+  [
+   941,
+   2240,
+   "Open - Group IV"
+  ],
+  [
+   941,
+   6792,
+   "A - Group I"
+  ],
+  [
+   942,
+   1251,
+   "Open - Group III"
+  ],
+  [
+   942,
+   1283,
+   "A - Group II"
+  ],
+  [
+   942,
+   1379,
+   "Open - Group IV"
+  ],
+  [
+   942,
+   1403,
+   "A - Group III"
+  ],
+  [
+   942,
+   1440,
+   "A - Group IV"
+  ],
+  [
+   942,
+   1709,
+   "A - Group III"
+  ],
+  [
+   942,
+   1738,
+   "A - Group V"
+  ],
+  [
+   942,
+   2232,
+   "A - Group III"
+  ],
+  [
+   943,
+   1364,
+   "Open - Group V"
+  ],
+  [
+   943,
+   1976,
+   "A - Group I"
+  ],
+  [
+   943,
+   2282,
+   "A - Group III"
+  ],
+  [
+   943,
+   2393,
+   "A - Group I"
+  ],
+  [
+   943,
+   2637,
+   "A - Group I"
+  ],
+  [
+   943,
+   6379,
+   "A - Group III"
+  ],
+  [
+   943,
+   6523,
+   "A - Group II"
+  ],
+  [
+   943,
+   6774,
+   "A - Group II"
+  ],
+  [
+   943,
+   6899,
+   "A - Group I"
+  ],
+  [
+   944,
+   1372,
+   "A - Group II"
+  ],
+  [
+   944,
+   2209,
+   "Open - Group IV"
+  ],
+  [
+   944,
+   6339,
+   "Open - Group III"
+  ],
+  [
+   944,
+   6360,
+   "A - Group III"
+  ],
+  [
+   944,
+   6726,
+   "A - Group III"
+  ],
+  [
+   944,
+   6836,
+   "A - Group IV"
+  ],
+  [
+   944,
+   6864,
+   "Open - Group V"
+  ],
+  [
+   944,
+   6866,
+   "A - Group III"
+  ],
+  [
+   944,
+   7339,
+   "Open - Group IV"
+  ],
+  [
+   948,
+   1310,
+   "Open - Group III"
+  ],
+  [
+   948,
+   1602,
+   "Open - Group I"
+  ],
+  [
+   948,
+   1699,
+   "Open - Group I"
+  ],
+  [
+   948,
+   1708,
+   "Open - Group III"
+  ],
+  [
+   948,
+   1760,
+   "Open - Group I"
+  ],
+  [
+   948,
+   1804,
+   "Open - Group I"
+  ],
+  [
+   948,
+   1814,
+   "Open - Group IV"
+  ],
+  [
+   948,
+   1822,
+   "Open - Group III"
+  ],
+  [
+   948,
+   1827,
+   "Open - Group II"
+  ],
+  [
+   948,
+   1914,
+   "Open - Group II"
+  ],
+  [
+   948,
+   1982,
+   "Open - Group II"
+  ],
+  [
+   948,
+   6312,
+   "Open - Group III"
+  ],
+  [
+   948,
+   6504,
+   "Open - Group II"
+  ],
+  [
+   948,
+   6722,
+   "Open - Group II"
+  ],
+  [
+   948,
+   6840,
+   "Open - Group I"
+  ],
+  [
+   948,
+   6870,
+   "Open - Group II"
+  ],
+  [
+   948,
+   6906,
+   "Open - Group II"
+  ],
+  [
+   948,
+   6940,
+   "Open - Group II"
+  ],
+  [
+   949,
+   6323,
+   "Open - Group V"
+  ],
+  [
+   950,
+   6720,
+   "Open - Group IV"
+  ],
+  [
+   950,
+   6735,
+   "Open - Group V"
+  ],
+  [
+   950,
+   6803,
+   "Open - Group II"
+  ],
+  [
+   950,
+   6903,
+   "Open - Group II"
+  ],
+  [
+   950,
+   6966,
+   "Open - Group I"
+  ],
+  [
+   950,
+   6985,
+   "Open - Group II"
+  ],
+  [
+   951,
+   1312,
+   "A - Group IV"
+  ],
+  [
+   951,
+   1352,
+   "Open - Group I"
+  ],
+  [
+   951,
+   1522,
+   "Open - Group III"
+  ],
+  [
+   951,
+   1530,
+   "A - Group III"
+  ],
+  [
+   951,
+   1537,
+   "Open - Group III"
+  ],
+  [
+   951,
+   1565,
+   "Open - Group III"
+  ],
+  [
+   952,
+   1257,
+   "Open - Group II"
+  ],
+  [
+   952,
+   1335,
+   "A - Group IV"
+  ],
+  [
+   952,
+   1352,
+   "Open - Group I"
+  ],
+  [
+   952,
+   1747,
+   "Open - Group V"
+  ],
+  [
+   952,
+   1778,
+   "A - Group V"
+  ],
+  [
+   952,
+   1902,
+   "A - Group IV"
+  ],
+  [
+   953,
+   1417,
+   "Open - Group IV"
+  ],
+  [
+   953,
+   1553,
+   "Open - Group III"
+  ],
+  [
+   953,
+   1582,
+   "A - Group II"
+  ],
+  [
+   953,
+   1586,
+   "Open - Group IV"
+  ],
+  [
+   953,
+   1758,
+   "A - Group IV"
+  ],
+  [
+   953,
+   1880,
+   "A - Group II"
+  ],
+  [
+   953,
+   1883,
+   "A - Group I"
+  ],
+  [
+   953,
+   2106,
+   "RA"
+  ],
+  [
+   953,
+   6350,
+   "A - Group II"
+  ],
+  [
+   953,
+   6862,
+   "RA"
+  ],
+  [
+   954,
+   6521,
+   "Open - Group IV"
+  ],
+  [
+   954,
+   6738,
+   "Open - Group III"
+  ],
+  [
+   954,
+   6739,
+   "Open - Group III"
+  ],
+  [
+   954,
+   6741,
+   "Open - Group III"
+  ],
+  [
+   954,
+   6744,
+   "Open - Group I"
+  ],
+  [
+   954,
+   6745,
+   "Open - Group II"
+  ],
+  [
+   954,
+   6746,
+   "Open - Group I"
+  ],
+  [
+   954,
+   6764,
+   "Open - Group III"
+  ],
+  [
+   954,
+   6767,
+   "Open - Group II"
+  ],
+  [
+   954,
+   6818,
+   "Open - Group II"
+  ],
+  [
+   954,
+   6856,
+   "Open - Group II"
+  ],
+  [
+   954,
+   6865,
+   "Open - Group III"
+  ],
+  [
+   954,
+   6939,
+   "Open - Group II"
+  ],
+  [
+   954,
+   6941,
+   "Open - Group V"
+  ],
+  [
+   954,
+   6949,
+   "Open - Group I"
+  ],
+  [
+   954,
+   7040,
+   "Open - Group II"
+  ],
+  [
+   955,
+   1284,
+   "A - Group I"
+  ],
+  [
+   955,
+   1292,
+   "Open - Group II"
+  ],
+  [
+   955,
+   1559,
+   "Open - Group II"
+  ],
+  [
+   955,
+   1575,
+   "A - Group I"
+  ],
+  [
+   955,
+   1634,
+   "RA"
+  ],
+  [
+   955,
+   1654,
+   "Open - Group II"
+  ],
+  [
+   955,
+   2222,
+   "Open - Group III"
+  ],
+  [
+   955,
+   2412,
+   "A - Group I"
+  ],
+  [
+   955,
+   6306,
+   "Open - Group II"
+  ],
+  [
+   955,
+   6713,
+   "A - Group I"
+  ],
+  [
+   955,
+   6792,
+   "A - Group I"
+  ],
+  [
+   955,
+   6876,
+   "A - Group II"
+  ],
+  [
+   955,
+   7731,
+   "A - Group IV"
+  ],
+  [
+   955,
+   7853,
+   "A - Group III"
+  ],
+  [
+   956,
+   1253,
+   "A - Group II"
+  ],
+  [
+   956,
+   1256,
+   "Open - Group IV"
+  ],
+  [
+   956,
+   1283,
+   "A - Group II"
+  ],
+  [
+   956,
+   1298,
+   "A - Group III"
+  ],
+  [
+   956,
+   1360,
+   "A - Group III"
+  ],
+  [
+   956,
+   1543,
+   "A - Group III"
+  ],
+  [
+   956,
+   1560,
+   "Open - Group V"
+  ],
+  [
+   956,
+   1807,
+   "RA"
+  ],
+  [
+   956,
+   1967,
+   "A - Group V"
+  ],
+  [
+   956,
+   2175,
+   "A - Group III"
+  ],
+  [
+   956,
+   2189,
+   "A - Group IV"
+  ],
+  [
+   956,
+   2191,
+   "A - Group IV"
+  ],
+  [
+   956,
+   7033,
+   "A - Group IV"
+  ],
+  [
+   957,
+   1267,
+   "A - Group IV"
+  ],
+  [
+   957,
+   1361,
+   "Open - Group II"
+  ],
+  [
+   957,
+   1557,
+   "Open - Group II"
+  ],
+  [
+   957,
+   1564,
+   "A - Group IV"
+  ],
+  [
+   957,
+   1590,
+   "A - Group III"
+  ],
+  [
+   957,
+   1592,
+   "A - Group III"
+  ],
+  [
+   957,
+   1608,
+   "A - Group II"
+  ],
+  [
+   957,
+   1624,
+   "A - Group II"
+  ],
+  [
+   957,
+   1745,
+   "A - Group II"
+  ],
+  [
+   958,
+   1275,
+   "Open - Group III"
+  ],
+  [
+   958,
+   1318,
+   "A - Group III"
+  ],
+  [
+   958,
+   1330,
+   "Open - Group I"
+  ],
+  [
+   958,
+   1336,
+   "Open - Group IV"
+  ],
+  [
+   958,
+   1356,
+   "Open - Group IV"
+  ],
+  [
+   958,
+   1402,
+   "A - Group I"
+  ],
+  [
+   958,
+   1407,
+   "Open - Group II"
+  ],
+  [
+   958,
+   1415,
+   "RA"
+  ],
+  [
+   958,
+   1593,
+   "A - Group IV"
+  ],
+  [
+   958,
+   1610,
+   "Open - Group IV"
+  ],
+  [
+   958,
+   1761,
+   "A - Group II"
+  ],
+  [
+   958,
+   1896,
+   "A - Group V"
+  ],
+  [
+   958,
+   6332,
+   "A - Group IV"
+  ],
+  [
+   958,
+   6666,
+   "A - Group IV"
+  ],
+  [
+   959,
+   1333,
+   "Open - Group II"
+  ],
+  [
+   959,
+   1637,
+   "A - Group V"
+  ],
+  [
+   959,
+   2035,
+   "A - Group II"
+  ],
+  [
+   959,
+   2529,
+   "A - Group III"
+  ],
+  [
+   959,
+   2547,
+   "A - Group I"
+  ],
+  [
+   959,
+   6303,
+   "A - Group V"
+  ],
+  [
+   959,
+   6711,
+   "A - Group II"
+  ],
+  [
+   959,
+   6725,
+   "A - Group I"
+  ],
+  [
+   959,
+   6768,
+   "Open - Group II"
+  ],
+  [
+   959,
+   6948,
+   "A - Group I"
+  ],
+  [
+   959,
+   7000,
+   "A - Group I"
+  ],
+  [
+   960,
+   1285,
+   "Open - Group I"
+  ],
+  [
+   960,
+   1363,
+   "Open - Group V"
+  ],
+  [
+   960,
+   1397,
+   "A - Group I"
+  ],
+  [
+   960,
+   2375,
+   "A - Group I"
+  ],
+  [
+   960,
+   2637,
+   "A - Group I"
+  ],
+  [
+   960,
+   6899,
+   "A - Group I"
+  ],
+  [
+   961,
+   1251,
+   "Open - Group III"
+  ],
+  [
+   961,
+   1299,
+   "Open - Group V"
+  ],
+  [
+   961,
+   1303,
+   "Open - Group V"
+  ],
+  [
+   961,
+   1326,
+   "A - Group IV"
+  ],
+  [
+   961,
+   1398,
+   "A - Group I"
+  ],
+  [
+   961,
+   1404,
+   "Open - Group III"
+  ],
+  [
+   961,
+   1604,
+   "Open - Group V"
+  ],
+  [
+   961,
+   1738,
+   "A - Group V"
+  ],
+  [
+   961,
+   1846,
+   "Open - Group IV"
+  ],
+  [
+   961,
+   1884,
+   "A - Group III"
+  ],
+  [
+   961,
+   2228,
+   "Open - Group V"
+  ],
+  [
+   961,
+   2232,
+   "A - Group III"
+  ],
+  [
+   961,
+   6400,
+   "A - Group III"
+  ],
+  [
+   961,
+   6710,
+   "Open - Group V"
+  ],
+  [
+   961,
+   7037,
+   "A - Group IV"
+  ],
+  [
+   963,
+   1313,
+   "A - Group IV"
+  ],
+  [
+   963,
+   1440,
+   "A - Group IV"
+  ],
+  [
+   963,
+   1532,
+   "Open - Group IV"
+  ],
+  [
+   963,
+   1558,
+   "Open - Group V"
+  ],
+  [
+   963,
+   1563,
+   "Open - Group III"
+  ],
+  [
+   963,
+   1571,
+   "A - Group I"
+  ],
+  [
+   963,
+   1598,
+   "Open - Group II"
+  ],
+  [
+   963,
+   1661,
+   "A - Group II"
+  ],
+  [
+   963,
+   1683,
+   "A - Group II"
+  ],
+  [
+   963,
+   1706,
+   "A - Group IV"
+  ],
+  [
+   963,
+   1723,
+   "A - Group IV"
+  ],
+  [
+   963,
+   1769,
+   "A - Group I"
+  ],
+  [
+   963,
+   1811,
+   "Open - Group V"
+  ],
+  [
+   963,
+   1825,
+   "Open - Group V"
+  ],
+  [
+   963,
+   1863,
+   "A - Group III"
+  ],
+  [
+   963,
+   1876,
+   "A - Group III"
+  ],
+  [
+   963,
+   1963,
+   "Open - Group V"
+  ],
+  [
+   963,
+   1976,
+   "A - Group I"
+  ],
+  [
+   963,
+   2208,
+   "Open - Group III"
+  ],
+  [
+   963,
+   2236,
+   "A - Group V"
+  ],
+  [
+   963,
+   2238,
+   "A - Group I"
+  ],
+  [
+   963,
+   2240,
+   "Open - Group IV"
+  ],
+  [
+   963,
+   2289,
+   "Open - Group V"
+  ],
+  [
+   963,
+   2321,
+   "A - Group II"
+  ],
+  [
+   963,
+   2332,
+   "A - Group II"
+  ],
+  [
+   963,
+   2417,
+   "Open - Group V"
+  ],
+  [
+   963,
+   2424,
+   "Open - Group IV"
+  ],
+  [
+   963,
+   6406,
+   "Open - Group V"
+  ],
+  [
+   963,
+   6489,
+   "A - Group IV"
+  ],
+  [
+   963,
+   6742,
+   "Open - Group III"
+  ],
+  [
+   963,
+   6975,
+   "RA"
+  ],
+  [
+   963,
+   7339,
+   "Open - Group IV"
+  ],
+  [
+   965,
+   1797,
+   "Open - Group I"
+  ],
+  [
+   965,
+   1813,
+   "Open - Group III"
+  ],
+  [
+   965,
+   6545,
+   "Open - Group II"
+  ],
+  [
+   965,
+   7792,
+   "Open - Group II"
+  ],
+  [
+   968,
+   1251,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1256,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1257,
+   "Open - Group II"
+  ],
+  [
+   968,
+   1259,
+   "Open - Group I"
+  ],
+  [
+   968,
+   1272,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1275,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1278,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1285,
+   "Open - Group I"
+  ],
+  [
+   968,
+   1292,
+   "Open - Group II"
+  ],
+  [
+   968,
+   1299,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1303,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1311,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1327,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1330,
+   "Open - Group I"
+  ],
+  [
+   968,
+   1333,
+   "Open - Group II"
+  ],
+  [
+   968,
+   1336,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1341,
+   "Open - Group II"
+  ],
+  [
+   968,
+   1352,
+   "Open - Group I"
+  ],
+  [
+   968,
+   1356,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1361,
+   "Open - Group II"
+  ],
+  [
+   968,
+   1363,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1364,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1379,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1404,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1417,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1522,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1532,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1551,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1553,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1557,
+   "Open - Group II"
+  ],
+  [
+   968,
+   1559,
+   "Open - Group II"
+  ],
+  [
+   968,
+   1560,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1563,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1565,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1586,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1598,
+   "Open - Group II"
+  ],
+  [
+   968,
+   1604,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1610,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1617,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1620,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1654,
+   "Open - Group II"
+  ],
+  [
+   968,
+   1674,
+   "Open - Group III"
+  ],
+  [
+   968,
+   1690,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1698,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1747,
+   "Open - Group V"
+  ],
+  [
+   968,
+   1846,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   1913,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   2013,
+   "Open - Group III"
+  ],
+  [
+   968,
+   2040,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   2187,
+   "Open - Group II"
+  ],
+  [
+   968,
+   2228,
+   "Open - Group V"
+  ],
+  [
+   968,
+   2240,
+   "Open - Group IV"
+  ],
+  [
+   968,
+   2351,
+   "Open - Group III"
+  ],
+  [
+   968,
+   2417,
+   "Open - Group V"
+  ],
+  [
+   968,
+   6306,
+   "Open - Group II"
+  ],
+  [
+   968,
+   6710,
+   "Open - Group V"
+  ],
+  [
+   968,
+   6790,
+   "Open - Group I"
+  ],
+  [
+   968,
+   6864,
+   "Open - Group V"
+  ],
+  [
+   970,
+   1312,
+   "A - Group IV"
+  ],
+  [
+   970,
+   1327,
+   "Open - Group V"
+  ],
+  [
+   970,
+   1344,
+   "A - Group V"
+  ],
+  [
+   970,
+   1746,
+   "A - Group III"
+  ],
+  [
+   970,
+   1897,
+   "RA"
+  ],
+  [
+   970,
+   2494,
+   "A - Group II"
+  ],
+  [
+   971,
+   1257,
+   "Open - Group II"
+  ],
+  [
+   971,
+   1327,
+   "Open - Group V"
+  ],
+  [
+   971,
+   1344,
+   "A - Group V"
+  ],
+  [
+   971,
+   1565,
+   "Open - Group III"
+  ],
+  [
+   971,
+   1746,
+   "A - Group III"
+  ],
+  [
+   971,
+   1800,
+   "A - Group II"
+  ],
+  [
+   971,
+   2494,
+   "A - Group II"
+  ],
+  [
+   971,
+   6403,
+   "A - Group IV"
+  ],
+  [
+   971,
+   6491,
+   "A - Group II"
+  ],
+  [
+   971,
+   7883,
+   "A - Group I"
+  ],
+  [
+   972,
+   1417,
+   "Open - Group IV"
+  ],
+  [
+   972,
+   1582,
+   "A - Group II"
+  ],
+  [
+   972,
+   1586,
+   "Open - Group IV"
+  ],
+  [
+   972,
+   1880,
+   "A - Group II"
+  ],
+  [
+   972,
+   1883,
+   "A - Group I"
+  ],
+  [
+   972,
+   2040,
+   "Open - Group IV"
+  ],
+  [
+   972,
+   2106,
+   "RA"
+  ],
+  [
+   972,
+   6344,
+   "A - Group I"
+  ],
+  [
+   972,
+   6495,
+   "A - Group I"
+  ],
+  [
+   973,
+   1345,
+   "A - Group I"
+  ],
+  [
+   973,
+   1532,
+   "Open - Group IV"
+  ],
+  [
+   973,
+   1571,
+   "A - Group I"
+  ],
+  [
+   973,
+   1635,
+   "A - Group I"
+  ],
+  [
+   973,
+   1661,
+   "A - Group II"
+  ],
+  [
+   973,
+   1683,
+   "A - Group II"
+  ],
+  [
+   973,
+   1684,
+   "A - Group II"
+  ],
+  [
+   973,
+   1769,
+   "A - Group I"
+  ],
+  [
+   973,
+   1828,
+   "A - Group I"
+  ],
+  [
+   973,
+   2020,
+   "A - Group II"
+  ],
+  [
+   973,
+   2076,
+   "A - Group I"
+  ],
+  [
+   973,
+   2076,
+   "A - Group II"
+  ],
+  [
+   973,
+   2208,
+   "Open - Group III"
+  ],
+  [
+   973,
+   6975,
+   "RA"
+  ],
+  [
+   973,
+   7036,
+   "A - Group III"
+  ],
+  [
+   974,
+   1256,
+   "Open - Group IV"
+  ],
+  [
+   974,
+   1283,
+   "A - Group II"
+  ],
+  [
+   974,
+   1341,
+   "Open - Group II"
+  ],
+  [
+   974,
+   1411,
+   "A - Group I"
+  ],
+  [
+   974,
+   1593,
+   "A - Group IV"
+  ],
+  [
+   974,
+   1608,
+   "A - Group II"
+  ],
+  [
+   974,
+   1654,
+   "Open - Group II"
+  ],
+  [
+   974,
+   7731,
+   "A - Group IV"
+  ],
+  [
+   975,
+   1637,
+   "A - Group V"
+  ],
+  [
+   975,
+   1696,
+   "A - Group III"
+  ],
+  [
+   975,
+   1698,
+   "Open - Group V"
+  ],
+  [
+   975,
+   1846,
+   "Open - Group IV"
+  ],
+  [
+   975,
+   2228,
+   "Open - Group V"
+  ],
+  [
+   975,
+   2621,
+   "A - Group III"
+  ],
+  [
+   975,
+   6725,
+   "A - Group I"
+  ],
+  [
+   975,
+   6731,
+   "Open - Group V"
+  ],
+  [
+   975,
+   6846,
+   "A - Group II"
+  ],
+  [
+   976,
+   1285,
+   "Open - Group I"
+  ],
+  [
+   976,
+   1397,
+   "A - Group I"
+  ],
+  [
+   976,
+   2282,
+   "A - Group III"
+  ],
+  [
+   976,
+   2360,
+   "A - Group II"
+  ],
+  [
+   976,
+   2393,
+   "A - Group I"
+  ],
+  [
+   976,
+   2637,
+   "A - Group I"
+  ],
+  [
+   976,
+   6523,
+   "A - Group II"
+  ],
+  [
+   976,
+   6774,
+   "A - Group II"
+  ],
+  [
+   976,
+   6899,
+   "A - Group I"
+  ],
+  [
+   976,
+   6930,
+   "A - Group IV"
+  ],
+  [
+   977,
+   1551,
+   "Open - Group IV"
+  ],
+  [
+   977,
+   1607,
+   "A - Group II"
+  ],
+  [
+   977,
+   1611,
+   "A - Group I"
+  ],
+  [
+   977,
+   1692,
+   "A - Group II"
+  ],
+  [
+   977,
+   1745,
+   "A - Group II"
+  ],
+  [
+   977,
+   2191,
+   "A - Group IV"
+  ],
+  [
+   982,
+   1703,
+   "Open - Group IV"
+  ],
+  [
+   982,
+   1838,
+   "Open - Group V"
+  ],
+  [
+   982,
+   2002,
+   "Open - Group IV"
+  ],
+  [
+   982,
+   2008,
+   "Open - Group V"
+  ],
+  [
+   982,
+   2510,
+   "Open - Group V"
+  ],
+  [
+   982,
+   6777,
+   "Open - Group IV"
+  ],
+  [
+   982,
+   7079,
+   "Open - Group IV"
+  ],
+  [
+   986,
+   1257,
+   "Open - Group II"
+  ],
+  [
+   986,
+   1278,
+   "Open - Group III"
+  ],
+  [
+   986,
+   1311,
+   "Open - Group III"
+  ],
+  [
+   986,
+   1312,
+   "A - Group IV"
+  ],
+  [
+   986,
+   1327,
+   "Open - Group V"
+  ],
+  [
+   986,
+   1332,
+   "A - Group I"
+  ],
+  [
+   986,
+   1335,
+   "A - Group IV"
+  ],
+  [
+   986,
+   1344,
+   "A - Group V"
+  ],
+  [
+   986,
+   1352,
+   "Open - Group I"
+  ],
+  [
+   986,
+   1387,
+   "A - Group III"
+  ],
+  [
+   986,
+   1400,
+   "A - Group IV"
+  ],
+  [
+   986,
+   1491,
+   "A - Group II"
+  ],
+  [
+   986,
+   1522,
+   "Open - Group III"
+  ],
+  [
+   986,
+   1530,
+   "A - Group III"
+  ],
+  [
+   986,
+   1537,
+   "Open - Group III"
+  ],
+  [
+   986,
+   1562,
+   "A - Group II"
+  ],
+  [
+   986,
+   1565,
+   "Open - Group III"
+  ],
+  [
+   986,
+   1573,
+   "A - Group I"
+  ],
+  [
+   986,
+   1620,
+   "Open - Group IV"
+  ],
+  [
+   986,
+   1633,
+   "A - Group II"
+  ],
+  [
+   986,
+   1690,
+   "Open - Group V"
+  ],
+  [
+   986,
+   1746,
+   "A - Group III"
+  ],
+  [
+   986,
+   1747,
+   "Open - Group V"
+  ],
+  [
+   986,
+   1809,
+   "A - Group V"
+  ],
+  [
+   986,
+   1897,
+   "RA"
+  ],
+  [
+   986,
+   1902,
+   "A - Group IV"
+  ],
+  [
+   986,
+   2013,
+   "Open - Group III"
+  ],
+  [
+   986,
+   2494,
+   "A - Group II"
+  ],
+  [
+   986,
+   6491,
+   "A - Group II"
+  ],
+  [
+   986,
+   7883,
+   "A - Group I"
+  ],
+  [
+   987,
+   1342,
+   "RA"
+  ],
+  [
+   987,
+   1417,
+   "Open - Group IV"
+  ],
+  [
+   987,
+   1553,
+   "Open - Group III"
+  ],
+  [
+   987,
+   1582,
+   "A - Group II"
+  ],
+  [
+   987,
+   1586,
+   "Open - Group IV"
+  ],
+  [
+   987,
+   1758,
+   "A - Group IV"
+  ],
+  [
+   987,
+   1880,
+   "A - Group II"
+  ],
+  [
+   987,
+   1883,
+   "A - Group I"
+  ],
+  [
+   987,
+   2040,
+   "Open - Group IV"
+  ],
+  [
+   987,
+   2106,
+   "RA"
+  ],
+  [
+   987,
+   2493,
+   "A - Group III"
+  ],
+  [
+   987,
+   6344,
+   "A - Group I"
+  ],
+  [
+   987,
+   6350,
+   "A - Group II"
+  ],
+  [
+   987,
+   6356,
+   "A - Group V"
+  ],
+  [
+   987,
+   6495,
+   "A - Group I"
+  ],
+  [
+   987,
+   6790,
+   "Open - Group I"
+  ],
+  [
+   987,
+   6862,
+   "RA"
+  ],
+  [
+   987,
+   6909,
+   "A - Group I"
+  ],
+  [
+   987,
+   6910,
+   "RA"
+  ],
+  [
+   988,
+   1345,
+   "A - Group I"
+  ],
+  [
+   988,
+   1532,
+   "Open - Group IV"
+  ],
+  [
+   988,
+   1563,
+   "Open - Group III"
+  ],
+  [
+   988,
+   1571,
+   "A - Group I"
+  ],
+  [
+   988,
+   1598,
+   "Open - Group II"
+  ],
+  [
+   988,
+   1635,
+   "A - Group I"
+  ],
+  [
+   988,
+   1661,
+   "A - Group II"
+  ],
+  [
+   988,
+   1683,
+   "A - Group II"
+  ],
+  [
+   988,
+   1684,
+   "A - Group II"
+  ],
+  [
+   988,
+   1769,
+   "A - Group I"
+  ],
+  [
+   988,
+   1825,
+   "Open - Group V"
+  ],
+  [
+   988,
+   1828,
+   "A - Group I"
+  ],
+  [
+   988,
+   1976,
+   "A - Group I"
+  ],
+  [
+   988,
+   2007,
+   "A - Group II"
+  ],
+  [
+   988,
+   2076,
+   "A - Group II"
+  ],
+  [
+   988,
+   2236,
+   "A - Group V"
+  ],
+  [
+   988,
+   2238,
+   "A - Group I"
+  ],
+  [
+   988,
+   2321,
+   "A - Group II"
+  ],
+  [
+   988,
+   6406,
+   "Open - Group V"
+  ],
+  [
+   988,
+   6501,
+   "A - Group IV"
+  ],
+  [
+   989,
+   1250,
+   "A - Group V"
+  ],
+  [
+   989,
+   1256,
+   "Open - Group IV"
+  ],
+  [
+   989,
+   1275,
+   "Open - Group III"
+  ],
+  [
+   989,
+   1298,
+   "A - Group III"
+  ],
+  [
+   989,
+   1318,
+   "A - Group III"
+  ],
+  [
+   989,
+   1336,
+   "Open - Group IV"
+  ],
+  [
+   989,
+   1343,
+   "Open - Group IV"
+  ],
+  [
+   989,
+   1356,
+   "Open - Group IV"
+  ],
+  [
+   989,
+   1360,
+   "A - Group III"
+  ],
+  [
+   989,
+   1403,
+   "A - Group III"
+  ],
+  [
+   989,
+   1543,
+   "A - Group III"
+  ],
+  [
+   989,
+   1551,
+   "Open - Group IV"
+  ],
+  [
+   989,
+   1574,
+   "A - Group V"
+  ],
+  [
+   989,
+   1590,
+   "A - Group III"
+  ],
+  [
+   989,
+   1591,
+   "A - Group V"
+  ],
+  [
+   989,
+   1592,
+   "A - Group III"
+  ],
+  [
+   989,
+   1601,
+   "A - Group III"
+  ],
+  [
+   989,
+   1605,
+   "A - Group III"
+  ],
+  [
+   989,
+   1610,
+   "Open - Group IV"
+  ],
+  [
+   989,
+   1617,
+   "Open - Group III"
+  ],
+  [
+   989,
+   1650,
+   "A - Group III"
+  ],
+  [
+   989,
+   1896,
+   "A - Group V"
+  ],
+  [
+   989,
+   1911,
+   "A - Group III"
+  ],
+  [
+   989,
+   1913,
+   "Open - Group IV"
+  ],
+  [
+   989,
+   1951,
+   "A - Group III"
+  ],
+  [
+   989,
+   1967,
+   "A - Group V"
+  ],
+  [
+   989,
+   2175,
+   "A - Group III"
+  ],
+  [
+   989,
+   2240,
+   "Open - Group IV"
+  ],
+  [
+   989,
+   2248,
+   "A - Group III"
+  ],
+  [
+   989,
+   6449,
+   "A - Group III"
+  ],
+  [
+   989,
+   6513,
+   "A - Group III"
+  ],
+  [
+   990,
+   1253,
+   "A - Group II"
+  ],
+  [
+   990,
+   1267,
+   "A - Group IV"
+  ],
+  [
+   990,
+   1283,
+   "A - Group II"
+  ],
+  [
+   990,
+   1284,
+   "A - Group I"
+  ],
+  [
+   990,
+   1292,
+   "Open - Group II"
+  ],
+  [
+   990,
+   1303,
+   "Open - Group V"
+  ],
+  [
+   990,
+   1313,
+   "A - Group IV"
+  ],
+  [
+   990,
+   1325,
+   "A - Group II"
+  ],
+  [
+   990,
+   1330,
+   "Open - Group I"
+  ],
+  [
+   990,
+   1341,
+   "Open - Group II"
+  ],
+  [
+   990,
+   1347,
+   "Open - Group II"
+  ],
+  [
+   990,
+   1348,
+   "RA"
+  ],
+  [
+   990,
+   1361,
+   "Open - Group II"
+  ],
+  [
+   990,
+   1402,
+   "A - Group I"
+  ],
+  [
+   990,
+   1407,
+   "Open - Group II"
+  ],
+  [
+   990,
+   1411,
+   "A - Group I"
+  ],
+  [
+   990,
+   1415,
+   "RA"
+  ],
+  [
+   990,
+   1423,
+   "A - Group IV"
+  ],
+  [
+   990,
+   1557,
+   "Open - Group II"
+  ],
+  [
+   990,
+   1558,
+   "Open - Group V"
+  ],
+  [
+   990,
+   1559,
+   "Open - Group II"
+  ],
+  [
+   990,
+   1560,
+   "Open - Group V"
+  ],
+  [
+   990,
+   1561,
+   "A - Group II"
+  ],
+  [
+   990,
+   1564,
+   "A - Group IV"
+  ],
+  [
+   990,
+   1575,
+   "A - Group I"
+  ],
+  [
+   990,
+   1593,
+   "A - Group IV"
+  ],
+  [
+   990,
+   1624,
+   "A - Group II"
+  ],
+  [
+   990,
+   1654,
+   "Open - Group II"
+  ],
+  [
+   990,
+   1761,
+   "A - Group II"
+  ],
+  [
+   990,
+   2189,
+   "A - Group IV"
+  ],
+  [
+   990,
+   2395,
+   "A - Group I"
+  ],
+  [
+   990,
+   6306,
+   "Open - Group II"
+  ],
+  [
+   990,
+   6332,
+   "A - Group IV"
+  ],
+  [
+   990,
+   6666,
+   "A - Group IV"
+  ],
+  [
+   990,
+   6792,
+   "A - Group I"
+  ],
+  [
+   990,
+   6876,
+   "A - Group II"
+  ],
+  [
+   990,
+   7731,
+   "A - Group IV"
+  ],
+  [
+   991,
+   1249,
+   "Open - Group II"
+  ],
+  [
+   991,
+   1251,
+   "Open - Group III"
+  ],
+  [
+   991,
+   1333,
+   "Open - Group II"
+  ],
+  [
+   991,
+   1382,
+   "RA"
+  ],
+  [
+   991,
+   1404,
+   "Open - Group III"
+  ],
+  [
+   991,
+   1637,
+   "A - Group V"
+  ],
+  [
+   991,
+   1696,
+   "A - Group III"
+  ],
+  [
+   991,
+   1709,
+   "A - Group III"
+  ],
+  [
+   991,
+   1738,
+   "A - Group V"
+  ],
+  [
+   991,
+   1884,
+   "A - Group III"
+  ],
+  [
+   991,
+   2187,
+   "Open - Group II"
+  ],
+  [
+   991,
+   2282,
+   "A - Group III"
+  ],
+  [
+   991,
+   2621,
+   "A - Group III"
+  ],
+  [
+   991,
+   6379,
+   "A - Group III"
+  ],
+  [
+   991,
+   6400,
+   "A - Group III"
+  ],
+  [
+   991,
+   6466,
+   "A - Group III"
+  ],
+  [
+   991,
+   6719,
+   "A - Group III"
+  ],
+  [
+   992,
+   1419,
+   "A - Group I"
+  ],
+  [
+   992,
+   1540,
+   "A - Group I"
+  ],
+  [
+   992,
+   1674,
+   "Open - Group III"
+  ],
+  [
+   992,
+   1681,
+   "A - Group III"
+  ],
+  [
+   992,
+   1745,
+   "A - Group II"
+  ],
+  [
+   992,
+   1778,
+   "A - Group V"
+  ],
+  [
+   992,
+   2191,
+   "A - Group IV"
+  ],
+  [
+   992,
+   2333,
+   "A - Group II"
+  ],
+  [
+   993,
+   1285,
+   "Open - Group I"
+  ],
+  [
+   993,
+   1363,
+   "Open - Group V"
+  ],
+  [
+   993,
+   1364,
+   "Open - Group V"
+  ],
+  [
+   993,
+   1604,
+   "Open - Group V"
+  ],
+  [
+   993,
+   2351,
+   "Open - Group III"
+  ],
+  [
+   993,
+   2360,
+   "A - Group II"
+  ],
+  [
+   993,
+   2375,
+   "A - Group I"
+  ],
+  [
+   993,
+   2393,
+   "A - Group I"
+  ],
+  [
+   993,
+   6812,
+   "A - Group IV"
+  ],
+  [
+   993,
+   6846,
+   "A - Group II"
+  ],
+  [
+   993,
+   6930,
+   "A - Group IV"
+  ],
+  [
+   994,
+   1745,
+   "A - Group II"
+  ],
+  [
+   994,
+   2035,
+   "A - Group II"
+  ],
+  [
+   994,
+   2402,
+   "A - Group II"
+  ],
+  [
+   994,
+   2533,
+   "A - Group III"
+  ],
+  [
+   994,
+   6711,
+   "A - Group II"
+  ],
+  [
+   994,
+   7033,
+   "A - Group IV"
+  ],
+  [
+   995,
+   1283,
+   "A - Group II"
+  ],
+  [
+   995,
+   1322,
+   "A - Group II"
+  ],
+  [
+   995,
+   1440,
+   "A - Group IV"
+  ],
+  [
+   995,
+   2232,
+   "A - Group III"
+  ],
+  [
+   995,
+   2402,
+   "A - Group II"
+  ],
+  [
+   995,
+   2533,
+   "A - Group III"
+  ],
+  [
+   995,
+   2621,
+   "A - Group III"
+  ],
+  [
+   995,
+   6400,
+   "A - Group III"
+  ],
+  [
+   995,
+   6711,
+   "A - Group II"
+  ],
+  [
+   996,
+   1310,
+   "Open - Group III"
+  ],
+  [
+   996,
+   1602,
+   "Open - Group I"
+  ],
+  [
+   996,
+   1851,
+   "Open - Group II"
+  ],
+  [
+   996,
+   1914,
+   "Open - Group II"
+  ],
+  [
+   996,
+   2014,
+   "Open - Group II"
+  ],
+  [
+   996,
+   2225,
+   "Open - Group III"
+  ],
+  [
+   996,
+   2241,
+   "Open - Group III"
+  ],
+  [
+   996,
+   2405,
+   "Open - Group IV"
+  ],
+  [
+   996,
+   6510,
+   "Open - Group III"
+  ],
+  [
+   996,
+   6729,
+   "Open - Group V"
+  ],
+  [
+   996,
+   6793,
+   "Open - Group II"
+  ],
+  [
+   996,
+   6840,
+   "Open - Group I"
+  ],
+  [
+   996,
+   6871,
+   "Open - Group III"
+  ],
+  [
+   996,
+   7064,
+   "Open - Group II"
+  ],
+  [
+   997,
+   1288,
+   "A - Group III"
+  ],
+  [
+   997,
+   1815,
+   "A - Group I"
+  ],
+  [
+   997,
+   1817,
+   "A - Group III"
+  ],
+  [
+   997,
+   1833,
+   "A - Group III"
+  ],
+  [
+   997,
+   1859,
+   "A - Group III"
+  ],
+  [
+   997,
+   1903,
+   "A - Group I"
+  ],
+  [
+   997,
+   1915,
+   "A - Group I"
+  ],
+  [
+   997,
+   1919,
+   "A - Group IV"
+  ],
+  [
+   997,
+   1928,
+   "A - Group V"
+  ],
+  [
+   997,
+   1974,
+   "A - Group I"
+  ],
+  [
+   997,
+   2033,
+   "A - Group III"
+  ],
+  [
+   997,
+   2496,
+   "A - Group IV"
+  ],
+  [
+   997,
+   6464,
+   "A - Group II"
+  ],
+  [
+   997,
+   6514,
+   "A - Group II"
+  ],
+  [
+   997,
+   6546,
+   "A - Group II"
+  ],
+  [
+   998,
+   1257,
+   "Open - Group II"
+  ],
+  [
+   998,
+   1278,
+   "Open - Group III"
+  ],
+  [
+   998,
+   1332,
+   "A - Group I"
+  ],
+  [
+   998,
+   1335,
+   "A - Group IV"
+  ],
+  [
+   998,
+   1387,
+   "A - Group III"
+  ],
+  [
+   998,
+   1400,
+   "A - Group IV"
+  ],
+  [
+   998,
+   1530,
+   "A - Group III"
+  ],
+  [
+   998,
+   1620,
+   "Open - Group IV"
+  ],
+  [
+   998,
+   1747,
+   "Open - Group V"
+  ],
+  [
+   998,
+   1778,
+   "A - Group V"
+  ],
+  [
+   998,
+   1809,
+   "A - Group V"
+  ],
+  [
+   998,
+   1878,
+   "A - Group II"
+  ],
+  [
+   998,
+   1902,
+   "A - Group IV"
+  ],
+  [
+   999,
+   1311,
+   "Open - Group III"
+  ],
+  [
+   999,
+   1312,
+   "A - Group IV"
+  ],
+  [
+   999,
+   1344,
+   "A - Group V"
+  ],
+  [
+   999,
+   1352,
+   "Open - Group I"
+  ],
+  [
+   999,
+   1491,
+   "A - Group II"
+  ],
+  [
+   999,
+   1522,
+   "Open - Group III"
+  ],
+  [
+   999,
+   1537,
+   "Open - Group III"
+  ],
+  [
+   999,
+   1562,
+   "A - Group II"
+  ],
+  [
+   999,
+   1565,
+   "Open - Group III"
+  ],
+  [
+   999,
+   1674,
+   "Open - Group III"
+  ],
+  [
+   999,
+   1746,
+   "A - Group III"
+  ],
+  [
+   999,
+   1800,
+   "A - Group II"
+  ],
+  [
+   999,
+   2013,
+   "Open - Group III"
+  ],
+  [
+   999,
+   6491,
+   "A - Group II"
+  ],
+  [
+   999,
+   7883,
+   "A - Group I"
+  ],
+  [
+   1001,
+   1292,
+   "Open - Group II"
+  ],
+  [
+   1001,
+   1347,
+   "Open - Group II"
+  ],
+  [
+   1001,
+   1654,
+   "Open - Group II"
+  ],
+  [
+   1001,
+   2240,
+   "Open - Group IV"
+  ],
+  [
+   1001,
+   6306,
+   "Open - Group II"
+  ],
+  [
+   1001,
+   6876,
+   "A - Group II"
+  ],
+  [
+   1001,
+   7853,
+   "A - Group III"
+  ],
+  [
+   1002,
+   1250,
+   "A - Group V"
+  ],
+  [
+   1002,
+   1253,
+   "A - Group II"
+  ],
+  [
+   1002,
+   1298,
+   "A - Group III"
+  ],
+  [
+   1002,
+   1303,
+   "Open - Group V"
+  ],
+  [
+   1002,
+   1313,
+   "A - Group IV"
+  ],
+  [
+   1002,
+   1330,
+   "Open - Group I"
+  ],
+  [
+   1002,
+   1360,
+   "A - Group III"
+  ],
+  [
+   1002,
+   1402,
+   "A - Group I"
+  ],
+  [
+   1002,
+   1411,
+   "A - Group I"
+  ],
+  [
+   1002,
+   1419,
+   "A - Group I"
+  ],
+  [
+   1002,
+   1574,
+   "A - Group V"
+  ],
+  [
+   1002,
+   1608,
+   "A - Group II"
+  ],
+  [
+   1002,
+   2189,
+   "A - Group IV"
+  ],
+  [
+   1002,
+   6783,
+   "RA"
+  ],
+  [
+   1002,
+   6914,
+   "A - Group II"
+  ],
+  [
+   1002,
+   7150,
+   "A - Group V"
+  ],
+  [
+   1003,
+   1272,
+   "Open - Group V"
+  ],
+  [
+   1003,
+   1284,
+   "A - Group I"
+  ],
+  [
+   1003,
+   1403,
+   "A - Group III"
+  ],
+  [
+   1003,
+   1559,
+   "Open - Group II"
+  ],
+  [
+   1003,
+   1561,
+   "A - Group II"
+  ],
+  [
+   1003,
+   1564,
+   "A - Group IV"
+  ],
+  [
+   1003,
+   1590,
+   "A - Group III"
+  ],
+  [
+   1003,
+   1592,
+   "A - Group III"
+  ],
+  [
+   1003,
+   1613,
+   "A - Group III"
+  ],
+  [
+   1003,
+   1624,
+   "A - Group II"
+  ],
+  [
+   1003,
+   1626,
+   "A - Group V"
+  ],
+  [
+   1003,
+   1634,
+   "RA"
+  ],
+  [
+   1003,
+   6410,
+   "RA"
+  ],
+  [
+   1003,
+   6792,
+   "A - Group I"
+  ],
+  [
+   1004,
+   1325,
+   "A - Group II"
+  ],
+  [
+   1004,
+   1336,
+   "Open - Group IV"
+  ],
+  [
+   1004,
+   1341,
+   "Open - Group II"
+  ],
+  [
+   1004,
+   1423,
+   "A - Group IV"
+  ],
+  [
+   1004,
+   1540,
+   "A - Group I"
+  ],
+  [
+   1004,
+   1543,
+   "A - Group III"
+  ],
+  [
+   1004,
+   1593,
+   "A - Group IV"
+  ],
+  [
+   1004,
+   1601,
+   "A - Group III"
+  ],
+  [
+   1004,
+   1605,
+   "A - Group III"
+  ],
+  [
+   1004,
+   1896,
+   "A - Group V"
+  ],
+  [
+   1004,
+   1911,
+   "A - Group III"
+  ],
+  [
+   1004,
+   1913,
+   "Open - Group IV"
+  ],
+  [
+   1004,
+   1998,
+   "A - Group II"
+  ],
+  [
+   1004,
+   2023,
+   "A - Group I"
+  ],
+  [
+   1004,
+   2175,
+   "A - Group III"
+  ],
+  [
+   1004,
+   2248,
+   "A - Group III"
+  ],
+  [
+   1004,
+   2333,
+   "A - Group II"
+  ],
+  [
+   1004,
+   6332,
+   "A - Group IV"
+  ],
+  [
+   1004,
+   6585,
+   "A - Group I"
+  ],
+  [
+   1004,
+   6666,
+   "A - Group IV"
+  ],
+  [
+   1005,
+   1275,
+   "Open - Group III"
+  ],
+  [
+   1005,
+   1283,
+   "A - Group II"
+  ],
+  [
+   1005,
+   1343,
+   "Open - Group IV"
+  ],
+  [
+   1005,
+   1356,
+   "Open - Group IV"
+  ],
+  [
+   1005,
+   1560,
+   "Open - Group V"
+  ],
+  [
+   1005,
+   1591,
+   "A - Group V"
+  ],
+  [
+   1005,
+   1610,
+   "Open - Group IV"
+  ],
+  [
+   1005,
+   1745,
+   "A - Group II"
+  ],
+  [
+   1005,
+   1761,
+   "A - Group II"
+  ],
+  [
+   1005,
+   1807,
+   "RA"
+  ],
+  [
+   1005,
+   1951,
+   "A - Group III"
+  ],
+  [
+   1005,
+   2191,
+   "A - Group IV"
+  ],
+  [
+   1005,
+   6449,
+   "A - Group III"
+  ],
+  [
+   1006,
+   1349,
+   "A - Group II"
+  ],
+  [
+   1006,
+   1404,
+   "Open - Group III"
+  ],
+  [
+   1006,
+   1440,
+   "A - Group IV"
+  ],
+  [
+   1006,
+   1696,
+   "A - Group III"
+  ],
+  [
+   1006,
+   1738,
+   "A - Group V"
+  ],
+  [
+   1006,
+   1884,
+   "A - Group III"
+  ],
+  [
+   1006,
+   2038,
+   "A - Group I"
+  ],
+  [
+   1006,
+   2187,
+   "Open - Group II"
+  ],
+  [
+   1006,
+   2332,
+   "A - Group II"
+  ],
+  [
+   1006,
+   2351,
+   "Open - Group III"
+  ],
+  [
+   1006,
+   6379,
+   "A - Group III"
+  ],
+  [
+   1006,
+   6400,
+   "A - Group III"
+  ],
+  [
+   1006,
+   6719,
+   "A - Group III"
+  ],
+  [
+   1007,
+   1342,
+   "RA"
+  ],
+  [
+   1007,
+   1417,
+   "Open - Group IV"
+  ],
+  [
+   1007,
+   1553,
+   "Open - Group III"
+  ],
+  [
+   1007,
+   1582,
+   "A - Group II"
+  ],
+  [
+   1007,
+   1586,
+   "Open - Group IV"
+  ],
+  [
+   1007,
+   1758,
+   "A - Group IV"
+  ],
+  [
+   1007,
+   1880,
+   "A - Group II"
+  ],
+  [
+   1007,
+   1883,
+   "A - Group I"
+  ],
+  [
+   1007,
+   2106,
+   "RA"
+  ],
+  [
+   1007,
+   2493,
+   "A - Group III"
+  ],
+  [
+   1007,
+   6350,
+   "A - Group II"
+  ],
+  [
+   1007,
+   6495,
+   "A - Group I"
+  ],
+  [
+   1007,
+   6909,
+   "A - Group I"
+  ],
+  [
+   1008,
+   1285,
+   "Open - Group I"
+  ],
+  [
+   1008,
+   1322,
+   "A - Group II"
+  ],
+  [
+   1008,
+   1326,
+   "A - Group IV"
+  ],
+  [
+   1008,
+   1363,
+   "Open - Group V"
+  ],
+  [
+   1008,
+   1364,
+   "Open - Group V"
+  ],
+  [
+   1008,
+   1379,
+   "Open - Group IV"
+  ],
+  [
+   1008,
+   1391,
+   "A - Group I"
+  ],
+  [
+   1008,
+   1397,
+   "A - Group I"
+  ],
+  [
+   1008,
+   1440,
+   "A - Group IV"
+  ],
+  [
+   1008,
+   1604,
+   "Open - Group V"
+  ],
+  [
+   1008,
+   1698,
+   "Open - Group V"
+  ],
+  [
+   1008,
+   1846,
+   "Open - Group IV"
+  ],
+  [
+   1008,
+   2035,
+   "A - Group II"
+  ],
+  [
+   1008,
+   2038,
+   "A - Group I"
+  ],
+  [
+   1008,
+   2228,
+   "Open - Group V"
+  ],
+  [
+   1008,
+   2309,
+   "Open - Group V"
+  ],
+  [
+   1008,
+   2360,
+   "A - Group II"
+  ],
+  [
+   1008,
+   2375,
+   "A - Group I"
+  ],
+  [
+   1008,
+   2393,
+   "A - Group I"
+  ],
+  [
+   1008,
+   2402,
+   "A - Group II"
+  ],
+  [
+   1008,
+   2547,
+   "A - Group I"
+  ],
+  [
+   1008,
+   2637,
+   "A - Group I"
+  ],
+  [
+   1008,
+   6725,
+   "A - Group I"
+  ],
+  [
+   1008,
+   6899,
+   "A - Group I"
+  ],
+  [
+   1008,
+   7000,
+   "A - Group I"
+  ],
+  [
+   1008,
+   7130,
+   "A - Group I"
+  ],
+  [
+   1009,
+   1676,
+   "Open - Group IV"
+  ],
+  [
+   1009,
+   2268,
+   "Open - Group IV"
+  ],
+  [
+   1009,
+   2510,
+   "Open - Group IV"
+  ],
+  [
+   1009,
+   2510,
+   "Open - Group V"
+  ],
+  [
+   1009,
+   6535,
+   "Open - Group II"
+  ],
+  [
+   1009,
+   6563,
+   "Open - Group III"
+  ],
+  [
+   1009,
+   6771,
+   "Open - Group II"
+  ],
+  [
+   1009,
+   6853,
+   "Open - Group IV"
+  ],
+  [
+   1010,
+   1311,
+   "Open - Group III"
+  ],
+  [
+   1010,
+   1356,
+   "Open - Group IV"
+  ],
+  [
+   1010,
+   1591,
+   "A - Group V"
+  ],
+  [
+   1010,
+   1611,
+   "A - Group I"
+  ],
+  [
+   1010,
+   1690,
+   "Open - Group V"
+  ],
+  [
+   1010,
+   2189,
+   "A - Group IV"
+  ],
+  [
+   1011,
+   1345,
+   "A - Group I"
+  ],
+  [
+   1011,
+   1532,
+   "Open - Group IV"
+  ],
+  [
+   1011,
+   1598,
+   "Open - Group II"
+  ],
+  [
+   1011,
+   1635,
+   "A - Group I"
+  ],
+  [
+   1011,
+   1684,
+   "A - Group II"
+  ],
+  [
+   1011,
+   1976,
+   "A - Group I"
+  ],
+  [
+   1011,
+   2007,
+   "A - Group II"
+  ],
+  [
+   1011,
+   2076,
+   "A - Group II"
+  ],
+  [
+   1011,
+   6787,
+   "A - Group II"
+  ],
+  [
+   1013,
+   1288,
+   "A - Group III"
+  ],
+  [
+   1013,
+   1817,
+   "A - Group III"
+  ],
+  [
+   1013,
+   1833,
+   "A - Group III"
+  ],
+  [
+   1013,
+   1915,
+   "A - Group I"
+  ],
+  [
+   1013,
+   1928,
+   "A - Group V"
+  ],
+  [
+   1013,
+   2033,
+   "A - Group III"
+  ],
+  [
+   1013,
+   2496,
+   "A - Group IV"
+  ],
+  [
+   1013,
+   2504,
+   "A - Group III"
+  ],
+  [
+   1013,
+   6464,
+   "A - Group II"
+  ],
+  [
+   1013,
+   6518,
+   "A - Group IV"
+  ],
+  [
+   1013,
+   6520,
+   "A - Group II"
+  ],
+  [
+   1013,
+   6525,
+   "A - Group IV"
+  ],
+  [
+   1013,
+   6597,
+   "A - Group III"
+  ],
+  [
+   1014,
+   1288,
+   "A - Group III"
+  ],
+  [
+   1014,
+   1833,
+   "A - Group III"
+  ],
+  [
+   1014,
+   1928,
+   "A - Group V"
+  ],
+  [
+   1014,
+   2033,
+   "A - Group III"
+  ],
+  [
+   1014,
+   2496,
+   "A - Group IV"
+  ],
+  [
+   1014,
+   2504,
+   "A - Group III"
+  ],
+  [
+   1014,
+   6518,
+   "A - Group IV"
+  ],
+  [
+   1014,
+   6520,
+   "A - Group II"
+  ],
+  [
+   1014,
+   6525,
+   "A - Group IV"
+  ],
+  [
+   1016,
+   1333,
+   "Open - Group II"
+  ],
+  [
+   1016,
+   1391,
+   "A - Group I"
+  ],
+  [
+   1016,
+   1440,
+   "A - Group IV"
+  ],
+  [
+   1016,
+   2035,
+   "A - Group II"
+  ],
+  [
+   1016,
+   2187,
+   "Open - Group II"
+  ],
+  [
+   1016,
+   2547,
+   "A - Group I"
+  ],
+  [
+   1017,
+   1332,
+   "A - Group I"
+  ],
+  [
+   1017,
+   1352,
+   "Open - Group I"
+  ],
+  [
+   1017,
+   1417,
+   "Open - Group IV"
+  ],
+  [
+   1017,
+   1530,
+   "A - Group III"
+  ],
+  [
+   1017,
+   1573,
+   "A - Group I"
+  ],
+  [
+   1017,
+   2013,
+   "Open - Group III"
+  ],
+  [
+   1017,
+   6344,
+   "A - Group I"
+  ],
+  [
+   1018,
+   1275,
+   "Open - Group III"
+  ],
+  [
+   1018,
+   1325,
+   "A - Group II"
+  ],
+  [
+   1018,
+   1348,
+   "RA"
+  ],
+  [
+   1018,
+   1402,
+   "A - Group I"
+  ],
+  [
+   1018,
+   1558,
+   "Open - Group V"
+  ],
+  [
+   1018,
+   1605,
+   "A - Group III"
+  ],
+  [
+   1018,
+   2189,
+   "A - Group IV"
+  ],
+  [
+   1018,
+   6449,
+   "A - Group III"
+  ],
+  [
+   1019,
+   1325,
+   "A - Group II"
+  ],
+  [
+   1019,
+   1341,
+   "Open - Group II"
+  ],
+  [
+   1019,
+   1402,
+   "A - Group I"
+  ],
+  [
+   1019,
+   1540,
+   "A - Group I"
+  ],
+  [
+   1019,
+   1543,
+   "A - Group III"
+  ],
+  [
+   1019,
+   1681,
+   "A - Group III"
+  ],
+  [
+   1019,
+   1807,
+   "RA"
+  ],
+  [
+   1019,
+   2189,
+   "A - Group IV"
+  ],
+  [
+   1020,
+   1604,
+   "Open - Group V"
+  ],
+  [
+   1020,
+   1637,
+   "A - Group V"
+  ],
+  [
+   1020,
+   1696,
+   "A - Group III"
+  ],
+  [
+   1020,
+   1698,
+   "Open - Group V"
+  ],
+  [
+   1020,
+   2187,
+   "Open - Group II"
+  ],
+  [
+   1020,
+   2228,
+   "Open - Group V"
+  ],
+  [
+   1020,
+   2351,
+   "Open - Group III"
+  ],
+  [
+   1020,
+   2402,
+   "A - Group II"
+  ],
+  [
+   1020,
+   2621,
+   "A - Group III"
+  ],
+  [
+   1020,
+   6466,
+   "A - Group III"
+  ],
+  [
+   1020,
+   6710,
+   "Open - Group V"
+  ],
+  [
+   1020,
+   6725,
+   "A - Group I"
+  ],
+  [
+   1020,
+   6846,
+   "A - Group II"
+  ],
+  [
+   1020,
+   6921,
+   "Open - Group IV"
+  ],
+  [
+   1021,
+   1278,
+   "Open - Group III"
+  ],
+  [
+   1021,
+   1327,
+   "Open - Group V"
+  ],
+  [
+   1021,
+   1344,
+   "A - Group V"
+  ],
+  [
+   1021,
+   1491,
+   "A - Group II"
+  ],
+  [
+   1021,
+   1562,
+   "A - Group II"
+  ],
+  [
+   1021,
+   1562,
+   "A - Group III"
+  ],
+  [
+   1021,
+   1620,
+   "Open - Group IV"
+  ],
+  [
+   1021,
+   1746,
+   "A - Group III"
+  ],
+  [
+   1021,
+   1878,
+   "A - Group II"
+  ],
+  [
+   1021,
+   1947,
+   "A - Group V"
+  ],
+  [
+   1021,
+   2013,
+   "Open - Group III"
+  ],
+  [
+   1021,
+   6491,
+   "A - Group II"
+  ],
+  [
+   1023,
+   1267,
+   "A - Group IV"
+  ],
+  [
+   1023,
+   1361,
+   "Open - Group II"
+  ],
+  [
+   1023,
+   1557,
+   "Open - Group II"
+  ],
+  [
+   1023,
+   1561,
+   "A - Group II"
+  ],
+  [
+   1023,
+   1575,
+   "A - Group I"
+  ],
+  [
+   1023,
+   1590,
+   "A - Group III"
+  ],
+  [
+   1023,
+   1592,
+   "A - Group III"
+  ],
+  [
+   1023,
+   1634,
+   "RA"
+  ],
+  [
+   1023,
+   2062,
+   "A - Group II"
+  ],
+  [
+   1023,
+   2395,
+   "A - Group I"
+  ],
+  [
+   1025,
+   1251,
+   "Open - Group III"
+  ],
+  [
+   1025,
+   1326,
+   "A - Group IV"
+  ],
+  [
+   1025,
+   1379,
+   "Open - Group IV"
+  ],
+  [
+   1025,
+   2351,
+   "Open - Group III"
+  ],
+  [
+   1025,
+   7033,
+   "A - Group IV"
+  ],
+  [
+   1026,
+   1253,
+   "A - Group II"
+  ],
+  [
+   1026,
+   1298,
+   "A - Group III"
+  ],
+  [
+   1026,
+   1318,
+   "A - Group III"
+  ],
+  [
+   1026,
+   1348,
+   "RA"
+  ],
+  [
+   1026,
+   1534,
+   "A - Group I"
+  ],
+  [
+   1026,
+   6915,
+   "A - Group III"
+  ],
+  [
+   1027,
+   1261,
+   "A - Group IV"
+  ],
+  [
+   1027,
+   1267,
+   "A - Group IV"
+  ],
+  [
+   1027,
+   1283,
+   "A - Group II"
+  ],
+  [
+   1027,
+   1557,
+   "Open - Group II"
+  ],
+  [
+   1027,
+   1559,
+   "Open - Group II"
+  ],
+  [
+   1027,
+   1561,
+   "A - Group II"
+  ],
+  [
+   1027,
+   1611,
+   "A - Group I"
+  ],
+  [
+   1027,
+   1624,
+   "A - Group II"
+  ],
+  [
+   1027,
+   6713,
+   "A - Group I"
+  ],
+  [
+   1029,
+   1417,
+   "Open - Group IV"
+  ],
+  [
+   1029,
+   1553,
+   "Open - Group III"
+  ],
+  [
+   1029,
+   1582,
+   "A - Group II"
+  ],
+  [
+   1029,
+   1586,
+   "Open - Group IV"
+  ],
+  [
+   1029,
+   1758,
+   "A - Group IV"
+  ],
+  [
+   1029,
+   1880,
+   "A - Group II"
+  ],
+  [
+   1029,
+   1883,
+   "A - Group I"
+  ],
+  [
+   1029,
+   1886,
+   "A - Group III"
+  ],
+  [
+   1029,
+   2040,
+   "Open - Group IV"
+  ],
+  [
+   1029,
+   2051,
+   "A - Group I"
+  ],
+  [
+   1029,
+   2106,
+   "RA"
+  ],
+  [
+   1029,
+   6344,
+   "A - Group I"
+  ],
+  [
+   1029,
+   6350,
+   "A - Group II"
+  ],
+  [
+   1029,
+   6356,
+   "A - Group V"
+  ],
+  [
+   1029,
+   6781,
+   "A - Group III"
+  ],
+  [
+   1029,
+   6790,
+   "Open - Group I"
+  ],
+  [
+   1029,
+   6795,
+   "A - Group I"
+  ],
+  [
+   1029,
+   6909,
+   "A - Group I"
+  ],
+  [
+   1029,
+   6910,
+   "RA"
+  ],
+  [
+   1029,
+   6920,
+   "A - Group III"
+  ],
+  [
+   1031,
+   1292,
+   "Open - Group II"
+  ],
+  [
+   1031,
+   1347,
+   "Open - Group II"
+  ],
+  [
+   1031,
+   1559,
+   "Open - Group II"
+  ],
+  [
+   1031,
+   2240,
+   "Open - Group IV"
+  ],
+  [
+   1031,
+   6306,
+   "Open - Group II"
+  ],
+  [
+   1034,
+   1239,
+   "A - Group IV"
+  ],
+  [
+   1034,
+   1589,
+   "A - Group I"
+  ],
+  [
+   1034,
+   1714,
+   "A - Group IV"
+  ],
+  [
+   1034,
+   1736,
+   "A - Group IV"
+  ],
+  [
+   1034,
+   1750,
+   "A - Group II"
+  ],
+  [
+   1034,
+   1756,
+   "A - Group III"
+  ],
+  [
+   1034,
+   1927,
+   "A - Group III"
+  ],
+  [
+   1034,
+   1946,
+   "A - Group IV"
+  ],
+  [
+   1034,
+   1993,
+   "A - Group II"
+  ],
+  [
+   1034,
+   2019,
+   "A - Group III"
+  ],
+  [
+   1034,
+   6945,
+   "A - Group II"
+  ],
+  [
+   1034,
+   7021,
+   "A - Group I"
+  ],
+  [
+   1035,
+   1288,
+   "A - Group III"
+  ],
+  [
+   1035,
+   1589,
+   "A - Group I"
+  ],
+  [
+   1035,
+   1713,
+   "A - Group IV"
+  ],
+  [
+   1035,
+   1714,
+   "A - Group IV"
+  ],
+  [
+   1035,
+   1736,
+   "A - Group IV"
+  ],
+  [
+   1035,
+   1750,
+   "A - Group II"
+  ],
+  [
+   1035,
+   1780,
+   "A - Group IV"
+  ],
+  [
+   1035,
+   1817,
+   "A - Group III"
+  ],
+  [
+   1035,
+   1833,
+   "A - Group III"
+  ],
+  [
+   1035,
+   1859,
+   "A - Group III"
+  ],
+  [
+   1035,
+   1887,
+   "A - Group IV"
+  ],
+  [
+   1035,
+   1903,
+   "A - Group I"
+  ],
+  [
+   1035,
+   1973,
+   "A - Group IV"
+  ],
+  [
+   1035,
+   1993,
+   "A - Group II"
+  ],
+  [
+   1035,
+   2015,
+   "A - Group I"
+  ],
+  [
+   1035,
+   7021,
+   "A - Group I"
+  ],
+  [
+   1076,
+   1275,
+   "Open - Group III"
+  ],
+  [
+   1076,
+   1411,
+   "A - Group I"
+  ],
+  [
+   1076,
+   1419,
+   "A - Group I"
+  ],
+  [
+   1076,
+   1617,
+   "Open - Group III"
+  ],
+  [
+   1076,
+   1913,
+   "Open - Group IV"
+  ],
+  [
+   1076,
+   2312,
+   "A - Group III"
+  ],
+  [
+   1077,
+   1267,
+   "A - Group IV"
+  ],
+  [
+   1077,
+   1313,
+   "A - Group IV"
+  ],
+  [
+   1077,
+   1326,
+   "A - Group IV"
+  ],
+  [
+   1077,
+   1345,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1391,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1397,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1411,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1419,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1440,
+   "A - Group IV"
+  ],
+  [
+   1077,
+   1540,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1571,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1575,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1591,
+   "A - Group V"
+  ],
+  [
+   1077,
+   1593,
+   "A - Group IV"
+  ],
+  [
+   1077,
+   1626,
+   "A - Group V"
+  ],
+  [
+   1077,
+   1635,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1637,
+   "A - Group V"
+  ],
+  [
+   1077,
+   1769,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1778,
+   "A - Group V"
+  ],
+  [
+   1077,
+   1883,
+   "A - Group I"
+  ],
+  [
+   1077,
+   1896,
+   "A - Group V"
+  ],
+  [
+   1077,
+   1902,
+   "A - Group IV"
+  ],
+  [
+   1077,
+   1976,
+   "A - Group I"
+  ],
+  [
+   1077,
+   2191,
+   "A - Group IV"
+  ],
+  [
+   1077,
+   2236,
+   "A - Group V"
+  ],
+  [
+   1077,
+   2293,
+   "A - Group IV"
+  ],
+  [
+   1077,
+   2637,
+   "A - Group I"
+  ],
+  [
+   1077,
+   6303,
+   "A - Group V"
+  ],
+  [
+   1077,
+   6332,
+   "A - Group IV"
+  ],
+  [
+   1077,
+   6828,
+   "A - Group IV"
+  ],
+  [
+   1077,
+   6899,
+   "A - Group I"
+  ],
+  [
+   1077,
+   7033,
+   "A - Group IV"
+  ]
  ],
  "events": {
   "1001": {
@@ -3074,7 +10220,7 @@
   },
   "1010": {
    "city": "Allendale",
-   "event_date": "2024-10-12",
+   "event_date": "2024-10-13",
    "event_kind": "regular",
    "id": 1010,
    "name": "Northern Highlands Regional High School",
@@ -3173,7 +10319,7 @@
   },
   "1025": {
    "city": "Collegeville",
-   "event_date": "2024-10-12",
+   "event_date": "2024-10-13",
    "event_kind": "regular",
    "id": 1025,
    "name": "Perkiomen Valley High School",
@@ -3209,7 +10355,7 @@
   },
   "1031": {
    "city": "Medford",
-   "event_date": "2024-10-12",
+   "event_date": "2024-10-13",
    "event_kind": "regular",
    "id": 1031,
    "name": "Lenape High School",
@@ -3245,7 +10391,7 @@
   },
   "1077": {
    "city": "Allentown",
-   "event_date": "2024-11-02",
+   "event_date": "2024-11-03",
    "event_kind": "regular",
    "id": 1077,
    "name": "A Class National Championships (IA, IVA & VA)",
@@ -3263,7 +10409,7 @@
   },
   "880": {
    "city": "Allentown",
-   "event_date": "2024-11-06",
+   "event_date": "2024-11-09",
    "event_kind": "regular",
    "id": 880,
    "name": "A Class National Championships (IIA & III A)",
@@ -3603,6 +10749,15 @@
    "season_year": 2024,
    "state": "TX"
   },
+  "949": {
+   "city": "Webster",
+   "event_date": "2024-09-28",
+   "event_kind": "regular",
+   "id": 949,
+   "name": "Houston Regional",
+   "season_year": 2024,
+   "state": "TX"
+  },
   "950": {
    "city": "San Angelo",
    "event_date": "2024-09-28",
@@ -3803,7 +10958,7 @@
   },
   "977": {
    "city": "Bergenfield",
-   "event_date": "2024-10-12",
+   "event_date": "2024-10-13",
    "event_kind": "regular",
    "id": 977,
    "name": "Bergenfield High School",
@@ -3812,7 +10967,7 @@
   },
   "982": {
    "city": "Huntsville",
-   "event_date": "2024-11-06",
+   "event_date": "2024-11-09",
    "event_kind": "regular",
    "id": 982,
    "name": "Southeastern Championships & STATS Grand Championships",
@@ -3875,7 +11030,7 @@
   },
   "992": {
    "city": "Lindenhurst",
-   "event_date": "2024-10-26",
+   "event_date": "2024-10-27",
    "event_kind": "state_championship",
    "id": 992,
    "name": "New York State Championships",
@@ -10424,11 +17579,6 @@
  ],
  "season_year": 2024,
  "skipped": [
-  [
-   949,
-   "Houston Regional",
-   "no USBands-vocabulary divisions found"
-  ],
   [
    947,
    "Austin Regional",

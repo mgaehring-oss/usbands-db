@@ -83,9 +83,9 @@ class TestReadSeasonEvents(unittest.TestCase):
         path = os.path.join(tempfile.mkdtemp(), "t.db")
         conn = sqlite3.connect(path)
         conn.executescript(
-            """CREATE TABLE events (id INTEGER PRIMARY KEY, season_year INTEGER, event_date TEXT);
+            """CREATE TABLE events (id INTEGER PRIMARY KEY, season_year INTEGER, event_date TEXT, name TEXT);
                CREATE TABLE scores (event_id INTEGER, unit_id INTEGER, division_id INTEGER, score REAL);
-               INSERT INTO events VALUES (1, 2025, '2025-11-08'), (2, 2025, '2025-09-06'), (3, 2024, '2024-11-02');
+               INSERT INTO events VALUES (1, 2025, '2025-11-08', 'Finals'), (2, 2025, '2025-09-06', 'Opener'), (3, 2024, '2024-11-02', 'Old');
                INSERT INTO scores VALUES (1, 1, 1, 80.0), (1, 2, 1, 75.0);"""
         )
         conn.commit()
@@ -94,6 +94,18 @@ class TestReadSeasonEvents(unittest.TestCase):
 
     def test_counts_scores_per_event_for_the_requested_season_only(self):
         rows = dict(read_season_events(self._db(), 2025))
+        self.assertEqual(rows, {"2025-11-08": 2, "2025-09-06": 0})
+
+    def test_cancelled_and_postponed_events_are_ignored(self):
+        path = self._db()
+        conn = sqlite3.connect(path)
+        conn.execute("INSERT INTO events VALUES (9, 2025, '2025-11-15', 'CANCELED - Late Show')")
+        conn.execute("INSERT INTO events VALUES (10, 2025, '2025-11-16', 'POSTPONED - Another')")
+        conn.commit()
+        conn.close()
+        # Without this the unscored cancelled shows would be the "last date",
+        # holding the season open until the 45-day timeout.
+        rows = dict(read_season_events(path, 2025))
         self.assertEqual(rows, {"2025-11-08": 2, "2025-09-06": 0})
 
     def test_missing_database_means_no_events(self):

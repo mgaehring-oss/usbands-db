@@ -85,6 +85,110 @@ class TestParsePerformingGroups(unittest.TestCase):
         self.assertEqual(scraper.parse_performing_groups("<html><body>no tabs here</body></html>"), {})
 
 
+class TestParseEventDate(unittest.TestCase):
+    def test_real_date_comes_from_the_detail_page(self):
+        # The events LIST stamps shows on Oct 8/10/11 all with the same
+        # "Oct 6" bucket timestamp; the detail page has the true date.
+        self.assertEqual(scraper.parse_event_date(load_fixture("event_scored_oct10_1488.html")), "2026-10-10")
+        self.assertEqual(scraper.parse_event_date(load_fixture("event_upcoming_schedule_1423.html")), "2026-10-11")
+
+    def test_older_page_still_parses(self):
+        self.assertEqual(scraper.parse_event_date(load_fixture("event_regular_521.html")), "2022-09-24")
+
+    def test_missing_or_unreadable_date_is_none(self):
+        self.assertIsNone(scraper.parse_event_date("<html>no calendar here</html>"))
+        self.assertIsNone(scraper.parse_event_date('<img alt="Calendar"/> Octember 40, 2026'))
+
+
+class TestScheduleEntries(unittest.TestCase):
+    def test_labels_map_into_the_usbands_vocabulary(self):
+        self.assertEqual(scraper.schedule_label("III A"), "A - Group III")
+        self.assertEqual(scraper.schedule_label("II Open"), "Open - Group II")
+        self.assertEqual(scraper.schedule_label("I Regional A"), "RA")
+        self.assertEqual(scraper.schedule_label("IV Regional A"), "RA")
+
+    def test_labels_outside_the_vocabulary_are_rejected(self):
+        for text in ("(2) White STATS", "Exhibition", "College/University", "Group III", "", "Division &amp; Class"):
+            self.assertIsNone(scraper.schedule_label(text), text)
+
+    def test_upcoming_show_entries_come_from_the_schedule_tab(self):
+        html = load_fixture("event_upcoming_schedule_1423.html")
+        # No Performing Groups tab on a regular upcoming show...
+        self.assertEqual(scraper.parse_performing_groups(html), {})
+        entries = scraper.parse_schedule_entries(html)
+        self.assertEqual(entries["RA"], {6344: "South Hadley High School"})
+        self.assertEqual(len(entries["A - Group I"]), 3)
+        self.assertIn(7281, entries["A - Group I"])
+        self.assertEqual(sum(len(v) for v in entries.values()), 6)
+        self.assertIn("Blackstone-Millville Regional High School", entries["Open - Group III"].values())
+
+    def test_a_page_with_no_schedule_has_no_entries(self):
+        self.assertEqual(scraper.parse_schedule_entries(load_fixture("event_canceled_1468.html")), {})
+        self.assertEqual(scraper.parse_schedule_entries("<html></html>"), {})
+
+
+class TestKeepUnlistedUpcoming(unittest.TestCase):
+    STATES = {"NJ", "PA", "CT", "TX"}
+
+    def keep(self, title="Hanover Park High School", date="2026-10-25", state="NJ", today="2026-10-12"):
+        return scraper.keep_unlisted_upcoming(title, date, state, self.STATES, today)
+
+    def test_ordinary_school_show_in_the_footprint_is_kept(self):
+        self.assertTrue(self.keep())
+        self.assertTrue(self.keep(date="2026-10-12"))  # today counts
+
+    def test_past_shows_are_not_resurrected(self):
+        self.assertFalse(self.keep(date="2026-10-03"))
+
+    def test_other_states_and_circuits_are_not_kept(self):
+        self.assertFalse(self.keep(title="Dutchtown High School", state="LA"))
+        self.assertFalse(self.keep(title="STATS Alabama", state="NJ"))
+        self.assertFalse(self.keep(title="Central Texas Championships", state="TX"))
+
+    def test_cancelled_shows_take_the_other_path(self):
+        self.assertFalse(self.keep(title="CANCELED Montville Township High School"))
+
+
+class TestFetchWithRetry(unittest.TestCase):
+    def test_retries_transient_failures_then_succeeds(self):
+        calls = []
+
+        def flaky(url, timeout=25):
+            calls.append(url)
+            if len(calls) < 3:
+                raise OSError("connection reset")
+            return "<html>ok</html>"
+
+        with mock.patch.object(scraper, "fetch", flaky):
+            self.assertEqual(scraper.fetch_with_retry("u", sleep=lambda s: None), "<html>ok</html>")
+        self.assertEqual(len(calls), 3)
+
+    def test_gives_up_after_the_last_attempt(self):
+        with mock.patch.object(scraper, "fetch", side_effect=OSError("down")) as f:
+            with self.assertRaises(OSError):
+                scraper.fetch_with_retry("u", attempts=3, sleep=lambda s: None)
+        self.assertEqual(f.call_count, 3)
+
+
+class TestCancelledEvents(unittest.TestCase):
+    def test_cancelled_and_postponed_titles(self):
+        for title in ("CANCELED - Trumbull High School", "CANCELLED - Crossroads Clinic",
+                      "CANCELED Montville Township High School", "POSTPONED - Conn Selmer Classic"):
+            self.assertTrue(scraper.is_cancelled_or_postponed(title), title)
+        for title in ("Trumbull High School", "Canceledville High School Invitational", "Rescheduled from 10/14"):
+            self.assertFalse(scraper.is_cancelled_or_postponed(title), title)
+
+    def test_a_divisionless_cancelled_show_is_kept_unless_it_is_another_circuit(self):
+        self.assertTrue(scraper.keep_without_divisions("CANCELED Montville Township High School"))
+        self.assertTrue(scraper.keep_without_divisions("POSTPONED - Hanover Park High School"))
+        self.assertFalse(scraper.keep_without_divisions("CANCELLED - Ark-La-Tex"))
+        self.assertFalse(scraper.keep_without_divisions("CANCELED - STATS Alabama"))
+
+    def test_a_divisionless_normal_show_is_still_dropped(self):
+        self.assertFalse(scraper.keep_without_divisions("Bethel High School"))
+        self.assertFalse(scraper.keep_without_divisions("STATS South Carolina"))
+
+
 class TestClassifyEvent(unittest.TestCase):
     def test_regular_event(self):
         self.assertEqual(scraper.classify_event("USBands Baytown Showcase"), ("regular", None))

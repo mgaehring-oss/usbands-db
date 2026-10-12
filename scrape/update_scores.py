@@ -36,6 +36,7 @@ import os
 import re
 import sqlite3
 import sys
+import time
 import urllib.request
 from datetime import datetime, timezone
 
@@ -59,6 +60,19 @@ def fetch(url, timeout=25):
     req = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read().decode("utf-8", errors="replace")
+
+
+def fetch_with_retry(url, attempts=3, delay=2.0, sleep=time.sleep):
+    """fetch(), retried a couple of times. A dropped connection on one event
+    page used to silently remove that event from the whole build (it was
+    logged as skipped), so give transient failures a chance to clear first."""
+    for attempt in range(1, attempts + 1):
+        try:
+            return fetch(url)
+        except Exception:
+            if attempt == attempts:
+                raise
+            sleep(delay * attempt)
 
 
 def _segment_by_marker(html, marker_pattern, window=None):
@@ -149,6 +163,110 @@ def parse_performing_groups(html):
                 name = re.sub(r"\s+", " ", bm.group(2)).strip()
                 division[uid] = name
     return result
+
+
+# usbands.org's events LIST groups several days into one bucket and stamps
+# every card in it with the bucket's timestamp (e.g. shows on Oct 8, 10 and 11
+# all carry "Oct 6"), so the list's data-time can't be used as the event's
+# date. The event's own page states the real one.
+EVENT_DATE_RE = re.compile(r'alt="Calendar"[^>]*>\s*([A-Z][a-z]+ \d{1,2}, \d{4})')
+
+
+def parse_event_date(html):
+    """Returns the event's real date (YYYY-MM-DD) from its detail page, or
+    None if the page doesn't state one in the expected place."""
+    m = EVENT_DATE_RE.search(html)
+    if not m:
+        return None
+    try:
+        return datetime.strptime(m.group(1), "%B %d, %Y").date().isoformat()
+    except ValueError:
+        return None
+
+
+# Upcoming regular shows have no "Performing Groups" tab -- their entries are
+# on the Schedule tab, labelled "<group> <class>" ("III A", "II Open",
+# "I Regional A") rather than the "A - Group III" form. Anything that isn't one
+# of those (STATS "(2) White STATS", "Exhibition", "College/University", or a
+# bare "Group III" with no class) is not a USBands-vocabulary division.
+SCHEDULE_DIVISION_RE = re.compile(r"^(I|II|III|IV|V) (A|Open|Regional A)$")
+SCHEDULE_ROW_RE = re.compile(
+    r'data-unit-id="(\d+)"[^>]*>\s*([^<]+?)\s*</a>.*?'
+    r'<div class="schedule-cell classification">\s*([^<]*?)\s*</div>',
+    re.S,
+)
+
+
+def schedule_label(text):
+    """'III A' -> 'A - Group III'; 'II Open' -> 'Open - Group II'; any
+    'N Regional A' -> 'RA'; None for anything outside the vocabulary."""
+    m = SCHEDULE_DIVISION_RE.match(re.sub(r"\s+", " ", text).strip())
+    if not m:
+        return None
+    roman, cls = m.groups()
+    if cls == "Regional A":
+        return "RA"
+    return f"{cls} - Group {roman}"
+
+
+def parse_schedule_entries(html):
+    """Returns {division_label: {unit_id: band_name}} from the Schedule tab
+    (the registered performers of an event that hasn't happened yet)."""
+    idx = html.find('id="tab-schedule"')
+    if idx == -1:
+        return {}
+    tab_html = html[idx: idx + 400000]
+    end = tab_html.find('id="tab-', 20)
+    if end != -1:
+        tab_html = tab_html[:end]
+    result = {}
+    for chunk in tab_html.split('<div class="schedule-row">')[1:]:
+        m = SCHEDULE_ROW_RE.search(chunk)
+        if not m:
+            continue
+        label = schedule_label(m.group(3))
+        if label is None:
+            continue
+        name = re.sub(r"\s+", " ", m.group(2)).strip()
+        result.setdefault(label, {})[int(m.group(1))] = name
+    return result
+
+
+CANCELLED_RE = re.compile(r"^\W*(cancel+ed|postponed)\b", re.I)
+# Other circuits that share usbands.org's calendar. Only consulted for
+# cancelled/postponed events that list no divisions at all (so there's nothing
+# else to tell the circuits apart by).
+OTHER_CIRCUIT_RE = re.compile(r"\b(STATS|Ark-La-Tex|Quad States|Southwestern|Southeastern|Showstyle|Traditional)\b", re.I)
+
+
+def is_cancelled_or_postponed(title):
+    return bool(CANCELLED_RE.match(title))
+
+
+def keep_without_divisions(title):
+    """A cancelled/postponed event with no division info is still kept (so the
+    site can say a show people expected is off) -- unless it's another
+    circuit's. Everything else without divisions is dropped, as before."""
+    return is_cancelled_or_postponed(title) and not OTHER_CIRCUIT_RE.search(title)
+
+
+def keep_unlisted_upcoming(title, event_date, state, known_states, today):
+    """An upcoming show whose entries aren't posted yet (no schedule, no
+    performing groups) has nothing to prove it's a USBands show, so it used to
+    be dropped -- which hid real shows for weeks. Keep it when it's plainly an
+    ordinary school show in the USBands footprint: in the future, not another
+    circuit's, not a "...Championships" listing (those are other circuits'
+    finals), and in a state where this season's kept events already are.
+    Another circuit's school show in the same states would slip through; it
+    shows up marked "entries not posted yet" and drops off once its page lists
+    non-USBands divisions."""
+    return (
+        event_date >= today
+        and not is_cancelled_or_postponed(title)
+        and not OTHER_CIRCUIT_RE.search(title)
+        and not re.search(r"championship", title, re.I)
+        and state in known_states
+    )
 
 
 def classify_event(title):
@@ -259,11 +377,13 @@ def crawl_season(season_year, log=print):
     band_season_final = set()      # (uid, season_year, championship_name)
 
     skipped = []
+    deferred = []            # divisionless upcoming shows awaiting the state check
+    today_iso = datetime.now(timezone.utc).date().isoformat()
 
     for i, ev in enumerate(events, 1):
         eid, ts, title = ev["id"], ev["ts"], ev["title"]
         try:
-            detail_html = fetch(f"https://usbands.org/events/details.php?ID={eid}")
+            detail_html = fetch_with_retry(f"https://usbands.org/events/details.php?ID={eid}")
         except Exception as exc:
             log(f"  [{i}/{len(events)}] event {eid} ({title}): fetch failed ({exc}), skipping")
             skipped.append((eid, title, f"fetch failed: {exc}"))
@@ -271,14 +391,27 @@ def crawl_season(season_year, log=print):
 
         scores_by_div = parse_scores(detail_html)
         performing_by_div = parse_performing_groups(detail_html)
+        # Upcoming regular shows list their entries on the Schedule tab only.
+        # Another circuit's schedule can use the same "I A" style class names
+        # (Quad States does), so those pages don't get this fallback.
+        if not performing_by_div and not OTHER_CIRCUIT_RE.search(title):
+            performing_by_div = parse_schedule_entries(detail_html)
         all_divs = set(scores_by_div) | set(performing_by_div)
 
-        if not all_divs:
-            skipped.append((eid, title, "no USBands-vocabulary divisions found"))
-            continue
-
         event_kind, champ_name = classify_event(title)
-        date_str = datetime.fromtimestamp(ts, tz=timezone.utc).date().isoformat()
+        date_str = parse_event_date(detail_html) or datetime.fromtimestamp(ts, tz=timezone.utc).date().isoformat()
+
+        if not all_divs:
+            if keep_without_divisions(title):
+                pass
+            elif date_str >= today_iso and not is_cancelled_or_postponed(title):
+                # Decided after the loop, once we know which states this
+                # season's real events are in (see keep_unlisted_upcoming).
+                deferred.append((eid, title, date_str, ev["state"], ev, event_kind))
+                continue
+            else:
+                skipped.append((eid, title, "no USBands-vocabulary divisions found"))
+                continue
         event_rows[eid] = {
             "id": eid, "season_year": season_year, "name": title,
             "event_date": date_str, "city": ev["city"], "state": ev["state"],
@@ -310,6 +443,18 @@ def crawl_season(season_year, log=print):
 
         log(f"  [{i}/{len(events)}] event {eid} ({date_str}) '{title}': "
             f"{len(all_divs)} USBands divisions, {sum(len(v) for v in scores_by_div.values())} scores")
+
+    known_states = {e["state"] for e in event_rows.values() if e["state"]}
+    for eid, title, date_str, state, ev, event_kind in deferred:
+        if keep_unlisted_upcoming(title, date_str, state, known_states, today_iso):
+            event_rows[eid] = {
+                "id": eid, "season_year": season_year, "name": title,
+                "event_date": date_str, "city": ev["city"], "state": ev["state"],
+                "event_kind": event_kind,
+            }
+            log(f"  event {eid} ({date_str}) '{title}': kept as upcoming, entries not posted yet")
+        else:
+            skipped.append((eid, title, "no USBands-vocabulary divisions found"))
 
     log(f"Season {season_year}: skipped {len(skipped)} events (non-USBands or unscored):")
     for eid, title, reason in skipped:

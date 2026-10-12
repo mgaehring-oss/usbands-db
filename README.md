@@ -444,6 +444,32 @@ Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true
   bump would have silently kept next season from ever starting). Paused runs
   still succeed, so retries, the 8-day alert and the heartbeat all keep working
   year-round.
+- **Upcoming shows were missing (10/17, 10/24, 10/25) -- three scraper bugs**:
+  1. *Wrong dates.* usbands.org's events **list** stamps every card in a
+     multi-day bucket with the bucket's timestamp, so shows on Oct 8, 10 and 11
+     were all stored as "Oct 6" (53 events across seasons were off by up to a
+     week). The scraper now reads each event's real date from its own page
+     (`parse_event_date`), falling back to the list stamp only if that's absent.
+     All four closed seasons were recrawled to correct the cache -- scores
+     unchanged (782 / 765 / 1079 / 1169), only dates.
+  2. *Upcoming shows were dropped.* A show whose entries aren't a "Performing
+     Groups" tab but a **Schedule** tab ("III A", "II Open", "I Regional A") had
+     no recognisable divisions, so it was skipped as "not USBands". The scraper
+     now reads the schedule tab (`parse_schedule_entries`; not for other
+     circuits' pages, whose class names overlap). A school show with no entries
+     posted at all yet is kept if it's upcoming, in a state where this
+     season's real events are, and not another circuit's -- the site marks it
+     "entries not posted yet".
+  3. *Transient fetch failures silently dropped events.* One dropped
+     connection removed an event from the whole build. Event pages are now
+     retried (3 attempts).
+- **Cancelled / postponed shows are listed, and marked**: titles starting
+  CANCELED / CANCELLED / POSTPONED are kept even with no divisions (other
+  circuits' excluded), shown in Upcoming with a red badge and struck-through
+  name, "N bands had been entered", and -- for a favorited band that was
+  entered -- "not performing here (cancelled)" plus a "Heads up" banner at the
+  top. The season gate ignores cancelled events so one on the last date can't
+  hold the off-season pause open.
 - **"What's new for your bands" card**: on load, a card lists favorited bands
   with scores you haven't seen yet (score, change from the previous show, rank
   at that show, event, date; "+N earlier" if several arrived), with a

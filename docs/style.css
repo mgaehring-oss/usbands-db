@@ -1016,6 +1016,24 @@ table.leaderboard tbody tr.is-favorite:hover { background: var(--brand-gold-200)
 .upcoming-event__meta { font-size: 12.5px; color: var(--text-muted); }
 .upcoming-event__mine { margin-top: 3px; font-size: 13px; color: var(--text-secondary); }
 
+.badge--cancelled {
+  background: rgba(208, 59, 59, 0.14);
+  color: var(--status-critical);
+  font-weight: 700;
+}
+.upcoming-event--off .upcoming-event__name { text-decoration: line-through; color: var(--text-muted); }
+.upcoming-event__off { color: var(--status-critical); font-weight: 700; }
+.upcoming-alert {
+  margin: 4px 0 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--status-critical);
+  border-left-width: 4px;
+  border-radius: 10px;
+  background: rgba(208, 59, 59, 0.08);
+  font-size: 13.5px;
+  color: var(--text-primary);
+}
+
 .finals-division { margin-bottom: 14px; }
 .finals-division__title { margin: 0 0 4px; font-size: 14px; color: var(--text-primary); }
 .finals-division .detail-table td:first-child { width: 56px; }
