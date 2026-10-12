@@ -39,6 +39,8 @@ import sys
 import urllib.request
 from datetime import datetime, timezone
 
+import data_quality
+
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; USBandsDB/1.0)"}
 
 ROMAN_TO_INT = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5}
@@ -251,6 +253,7 @@ def crawl_season(season_year, log=print):
     event_rows = {}          # eid -> event dict (only for events we keep)
     champ_events = set()     # (season_year, kind, name, eid)
     scores = []              # (eid, uid, division_label, score)
+    entries = set()          # (eid, uid, division_label): registered for the event, scored or not
     band_season_division = set()   # (uid, season_year, division_label)
     band_season_state = set()      # (uid, season_year, championship_name)
     band_season_final = set()      # (uid, season_year, championship_name)
@@ -295,6 +298,7 @@ def crawl_season(season_year, log=print):
                 name = uid_scores.get(uid, (None, None))[0] or uid_names.get(uid)
                 bands.setdefault(uid, name)
                 band_season_division.add((uid, season_year, label))
+                entries.add((eid, uid, label))
                 if champ_name:
                     if event_kind == "usbands_championship":
                         band_season_final.add((uid, season_year, champ_name))
@@ -318,6 +322,7 @@ def crawl_season(season_year, log=print):
         "events": event_rows,
         "champ_events": champ_events,
         "scores": scores,
+        "entries": entries,
         "band_season_division": band_season_division,
         "band_season_state": band_season_state,
         "band_season_final": band_season_final,
@@ -335,6 +340,7 @@ def _season_data_to_json(data):
         "events": {str(eid): ev for eid, ev in data["events"].items()},
         "champ_events": sorted(list(t) for t in data["champ_events"]),
         "scores": sorted(list(t) for t in data["scores"]),
+        "entries": sorted(list(t) for t in data["entries"]),
         "band_season_division": sorted(list(t) for t in data["band_season_division"]),
         "band_season_state": sorted(list(t) for t in data["band_season_state"]),
         "band_season_final": sorted(list(t) for t in data["band_season_final"]),
@@ -350,6 +356,10 @@ def _season_data_from_json(obj):
         "events": {int(eid): ev for eid, ev in obj["events"].items()},
         "champ_events": {tuple(t) for t in obj["champ_events"]},
         "scores": [tuple(t) for t in obj["scores"]],
+        # Caches written before entries were tracked have none. That is fine:
+        # entries only matter for upcoming shows, which only the live
+        # (never-cached) season has.
+        "entries": {tuple(t) for t in obj.get("entries", [])},
         "band_season_division": {tuple(t) for t in obj["band_season_division"]},
         "band_season_state": {tuple(t) for t in obj["band_season_state"]},
         "band_season_final": {tuple(t) for t in obj["band_season_final"]},
@@ -384,7 +394,7 @@ def crawl_seasons(start_year, end_year, cache_dir, log=print):
     in [start_year, end_year] into one combined (still per-season-tagged)
     structure, ready for assign_group_ids() + build_database()."""
     merged = {
-        "bands": {}, "events": {}, "champ_events": set(), "scores": [],
+        "bands": {}, "events": {}, "champ_events": set(), "scores": [], "entries": set(),
         "band_season_division": set(), "band_season_state": set(), "band_season_final": set(),
         "divisions_seen": set(), "skipped": [],
     }
@@ -395,6 +405,7 @@ def crawl_seasons(start_year, end_year, cache_dir, log=print):
         merged["events"].update(data["events"])
         merged["champ_events"] |= data["champ_events"]
         merged["scores"].extend(data["scores"])
+        merged["entries"] |= data["entries"]
         merged["band_season_division"] |= data["band_season_division"]
         merged["band_season_state"] |= data["band_season_state"]
         merged["band_season_final"] |= data["band_season_final"]
@@ -471,6 +482,16 @@ CREATE TABLE IF NOT EXISTS scores (
   division_id INTEGER REFERENCES divisions(id),
   rank INTEGER,
   score REAL,
+  PRIMARY KEY (event_id, unit_id, division_id)
+);
+
+-- Who is registered for each event (scored or not), so the site can list a
+-- band's upcoming shows. Only populated for seasons crawled live; closed
+-- seasons restored from an older cache simply have none.
+CREATE TABLE IF NOT EXISTS event_entries (
+  event_id INTEGER REFERENCES events(id),
+  unit_id INTEGER REFERENCES bands(unit_id),
+  division_id INTEGER REFERENCES divisions(id),
   PRIMARY KEY (event_id, unit_id, division_id)
 );
 
@@ -566,6 +587,15 @@ def build_database(merged, path, locations=None):
             (eid, uid, div_id, score),
         )
 
+    entry_rows = sorted(
+        (eid, uid, DIVISION_ID[label]) for eid, uid, label in merged.get("entries", ())
+    )
+    for eid, uid, div_id in entry_rows:
+        cur.execute(
+            "INSERT OR IGNORE INTO event_entries (event_id, unit_id, division_id) VALUES (?,?,?)",
+            (eid, uid, div_id),
+        )
+
     division_tag_rows = sorted(
         (uid, sy, DIVISION_ID[label]) for uid, sy, label in merged["band_season_division"]
     )
@@ -629,6 +659,19 @@ def read_current_season_score_count(path, season_year):
         conn.close()
 
 
+def write_job_summary(errors, warnings):
+    """Surfaces data-quality findings on the GitHub Actions run page (a no-op
+    outside Actions). Quiet when there's nothing to report."""
+    path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not path or not (errors or warnings):
+        return
+    lines = ["### Scrape data-quality findings", ""]
+    lines += [f"- :x: **error** -- {e}" for e in errors]
+    lines += [f"- :warning: {w}" for w in warnings]
+    with open(path, "a", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+
 def main():
     if len(sys.argv) < 4:
         print("Usage: python update_scores.py <start_year> <end_year> <output_db_path> [cache_dir]", file=sys.stderr)
@@ -644,6 +687,19 @@ def main():
     previous_count = read_current_season_score_count(out_path, end_year)
 
     merged = crawl_seasons(start_year, end_year, cache_dir)
+
+    # Plausibility checks run BEFORE anything is written, so a broken scrape
+    # never replaces the last good database (see data_quality.py).
+    quality_errors, quality_warnings = data_quality.check(merged, end_year)
+    write_job_summary(quality_errors, quality_warnings)
+    for w in quality_warnings:
+        print(f"WARNING: {w}")
+    if quality_errors:
+        for e in quality_errors:
+            print(f"ERROR: {e}", file=sys.stderr)
+        print("Refusing to commit this build: the scraped data failed its plausibility checks.", file=sys.stderr)
+        sys.exit(1)
+
     locations = resolve_band_locations(merged["bands"], cache_dir)
     build_database(merged, out_path, locations)
 

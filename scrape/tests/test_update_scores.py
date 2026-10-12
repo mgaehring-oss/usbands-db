@@ -231,6 +231,7 @@ class TestBuildDatabase(unittest.TestCase):
             },
             "champ_events": set(),
             "scores": [(1, 101, "A - Group I", 80.0), (1, 102, "A - Group I", 75.0)],
+            "entries": {(1, 101, "A - Group I"), (1, 102, "A - Group I"), (2, 101, "A - Group I")},
             "band_season_division": {(101, 2022, "A - Group I"), (102, 2022, "A - Group I")},
             "band_season_state": set(),
             "band_season_final": set(),
@@ -270,6 +271,49 @@ class TestBuildDatabase(unittest.TestCase):
             conn.close()
             self.assertEqual(row, ("Springfield", "IL"))
             self.assertEqual(other, (None, None))
+
+    def test_event_entries_are_stored(self):
+        merged = self._sample_merged()
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "test.db")
+            scraper.build_database(merged, path)
+            conn = sqlite3.connect(path)
+            rows = conn.execute("SELECT event_id, unit_id, division_id FROM event_entries ORDER BY 1,2").fetchall()
+            conn.close()
+            self.assertEqual(rows, [(1, 101, 2), (1, 102, 2), (2, 101, 2)])
+
+    def test_missing_entries_key_is_tolerated(self):
+        merged = self._sample_merged()
+        del merged["entries"]
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "test.db")
+            scraper.build_database(merged, path)
+            conn = sqlite3.connect(path)
+            n = conn.execute("SELECT COUNT(*) FROM event_entries").fetchone()[0]
+            conn.close()
+            self.assertEqual(n, 0)
+
+
+class TestSeasonCacheRoundTrip(unittest.TestCase):
+    def _data(self):
+        return {
+            "season_year": 2026, "divisions_seen": {"A - Group I"}, "bands": {101: "Alpha"},
+            "events": {1: {"id": 1, "season_year": 2026, "name": "Show", "event_date": "2026-10-03",
+                           "city": "X", "state": "NY", "event_kind": "regular"}},
+            "champ_events": set(), "scores": [(1, 101, "A - Group I", 80.0)],
+            "entries": {(1, 101, "A - Group I")},
+            "band_season_division": {(101, 2026, "A - Group I")},
+            "band_season_state": set(), "band_season_final": set(), "skipped": [],
+        }
+
+    def test_entries_survive_a_round_trip(self):
+        back = scraper._season_data_from_json(scraper._season_data_to_json(self._data()))
+        self.assertEqual(back["entries"], {(1, 101, "A - Group I")})
+
+    def test_cache_written_before_entries_existed_still_loads(self):
+        obj = scraper._season_data_to_json(self._data())
+        del obj["entries"]
+        self.assertEqual(scraper._season_data_from_json(obj)["entries"], set())
 
 
 if __name__ == "__main__":
