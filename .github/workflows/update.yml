@@ -90,8 +90,20 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes."
           else
-            date -u +"%Y-%m-%dT%H:%M:%SZ" > docs/data/last_updated.txt
-            git add docs/data/last_updated.txt
+            # The stamp drives the footer date and the site's "New scores are
+            # available" banner, so it only moves when SCORES changed -- not
+            # for event registrations, which shift almost daily in season
+            # (see .github/scripts/scores_changed.py). Exit 1 = unchanged;
+            # anything else (changed, or couldn't compare) stamps.
+            old_db="$RUNNER_TEMP/previous.db"
+            rc=0
+            if git show HEAD:docs/data/usbands.db > "$old_db" 2>/dev/null; then
+              python .github/scripts/scores_changed.py "$old_db" docs/data/usbands.db || rc=$?
+            fi
+            if [ "$rc" -ne 1 ]; then
+              date -u +"%Y-%m-%dT%H:%M:%SZ" > docs/data/last_updated.txt
+              git add docs/data/last_updated.txt
+            fi
             git commit -m "Update USBands database ($(date -u +%Y-%m-%d))"
             git push
           fi

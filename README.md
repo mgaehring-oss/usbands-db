@@ -476,6 +476,14 @@ Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true
   in the address bar; a **Copy link** button shares it, and loading such a link
   opens the panel (switching season if that band isn't in the current one). The
   panel also shows show count, average, peak and best finish.
+- **"New scores" banner no longer fires for registration-only changes**: the
+  new `event_entries` data shifts almost daily in season as bands sign up, and
+  `last_updated.txt` (which drives both the footer date and the "New scores are
+  available" banner) used to move on *any* database change. `update.yml` now
+  stamps it only when the `scores` table changed
+  (`.github/scripts/scores_changed.py`, unit-tested; an uncomparable result
+  counts as changed, the safe side). The database is still committed either
+  way, so the next load quietly picks up the new registrations.
 - **Scraper data-quality checks** (see [Data-quality checks](#data-quality-checks)).
 - **README tidy**: added the "How it works" overview and removed stale
   "weekly" wording now that updates run Sunday + Monday.
