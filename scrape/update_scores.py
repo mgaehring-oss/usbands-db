@@ -31,6 +31,7 @@ Usage:
 <end_year> is treated as the current/live season (always scraped fresh);
 every year from <start_year> up to but not including <end_year> is cached.
 """
+import html as html_lib
 import json
 import os
 import re
@@ -87,29 +88,64 @@ def _segment_by_marker(html, marker_pattern, window=None):
     return out
 
 
+def _parse_event_card(segment):
+    """(title, city, state) from the HTML between one event marker and the next."""
+    title_m = re.search(r'class="eventtitle[^"]*"[^>]*>\s*([^<]+?)\s*</a>', segment)
+    loc_m = re.search(r'<div class="location">\s*([^<]+?)\s*</div>', segment)
+    title = re.sub(r"\s+", " ", html_lib.unescape(title_m.group(1))).strip() if title_m else ""
+    city, state = "", ""
+    if loc_m:
+        loc = re.sub(r"\s+", " ", html_lib.unescape(loc_m.group(1))).strip()
+        if "," in loc:
+            city, state = [p.strip() for p in loc.rsplit(",", 1)]
+        else:
+            city = loc
+    return title, city, state
+
+
 def list_events(html):
-    """Returns [{id, ts, title, city, state}, ...] for every card on the events page."""
+    """Returns [{id, ts, date, title, city, state}, ...] for every card on the
+    events page. usbands.org has served two layouts:
+
+      * old: each card carries data-time="<bucket timestamp>" (`ts`; NOT the
+        event's real date -- see parse_event_date). `date` is None.
+      * new (since late Oct 2026): no data-time; cards sit under a dated
+        header ("Saturday, September 12, 2026"), which becomes `date`. `ts` is
+        None.
+
+    Either way the event's own page remains the authority on its date."""
     events = []
     seen = set()
-    marks = [(m.start(), m.end(), int(m.group(1)), int(m.group(2)))
-             for m in re.finditer(r'id="event-(\d+)"\s+data-time="(\d+)"', html)]
-    for i, (s, e, eid, ts) in enumerate(marks):
-        if eid in seen:
+    old_marks = [(m.start(), m.end(), int(m.group(1)), int(m.group(2)))
+                 for m in re.finditer(r'id="event-(\d+)"\s+data-time="(\d+)"', html)]
+    if old_marks:
+        for i, (s, e, eid, ts) in enumerate(old_marks):
+            if eid in seen:
+                continue
+            seen.add(eid)
+            seg_end = old_marks[i + 1][0] if i + 1 < len(old_marks) else len(html)
+            title, city, state = _parse_event_card(html[e:seg_end])
+            events.append({"id": eid, "ts": ts, "date": None, "title": title, "city": city, "state": state})
+        return events
+
+    tokens = sorted(
+        [(m.start(), "date", m.group(1)) for m in re.finditer(r'<span class="date-long">([^<]+)</span>', html)]
+        + [(m.start(), "event", int(m.group(1))) for m in re.finditer(r'<div class="event-row"\s+id="event-(\d+)"', html)]
+    )
+    current_date = None
+    for i, (pos, kind, value) in enumerate(tokens):
+        if kind == "date":
+            try:
+                current_date = datetime.strptime(value.strip(), "%A, %B %d, %Y").date().isoformat()
+            except ValueError:
+                current_date = None
             continue
-        seen.add(eid)
-        seg_end = marks[i + 1][0] if i + 1 < len(marks) else len(html)
-        segment = html[e:seg_end]
-        title_m = re.search(r'class="eventtitle"[^>]*>\s*([^<]+?)\s*</a>', segment)
-        loc_m = re.search(r'<div class="location">\s*([^<]+?)\s*</div>', segment)
-        title = re.sub(r"\s+", " ", title_m.group(1)).strip() if title_m else ""
-        city, state = "", ""
-        if loc_m:
-            loc = re.sub(r"\s+", " ", loc_m.group(1)).strip()
-            if "," in loc:
-                city, state = [p.strip() for p in loc.rsplit(",", 1)]
-            else:
-                city = loc
-        events.append({"id": eid, "ts": ts, "title": title, "city": city, "state": state})
+        if value in seen:
+            continue
+        seen.add(value)
+        seg_end = tokens[i + 1][0] if i + 1 < len(tokens) else len(html)
+        title, city, state = _parse_event_card(html[pos:seg_end])
+        events.append({"id": value, "ts": None, "date": current_date, "title": title, "city": city, "state": state})
     return events
 
 
@@ -365,6 +401,15 @@ def crawl_season(season_year, log=print):
     events_html = fetch(f"https://usbands.org/events/?year={season_year}")
     events = list_events(events_html)
     log(f"Found {len(events)} events for season {season_year}")
+    # An empty list is legitimate (a season whose schedule isn't posted yet),
+    # but a page that visibly contains event cards we couldn't parse means
+    # usbands.org changed its markup -- stop here with a pointed message
+    # instead of letting a 0-event build be discovered downstream.
+    if not events and re.search(r'id="event-\d+"', events_html):
+        raise RuntimeError(
+            f"usbands.org's {season_year} events page contains event cards but list_events() parsed none -- "
+            "the page layout has changed; update list_events()."
+        )
 
     divisions_seen = set()   # labels actually encountered this season (reporting only)
     bands = {}               # unit_id -> name
@@ -381,7 +426,7 @@ def crawl_season(season_year, log=print):
     today_iso = datetime.now(timezone.utc).date().isoformat()
 
     for i, ev in enumerate(events, 1):
-        eid, ts, title = ev["id"], ev["ts"], ev["title"]
+        eid, ts, title = ev["id"], ev.get("ts"), ev["title"]
         try:
             detail_html = fetch_with_retry(f"https://usbands.org/events/details.php?ID={eid}")
         except Exception as exc:
@@ -399,7 +444,12 @@ def crawl_season(season_year, log=print):
         all_divs = set(scores_by_div) | set(performing_by_div)
 
         event_kind, champ_name = classify_event(title)
-        date_str = parse_event_date(detail_html) or datetime.fromtimestamp(ts, tz=timezone.utc).date().isoformat()
+        date_str = parse_event_date(detail_html) or ev.get("date") or (
+            datetime.fromtimestamp(ts, tz=timezone.utc).date().isoformat() if ts else None
+        )
+        if date_str is None:
+            skipped.append((eid, title, "no date found on the event page or the list"))
+            continue
 
         if not all_divs:
             if keep_without_divisions(title):

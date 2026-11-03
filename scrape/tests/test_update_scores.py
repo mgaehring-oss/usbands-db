@@ -36,7 +36,7 @@ class TestListEvents(unittest.TestCase):
         by_id = {e["id"]: e for e in events}
         self.assertEqual(
             by_id[521],
-            {"id": 521, "ts": 1664002800, "title": "USBands Baytown Showcase", "city": "Baytown", "state": "TX"},
+            {"id": 521, "ts": 1664002800, "date": None, "title": "USBands Baytown Showcase", "city": "Baytown", "state": "TX"},
         )
         self.assertEqual(by_id[539]["title"], "Pennsylvania State Championships")
         self.assertEqual(by_id[539]["state"], "PA")
@@ -51,6 +51,58 @@ class TestListEvents(unittest.TestCase):
         events = scraper.list_events(load_fixture("events_list_2022.html"))
         ids = [e["id"] for e in events]
         self.assertEqual(len(ids), len(set(ids)))
+
+
+class TestListEventsNewLayout(unittest.TestCase):
+    """usbands.org redesigned the events list in late Oct 2026: no data-time on
+    the cards, which now sit under dated headers. The old parser found 0
+    events, the sanity check refused the build, and updates failed for a week."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.html = load_fixture("events_list_2026_new_layout.html")
+        cls.events = scraper.list_events(cls.html)
+
+    def test_every_card_is_found(self):
+        self.assertEqual(len(self.events), 139)
+        ids = [e["id"] for e in self.events]
+        self.assertEqual(len(ids), len(set(ids)))
+
+    def test_date_comes_from_the_header_the_card_sits_under(self):
+        by_id = {e["id"]: e for e in self.events}
+        self.assertEqual(by_id[1368]["date"], "2026-09-12")
+        self.assertIsNone(by_id[1368]["ts"])
+        self.assertEqual(by_id[1590]["date"], "2026-11-21")
+        self.assertTrue(all(e["date"] for e in self.events))
+
+    def test_title_and_location(self):
+        by_id = {e["id"]: e for e in self.events}
+        self.assertEqual(by_id[1368]["title"], "Emmaus High School")
+        self.assertEqual((by_id[1368]["city"], by_id[1368]["state"]), ("Emmaus", "PA"))
+        self.assertEqual(by_id[1408]["title"], "CANCELED - Absegami High School")
+
+    def test_html_entities_in_titles_are_decoded(self):
+        by_id = {e["id"]: e for e in self.events}
+        self.assertEqual(by_id[1590]["title"], "Texas Showstyle Championship & Assessment")
+
+    def test_old_layout_still_parses(self):
+        old = scraper.list_events(load_fixture("events_list_2022.html"))
+        self.assertEqual(len(old), 108)
+        self.assertIsInstance(old[0]["ts"], int)
+        self.assertIsNone(old[0]["date"])
+
+    def test_crawl_refuses_a_page_with_cards_it_cannot_parse(self):
+        drifted = '<div class="event-row" id="event-1"> <a class="something-new">Show</a> </div>'
+        with mock.patch.object(scraper, "fetch", return_value=drifted):
+            with mock.patch.object(scraper, "list_events", return_value=[]):
+                with self.assertRaises(RuntimeError) as ctx:
+                    scraper.crawl_season(2026, log=lambda *_: None)
+        self.assertIn("layout has changed", str(ctx.exception))
+
+    def test_a_genuinely_empty_season_is_not_an_error(self):
+        with mock.patch.object(scraper, "fetch", return_value="<html><body>No events yet</body></html>"):
+            data = scraper.crawl_season(2027, log=lambda *_: None)
+        self.assertEqual(data["events"], {})
 
 
 class TestParseScores(unittest.TestCase):

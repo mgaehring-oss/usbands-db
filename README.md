@@ -444,6 +444,17 @@ Test the pieces with `gh workflow run freshness-check.yml -f simulate_stale=true
   bump would have silently kept next season from ever starting). Paused runs
   still succeed, so retries, the 8-day alert and the heartbeat all keep working
   year-round.
+- **Updates failed Oct 26 - Nov 2: usbands.org redesigned its events list.**
+  The new page drops `data-time` from every card and groups cards under dated
+  headers ("Saturday, September 12, 2026"), so `list_events()` found **0**
+  events; the 20% score-drop sanity check did exactly its job and refused to
+  commit an empty 2026 (the failure issue, emails and watchdog retries all
+  fired; the site just kept serving the Oct 25 data). `list_events()` now
+  parses both layouts (the new one takes `date` from the header; entities like
+  `&amp;` are decoded), tested against a saved copy of the new page. It also now
+  **raises a pointed "layout has changed" error** if a page visibly has event
+  cards but none parse, instead of surfacing as a score-count drop. Caught up
+  on the next run: 2026 went from 924 to 1103 scores.
 - **Upcoming shows were missing (10/17, 10/24, 10/25) -- three scraper bugs**:
   1. *Wrong dates.* usbands.org's events **list** stamps every card in a
      multi-day bucket with the bucket's timestamp, so shows on Oct 8, 10 and 11
